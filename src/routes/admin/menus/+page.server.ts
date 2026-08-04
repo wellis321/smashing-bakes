@@ -3,12 +3,13 @@ import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { menuItems, menuSections, weeklyMenus } from '$lib/server/db/schema';
+import { attachMenuSections } from '$lib/server/db/queries';
 
 export const load: PageServerLoad = async () => {
-	const all = await db.query.weeklyMenus.findMany({
-		orderBy: [desc(weeklyMenus.menuDate)],
-		with: { sections: { with: { items: true } } }
-	});
+	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — flat
+	// queries instead (see src/lib/server/db/queries.ts for more).
+	const menuRows = await db.query.weeklyMenus.findMany({ orderBy: [desc(weeklyMenus.menuDate)] });
+	const all = await Promise.all(menuRows.map((m) => attachMenuSections(m)));
 	return { menus: all };
 };
 

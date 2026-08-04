@@ -8,10 +8,12 @@ import { slugify } from '$lib/utils/slugify';
 import { saveProductImage } from '$lib/server/uploads';
 
 async function loadProduct(id: number) {
-	return db.query.products.findFirst({
-		where: eq(products.id, id),
-		with: { images: true }
-	});
+	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
+	// flat queries instead (see src/lib/server/db/queries.ts for more).
+	const product = await db.query.products.findFirst({ where: eq(products.id, id) });
+	if (!product) return undefined;
+	const images = await db.query.productImages.findMany({ where: eq(productImages.productId, id) });
+	return { ...product, images };
 }
 
 export const load: PageServerLoad = async ({ params }) => {

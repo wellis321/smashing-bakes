@@ -3,17 +3,11 @@ import { asc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { menuItems, menuSections, weeklyMenus } from '$lib/server/db/schema';
+import { attachMenuSections } from '$lib/server/db/queries';
 
 async function loadMenu(id: number) {
-	return db.query.weeklyMenus.findFirst({
-		where: eq(weeklyMenus.id, id),
-		with: {
-			sections: {
-				orderBy: [asc(menuSections.sortOrder)],
-				with: { items: { orderBy: [asc(menuItems.sortOrder)] } }
-			}
-		}
-	});
+	const menu = await db.query.weeklyMenus.findFirst({ where: eq(weeklyMenus.id, id) });
+	return attachMenuSections(menu);
 }
 
 export const load: PageServerLoad = async ({ params }) => {

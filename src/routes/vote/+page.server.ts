@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { flavorPollVoteSelections, flavorPollVotes } from '$lib/server/db/schema';
@@ -15,23 +15,35 @@ export const load: PageServerLoad = async ({ locals }) => {
 	let results: { optionId: number; count: number }[] | null = null;
 
 	if (locals.customer) {
+		// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
+		// flat queries instead (see queries.ts for the fuller explanation).
 		const existingVote = await db.query.flavorPollVotes.findFirst({
-			where: and(eq(flavorPollVotes.pollId, poll.id), eq(flavorPollVotes.customerId, locals.customer.id)),
-			with: { selections: true }
+			where: and(eq(flavorPollVotes.pollId, poll.id), eq(flavorPollVotes.customerId, locals.customer.id))
 		});
 		if (existingVote) {
-			myVote = { optionIds: existingVote.selections.map((s) => s.optionId) };
+			const selections = await db.query.flavorPollVoteSelections.findMany({
+				where: eq(flavorPollVoteSelections.voteId, existingVote.id)
+			});
+			myVote = { optionIds: selections.map((s) => s.optionId) };
 		}
 	}
 
 	if (myVote) {
 		const allVotes = await db.query.flavorPollVotes.findMany({
-			where: eq(flavorPollVotes.pollId, poll.id),
-			with: { selections: true }
+			where: eq(flavorPollVotes.pollId, poll.id)
 		});
+		const allSelections =
+			allVotes.length === 0
+				? []
+				: await db.query.flavorPollVoteSelections.findMany({
+						where: inArray(
+							flavorPollVoteSelections.voteId,
+							allVotes.map((v) => v.id)
+						)
+					});
 		results = poll.options.map((option) => ({
 			optionId: option.id,
-			count: allVotes.filter((v) => v.selections.some((s) => s.optionId === option.id)).length
+			count: allSelections.filter((s) => s.optionId === option.id).length
 		}));
 	}
 

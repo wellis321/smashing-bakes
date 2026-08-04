@@ -7,10 +7,15 @@ import { slugify } from '$lib/utils/slugify';
 import { saveUploadedImage } from '$lib/server/uploads';
 
 async function loadPromotion(id: number) {
-	return db.query.promotions.findFirst({
-		where: eq(promotions.id, id),
-		with: { steps: { orderBy: [asc(promotionSteps.sortOrder)] } }
+	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
+	// flat queries instead (see src/lib/server/db/queries.ts for more).
+	const promotion = await db.query.promotions.findFirst({ where: eq(promotions.id, id) });
+	if (!promotion) return undefined;
+	const steps = await db.query.promotionSteps.findMany({
+		where: eq(promotionSteps.promotionId, id),
+		orderBy: [asc(promotionSteps.sortOrder)]
 	});
+	return { ...promotion, steps };
 }
 
 export const load: PageServerLoad = async ({ params }) => {

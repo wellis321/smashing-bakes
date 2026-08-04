@@ -1,30 +1,56 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { asc, eq } from 'drizzle-orm';
+import { asc, eq, inArray } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { flavorPollOptions, flavorPollVoteSelections, flavorPollVotes, flavorPolls } from '$lib/server/db/schema';
+import { customers, flavorPollOptions, flavorPollVoteSelections, flavorPollVotes, flavorPolls } from '$lib/server/db/schema';
 
+// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — flat
+// queries instead (see src/lib/server/db/queries.ts for more).
 async function loadPollWithResults(id: number) {
-	const poll = await db.query.flavorPolls.findFirst({
-		where: eq(flavorPolls.id, id),
-		with: {
-			options: { orderBy: [asc(flavorPollOptions.sortOrder)] },
-			votes: {
-				with: {
-					customer: true,
-					selections: { with: { option: true } }
-				}
-			}
-		}
-	});
+	const poll = await db.query.flavorPolls.findFirst({ where: eq(flavorPolls.id, id) });
 	if (!poll) return null;
 
-	const results = poll.options.map((option) => ({
-		option,
-		count: poll.votes.filter((vote) => vote.selections.some((s) => s.optionId === option.id)).length
+	const options = await db.query.flavorPollOptions.findMany({
+		where: eq(flavorPollOptions.pollId, id),
+		orderBy: [asc(flavorPollOptions.sortOrder)]
+	});
+	const voteRows = await db.query.flavorPollVotes.findMany({ where: eq(flavorPollVotes.pollId, id) });
+	const [voteCustomers, selections] =
+		voteRows.length === 0
+			? [[], []]
+			: await Promise.all([
+					db.query.customers.findMany({
+						where: inArray(
+							customers.id,
+							voteRows.map((v) => v.customerId)
+						)
+					}),
+					db.query.flavorPollVoteSelections.findMany({
+						where: inArray(
+							flavorPollVoteSelections.voteId,
+							voteRows.map((v) => v.id)
+						)
+					})
+				]);
+	const customerById = new Map(voteCustomers.map((c) => [c.id, c]));
+	const selectionsByVote = new Map<number, typeof selections>();
+	for (const s of selections) {
+		const list = selectionsByVote.get(s.voteId);
+		if (list) list.push(s);
+		else selectionsByVote.set(s.voteId, [s]);
+	}
+	const votes = voteRows.map((v) => ({
+		...v,
+		customer: customerById.get(v.customerId)!,
+		selections: selectionsByVote.get(v.id) ?? []
 	}));
 
-	return { poll, results };
+	const results = options.map((option) => ({
+		option,
+		count: votes.filter((vote) => vote.selections.some((s) => s.optionId === option.id)).length
+	}));
+
+	return { poll: { ...poll, options, votes }, results };
 }
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -78,15 +104,16 @@ export const actions: Actions = {
 
 	pickWinner: async ({ params }) => {
 		const id = Number(params.id);
-		const votes = await db.query.flavorPollVotes.findMany({
-			where: eq(flavorPollVotes.pollId, id),
-			with: { customer: true }
-		});
+		const votes = await db.query.flavorPollVotes.findMany({ where: eq(flavorPollVotes.pollId, id) });
 		if (votes.length === 0) {
 			return fail(400, { winnerMessage: 'No votes yet — nobody to pick from.' });
 		}
 		const winner = votes[Math.floor(Math.random() * votes.length)];
-		return { winner: { name: winner.customer.name, email: winner.customer.email } };
+		const winnerCustomer = await db.query.customers.findFirst({ where: eq(customers.id, winner.customerId) });
+		if (!winnerCustomer) {
+			return fail(400, { winnerMessage: 'Could not find that voter — please try again.' });
+		}
+		return { winner: { name: winnerCustomer.name, email: winnerCustomer.email } };
 	},
 
 	delete: async ({ params }) => {
