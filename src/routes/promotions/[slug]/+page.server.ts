@@ -1,10 +1,21 @@
 import { error, fail } from '@sveltejs/kit';
-import { and, asc, eq, gte } from 'drizzle-orm';
+import { and, eq, gte } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { businessChoices, localBusinesses } from '$lib/server/db/schema';
 import { getPromotionBySlug } from '$lib/server/db/queries';
 import { todayIso, weekStartIso } from '$lib/utils/week';
+
+// Fisher-Yates — the strip only shows a handful of businesses at a time, so a
+// fixed order would always favour whichever ones land in the initial view.
+function shuffled<T>(items: T[]): T[] {
+	const result = [...items];
+	for (let i = result.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[result[i], result[j]] = [result[j], result[i]];
+	}
+	return result;
+}
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const promotion = await getPromotionBySlug(params.slug);
@@ -14,10 +25,11 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		return { promotion, businesses: null, todaysChoice: null, weekCount: 0 };
 	}
 
-	const businesses = await db.query.localBusinesses.findMany({
-		where: eq(localBusinesses.isActive, true),
-		orderBy: [asc(localBusinesses.sortOrder), asc(localBusinesses.name)]
-	});
+	const businesses = shuffled(
+		await db.query.localBusinesses.findMany({
+			where: eq(localBusinesses.isActive, true)
+		})
+	);
 
 	let todaysChoice: { businessId: number; businessName: string } | null = null;
 	let weekCount = 0;
