@@ -1,0 +1,1 @@
+ALTER TABLE `posters` ADD `image_zoom` int DEFAULT 100 NOT NULL;

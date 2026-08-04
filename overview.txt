@@ -1,0 +1,22 @@
+There is a local baker who has only recently opened in the area. They use facebook and wix and instagram to promote their wares.
+
+face-book - https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB
+
+instagram - https://www.instagram.com/smashinbakes
+
+wix - https://www.smashinbakes.com/
+
+They do wonderful community work annd give bacck a lot. I'd very much like to build them a very high end proffesional mutli purpose website that will support their business to grow.
+
+I want it to have a fantastic design that other cake and bakery websites would be jealous off.
+
+I want it to be able to have a "cms" feature where they can update what they have for sale and promote products.
+Have single and multi product pages.
+Have customers be able to create acccounts so that they can come bacck for more sale.
+Be able to be notified when they have sales on or have new products in stock etc.
+Be able to take online orders that they can monitor in real time to ensure they can meet demand while also providing stock for in shop customers if need be.
+Any other features and functionality that will support them to promote and grow their business.
+
+I dont mind if thee stack is php or sveltekit however my slight preference is for sveltekit and either would have to use mysql as it wwill be hosted in hostinger business plan account.
+
+

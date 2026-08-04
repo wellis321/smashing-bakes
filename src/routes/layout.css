@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/figtree';
+@import '@fontsource/bungee';
+
+@theme {
+	--font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+	--font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-brand: 'Bungee', ui-sans-serif, system-ui, sans-serif;
+
+	/* Warm neutrals, tinted toward the brand's chocolate/cream hue */
+	--color-cream: oklch(97.5% 0.014 80);
+	--color-cream-dim: oklch(94% 0.02 75);
+	--color-ink: oklch(24% 0.035 50);
+	--color-ink-soft: oklch(38% 0.03 50);
+
+	/* Brand accents — pulled directly from the shop signage: bubblegum pink panel,
+	   gold 3D lettering, cream highlight, warm brown shadow extrusion. */
+	--color-blush: oklch(90% 0.045 8);
+	--color-blush-deep: oklch(80% 0.08 8);
+	--color-pink: oklch(72% 0.13 8);
+	--color-pink-deep: oklch(56% 0.15 8);
+	--color-gold: oklch(78% 0.12 72);
+	--color-gold-deep: oklch(62% 0.13 63);
+
+	--shadow-soft: 0 1px 2px oklch(24% 0.035 50 / 0.06), 0 8px 24px oklch(24% 0.035 50 / 0.08);
+}
+
+@layer base {
+	html {
+		background: var(--color-cream);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+
+	body {
+		min-height: 100dvh;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-family: var(--font-display);
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		line-height: 1.05;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	::selection {
+		background: var(--color-pink);
+		color: var(--color-cream);
+	}
+}

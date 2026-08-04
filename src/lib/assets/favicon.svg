@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<title>Smashin' Bakes</title>
+	<rect width="64" height="64" rx="14" fill="oklch(72% 0.13 8)" />
+	<text
+		x="34"
+		y="46"
+		font-family="Bungee, ui-sans-serif, system-ui, sans-serif"
+		font-size="40"
+		text-anchor="middle"
+		fill="oklch(56% 0.15 8)"
+	>S</text>
+	<text
+		x="32"
+		y="44"
+		font-family="Bungee, ui-sans-serif, system-ui, sans-serif"
+		font-size="40"
+		text-anchor="middle"
+		fill="oklch(97.5% 0.014 80)"
+	>S</text>
+</svg>
