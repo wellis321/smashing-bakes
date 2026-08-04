@@ -14,7 +14,9 @@ import {
 	flavorPollOptions,
 	customers,
 	staffSessions,
-	staffUsers
+	staffUsers,
+	localBusinesses,
+	businessChoices
 } from '../schema';
 import { hashPassword } from '../../auth/password';
 
@@ -213,6 +215,8 @@ async function seed() {
 	await db.delete(productImages);
 	await db.delete(products);
 	await db.delete(categories);
+	await db.delete(businessChoices);
+	await db.delete(localBusinesses);
 	await db.delete(promotionSteps);
 	await db.delete(promotions);
 	await db.delete(menuItems);
@@ -233,6 +237,8 @@ async function seed() {
 		'product_images',
 		'products',
 		'categories',
+		'business_choices',
+		'local_businesses',
 		'promotion_steps',
 		'promotions',
 		'menu_items',
@@ -289,20 +295,30 @@ async function seed() {
 		slug: 'supporting-local-businesses',
 		tagline: "Let's lift each other up!",
 		introText:
-			'Tag a local business in the comments that deserves a FREE mixed cake box — it could be an office, a salon, a garage, a shop, a care home, a school, or any local team who deserves a Friday treat.',
+			'Choose a local business below that deserves a FREE mixed cake box — it could be an office, a salon, a garage, a shop, a care home, a school, or any local team who deserves a Friday treat. Pick one a day, all week.',
 		prizeDescription:
 			"We'll choose one lucky business at random to receive a delicious mixed cake box from Smashin Bakes! A little treat for a team that deserves it.",
 		areaText: 'Barrhead and surrounding areas',
 		deadlineText: 'Winner announced this Friday!',
 		heroImageUrl: '/images/placeholder/cake-slices.svg',
 		isPublished: true,
-		isFeaturedOnHomepage: true
+		isFeaturedOnHomepage: true,
+		mechanic: 'business_picker'
 	});
-	await db.insert(promotionSteps).values([
-		{ promotionId, label: 'Like', description: 'this post', sortOrder: 0 },
-		{ promotionId, label: 'Tag', description: 'a local business (or more!)', sortOrder: 1 },
-		{ promotionId, label: 'Share', description: 'this post to help spread the love', sortOrder: 2 }
-	]);
+
+	console.log('Seeding demo local businesses...');
+	const demoBusinesses = [
+		{ name: 'Corner Bakery Café', category: 'Cafe' },
+		{ name: 'Barrhead Hair Studio', category: 'Salon' },
+		{ name: 'The Bike Shed', category: 'Retail' },
+		{ name: 'Paisley Road Motors', category: 'Garage' },
+		{ name: 'Willow Tree Nursery', category: 'Childcare' },
+		{ name: 'Barrhead Physio Clinic', category: 'Health' },
+		{ name: 'The Reading Nook Bookshop', category: 'Retail' }
+	];
+	for (const [index, business] of demoBusinesses.entries()) {
+		await db.insert(localBusinesses).values({ ...business, sortOrder: index });
+	}
 
 	console.log('Seeding weekly menus...');
 	function nextFriday(fromToday: number): string {

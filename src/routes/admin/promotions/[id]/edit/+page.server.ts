@@ -48,9 +48,10 @@ export const actions: Actions = {
 		const ctaUrl = String(formData.get('ctaUrl') ?? '').trim() || null;
 		const isPublished = formData.get('isPublished') === 'true';
 		const isFeaturedOnHomepage = formData.get('isFeaturedOnHomepage') === 'true';
+		const mechanic = (formData.get('mechanic') as 'manual' | 'business_picker') || 'manual';
 		const slug = slugify(String(formData.get('slug') || title));
 		const heroImageFile = formData.get('heroImage');
-		const steps = parseSteps(formData);
+		const steps = mechanic === 'manual' ? parseSteps(formData) : [];
 
 		if (!title || !slug) {
 			return fail(400, { message: 'Please give the promotion a title.' });
@@ -80,6 +81,7 @@ export const actions: Actions = {
 					ctaUrl,
 					isPublished,
 					isFeaturedOnHomepage,
+					mechanic,
 					...(heroImageUrl ? { heroImageUrl } : {})
 				})
 				.where(eq(promotions.id, id));

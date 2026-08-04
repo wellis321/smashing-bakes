@@ -57,6 +57,13 @@
       "when": 1785802335772,
       "tag": "0007_cuddly_gravity",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1785852898560,
+      "tag": "0008_friendly_maelstrom",
+      "breakpoints": true
     }
   ]
 }

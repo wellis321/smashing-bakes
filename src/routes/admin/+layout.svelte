@@ -13,6 +13,7 @@
 		{ href: '/admin/categories', label: 'Categories' },
 		{ href: '/admin/menus', label: 'Weekly menus' },
 		{ href: '/admin/promotions', label: 'Promotions' },
+		{ href: '/admin/businesses', label: 'Local businesses' },
 		{ href: '/admin/polls', label: 'Polls' },
 		{ href: '/admin/posters', label: 'Posters' },
 		{ href: '/admin/enquiries', label: 'Enquiries' }

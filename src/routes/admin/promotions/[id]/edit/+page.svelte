@@ -57,7 +57,8 @@
 			ctaLabel: data.promotion.ctaLabel ?? '',
 			ctaUrl: data.promotion.ctaUrl ?? '',
 			isPublished: data.promotion.isPublished,
-			isFeaturedOnHomepage: data.promotion.isFeaturedOnHomepage
+			isFeaturedOnHomepage: data.promotion.isFeaturedOnHomepage,
+			mechanic: data.promotion.mechanic
 		}}
 		currentImageUrl={data.promotion.heroImageUrl}
 		initialSteps={data.promotion.steps.map((s) => ({ label: s.label, description: s.description }))}

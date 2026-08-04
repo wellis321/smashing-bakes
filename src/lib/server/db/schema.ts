@@ -109,6 +109,9 @@ export const promotions = mysqlTable(
 		ctaUrl: varchar('cta_url', { length: 500 }),
 		isPublished: boolean('is_published').notNull().default(false),
 		isFeaturedOnHomepage: boolean('is_featured_on_homepage').notNull().default(false),
+		// 'manual' = the classic like/tag/share steps grid. 'business_picker' = the
+		// local-business strip below, replacing the steps grid on that promotion's page.
+		mechanic: mysqlEnum('mechanic', ['manual', 'business_picker']).notNull().default('manual'),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 	},
@@ -126,11 +129,60 @@ export const promotionSteps = mysqlTable('promotion_steps', {
 });
 
 export const promotionsRelations = relations(promotions, ({ many }) => ({
-	steps: many(promotionSteps)
+	steps: many(promotionSteps),
+	businessChoices: many(businessChoices)
 }));
 
 export const promotionStepsRelations = relations(promotionSteps, ({ one }) => ({
 	promotion: one(promotions, { fields: [promotionSteps.promotionId], references: [promotions.id] })
+}));
+
+// --- Local business picker (an alternate "mechanic" for a promotion — pick a
+// local business to shout out once a day, entries reset Monday) ---
+
+export const localBusinesses = mysqlTable('local_businesses', {
+	id: int('id').autoincrement().primaryKey(),
+	name: varchar('name', { length: 150 }).notNull(),
+	category: varchar('category', { length: 100 }),
+	isActive: boolean('is_active').notNull().default(true),
+	sortOrder: int('sort_order').notNull().default(0),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
+export const businessChoices = mysqlTable(
+	'business_choices',
+	{
+		id: int('id').autoincrement().primaryKey(),
+		promotionId: int('promotion_id')
+			.notNull()
+			.references(() => promotions.id),
+		customerId: int('customer_id')
+			.notNull()
+			.references(() => customers.id),
+		businessId: int('business_id')
+			.notNull()
+			.references(() => localBusinesses.id),
+		// A calendar date (not timestamp) — the natural key for "one pick per day."
+		choiceDate: date('choice_date', { mode: 'string' }).notNull(),
+		createdAt: timestamp('created_at').notNull().defaultNow()
+	},
+	(table) => [
+		uniqueIndex('business_choices_promo_customer_date_unique').on(
+			table.promotionId,
+			table.customerId,
+			table.choiceDate
+		)
+	]
+);
+
+export const localBusinessesRelations = relations(localBusinesses, ({ many }) => ({
+	choices: many(businessChoices)
+}));
+
+export const businessChoicesRelations = relations(businessChoices, ({ one }) => ({
+	promotion: one(promotions, { fields: [businessChoices.promotionId], references: [promotions.id] }),
+	customer: one(customers, { fields: [businessChoices.customerId], references: [customers.id] }),
+	business: one(localBusinesses, { fields: [businessChoices.businessId], references: [localBusinesses.id] })
 }));
 
 // --- Weekly menus (the "what's on this weekend" posts they currently do on Instagram) ---

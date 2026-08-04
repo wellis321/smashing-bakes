@@ -13,6 +13,7 @@
 		ctaUrl?: string;
 		isPublished?: boolean;
 		isFeaturedOnHomepage?: boolean;
+		mechanic?: 'manual' | 'business_picker';
 	};
 
 	let {
@@ -24,6 +25,8 @@
 		currentImageUrl?: string | null;
 		initialSteps?: { label: string; description: string }[];
 	} = $props();
+
+	let mechanic = $state(values.mechanic ?? 'manual');
 </script>
 
 <div class="grid gap-6 sm:grid-cols-2">
@@ -84,8 +87,26 @@
 	</div>
 
 	<div class="sm:col-span-2">
-		<StepsEditor {initialSteps} />
+		<label for="mechanic" class="text-ink-soft text-sm font-medium">How people take part</label>
+		<select
+			id="mechanic"
+			name="mechanic"
+			bind:value={mechanic}
+			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 sm:w-auto"
+		>
+			<option value="manual">Steps (like/tag/share, entirely off-site)</option>
+			<option value="business_picker">Choose a local business (on-site strip, resets weekly)</option>
+		</select>
+		<p class="text-ink-soft/70 mt-1 text-xs">
+			Local business entries and winners are managed on the <a href="/admin/businesses" class="underline">Local businesses</a> page.
+		</p>
 	</div>
+
+	{#if mechanic === 'manual'}
+		<div class="sm:col-span-2">
+			<StepsEditor {initialSteps} />
+		</div>
+	{/if}
 
 	<div>
 		<label for="areaText" class="text-ink-soft text-sm font-medium">Area</label>

@@ -1,8 +1,23 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import { page } from '$app/state';
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
 
-	let { data }: { data: PageData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 	const promo = $derived(data.promotion);
+
+	let selectedId = $state<number | null>(null);
+	let submitting = $state(false);
+
+	const selectedBusiness = $derived(data.businesses?.find((b) => b.id === selectedId) ?? null);
+	const chosenToday = $derived(
+		form?.success
+			? { businessId: form.chosenBusinessId, businessName: form.chosenBusinessName }
+			: data.todaysChoice
+	);
+
+	const loginHref = `/account/login?redirectTo=${encodeURIComponent(page.url.pathname)}`;
+	const registerHref = `/account/register?redirectTo=${encodeURIComponent(page.url.pathname)}`;
 </script>
 
 <svelte:head>
@@ -35,7 +50,116 @@
 		</div>
 	{/if}
 
-	{#if promo.steps.length > 0}
+	{#if promo.mechanic === 'business_picker' && data.businesses}
+		<div class="mt-14">
+			{#if data.businesses.length === 0}
+				<p class="text-ink-soft text-center text-sm">No businesses to choose from yet — check back soon.</p>
+			{:else}
+				<p class="text-ink-soft text-center text-sm">
+					Tap a business below to choose it &mdash; one pick a day, entries reset every Monday.
+					{#if page.data.customer && data.weekCount > 0}
+						You&rsquo;ve picked {data.weekCount} day{data.weekCount === 1 ? '' : 's'} this week.
+					{/if}
+				</p>
+
+				<div class="mt-5 overflow-hidden">
+					<div class={`flex w-max gap-3 ${selectedId === null ? 'animate-marquee' : ''}`}>
+						{#each [...data.businesses, ...data.businesses] as business, i (i)}
+							<button
+								type="button"
+								onclick={() => (selectedId = business.id)}
+								class={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors ${
+									selectedId === business.id
+										? 'bg-pink border-pink text-cream'
+										: 'border-ink/10 bg-white text-ink hover:border-pink/40'
+								}`}
+							>
+								{business.name}
+							</button>
+						{/each}
+					</div>
+				</div>
+
+				{#if selectedBusiness}
+					<div class="bg-blush mx-auto mt-5 max-w-md rounded-2xl p-5">
+						<div class="flex items-start justify-between gap-3">
+							<div>
+								<p class="font-display text-ink text-xl">{selectedBusiness.name}</p>
+								{#if selectedBusiness.category}
+									<p class="text-ink-soft text-sm">{selectedBusiness.category}</p>
+								{/if}
+							</div>
+							<button
+								type="button"
+								onclick={() => (selectedId = null)}
+								aria-label="Close"
+								class="text-ink-soft hover:text-ink shrink-0 text-lg leading-none"
+							>
+								&times;
+							</button>
+						</div>
+
+						{#if chosenToday}
+							<p class="text-ink-soft mt-3 text-sm">
+								{#if chosenToday.businessId === selectedBusiness.id}
+									You&rsquo;ve chosen {selectedBusiness.name} today &mdash; thank you! Come back
+									tomorrow for another entry.
+								{:else}
+									You&rsquo;ve already chosen {chosenToday.businessName} today &mdash; come back
+									tomorrow to choose again.
+								{/if}
+							</p>
+						{:else if !page.data.customer}
+							<p class="text-ink-soft mt-3 text-sm">
+								Log in to choose {selectedBusiness.name} and enter this week&rsquo;s draw.
+							</p>
+							<div class="mt-4 flex flex-wrap gap-3">
+								<a
+									href={loginHref}
+									class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors"
+								>
+									Log in
+								</a>
+								<a
+									href={registerHref}
+									class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30"
+								>
+									Create an account
+								</a>
+							</div>
+						{:else}
+							<form
+								method="POST"
+								action="?/choose"
+								class="mt-4"
+								use:enhance={() => {
+									submitting = true;
+									return async ({ update }) => {
+										await update();
+										submitting = false;
+									};
+								}}
+							>
+								<input type="hidden" name="promotionId" value={promo.id} />
+								<input type="hidden" name="businessId" value={selectedBusiness.id} />
+								<button
+									type="submit"
+									disabled={submitting}
+									class="bg-pink hover:bg-pink-deep w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+								>
+									{submitting ? 'Choosing…' : `Choose ${selectedBusiness.name}`}
+								</button>
+							</form>
+						{/if}
+
+						{#if form?.message}
+							<p class="mt-3 text-sm text-red-700">{form.message}</p>
+						{/if}
+					</div>
+				{/if}
+			{/if}
+		</div>
+	{:else if promo.steps.length > 0}
 		<div class="mt-14 grid gap-8 sm:grid-cols-3">
 			{#each promo.steps as step, index (step.id)}
 				<div class="text-center">
@@ -78,3 +202,20 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.animate-marquee {
+			animation: marquee 35s linear infinite;
+		}
+	}
+</style>
