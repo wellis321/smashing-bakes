@@ -40,7 +40,8 @@ export const load: PageServerLoad = async () => {
 		category: categoryById.get(p.categoryId)!,
 		images: imagesByProduct.get(p.id) ?? []
 	}));
-	return { products: allProducts };
+	const usedCategories = [...cats].sort((a, b) => a.sortOrder - b.sortOrder);
+	return { products: allProducts, categories: usedCategories };
 };
 
 export const actions: Actions = {
