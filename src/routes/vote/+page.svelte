@@ -7,8 +7,32 @@
 	let submitting = $state(false);
 
 	const MAX_SELECTIONS = 3;
-	let selected = $state<Set<number>>(new Set());
+
+	// Persist picks across the login/register round-trip (sessionStorage isn't
+	// available during SSR, hence the typeof guard) so logging in doesn't waste
+	// the choices someone already made.
+	const picksStorageKey = $derived(data.poll ? `vote-picks-${data.poll.id}` : null);
+	function loadSavedSelections(): Set<number> {
+		if (!picksStorageKey || typeof sessionStorage === 'undefined') return new Set();
+		try {
+			const saved = sessionStorage.getItem(picksStorageKey);
+			return saved ? new Set(JSON.parse(saved)) : new Set();
+		} catch {
+			return new Set();
+		}
+	}
+
+	let selected = $state<Set<number>>(loadSavedSelections());
 	let stage = $state<'select' | 'confirm'>('select');
+
+	$effect(() => {
+		if (!picksStorageKey || typeof sessionStorage === 'undefined') return;
+		if (data.myVote || form?.success || selected.size === 0) {
+			sessionStorage.removeItem(picksStorageKey);
+		} else {
+			sessionStorage.setItem(picksStorageKey, JSON.stringify([...selected]));
+		}
+	});
 
 	function toggle(optionId: number, checked: boolean) {
 		if (checked && selected.size >= MAX_SELECTIONS) return;
@@ -81,22 +105,7 @@
 				One vote per person &mdash; once you submit, your picks are final and can&rsquo;t be changed.
 			</p>
 
-			{#if !page.data.customer}
-				<div class="mt-6 rounded-2xl bg-white/70 p-5">
-					<p class="text-ink text-sm font-medium">Log in to vote</p>
-					<p class="text-ink-soft mt-1 text-sm">
-						Voting is open to logged-in customers, so we can enter you into the prize draw.
-					</p>
-					<div class="mt-4 flex flex-wrap gap-3">
-						<a href={loginHref} class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors">
-							Log in
-						</a>
-						<a href={registerHref} class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30">
-							Create an account
-						</a>
-					</div>
-				</div>
-			{:else if data.myVote || form?.success}
+			{#if data.myVote || form?.success}
 				<div class="mt-6 flex items-start gap-3 rounded-2xl bg-white/70 p-5">
 					<svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-pink-deep mt-0.5 shrink-0" aria-hidden="true">
 						<circle cx="10" cy="10" r="7.5" />
@@ -152,14 +161,34 @@
 						{/each}
 					</div>
 
-					<button
-						type="button"
-						disabled={selected.size === 0}
-						onclick={() => (stage = 'confirm')}
-						class="bg-pink hover:bg-pink-deep mt-6 w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
-					>
-						Review my picks
-					</button>
+					{#if page.data.customer}
+						<button
+							type="button"
+							disabled={selected.size === 0}
+							onclick={() => (stage = 'confirm')}
+							class="bg-pink hover:bg-pink-deep mt-6 w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+						>
+							Review my picks
+						</button>
+					{:else}
+						<div class="mt-6 rounded-2xl bg-white/70 p-5">
+							<p class="text-ink text-sm font-medium">
+								{selected.size > 0 ? `Log in to submit your ${selected.size === 1 ? 'pick' : 'picks'}` : 'Log in to vote'}
+							</p>
+							<p class="text-ink-soft mt-1 text-sm">
+								Voting is open to logged-in customers, so we can enter you into the prize draw
+								{selected.size > 0 ? ' — your picks will still be here when you get back.' : '.'}
+							</p>
+							<div class="mt-4 flex flex-wrap gap-3">
+								<a href={loginHref} class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors">
+									Log in
+								</a>
+								<a href={registerHref} class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30">
+									Create an account
+								</a>
+							</div>
+						</div>
+					{/if}
 				</div>
 			{:else}
 				<form
