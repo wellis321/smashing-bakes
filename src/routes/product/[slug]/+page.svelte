@@ -37,9 +37,7 @@
 				/>
 			{/if}
 			{#if product.badge !== 'none'}
-				<div class="absolute top-4 left-4">
-					<Badge kind={product.badge} />
-				</div>
+				<Badge kind={product.badge} />
 			{/if}
 		</div>
 

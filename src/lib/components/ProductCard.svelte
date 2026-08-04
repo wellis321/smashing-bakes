@@ -24,9 +24,7 @@
 			/>
 		{/if}
 		{#if product.badge !== 'none'}
-			<div class="absolute -top-1 -left-1 rotate-[-4deg]">
-				<Badge kind={product.badge} />
-			</div>
+			<Badge kind={product.badge} />
 		{/if}
 	</div>
 
