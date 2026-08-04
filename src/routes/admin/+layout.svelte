@@ -16,7 +16,8 @@
 		{ href: '/admin/businesses', label: 'Local businesses' },
 		{ href: '/admin/polls', label: 'Polls' },
 		{ href: '/admin/posters', label: 'Posters' },
-		{ href: '/admin/enquiries', label: 'Enquiries' }
+		{ href: '/admin/enquiries', label: 'Enquiries' },
+		{ href: '/admin/help', label: 'Help' }
 	];
 
 	function isActiveNavItem(href: string) {
