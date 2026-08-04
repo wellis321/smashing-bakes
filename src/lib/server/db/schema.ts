@@ -144,6 +144,10 @@ export const localBusinesses = mysqlTable('local_businesses', {
 	id: int('id').autoincrement().primaryKey(),
 	name: varchar('name', { length: 150 }).notNull(),
 	category: varchar('category', { length: 100 }),
+	description: text('description'),
+	address: varchar('address', { length: 255 }),
+	phone: varchar('phone', { length: 50 }),
+	website: varchar('website', { length: 500 }),
 	isActive: boolean('is_active').notNull().default(true),
 	sortOrder: int('sort_order').notNull().default(0),
 	createdAt: timestamp('created_at').notNull().defaultNow()

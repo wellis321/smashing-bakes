@@ -308,7 +308,14 @@ async function seed() {
 
 	console.log('Seeding demo local businesses...');
 	const demoBusinesses = [
-		{ name: 'Corner Bakery Café', category: 'Cafe' },
+		{
+			name: 'Corner Bakery Café',
+			category: 'Cafe',
+			description: 'A cosy neighbourhood café known for its breakfast rolls and bottomless coffee.',
+			address: '12 Main Street, Barrhead',
+			phone: '0141 555 0102',
+			website: 'https://example.com'
+		},
 		{ name: 'Barrhead Hair Studio', category: 'Salon' },
 		{ name: 'The Bike Shed', category: 'Retail' },
 		{ name: 'Paisley Road Motors', category: 'Garage' },

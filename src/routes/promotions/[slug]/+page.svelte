@@ -10,6 +10,10 @@
 	let submitting = $state(false);
 
 	const selectedBusiness = $derived(data.businesses?.find((b) => b.id === selectedId) ?? null);
+	// A fixed animation-duration would speed up as more businesses are added (same
+	// distance to travel, less time) — scale it with the list so the pace stays
+	// constant regardless of how many are in the strip.
+	const marqueeDuration = $derived(Math.max(20, (data.businesses?.length ?? 0) * 4));
 	const chosenToday = $derived(
 		form?.success
 			? { businessId: form.chosenBusinessId, businessName: form.chosenBusinessName }
@@ -62,12 +66,17 @@
 					{/if}
 				</p>
 
-				<div class="mt-5 overflow-hidden">
-					<div class={`flex w-max gap-3 ${selectedId === null ? 'animate-marquee' : ''}`}>
+				<p class="text-ink-soft/70 mt-2 text-center text-xs">Tap the highlighted business again to let it scroll on.</p>
+
+				<div class="mt-3 overflow-hidden">
+					<div
+						class={`flex w-max gap-3 ${selectedId === null ? 'animate-marquee' : ''}`}
+						style:animation-duration={`${marqueeDuration}s`}
+					>
 						{#each [...data.businesses, ...data.businesses] as business, i (i)}
 							<button
 								type="button"
-								onclick={() => (selectedId = business.id)}
+								onclick={() => (selectedId = selectedId === business.id ? null : business.id)}
 								class={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors ${
 									selectedId === business.id
 										? 'bg-pink border-pink text-cream'
@@ -98,6 +107,40 @@
 								&times;
 							</button>
 						</div>
+
+						{#if selectedBusiness.description}
+							<p class="text-ink-soft mt-3 text-sm leading-relaxed">{selectedBusiness.description}</p>
+						{/if}
+
+						{#if selectedBusiness.address || selectedBusiness.phone || selectedBusiness.website}
+							<div class="text-ink-soft mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+								{#if selectedBusiness.address}
+									<span class="inline-flex items-center gap-1.5">
+										<svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true">
+											<path d="M10 18s6-5.5 6-10a6 6 0 10-12 0c0 4.5 6 10 6 10z" />
+											<circle cx="10" cy="8" r="2" />
+										</svg>
+										{selectedBusiness.address}
+									</span>
+								{/if}
+								{#if selectedBusiness.phone}
+									<a href={`tel:${selectedBusiness.phone}`} class="hover:text-ink inline-flex items-center gap-1.5">
+										<svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true">
+											<path d="M5 3.5h2.5L9 7 7.5 8.5a8 8 0 004 4L13 11l3.5 1.5V15a1.5 1.5 0 01-1.5 1.5C8.5 16.5 3.5 11.5 3.5 5A1.5 1.5 0 015 3.5z" />
+										</svg>
+										{selectedBusiness.phone}
+									</a>
+								{/if}
+								{#if selectedBusiness.website}
+									<a href={selectedBusiness.website} target="_blank" rel="noreferrer" class="hover:text-ink inline-flex items-center gap-1.5">
+										<svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true">
+											<path d="M8.5 11.5l3-3M8 7H6a3 3 0 000 6h2M12 7h2a3 3 0 010 6h-2" />
+										</svg>
+										Website
+									</a>
+								{/if}
+							</div>
+						{/if}
 
 						{#if chosenToday}
 							<p class="text-ink-soft mt-3 text-sm">

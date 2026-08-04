@@ -82,12 +82,12 @@
 			{/if}
 			{#each data.businesses as business (business.id)}
 				<div class="flex items-center gap-3 px-4 py-3">
-					<div class="min-w-0 flex-1">
+					<a href={`/admin/businesses/${business.id}/edit`} class="min-w-0 flex-1">
 						<p class="text-ink truncate text-sm font-medium">{business.name}</p>
 						{#if business.category}
 							<p class="text-ink-soft text-xs">{business.category}</p>
 						{/if}
-					</div>
+					</a>
 					{#if data.entryCounts[business.id]}
 						<span class="bg-pink/10 text-pink-deep shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
 							{data.entryCounts[business.id]} this week
@@ -105,6 +105,7 @@
 							{business.isActive ? 'Active' : 'Hidden'}
 						</button>
 					</form>
+					<a href={`/admin/businesses/${business.id}/edit`} class="text-ink-soft hover:text-ink text-sm">Edit</a>
 					<form method="POST" action="?/delete" use:enhance onsubmit={(e) => confirmDelete(e, business.name)}>
 						<input type="hidden" name="id" value={business.id} />
 						<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete</button>
