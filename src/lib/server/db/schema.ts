@@ -275,6 +275,17 @@ export const siteSettings = mysqlTable('site_settings', {
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 
+// General-purpose image library — uploaded once here, then the URL is copied
+// into whichever product/promotion/poster/etc field needs it. Separate from
+// those entities' own per-record uploads, which stay as-is.
+export const mediaLibraryItems = mysqlTable('media_library_items', {
+	id: int('id').autoincrement().primaryKey(),
+	url: varchar('url', { length: 500 }).notNull(),
+	filename: varchar('filename', { length: 255 }).notNull(),
+	altText: varchar('alt_text', { length: 255 }),
+	uploadedAt: timestamp('uploaded_at').notNull().defaultNow()
+});
+
 // --- Posters (swappable homepage announcement/CTA blocks) ---
 
 export const posters = mysqlTable('posters', {

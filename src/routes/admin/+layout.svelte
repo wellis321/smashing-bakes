@@ -16,6 +16,7 @@
 		{ href: '/admin/businesses', label: 'Local businesses' },
 		{ href: '/admin/polls', label: 'Polls' },
 		{ href: '/admin/posters', label: 'Posters' },
+		{ href: '/admin/media', label: 'Media' },
 		{ href: '/admin/enquiries', label: 'Enquiries' },
 		{ href: '/admin/subscribers', label: 'Subscribers' },
 		{ href: '/admin/customers', label: 'Customers' },

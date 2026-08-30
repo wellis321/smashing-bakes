@@ -15,6 +15,16 @@
 	</section>
 
 	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
+		<h2 class="text-ink text-lg font-semibold">Media library</h2>
+		<p class="text-ink-soft mt-1 text-sm">A general place to upload cake photos and other images, separate from the per-product/promotion/poster uploads.</p>
+		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
+			<li>Select several files at once &mdash; open a folder in the file picker and select-all to upload the whole thing in one go.</li>
+			<li>Each uploaded image gets a permanent URL &mdash; use <strong>Copy URL</strong> and paste it anywhere on the site that asks for one.</li>
+			<li>This doesn't yet feed directly into the product/promotion/poster upload fields &mdash; those still take a fresh upload each time. It's a place to stockpile and organize photos for now.</li>
+		</ul>
+	</section>
+
+	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
 		<h2 class="text-ink text-lg font-semibold">Products</h2>
 		<p class="text-ink-soft mt-1 text-sm">Everything customers can see and order in the shop.</p>
 		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
