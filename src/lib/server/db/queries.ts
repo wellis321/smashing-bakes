@@ -12,7 +12,8 @@ import {
 	menuItems,
 	posters,
 	flavorPolls,
-	flavorPollOptions
+	flavorPollOptions,
+	siteSettings
 } from './schema';
 
 // MariaDB (used by our Hostinger hosting) doesn't support the LATERAL JOIN +
@@ -157,6 +158,17 @@ export async function getPromotionBySlug(slug: string) {
 		orderBy: [asc(promotionSteps.sortOrder)]
 	});
 	return { ...row, steps };
+}
+
+const DEFAULT_WELCOME_OFFER = { code: 'WELCOME10', description: '10% off your next pickup order' };
+
+// Falls back to a default rather than throwing if the settings row is
+// somehow missing — the newsletter signup CTA shouldn't break the whole
+// page over an optional row not existing yet.
+export async function getWelcomeOffer(): Promise<{ code: string; description: string }> {
+	const row = await db.query.siteSettings.findFirst();
+	if (!row) return DEFAULT_WELCOME_OFFER;
+	return { code: row.welcomeOfferCode, description: row.welcomeOfferDescription };
 }
 
 export async function getFeaturedPromotion() {

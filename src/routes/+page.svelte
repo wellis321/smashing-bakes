@@ -2,7 +2,6 @@
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
-	import { WELCOME_OFFER } from '$lib/newsletter';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -232,11 +231,11 @@
 			<h2 class="font-display mt-2 text-3xl sm:text-4xl">Get the inside scoop</h2>
 			<p class="mt-4 text-cream/80 leading-relaxed">
 				First look at new bakes, weekly specials and the odd surprise offer. Sign up now and get
-				<strong class="text-cream">{WELCOME_OFFER.description}</strong>.
+				<strong class="text-cream">{data.welcomeOffer.description}</strong>.
 			</p>
 		</div>
 		<div class="mx-auto w-full max-w-md">
-			<NewsletterSignup source="homepage" variant="compact" />
+			<NewsletterSignup source="homepage" variant="compact" offer={data.welcomeOffer} />
 		</div>
 	</div>
 </section>

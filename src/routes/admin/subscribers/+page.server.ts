@@ -3,13 +3,15 @@ import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { newsletterSubscribers } from '$lib/server/db/schema';
+import { getWelcomeOffer } from '$lib/server/db/queries';
 
 export const load: PageServerLoad = async () => {
-	const subscribers = await db.query.newsletterSubscribers.findMany({
-		orderBy: [desc(newsletterSubscribers.subscribedAt)]
-	});
+	const [subscribers, welcomeOffer] = await Promise.all([
+		db.query.newsletterSubscribers.findMany({ orderBy: [desc(newsletterSubscribers.subscribedAt)] }),
+		getWelcomeOffer()
+	]);
 
-	return { subscribers };
+	return { subscribers, welcomeOffer };
 };
 
 export const actions: Actions = {

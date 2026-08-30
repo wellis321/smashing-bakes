@@ -263,6 +263,18 @@ export const newsletterSubscribers = mysqlTable(
 	(table) => [uniqueIndex('newsletter_subscribers_email_unique').on(table.email)]
 );
 
+// Site-wide settings editable from admin. A single row (id 1) rather than a
+// generic key/value table — there's only one setting so far and a real column
+// per setting is simpler to work with than a KV store would be.
+export const siteSettings = mysqlTable('site_settings', {
+	id: int('id').autoincrement().primaryKey(),
+	welcomeOfferCode: varchar('welcome_offer_code', { length: 50 }).notNull().default('WELCOME10'),
+	welcomeOfferDescription: varchar('welcome_offer_description', { length: 255 })
+		.notNull()
+		.default('10% off your next pickup order'),
+	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
+});
+
 // --- Posters (swappable homepage announcement/CTA blocks) ---
 
 export const posters = mysqlTable('posters', {

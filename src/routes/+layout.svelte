@@ -20,6 +20,6 @@
 		<main class="flex-1">
 			{@render children()}
 		</main>
-		<Footer categories={data.categories} />
+		<Footer categories={data.categories} welcomeOffer={data.welcomeOffer} />
 	</div>
 {/if}

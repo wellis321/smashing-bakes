@@ -75,7 +75,7 @@
 		<h2 class="text-ink text-lg font-semibold">Subscribers</h2>
 		<p class="text-ink-soft mt-1 text-sm">Everyone who's signed up for specials and offers, via the footer, homepage or the <code class="text-xs">/newsletter</code> page.</p>
 		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
-			<li>Everyone who signs up sees the same welcome code on screen straight away — set what it says in <code class="text-xs">src/lib/newsletter.ts</code>.</li>
+			<li>Everyone who signs up sees the same welcome code on screen straight away — change what it says any time on the <a href="/admin/settings" class="hover:underline">Settings</a> page.</li>
 			<li>"Mark redeemed" tracks who's already used their welcome code at pickup, so it doesn't get used twice.</li>
 			<li>"Export CSV" downloads the full list (email, name, source, date, redeemed status) — ready to import into an email tool once you're set up to actually send campaigns.</li>
 			<li>There's no email-sending built in yet — this collects and organizes the list; sending from it is a separate piece of work.</li>

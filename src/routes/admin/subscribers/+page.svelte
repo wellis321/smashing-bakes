@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { WELCOME_OFFER } from '$lib/newsletter';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -24,8 +23,8 @@
 	<div>
 		<h1 class="font-display text-3xl text-ink">Subscribers</h1>
 		<p class="text-ink-soft mt-1 text-sm">
-			Everyone who's signed up for specials and offers. Welcome offer: <strong>{WELCOME_OFFER.code}</strong>
-			&mdash; {WELCOME_OFFER.description}.
+			Everyone who's signed up for specials and offers. Welcome offer: <strong>{data.welcomeOffer.code}</strong>
+			&mdash; {data.welcomeOffer.description}. <a href="/admin/settings" class="hover:underline">Change it</a>
 		</p>
 	</div>
 	<a

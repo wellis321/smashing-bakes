@@ -1,9 +1,8 @@
 <script lang="ts">
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
-	import { WELCOME_OFFER } from '$lib/newsletter';
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
 <svelte:head>
@@ -22,7 +21,7 @@
 	<h1 class="font-display mt-5 text-4xl text-ink sm:text-5xl">Get the inside scoop</h1>
 	<p class="text-ink-soft mt-4 leading-relaxed">
 		First look at new bakes, weekly specials and the odd surprise offer — straight from us,
-		nothing spammy. Sign up now and get <strong class="text-ink">{WELCOME_OFFER.description}</strong>.
+		nothing spammy. Sign up now and get <strong class="text-ink">{data.welcomeOffer.description}</strong>.
 	</p>
 
 	{#if form?.success}
@@ -32,6 +31,6 @@
 	{/if}
 
 	<div class="mt-8">
-		<NewsletterSignup source="newsletter-page" variant="hero" />
+		<NewsletterSignup source="newsletter-page" variant="hero" offer={data.welcomeOffer} />
 	</div>
 </section>

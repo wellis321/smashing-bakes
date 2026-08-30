@@ -3,7 +3,10 @@
 	import Logo from './Logo.svelte';
 	import NewsletterSignup from './NewsletterSignup.svelte';
 
-	let { categories }: { categories: CategorySummary[] } = $props();
+	let {
+		categories,
+		welcomeOffer
+	}: { categories: CategorySummary[]; welcomeOffer: { code: string; description: string } } = $props();
 </script>
 
 <footer class="bg-ink text-cream mt-24">
@@ -13,7 +16,7 @@
 				<p class="text-xs font-semibold tracking-widest text-cream/50 uppercase">Join the list</p>
 				<h2 class="font-display mt-2 text-2xl text-cream">Specials, new bakes &amp; offers</h2>
 			</div>
-			<NewsletterSignup source="footer" variant="compact" />
+			<NewsletterSignup source="footer" variant="compact" offer={welcomeOffer} />
 		</div>
 	</div>
 

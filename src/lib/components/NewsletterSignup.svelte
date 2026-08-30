@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { WELCOME_OFFER } from '$lib/newsletter';
 
-	let { source, variant = 'hero' }: { source: string; variant?: 'compact' | 'hero' } = $props();
+	let {
+		source,
+		variant = 'hero',
+		offer
+	}: { source: string; variant?: 'compact' | 'hero'; offer: { code: string; description: string } } = $props();
 
 	const uid = $derived(`newsletter-${source}`);
 
@@ -30,10 +33,10 @@
 			}`}
 		>
 			<span class={`font-display text-lg tracking-wide ${variant === 'compact' ? 'text-cream' : 'text-pink-deep'}`}>
-				{WELCOME_OFFER.code}
+				{offer.code}
 			</span>
 			<span class={`text-xs ${variant === 'compact' ? 'text-cream/60' : 'text-ink-soft'}`}>
-				{WELCOME_OFFER.description}
+				{offer.description}
 			</span>
 		</div>
 		<p class={`mt-3 text-xs ${variant === 'compact' ? 'text-cream/50' : 'text-ink-soft/70'}`}>

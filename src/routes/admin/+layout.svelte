@@ -19,6 +19,7 @@
 		{ href: '/admin/enquiries', label: 'Enquiries' },
 		{ href: '/admin/subscribers', label: 'Subscribers' },
 		{ href: '/admin/customers', label: 'Customers' },
+		{ href: '/admin/settings', label: 'Settings' },
 		{ href: '/admin/help', label: 'Help' }
 	];
 
