@@ -7,28 +7,70 @@
 
 	const isLoginPage = $derived(page.url.pathname === '/admin/login');
 
-	const navItems = $derived([
-		{ href: '/admin', label: 'Dashboard' },
-		{ href: '/admin/products', label: 'Products' },
-		{ href: '/admin/categories', label: 'Categories' },
-		{ href: '/admin/menus', label: 'Weekly menus' },
-		{ href: '/admin/promotions', label: 'Promotions' },
-		{ href: '/admin/businesses', label: 'Local businesses' },
-		{ href: '/admin/polls', label: 'Polls' },
-		{ href: '/admin/posters', label: 'Posters' },
-		{ href: '/admin/media', label: 'Media' },
-		{ href: '/admin/enquiries', label: 'Enquiries' },
-		{ href: '/admin/subscribers', label: 'Subscribers' },
-		{ href: '/admin/customers', label: 'Customers' },
-		{ href: '/admin/settings', label: 'Settings' },
-		...(data.staff?.role === 'admin' ? [{ href: '/admin/staff', label: 'Staff' }] : []),
-		{ href: '/admin/help', label: 'Help' }
+	type NavLink = { href: string; label: string };
+	type NavEntry = { type: 'link'; href: string; label: string } | { type: 'group'; label: string; items: NavLink[] };
+
+	const navEntries = $derived<NavEntry[]>([
+		{ type: 'link', href: '/admin', label: 'Dashboard' },
+		{
+			type: 'group',
+			label: 'Shop',
+			items: [
+				{ href: '/admin/products', label: 'Products' },
+				{ href: '/admin/categories', label: 'Categories' },
+				{ href: '/admin/menus', label: 'Weekly menus' }
+			]
+		},
+		{
+			type: 'group',
+			label: 'Marketing',
+			items: [
+				{ href: '/admin/promotions', label: 'Promotions' },
+				{ href: '/admin/businesses', label: 'Local businesses' },
+				{ href: '/admin/polls', label: 'Polls' },
+				{ href: '/admin/posters', label: 'Posters' },
+				{ href: '/admin/media', label: 'Media' }
+			]
+		},
+		{
+			type: 'group',
+			label: 'People',
+			items: [
+				{ href: '/admin/enquiries', label: 'Enquiries' },
+				{ href: '/admin/subscribers', label: 'Subscribers' },
+				{ href: '/admin/customers', label: 'Customers' },
+				...(data.staff?.role === 'admin' ? [{ href: '/admin/staff', label: 'Staff' }] : [])
+			]
+		},
+		{ type: 'link', href: '/admin/settings', label: 'Settings' },
+		{ type: 'link', href: '/admin/help', label: 'Help' }
 	]);
 
-	function isActiveNavItem(href: string) {
+	let openGroup = $state<string | null>(null);
+	let wrapperEls: Record<string, HTMLDivElement | undefined> = $state({});
+
+	function isActiveHref(href: string) {
 		return href === '/admin' ? page.url.pathname === href : page.url.pathname.startsWith(href);
 	}
+
+	function isGroupActive(items: NavLink[]) {
+		return items.some((item) => isActiveHref(item.href));
+	}
+
+	function closeMenusOnOutsideClick(event: MouseEvent) {
+		if (!openGroup) return;
+		const wrapper = wrapperEls[openGroup];
+		if (wrapper && !wrapper.contains(event.target as Node)) {
+			openGroup = null;
+		}
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') openGroup = null;
+	}
 </script>
+
+<svelte:window onclick={closeMenusOnOutsideClick} onkeydown={handleKeydown} />
 
 {#if isLoginPage}
 	{@render children()}
@@ -59,14 +101,59 @@
 					</form>
 				</div>
 			</div>
-			<nav class="border-ink/10 mx-auto flex max-w-5xl items-center gap-5 overflow-x-auto border-t px-5 py-2.5">
-				{#each navItems as item (item.href)}
-					<a
-						href={item.href}
-						class={`shrink-0 text-sm font-medium ${isActiveNavItem(item.href) ? 'text-ink' : 'text-ink-soft hover:text-ink'}`}
-					>
-						{item.label}
-					</a>
+			<nav class="border-ink/10 mx-auto flex max-w-5xl items-center gap-1 border-t px-5 py-2.5">
+				{#each navEntries as entry (entry.label)}
+					{#if entry.type === 'link'}
+						<a
+							href={entry.href}
+							class={`shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors ${
+								isActiveHref(entry.href) ? 'text-ink' : 'text-ink-soft hover:text-ink'
+							}`}
+						>
+							{entry.label}
+						</a>
+					{:else}
+						<div class="relative" bind:this={wrapperEls[entry.label]}>
+							<button
+								type="button"
+								aria-haspopup="menu"
+								aria-expanded={openGroup === entry.label}
+								onclick={() => (openGroup = openGroup === entry.label ? null : entry.label)}
+								class={`inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors ${
+									isGroupActive(entry.items) ? 'text-ink' : 'text-ink-soft hover:text-ink'
+								}`}
+							>
+								{entry.label}
+								<svg
+									width="10"
+									height="10"
+									viewBox="0 0 12 12"
+									fill="none"
+									class={`transition-transform duration-200 ${openGroup === entry.label ? 'rotate-180' : ''}`}
+									aria-hidden="true"
+								>
+									<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</button>
+
+							{#if openGroup === entry.label}
+								<div role="menu" class="border-ink/10 shadow-soft absolute top-full left-0 z-10 mt-2 w-52 rounded-2xl border bg-cream p-2">
+									{#each entry.items as item (item.href)}
+										<a
+											href={item.href}
+											role="menuitem"
+											onclick={() => (openGroup = null)}
+											class={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+												isActiveHref(item.href) ? 'text-ink bg-blush font-semibold' : 'text-ink-soft hover:bg-blush hover:text-ink'
+											}`}
+										>
+											{item.label}
+										</a>
+									{/each}
+								</div>
+							{/if}
+						</div>
+					{/if}
 				{/each}
 				<a href="/" target="_blank" rel="noreferrer" class="text-ink-soft ml-auto shrink-0 text-sm hover:text-ink sm:hidden">
 					View site &#8599;
