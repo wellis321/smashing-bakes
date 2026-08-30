@@ -28,6 +28,10 @@
 		<p class="text-ink-soft text-sm">Subscribers</p>
 		<p class="font-display text-ink text-3xl">{data.subscriberCount}</p>
 	</a>
+	<a href="/admin/customers" class="hover:opacity-80">
+		<p class="text-ink-soft text-sm">Customer accounts</p>
+		<p class="font-display text-ink text-3xl">{data.customerCount}</p>
+	</a>
 </div>
 
 <div class="mt-10 flex items-center justify-between">

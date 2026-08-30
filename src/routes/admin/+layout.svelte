@@ -18,6 +18,7 @@
 		{ href: '/admin/posters', label: 'Posters' },
 		{ href: '/admin/enquiries', label: 'Enquiries' },
 		{ href: '/admin/subscribers', label: 'Subscribers' },
+		{ href: '/admin/customers', label: 'Customers' },
 		{ href: '/admin/help', label: 'Help' }
 	];
 

@@ -83,6 +83,16 @@
 	</section>
 
 	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
+		<h2 class="text-ink text-lg font-semibold">Customers</h2>
+		<p class="text-ink-soft mt-1 text-sm">Everyone with a full account &mdash; created when someone registers to vote or pick a local business.</p>
+		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
+			<li>Different from <strong>Subscribers</strong>: these are people who created a password-protected account, not just an email on the list.</li>
+			<li>The <strong>Marketing OK</strong> badge reflects the opt-in checkbox they ticked when they registered.</li>
+			<li>"Export CSV" downloads the list (name, email, marketing opt-in, join date) — the same on-ramp to email tools as the Subscribers export.</li>
+		</ul>
+	</section>
+
+	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
 		<h2 class="text-ink text-lg font-semibold">Enquiries</h2>
 		<p class="text-ink-soft mt-1 text-sm">Messages sent through the Contact page.</p>
 		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
