@@ -7,7 +7,7 @@
 
 	const isLoginPage = $derived(page.url.pathname === '/admin/login');
 
-	const navItems = [
+	const navItems = $derived([
 		{ href: '/admin', label: 'Dashboard' },
 		{ href: '/admin/products', label: 'Products' },
 		{ href: '/admin/categories', label: 'Categories' },
@@ -20,8 +20,9 @@
 		{ href: '/admin/subscribers', label: 'Subscribers' },
 		{ href: '/admin/customers', label: 'Customers' },
 		{ href: '/admin/settings', label: 'Settings' },
+		...(data.staff?.role === 'admin' ? [{ href: '/admin/staff', label: 'Staff' }] : []),
 		{ href: '/admin/help', label: 'Help' }
-	];
+	]);
 
 	function isActiveNavItem(href: string) {
 		return href === '/admin' ? page.url.pathname === href : page.url.pathname.startsWith(href);
@@ -47,7 +48,9 @@
 					>
 						View site &#8599;
 					</a>
-					<span class="text-ink-soft hidden truncate text-sm sm:inline">{data.staff?.name}</span>
+					<a href="/admin/account" class="text-ink-soft hidden truncate text-sm hover:text-ink sm:inline">
+						{data.staff?.name}
+					</a>
 					<form method="POST" action="/admin/logout">
 						<button type="submit" class="text-ink-soft shrink-0 rounded-lg border border-ink/10 px-3 py-1.5 text-sm hover:text-ink">
 							Sign out

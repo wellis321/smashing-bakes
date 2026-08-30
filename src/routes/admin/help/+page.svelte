@@ -4,6 +4,17 @@
 
 <div class="space-y-6">
 	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
+		<h2 class="text-ink text-lg font-semibold">Staff accounts</h2>
+		<p class="text-ink-soft mt-1 text-sm">Who can log into this admin area &mdash; only visible to admins, under <strong>Staff</strong> in the nav.</p>
+		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
+			<li>Creating an account generates a password shown once on screen &mdash; there's no email sending set up, so you'll need to pass it on to the new person yourself.</li>
+			<li>They can change it afterwards from the account link in the top-right (their name), under <strong>My account</strong>.</li>
+			<li><strong>Admin</strong> vs <strong>Staff</strong> role only currently controls who can manage staff accounts &mdash; both roles can otherwise do everything else in here.</li>
+			<li>Deactivating an account blocks login without deleting it; you can't deactivate or change the role of your own account.</li>
+		</ul>
+	</section>
+
+	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
 		<h2 class="text-ink text-lg font-semibold">Products</h2>
 		<p class="text-ink-soft mt-1 text-sm">Everything customers can see and order in the shop.</p>
 		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
