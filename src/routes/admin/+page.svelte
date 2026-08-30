@@ -24,6 +24,10 @@
 		<p class="text-ink-soft text-sm">New enquiries</p>
 		<p class={`font-display text-3xl ${data.newEnquiryCount > 0 ? 'text-pink-deep' : 'text-ink'}`}>{data.newEnquiryCount}</p>
 	</a>
+	<a href="/admin/subscribers" class="hover:opacity-80">
+		<p class="text-ink-soft text-sm">Subscribers</p>
+		<p class="font-display text-ink text-3xl">{data.subscriberCount}</p>
+	</a>
 </div>
 
 <div class="mt-10 flex items-center justify-between">

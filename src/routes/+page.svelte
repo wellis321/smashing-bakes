@@ -1,6 +1,8 @@
 <script lang="ts">
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
+	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
+	import { WELCOME_OFFER } from '$lib/newsletter';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -218,6 +220,23 @@
 			<p class="font-display text-xl text-ink">9&ndash;11 Paisley Road</p>
 			<p class="text-ink-soft">Barrhead, G78 1HG</p>
 			<p class="text-ink-soft mt-2 text-sm">Pickup Fridays &amp; Saturdays</p>
+		</div>
+	</div>
+</section>
+
+<!-- Newsletter -->
+<section class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+	<div class="bg-pink-deep grid gap-8 rounded-[2rem] px-6 py-14 text-center text-cream sm:px-12">
+		<div class="mx-auto max-w-lg">
+			<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">Join the list</p>
+			<h2 class="font-display mt-2 text-3xl sm:text-4xl">Get the inside scoop</h2>
+			<p class="mt-4 text-cream/80 leading-relaxed">
+				First look at new bakes, weekly specials and the odd surprise offer. Sign up now and get
+				<strong class="text-cream">{WELCOME_OFFER.description}</strong>.
+			</p>
+		</div>
+		<div class="mx-auto w-full max-w-md">
+			<NewsletterSignup source="homepage" variant="compact" />
 		</div>
 	</div>
 </section>

@@ -1,11 +1,22 @@
 <script lang="ts">
 	import type { CategorySummary } from '$lib/types';
 	import Logo from './Logo.svelte';
+	import NewsletterSignup from './NewsletterSignup.svelte';
 
 	let { categories }: { categories: CategorySummary[] } = $props();
 </script>
 
 <footer class="bg-ink text-cream mt-24">
+	<div class="mx-auto max-w-6xl px-5 pt-14 sm:px-8">
+		<div class="flex flex-col justify-between gap-6 border-b border-cream/10 pb-14 sm:flex-row sm:items-end">
+			<div>
+				<p class="text-xs font-semibold tracking-widest text-cream/50 uppercase">Join the list</p>
+				<h2 class="font-display mt-2 text-2xl text-cream">Specials, new bakes &amp; offers</h2>
+			</div>
+			<NewsletterSignup source="footer" variant="compact" />
+		</div>
+	</div>
+
 	<div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
 		<div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
 			<div class="lg:col-span-2">

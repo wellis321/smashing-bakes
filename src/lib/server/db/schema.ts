@@ -255,7 +255,9 @@ export const newsletterSubscribers = mysqlTable(
 	{
 		id: int('id').autoincrement().primaryKey(),
 		email: varchar('email', { length: 255 }).notNull(),
+		name: varchar('name', { length: 150 }),
 		source: varchar('source', { length: 100 }),
+		welcomeCodeRedeemedAt: timestamp('welcome_code_redeemed_at'),
 		subscribedAt: timestamp('subscribed_at').notNull().defaultNow()
 	},
 	(table) => [uniqueIndex('newsletter_subscribers_email_unique').on(table.email)]

@@ -1,7 +1,7 @@
 import { count, desc, eq, inArray } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { bespokeOrderEnquiries, categories, products } from '$lib/server/db/schema';
+import { bespokeOrderEnquiries, categories, newsletterSubscribers, products } from '$lib/server/db/schema';
 
 export const load: PageServerLoad = async () => {
 	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
@@ -30,6 +30,7 @@ export const load: PageServerLoad = async () => {
 		.select({ value: count() })
 		.from(bespokeOrderEnquiries)
 		.where(eq(bespokeOrderEnquiries.status, 'new'));
+	const [{ value: subscriberCount }] = await db.select({ value: count() }).from(newsletterSubscribers);
 
-	return { productCount, categoryCount, newEnquiryCount, recentProducts };
+	return { productCount, categoryCount, newEnquiryCount, subscriberCount, recentProducts };
 };

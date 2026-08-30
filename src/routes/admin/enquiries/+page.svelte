@@ -25,7 +25,9 @@
 
 <div class="flex items-center justify-between">
 	<h1 class="font-display text-3xl text-ink">Bespoke order enquiries</h1>
-	<p class="text-ink-soft text-sm">{data.subscriberCount} newsletter subscriber{data.subscriberCount === 1 ? '' : 's'}</p>
+	<a href="/admin/subscribers" class="text-ink-soft hover:text-ink text-sm">
+		{data.subscriberCount} newsletter subscriber{data.subscriberCount === 1 ? '' : 's'} &rarr;
+	</a>
 </div>
 <p class="text-ink-soft mt-2 max-w-lg text-sm">Submissions from the "Bespoke order" form on the contact page.</p>
 
