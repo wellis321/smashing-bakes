@@ -57,7 +57,10 @@ export const actions: Actions = {
 		const passwordHash = await hashPassword(tempPassword);
 		await db.insert(staffUsers).values({ name, email, role, passwordHash });
 
-		return { success: true, tempPassword, createdEmail: email };
+		// Echo values back on success too (not just failure) — the form is left
+		// filled in on purpose so the password shown clearly matches the visible
+		// name/email rather than sitting above a form that's already gone blank.
+		return { success: true, tempPassword, createdName: name, createdEmail: email, values };
 	},
 
 	toggleActive: async ({ request, locals }) => {

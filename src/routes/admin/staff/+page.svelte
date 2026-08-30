@@ -7,13 +7,14 @@
 
 	let creating = $state(false);
 	let copied = $state(false);
+	let cleared = $state(false);
 
 	const ownId = $derived(page.data.staff?.id);
 	// `form` is a union across this page's three actions — only `create`'s
 	// failure returns `values`, so narrow with an `in` check rather than
 	// optional-chaining into a property some union members don't have.
 	const prefill: { name: string; email: string; role: string } = $derived(
-		form && 'values' in form
+		!cleared && form && 'values' in form
 			? (form.values as { name: string; email: string; role: string })
 			: { name: '', email: '', role: 'staff' }
 	);
@@ -48,11 +49,12 @@
 	<div class="border-ink/10 rounded-2xl border bg-white/60 p-6">
 		<h2 class="text-ink text-lg font-semibold">Add a staff account</h2>
 
-		{#if form?.success && form.tempPassword}
+		{#if !cleared && form?.success && form.tempPassword}
 			<div class="bg-blush mt-4 rounded-xl p-4">
-				<p class="text-ink text-sm font-medium">Account created for {form.createdEmail}</p>
+				<p class="text-ink text-sm font-medium">Account created for {form.createdName} ({form.createdEmail})</p>
 				<p class="text-ink-soft mt-1 text-xs">
-					This password won't be shown again — copy it now and pass it on securely.
+					This password won't be shown again — copy it now and pass it on securely. The form below still
+					shows this account so it's clear which password goes with who.
 				</p>
 				<div class="mt-3 flex items-center gap-2">
 					<code class="border-pink/30 bg-white flex-1 truncate rounded-lg border-2 border-dashed px-3 py-2 text-sm">
@@ -66,6 +68,13 @@
 						{copied ? 'Copied!' : 'Copy'}
 					</button>
 				</div>
+				<button
+					type="button"
+					onclick={() => (cleared = true)}
+					class="text-ink-soft hover:text-ink mt-3 text-xs font-semibold underline underline-offset-2"
+				>
+					Add another account
+				</button>
 			</div>
 		{/if}
 
@@ -75,8 +84,9 @@
 			class="mt-4 space-y-4"
 			use:enhance={() => {
 				creating = true;
+				cleared = false;
 				return async ({ update }) => {
-					await update();
+					await update({ reset: false });
 					creating = false;
 				};
 			}}
