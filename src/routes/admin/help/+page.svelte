@@ -10,7 +10,8 @@
 			<li>Creating an account generates a password shown once on screen &mdash; there's no email sending set up, so you'll need to pass it on to the new person yourself.</li>
 			<li>They can change it afterwards from the account link in the top-right (their name), under <strong>My account</strong>.</li>
 			<li><strong>Admin</strong> vs <strong>Staff</strong> role only currently controls who can manage staff accounts &mdash; both roles can otherwise do everything else in here.</li>
-			<li>Deactivating an account blocks login without deleting it; you can't deactivate or change the role of your own account.</li>
+			<li>Deactivating an account blocks login without deleting it; you can't deactivate, change the role of, or delete your own account.</li>
+			<li>Click a name (or "Edit") to change their name/email/role/active status in one place, or delete their account entirely.</li>
 		</ul>
 	</section>
 

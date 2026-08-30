@@ -23,6 +23,12 @@
 		return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 	}
 
+	function confirmDelete(event: SubmitEvent, name: string) {
+		if (!confirm(`Delete "${name}"? This can't be undone.`)) {
+			event.preventDefault();
+		}
+	}
+
 	async function copyPassword() {
 		if (!form?.tempPassword) return;
 		try {
@@ -147,13 +153,13 @@
 		<div class="border-ink/10 mt-4 divide-y divide-ink/10 rounded-2xl border bg-white/60">
 			{#each data.staffList as member (member.id)}
 				<div class="flex flex-wrap items-center gap-3 px-4 py-3">
-					<div class="min-w-0 flex-1">
+					<a href={`/admin/staff/${member.id}/edit`} class="min-w-0 flex-1">
 						<p class="text-ink truncate text-sm font-medium">
 							{member.name}
 							{#if member.id === ownId}<span class="text-ink-soft font-normal">(you)</span>{/if}
 						</p>
 						<p class="text-ink-soft truncate text-xs">{member.email}</p>
-					</div>
+					</a>
 					<span class="text-ink-soft shrink-0 text-xs">Joined {formatDate(member.createdAt)}</span>
 
 					{#if member.id === ownId}
@@ -184,6 +190,11 @@
 							>
 								{member.isActive ? 'Active' : 'Deactivated'}
 							</button>
+						</form>
+						<a href={`/admin/staff/${member.id}/edit`} class="text-ink-soft hover:text-ink shrink-0 text-sm">Edit</a>
+						<form method="POST" action="?/delete" use:enhance onsubmit={(e) => confirmDelete(e, member.name)}>
+							<input type="hidden" name="id" value={member.id} />
+							<button type="submit" class="shrink-0 text-sm text-red-600/70 hover:text-red-600">Delete</button>
 						</form>
 					{/if}
 				</div>
