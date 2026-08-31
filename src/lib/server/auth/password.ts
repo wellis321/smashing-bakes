@@ -18,3 +18,11 @@ export async function verifyPassword(password: string, storedHash: string): Prom
 	if (derivedKey.length !== keyBuffer.length) return false;
 	return timingSafeEqual(derivedKey, keyBuffer);
 }
+
+// Used for staff accounts created/reset by an admin — there's no email
+// sending, so this is shown once on screen rather than delivered anywhere.
+export function generateTempPassword(): string {
+	// Base64url, trimmed to something easy enough to read aloud/type — still
+	// well over the entropy a brute-force lockout needs to make guessing moot.
+	return randomBytes(9).toString('base64url');
+}

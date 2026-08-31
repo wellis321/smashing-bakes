@@ -12,6 +12,7 @@
 			<li><strong>Admin</strong> vs <strong>Staff</strong> role only currently controls who can manage staff accounts &mdash; both roles can otherwise do everything else in here.</li>
 			<li>Deactivating an account blocks login without deleting it; you can't deactivate, change the role of, or delete your own account.</li>
 			<li>Click a name (or "Edit") to change their name/email/role/active status in one place, or delete their account entirely.</li>
+			<li>If someone loses or mistypes their password and can't log in, use <strong>Reset password</strong> on their edit page to generate a fresh one — it replaces the old one immediately and signs them out of anywhere they were still logged in.</li>
 		</ul>
 	</section>
 

@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffSessions, staffUsers } from '$lib/server/db/schema';
+import { generateTempPassword, hashPassword } from '$lib/server/auth/password';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -57,6 +58,30 @@ export const actions: Actions = {
 		}
 
 		return { success: true };
+	},
+
+	resetPassword: async ({ params, locals }) => {
+		if (locals.staff?.role !== 'admin') return fail(403, { message: 'Only admins can do that.' });
+
+		const id = Number(params.id);
+		if (id === locals.staff.id) {
+			return fail(400, { message: 'Change your own password from My account instead.' });
+		}
+
+		const tempPassword = generateTempPassword();
+		const passwordHash = await hashPassword(tempPassword);
+		// Clear any accumulated lockout too — a reset should always leave the
+		// account immediately usable with the new password, not still locked
+		// out from whatever attempts led to needing a reset in the first place.
+		await db
+			.update(staffUsers)
+			.set({ passwordHash, failedLoginAttempts: 0, lockedUntil: null })
+			.where(eq(staffUsers.id, id));
+		// Sign them out of any existing sessions so the old password can't
+		// keep a stale session alive after being replaced.
+		await db.delete(staffSessions).where(eq(staffSessions.staffUserId, id));
+
+		return { success: true, tempPassword };
 	},
 
 	delete: async ({ params, locals }) => {

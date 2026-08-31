@@ -29,6 +29,17 @@
 		}
 	}
 
+	// Clicking the password selects exactly its text — a stray leading/trailing
+	// space from a manual drag-select is a real way to end up with a password
+	// that silently doesn't match what's stored.
+	function selectAllText(el: HTMLElement) {
+		const range = document.createRange();
+		range.selectNodeContents(el);
+		const selection = window.getSelection();
+		selection?.removeAllRanges();
+		selection?.addRange(range);
+	}
+
 	async function copyPassword() {
 		if (!form?.tempPassword) return;
 		try {
@@ -63,9 +74,13 @@
 					shows this account so it's clear which password goes with who.
 				</p>
 				<div class="mt-3 flex items-center gap-2">
-					<code class="border-pink/30 bg-white flex-1 truncate rounded-lg border-2 border-dashed px-3 py-2 text-sm">
+					<button
+						type="button"
+						onclick={(e) => selectAllText(e.currentTarget)}
+						class="border-pink/30 bg-white text-ink flex-1 truncate rounded-lg border-2 border-dashed px-3 py-2 text-left font-mono text-sm"
+					>
 						{form.tempPassword}
-					</code>
+					</button>
 					<button
 						type="button"
 						onclick={copyPassword}

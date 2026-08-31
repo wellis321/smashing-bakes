@@ -1,18 +1,11 @@
 import { error, fail } from '@sveltejs/kit';
 import { desc, eq } from 'drizzle-orm';
-import { randomBytes } from 'node:crypto';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffSessions, staffUsers } from '$lib/server/db/schema';
-import { hashPassword } from '$lib/server/auth/password';
+import { generateTempPassword, hashPassword } from '$lib/server/auth/password';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function generateTempPassword(): string {
-	// Base64url, trimmed to something easy enough to read aloud/type — still
-	// well over the entropy a brute-force lockout needs to make guessing moot.
-	return randomBytes(9).toString('base64url');
-}
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.staff?.role !== 'admin') throw error(403, 'Only admins can manage staff accounts.');
