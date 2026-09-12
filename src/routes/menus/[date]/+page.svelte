@@ -1,5 +1,6 @@
 <script lang="ts">
 	import MenuDisplay from '$lib/components/MenuDisplay.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -10,11 +11,19 @@
 			new Date(`${dateStr}T00:00:00`)
 		);
 	}
+
+	const itemSummary = $derived(
+		menu.sections
+			.flatMap((s) => s.items.map((i) => i.name))
+			.slice(0, 6)
+			.join(', ')
+	);
 </script>
 
-<svelte:head>
-	<title>{menu.title || `Menu for ${formatDate(menu.menuDate)}`} — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead
+	title={`${menu.title || `Menu for ${formatDate(menu.menuDate)}`} — Smashin' Bakes`}
+	description={menu.noteText ?? `What was on at Smashin' Bakes for ${formatDate(menu.menuDate)}: ${itemSummary}.`}
+/>
 
 <section class="mx-auto max-w-3xl px-5 pt-10 pb-24 sm:px-8">
 	<a href="/menus" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Weekly menus</a>

@@ -31,6 +31,7 @@
 				<div class="mt-6 flex gap-4 text-sm">
 					<a href="https://www.instagram.com/smashinbakes" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">Instagram</a>
 					<a href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">Facebook</a>
+					<a href="https://www.tiktok.com/@smashinbakesbarrhead" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">TikTok</a>
 				</div>
 			</div>
 

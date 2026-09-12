@@ -1,5 +1,6 @@
 <script lang="ts">
 	import MenuDisplay from '$lib/components/MenuDisplay.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -40,10 +41,10 @@
 	);
 </script>
 
-<svelte:head>
-	<title>Weekly menus — Smashin&rsquo; Bakes</title>
-	<meta name="description" content="What's been on the menu each week at Smashin' Bakes — past and upcoming." />
-</svelte:head>
+<SeoHead
+	title="Weekly menus — Smashin' Bakes"
+	description="What's been on the menu each week at Smashin' Bakes — past and upcoming."
+/>
 
 <section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Every weekend&rsquo;s bakes</p>

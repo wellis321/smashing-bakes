@@ -1,13 +1,15 @@
 <script lang="ts">
 	import ProductCard from '$lib/components/ProductCard.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>Shop all bakes — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead
+	title="Shop all bakes — Smashin' Bakes"
+	description="Cupcakes, brownies, cookies, pies and cakes, baked fresh in Barrhead. Order online for Friday & Saturday pickup."
+/>
 
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">The full menu</p>

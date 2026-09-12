@@ -1,13 +1,15 @@
 <script lang="ts">
 	import Logo from '$lib/components/Logo.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>Promotions &amp; giveaways — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead
+	title="Promotions & giveaways — Smashin' Bakes"
+	description="Current giveaways, competitions and community promotions from Smashin' Bakes in Barrhead."
+/>
 
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Community</p>

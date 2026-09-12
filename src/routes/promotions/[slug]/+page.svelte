@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -66,10 +67,11 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{promo.title} — Smashin&rsquo; Bakes</title>
-	{#if promo.tagline}<meta name="description" content={promo.tagline} />{/if}
-</svelte:head>
+<SeoHead
+	title={`${promo.title} — Smashin' Bakes`}
+	description={promo.tagline ?? `${promo.title} — a promotion from Smashin' Bakes in Barrhead.`}
+	image={promo.heroImageUrl ?? undefined}
+/>
 
 <svelte:window onclick={handleOutsideClick} />
 

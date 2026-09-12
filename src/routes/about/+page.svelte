@@ -1,10 +1,12 @@
-<svelte:head>
-	<title>About us — Smashin&rsquo; Bakes</title>
-	<meta
-		name="description"
-		content="Smashin' Bakes is a small-batch, independent bakery in Barrhead run by baker Alanah Collier — here's our story."
-	/>
-</svelte:head>
+<script lang="ts">
+	import SeoHead from '$lib/components/SeoHead.svelte';
+</script>
+
+<SeoHead
+	title="About us — Smashin' Bakes"
+	description="Smashin' Bakes is a small-batch, independent bakery in Barrhead run by baker Alanah Collier — here's our story."
+	image="/images/shop/counter.jpg"
+/>
 
 <section class="mx-auto max-w-3xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Our story</p>

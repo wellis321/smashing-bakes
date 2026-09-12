@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -55,10 +56,10 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Vote — Smashin&rsquo; Bakes</title>
-	<meta name="description" content="Vote for your favourite flavours and be entered into this week's prize draw." />
-</svelte:head>
+<SeoHead
+	title="Vote — Smashin' Bakes"
+	description="Vote for your favourite flavours and be entered into this week's prize draw."
+/>
 
 <section class="mx-auto max-w-2xl px-5 pt-14 pb-24 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Have your say</p>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData } from './$types';
 
 	let { form }: { form: ActionData } = $props();
@@ -10,10 +11,10 @@
 	const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
 </script>
 
-<svelte:head>
-	<title>Contact — Smashin&rsquo; Bakes</title>
-	<meta name="description" content="Get in touch with Smashin' Bakes in Barrhead — bespoke cake enquiries, address, opening hours and how to pre-order." />
-</svelte:head>
+<SeoHead
+	title="Contact — Smashin' Bakes"
+	description="Get in touch with Smashin' Bakes in Barrhead — bespoke cake enquiries, address, opening hours and how to pre-order."
+/>
 
 <section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Get in touch</p>

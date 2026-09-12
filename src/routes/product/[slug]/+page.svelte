@@ -2,6 +2,8 @@
 	import { formatPence } from '$lib/utils/money';
 	import Badge from '$lib/components/Badge.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { safeJsonLd } from '$lib/utils/json-ld';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -15,11 +17,33 @@
 	const relatedColsClass = $derived(
 		data.related.length === 2 ? 'sm:grid-cols-2' : data.related.length === 1 ? 'sm:grid-cols-1' : 'sm:grid-cols-3'
 	);
+
+	const productJsonLd = $derived(
+		safeJsonLd({
+			'@context': 'https://schema.org',
+			'@type': 'Product',
+			name: product.name,
+			description: product.description ?? undefined,
+			image: image ? [image.url] : undefined,
+			offers: {
+				'@type': 'Offer',
+				priceCurrency: 'GBP',
+				price: ((onSale ? product.salePricePence! : product.basePricePence) / 100).toFixed(2),
+				availability: product.isActive ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+			}
+		})
+	);
 </script>
 
+<SeoHead
+	title={`${product.name} — Smashin' Bakes`}
+	description={product.description ?? `${product.name}, baked fresh in Barrhead by Smashin' Bakes.`}
+	image={image?.url}
+	type="product"
+/>
+
 <svelte:head>
-	<title>{product.name} — Smashin&rsquo; Bakes</title>
-	<meta name="description" content={product.description ?? ''} />
+	{@html `<script type="application/ld+json">${productJsonLd}<\/script>`}
 </svelte:head>
 
 <section class="mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-8">

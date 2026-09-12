@@ -1,13 +1,15 @@
 <script lang="ts">
 	import ProductCard from '$lib/components/ProductCard.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>{data.category.name} — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead
+	title={`${data.category.name} — Smashin' Bakes`}
+	description={`${data.category.name} baked fresh in Barrhead — order online for Friday & Saturday pickup.`}
+/>
 
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<a href="/shop" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; All bakes</a>

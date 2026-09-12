@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Logo from '$lib/components/Logo.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -9,16 +10,14 @@
 	const loginHref = $derived(data.redirectTo ? `/account/login?redirectTo=${encodeURIComponent(data.redirectTo)}` : '/account/login');
 </script>
 
-<svelte:head>
-	<title>Create an account — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead title="Create an account — Smashin' Bakes" noindex={true} />
 
 <div class="bg-cream flex min-h-dvh items-center justify-center px-5 py-16">
 	<div class="w-full max-w-sm">
 		<a href="/" class="mx-auto block w-40" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
-		<p class="text-ink-soft mt-4 text-center text-sm">Create an account</p>
+		<h1 class="font-display text-ink mt-4 text-center text-xl">Create an account</h1>
 
 		<form
 			method="POST"

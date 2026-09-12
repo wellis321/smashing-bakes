@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -9,9 +10,7 @@
 	const token = $derived(page.url.searchParams.get('token') ?? '');
 </script>
 
-<svelte:head>
-	<title>Unsubscribe — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead title="Unsubscribe — Smashin' Bakes" noindex={true} />
 
 <section class="mx-auto max-w-md px-5 py-24 text-center sm:px-8">
 	{#if form?.success}

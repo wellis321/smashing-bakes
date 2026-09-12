@@ -1,12 +1,11 @@
 <script lang="ts">
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>My account — Smashin&rsquo; Bakes</title>
-</svelte:head>
+<SeoHead title="My account — Smashin' Bakes" noindex={true} />
 
 <section class="mx-auto max-w-2xl px-5 pt-14 pb-24 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">My account</p>

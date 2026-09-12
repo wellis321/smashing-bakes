@@ -2,18 +2,16 @@
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>Smashin&rsquo; Bakes — Small-batch cakes, cupcakes &amp; bakes in Barrhead</title>
-	<meta
-		name="description"
-		content="Independent bakery in Barrhead. Pre-order cupcakes, brownies, cookies, pies and cakes for weekend pickup."
-	/>
-</svelte:head>
+<SeoHead
+	title="Smashin' Bakes — Small-batch cakes, cupcakes & bakes in Barrhead"
+	description="Independent bakery in Barrhead. Pre-order cupcakes, brownies, cookies, pies and cakes for weekend pickup."
+/>
 
 <!-- Hero -->
 <section class="mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-8 sm:pt-16 lg:pt-20">

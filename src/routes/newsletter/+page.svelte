@@ -1,14 +1,15 @@
 <script lang="ts">
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<svelte:head>
-	<title>Join the list — Smashin&rsquo; Bakes</title>
-	<meta name="description" content="Sign up for specials, new bakes and offers from Smashin' Bakes." />
-</svelte:head>
+<SeoHead
+	title="Join the list — Smashin' Bakes"
+	description="Sign up for specials, new bakes and offers from Smashin' Bakes."
+/>
 
 <section class="mx-auto max-w-xl px-5 py-20 text-center sm:px-8 sm:py-28">
 	<div class="bg-pink/10 text-pink-deep mx-auto grid h-14 w-14 place-items-center rounded-full">
