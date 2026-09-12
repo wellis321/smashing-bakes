@@ -173,7 +173,7 @@
 			{/if}
 			<div class="relative flex flex-col justify-center overflow-hidden px-10 py-12 sm:px-12">
 				<div
-					class="border-gold/60 text-gold pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 text-center text-[10px] font-bold tracking-[0.15em] uppercase"
+					class="border-gold/60 text-gold pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] uppercase"
 					aria-hidden="true"
 				>
 					Smashin<br />Bakes

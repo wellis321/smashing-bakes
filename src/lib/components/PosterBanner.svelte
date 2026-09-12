@@ -96,7 +96,7 @@
 			{/if}
 
 			<div
-				class={`pointer-events-none absolute right-6 top-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 text-center text-[10px] font-bold tracking-[0.15em] uppercase ${badgeClasses[poster.style]}`}
+				class={`pointer-events-none absolute right-6 top-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] uppercase ${badgeClasses[poster.style]}`}
 				aria-hidden="true"
 			>
 				Smashin<br />Bakes
