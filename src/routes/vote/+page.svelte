@@ -61,7 +61,7 @@
 	description="Vote for your favourite flavours and be entered into this week's prize draw."
 />
 
-<section class="mx-auto max-w-2xl px-5 pt-14 pb-24 sm:px-8">
+<section class="mx-auto max-w-3xl px-5 pt-14 pb-24 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Have your say</p>
 	<h1 class="font-display mt-2 text-4xl text-ink sm:text-5xl">Vote for next week&rsquo;s flavours</h1>
 
