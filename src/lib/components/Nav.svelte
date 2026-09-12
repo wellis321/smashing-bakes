@@ -61,10 +61,10 @@
 <header class="bg-cream/90 sticky top-0 z-30 border-b border-ink/[0.06] backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
 		<a href="/" class="shrink-0" aria-label="Smashin' Bakes home">
-			<Logo class="h-auto w-[190px] sm:w-[260px] lg:w-[300px]" />
+			<Logo class="h-auto w-[165px] min-[375px]:w-[220px] sm:w-[260px] xl:w-[300px]" />
 		</a>
 
-		<nav class="hidden items-center gap-1 xl:flex">
+		<nav class="hidden items-center gap-1 lg:flex">
 			<div class="relative" bind:this={shopWrapper}>
 				<button
 					type="button"
@@ -121,7 +121,7 @@
 		</nav>
 
 		<div class="flex items-center gap-3">
-			<div class="relative hidden xl:block" bind:this={accountWrapper}>
+			<div class="relative hidden lg:block" bind:this={accountWrapper}>
 				{#if customer}
 					<button
 						type="button"
@@ -195,7 +195,7 @@
 			</a>
 			<button
 				type="button"
-				class="text-ink -mr-2 grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-blush focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 xl:hidden"
+				class="text-ink -mr-2 grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-blush focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 lg:hidden"
 				aria-expanded={menuOpen}
 				aria-label="Toggle menu"
 				onclick={() => (menuOpen = !menuOpen)}
@@ -214,7 +214,7 @@
 	</div>
 
 	<div
-		class="grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] xl:hidden"
+		class="grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden"
 		style:grid-template-rows={menuOpen ? '1fr' : '0fr'}
 	>
 		<div class="overflow-hidden">
