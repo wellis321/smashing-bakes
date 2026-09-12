@@ -7,16 +7,20 @@
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
 
+	let eyebrow = $state('');
 	let heading = $state('');
 	let message = $state('');
+	let perks = $state('');
 	let style = $state<'general' | 'announcement' | 'sold-out' | 'celebration'>('general');
 	let ctaLabel = $state('');
 	let ctaUrl = $state('');
 	let imagePreviewUrl = $state<string | null>(null);
 
 	const previewPoster = $derived({
+		eyebrow: eyebrow || null,
 		heading: heading || 'Your heading here',
 		message: message || 'Your message will appear here as you type.',
+		perks: perks || null,
 		imageUrl: imagePreviewUrl,
 		imageZoom: 100,
 		style,
@@ -57,6 +61,18 @@
 
 	<div class="grid gap-6 sm:grid-cols-2">
 		<div class="sm:col-span-2">
+			<label for="eyebrow" class="text-ink-soft text-sm font-medium">Overline (optional)</label>
+			<input
+				id="eyebrow"
+				name="eyebrow"
+				bind:value={eyebrow}
+				placeholder="Like our cakes?"
+				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			/>
+			<p class="text-ink-soft/70 mt-1.5 text-xs">Small label shown above the heading.</p>
+		</div>
+
+		<div class="sm:col-span-2">
 			<label for="heading" class="text-ink-soft text-sm font-medium">Heading</label>
 			<input
 				id="heading"
@@ -79,6 +95,21 @@
 				placeholder="Honestly can't believe how fast these sold out! They'll be making an appearance again this weekend."
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			></textarea>
+		</div>
+
+		<div class="sm:col-span-2">
+			<label for="perks" class="text-ink-soft text-sm font-medium">Perks list (optional)</label>
+			<textarea
+				id="perks"
+				name="perks"
+				rows="4"
+				bind:value={perks}
+				placeholder={'One perk per line, e.g.\nFree standard delivery\nEarly access to new flavours\nExclusive flash offers'}
+				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			></textarea>
+			<p class="text-ink-soft/70 mt-1.5 text-xs">
+				One per line. Shown as a checklist under a divider — leave blank to hide this section entirely.
+			</p>
 		</div>
 
 		<div>

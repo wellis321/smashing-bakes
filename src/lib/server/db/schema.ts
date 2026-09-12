@@ -341,8 +341,13 @@ export const mediaLibraryItems = mysqlTable('media_library_items', {
 
 export const posters = mysqlTable('posters', {
 	id: int('id').autoincrement().primaryKey(),
+	eyebrow: varchar('eyebrow', { length: 100 }),
 	heading: varchar('heading', { length: 200 }).notNull(),
 	message: text('message').notNull(),
+	// One perk per line, shown as a two-column checklist under a dotted divider
+	// (a la a loyalty-club card) — omitted entirely when left blank so plain
+	// announcement/sold-out posters aren't forced to have a perks section.
+	perks: text('perks'),
 	imageUrl: varchar('image_url', { length: 500 }),
 	imageZoom: int('image_zoom').notNull().default(100),
 	style: mysqlEnum('style', ['announcement', 'sold-out', 'celebration', 'general']).notNull().default('general'),

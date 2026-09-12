@@ -15,8 +15,10 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 
+		const eyebrow = String(formData.get('eyebrow') ?? '').trim() || null;
 		const heading = String(formData.get('heading') ?? '').trim();
 		const message = String(formData.get('message') ?? '').trim();
+		const perks = String(formData.get('perks') ?? '').trim() || null;
 		const style = String(formData.get('style') ?? 'general') as (typeof STYLES)[number];
 		const ctaLabel = String(formData.get('ctaLabel') ?? '').trim() || null;
 		const ctaUrl = String(formData.get('ctaUrl') ?? '').trim() || null;
@@ -41,7 +43,7 @@ export const actions: Actions = {
 			imageUrl = libraryImageUrl;
 		}
 
-		await db.insert(posters).values({ heading, message, style, ctaLabel, ctaUrl, imageUrl });
+		await db.insert(posters).values({ eyebrow, heading, message, perks, style, ctaLabel, ctaUrl, imageUrl });
 
 		throw redirect(303, '/admin/posters');
 	}

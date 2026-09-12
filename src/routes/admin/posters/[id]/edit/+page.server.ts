@@ -23,8 +23,10 @@ export const actions: Actions = {
 		const id = Number(params.id);
 		const formData = await request.formData();
 
+		const eyebrow = String(formData.get('eyebrow') ?? '').trim() || null;
 		const heading = String(formData.get('heading') ?? '').trim();
 		const message = String(formData.get('message') ?? '').trim();
+		const perks = String(formData.get('perks') ?? '').trim() || null;
 		const style = String(formData.get('style') ?? 'general') as (typeof STYLES)[number];
 		const ctaLabel = String(formData.get('ctaLabel') ?? '').trim() || null;
 		const ctaUrl = String(formData.get('ctaUrl') ?? '').trim() || null;
@@ -57,7 +59,18 @@ export const actions: Actions = {
 			}
 			await tx
 				.update(posters)
-				.set({ heading, message, style, ctaLabel, ctaUrl, isActive, imageZoom, ...(imageUrl ? { imageUrl } : {}) })
+				.set({
+					eyebrow,
+					heading,
+					message,
+					perks,
+					style,
+					ctaLabel,
+					ctaUrl,
+					isActive,
+					imageZoom,
+					...(imageUrl ? { imageUrl } : {})
+				})
 				.where(eq(posters.id, id));
 		});
 
