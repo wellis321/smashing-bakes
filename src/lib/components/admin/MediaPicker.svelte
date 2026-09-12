@@ -72,75 +72,79 @@
 <div>
 	<label for={fileFieldName ?? urlFieldName} class="text-ink-soft text-sm font-medium">{label}</label>
 
-	{#if showPreview && previewUrl}
-		<img src={previewUrl} alt="" class="bg-cream-dim mt-2 h-24 w-24 rounded-lg object-cover" />
-	{/if}
-
-	<div class="mt-2 flex flex-wrap items-center gap-3">
-		{#if allowUpload}
-			<input
-				id={fileFieldName}
-				name={fileFieldName}
-				type="file"
-				accept="image/jpeg,image/png,image/webp"
-				onchange={handleFileChange}
-				class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
-			/>
+	<div class="mt-2 flex items-start gap-4">
+		{#if showPreview && previewUrl}
+			<img src={previewUrl} alt="" class="bg-cream-dim h-24 w-24 shrink-0 rounded-lg object-cover" />
 		{/if}
 
-		<div class="relative" bind:this={wrapper}>
-			<button
-				type="button"
-				aria-haspopup="menu"
-				aria-expanded={open}
-				onclick={() => (open = !open)}
-				class="text-pink-deep hover:underline shrink-0 text-sm font-semibold"
-			>
-				Choose from library
-			</button>
+		<div class="min-w-0 flex-1">
+			<div class="flex flex-wrap items-center gap-3">
+				{#if allowUpload}
+					<input
+						id={fileFieldName}
+						name={fileFieldName}
+						type="file"
+						accept="image/jpeg,image/png,image/webp"
+						onchange={handleFileChange}
+						class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+					/>
+				{/if}
 
-			{#if open}
-				<div
-					role="menu"
-					class="border-ink/10 shadow-soft absolute top-full left-0 z-20 mt-2 max-h-80 w-72 overflow-y-auto rounded-2xl border bg-cream p-3"
-				>
-					{#if items.length === 0}
-						<p class="text-ink-soft p-2 text-center text-xs">
-							No images yet —
-							<a href="/admin/media" target="_blank" rel="noreferrer" class="underline">upload some</a>
-							first.
-						</p>
-					{:else}
-						<div class="grid grid-cols-3 gap-2">
-							{#each items as item (item.id)}
-								<button
-									type="button"
-									onclick={() => pick(item.url)}
-									title={item.filename}
-									class="border-ink/10 hover:ring-pink aspect-square overflow-hidden rounded-lg border transition-shadow hover:ring-2"
-								>
-									<img src={item.url} alt={item.altText ?? ''} class="h-full w-full object-cover" />
-								</button>
-							{/each}
+				<div class="relative" bind:this={wrapper}>
+					<button
+						type="button"
+						aria-haspopup="menu"
+						aria-expanded={open}
+						onclick={() => (open = !open)}
+						class="text-pink-deep hover:underline shrink-0 text-sm font-semibold"
+					>
+						Choose from library
+					</button>
+
+					{#if open}
+						<div
+							role="menu"
+							class="border-ink/10 shadow-soft absolute top-full left-0 z-20 mt-2 max-h-80 w-72 overflow-y-auto rounded-2xl border bg-cream p-3"
+						>
+							{#if items.length === 0}
+								<p class="text-ink-soft p-2 text-center text-xs">
+									No images yet —
+									<a href="/admin/media" target="_blank" rel="noreferrer" class="underline">upload some</a>
+									first.
+								</p>
+							{:else}
+								<div class="grid grid-cols-3 gap-2">
+									{#each items as item (item.id)}
+										<button
+											type="button"
+											onclick={() => pick(item.url)}
+											title={item.filename}
+											class="border-ink/10 hover:ring-pink aspect-square overflow-hidden rounded-lg border transition-shadow hover:ring-2"
+										>
+											<img src={item.url} alt={item.altText ?? ''} class="h-full w-full object-cover" />
+										</button>
+									{/each}
+								</div>
+							{/if}
 						</div>
 					{/if}
 				</div>
+
+				{#if selectedUrl}
+					<button type="button" onclick={clearLibrarySelection} class="text-ink-soft hover:text-ink shrink-0 text-xs underline">
+						Undo library pick
+					</button>
+				{/if}
+			</div>
+
+			{#if hint}
+				<p class="text-ink-soft/70 mt-2 text-xs">{hint}</p>
 			{/if}
 		</div>
-
-		{#if selectedUrl}
-			<button type="button" onclick={clearLibrarySelection} class="text-ink-soft hover:text-ink shrink-0 text-xs underline">
-				Undo library pick
-			</button>
-		{/if}
 	</div>
 
 	<!-- Re-submits the existing url when nothing new is picked — matters for any
 	     caller (e.g. newsletter highlights) that fully replaces rows on save
 	     rather than only patching changed columns. -->
 	<input type="hidden" name={urlFieldName} value={selectedUrl ?? currentUrl ?? ''} />
-
-	{#if hint}
-		<p class="text-ink-soft/70 mt-1 text-xs">{hint}</p>
-	{/if}
 </div>
