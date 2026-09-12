@@ -171,7 +171,7 @@
 					class="aspect-[16/9] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] sm:aspect-auto sm:h-full"
 				/>
 			{/if}
-			<div class="relative flex flex-col justify-center overflow-hidden px-8 py-10 sm:px-10">
+			<div class="relative flex flex-col justify-center overflow-hidden px-10 py-12 sm:px-12">
 				<div
 					class="border-gold/60 text-gold pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 text-center text-[10px] font-bold tracking-[0.15em] uppercase"
 					aria-hidden="true"
