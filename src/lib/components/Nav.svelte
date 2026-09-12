@@ -61,7 +61,7 @@
 <header class="bg-cream/90 sticky top-0 z-30 border-b border-ink/[0.06] backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
 		<a href="/" class="shrink-0" aria-label="Smashin' Bakes home">
-			<Logo class="h-auto w-[150px] sm:w-[200px]" />
+			<Logo class="h-auto w-[190px] sm:w-[260px] lg:w-[300px]" />
 		</a>
 
 		<nav class="hidden items-center gap-1 xl:flex">
