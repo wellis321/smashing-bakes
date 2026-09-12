@@ -141,7 +141,10 @@
 		</section>
 
 		<section id="products" use:registerSection={'products'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Products</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Products</h2>
+				<a href="/admin/products" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Products &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Everything customers can see and order in the shop.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>"Add product" needs a name, category, price and photo at minimum — description and a badge ("New bake" or "On sale") are optional.</li>
@@ -153,7 +156,10 @@
 		</section>
 
 		<section id="categories" use:registerSection={'categories'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Categories</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Categories</h2>
+				<a href="/admin/categories" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Categories &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Set these up before adding products for a brand-new type of bake — a product always needs a category to belong to.</li>
@@ -162,7 +168,10 @@
 		</section>
 
 		<section id="weekly-menus" use:registerSection={'weekly-menus'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Weekly menus</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Weekly menus</h2>
+				<a href="/admin/menus" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Weekly menus &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">The specials board for a given week.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Add a menu with a date, then build it up in sections (e.g. "Brownies", "Cookie Pie") with items underneath each one.</li>
@@ -171,7 +180,10 @@
 		</section>
 
 		<section id="orders" use:registerSection={'orders'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Orders</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Orders</h2>
+				<a href="/admin/orders" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Orders &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">
 				Quick-buy orders placed on the site — a customer picks an item (or a few), checks out with their
 				details and a pickup day, and it lands here.
@@ -189,7 +201,10 @@
 		</section>
 
 		<section id="promotions" use:registerSection={'promotions'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Promotions</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Promotions</h2>
+				<a href="/admin/promotions" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Promotions &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Giveaways and competitions, like "Supporting Local Businesses".</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Two styles: a plain step-by-step one (you write your own "Like / Comment / Share" style steps), or the "local business picker" style with the scrolling strip — set this on the edit page.</li>
@@ -199,7 +214,10 @@
 		</section>
 
 		<section id="local-businesses" use:registerSection={'local-businesses'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Local businesses</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Local businesses</h2>
+				<a href="/admin/businesses" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Local businesses &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Powers the scrolling strip on the "Supporting Local Businesses" promotion.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Bulk-add names one per line — add a category after a <code class="text-xs">|</code> if you like, e.g. <code class="text-xs">Cafe 136 | Cafe</code>.</li>
@@ -211,7 +229,10 @@
 		</section>
 
 		<section id="polls" use:registerSection={'polls'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Polls</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Polls</h2>
+				<a href="/admin/polls" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Polls &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">The flavour vote customers see at <code class="text-xs">/vote</code>.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Add your flavour options, then mark the poll <strong>Active</strong> — only one poll can run at a time, so activating a new one automatically switches off whichever was running before.</li>
@@ -220,7 +241,10 @@
 		</section>
 
 		<section id="posters" use:registerSection={'posters'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Posters</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Posters</h2>
+				<a href="/admin/posters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Posters &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">The swappable banner at the top of the homepage.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Set a heading, message, image and style, then mark it <strong>Active</strong>. Only one poster shows at a time — activating one automatically switches off whichever was live before, so there's no cleanup needed.</li>
@@ -230,20 +254,26 @@
 		</section>
 
 		<section id="newsletters" use:registerSection={'newsletters'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Newsletters</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Newsletters</h2>
+				<a href="/admin/newsletters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Newsletters &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Compose and send a proper email newsletter to everyone on the subscriber &amp; opted-in customer list.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Build it from a subject line, a hero image, a heading/intro, a few "highlight" cards (this week's menu, a promotion, a bestseller), a button and a sign-off — the live preview on the right shows exactly what it'll look like in an inbox.</li>
 				<li>Always "Send test" to yourself first and check it in a real inbox before sending to everyone.</li>
 				<li>"Send now" goes out immediately; "Schedule" sets a target date but still needs either a click on "Send now" once it arrives, or a cron/uptime service pointed at the dispatch endpoint (with its secret key) to fire automatically.</li>
-				<li>Sending anything needs an email service connected first (Resend) — without it, everything here still works except the actual sending.</li>
+				<li>Sending anything needs an email service connected first (<a href="https://resend.com" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Resend</a>) — without it, everything here still works except the actual sending.</li>
 				<li>Every email includes a one-click unsubscribe link, as required by law for marketing email — clicking it removes a subscriber or turns off a customer's marketing opt-in.</li>
 				<li>A sent newsletter is kept as a permanent record and can't be edited or deleted.</li>
 			</ul>
 		</section>
 
 		<section id="media" use:registerSection={'media'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Media library</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Media library</h2>
+				<a href="/admin/media" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Media library &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">A general place to upload cake photos and other images, separate from the per-product/promotion/poster uploads.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Select several files at once — open a folder in the file picker and select-all to upload the whole thing in one go.</li>
@@ -253,7 +283,10 @@
 		</section>
 
 		<section id="enquiries" use:registerSection={'enquiries'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Enquiries</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Enquiries</h2>
+				<a href="/admin/enquiries" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Enquiries &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Messages sent through the Contact page.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>New enquiries are highlighted on the Dashboard as soon as they come in.</li>
@@ -262,7 +295,10 @@
 		</section>
 
 		<section id="subscribers" use:registerSection={'subscribers'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Subscribers</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Subscribers</h2>
+				<a href="/admin/subscribers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Subscribers &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Everyone who's signed up for specials and offers, via the footer, homepage or the <code class="text-xs">/newsletter</code> page.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Everyone who signs up sees the same welcome offer on screen straight away — change what it says any time on the <a href="#settings" class="text-pink-deep hover:underline">Settings</a> page.</li>
@@ -274,7 +310,10 @@
 		</section>
 
 		<section id="customers" use:registerSection={'customers'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Customers</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Customers</h2>
+				<a href="/admin/customers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Customers &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Everyone with a full account — created when someone registers to vote, pick a local business, or check out.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Different from <strong>Subscribers</strong>: these are people who created a password-protected account, not just an email on the list.</li>
@@ -285,7 +324,10 @@
 		</section>
 
 		<section id="staff" use:registerSection={'staff'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Staff accounts</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Staff accounts</h2>
+				<a href="/admin/staff" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Staff &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Who can log into this admin area — only visible to admins, under <strong>People &rarr; Staff</strong>.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>Creating an account generates a password shown once on screen — there's no email sending set up for this, so you'll need to pass it on to the new person yourself.</li>
@@ -298,7 +340,10 @@
 		</section>
 
 		<section id="settings" use:registerSection={'settings'} class="scroll-mt-6 p-6 sm:p-8">
-			<h2 class="font-display text-2xl text-ink">Settings</h2>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Settings</h2>
+				<a href="/admin/settings" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Settings &#8599;</a>
+			</div>
 			<p class="text-ink-soft mt-1 text-sm">Site-wide settings that show up on the public site.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
 				<li>The newsletter welcome offer shown on signup — a short label plus what it actually means — is entirely free text, so it can say whatever offer you're actually running (e.g. "TREAT CLUB — a free coffee every month, plus a free bake on your birthday"). Staff currently honour it manually in person; there's no automatic redemption system.</li>
@@ -317,8 +362,8 @@
 				<div>
 					<h3 class="text-ink font-semibold">Passwords &amp; sessions</h3>
 					<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
-						<li><strong>Password hashing (scrypt).</strong> Every password — staff and customer — is run through scrypt with a unique per-user random salt before storage, and compared using a timing-safe check on login. The raw password is never stored, and the process can't be reversed even with full database access.</li>
-						<li><strong>Session tokens, not passwords, drive "logged in."</strong> A random session token is set as an <code class="text-xs">httpOnly</code> (unreadable by JavaScript), <code class="text-xs">secure</code> (HTTPS-only) cookie with a strict <code class="text-xs">sameSite</code> policy. The database only ever stores a SHA-256 hash of that token — the same principle as password storage — so a database leak alone can't be used to forge a session.</li>
+						<li><strong>Password hashing (<a href="https://en.wikipedia.org/wiki/Scrypt" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">scrypt</a>).</strong> Every password — staff and customer — is run through scrypt with a unique per-user random salt before storage, and compared using a timing-safe check on login. The raw password is never stored, and the process can't be reversed even with full database access.</li>
+						<li><strong>Session tokens, not passwords, drive "logged in."</strong> A random session token is set as an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">httpOnly</a> (unreadable by JavaScript), <code class="text-xs">secure</code> (HTTPS-only) cookie with a strict <code class="text-xs">sameSite</code> policy. The database only ever stores a <a href="https://en.wikipedia.org/wiki/SHA-2" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SHA-256</a> hash of that token — the same principle as password storage — so a database leak alone can't be used to forge a session.</li>
 						<li><strong>Staff lockout.</strong> 5 wrong password attempts locks a staff account for 15 minutes, stopping unlimited automated guessing. Customer accounts don't have this yet — see What's next.</li>
 						<li><strong>Staff and customer auth are fully separate systems</strong> — independent logins, sessions and storage, so a problem in one can't reach the other.</li>
 						<li><strong>Self-service password reset</strong> uses a one-hour, single-use, SHA-256-hashed token (never the raw token itself is stored), and the response is identical whether or not the email actually matches an account — so the flow can't be used to find out who has an account.</li>
@@ -326,20 +371,29 @@
 				</div>
 
 				<div>
-					<h3 class="text-ink font-semibold">CSRF (Cross-Site Request Forgery)</h3>
+					<h3 class="text-ink font-semibold">
+						<a href="https://owasp.org/www-community/attacks/csrf" target="_blank" rel="noreferrer" class="hover:underline">CSRF (Cross-Site Request Forgery)</a>
+					</h3>
 					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
-						SvelteKit checks the <code class="text-xs">Origin</code> header on every form submission by
-						default and rejects anything that didn't originate from this site — this is on for every
-						form here, nothing had to be added or configured, and nothing turns it off.
+						<a href="https://svelte.dev/docs/kit" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SvelteKit</a>
+						checks the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Origin" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Origin header</a>
+						on every form submission by default and rejects anything that didn't originate from this
+						site — this is on for every form here, nothing had to be added or configured, and nothing
+						turns it off.
 					</p>
 				</div>
 
 				<div>
-					<h3 class="text-ink font-semibold">XSS (Cross-Site Scripting) &amp; HTML escaping</h3>
+					<h3 class="text-ink font-semibold">
+						<a href="https://owasp.org/www-community/attacks/xss/" target="_blank" rel="noreferrer" class="hover:underline">XSS (Cross-Site Scripting)</a>
+						&amp; HTML escaping
+					</h3>
 					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
-						Every dynamic value rendered on the site is auto-escaped by Svelte by default — a product
-						description or a customer's name can never be interpreted as HTML or a script, only ever
-						as plain text. There are exactly two places on the whole site that ever bypass that
+						Every dynamic value rendered on the site is auto-escaped by
+						<a href="https://svelte.dev" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Svelte</a>
+						by default — a product description or a customer's name can never be interpreted as HTML
+						or a script, only ever as plain text. There are exactly two places on the whole site that
+						ever bypass that
 						auto-escaping (both for structured data Google reads, never for anything a visitor
 						types), and both are passed through a small helper that neutralises the one character
 						sequence (<code class="text-xs">&lt;/script&gt;</code>) that could otherwise break out of it.
@@ -347,7 +401,9 @@
 				</div>
 
 				<div>
-					<h3 class="text-ink font-semibold">CORS (Cross-Origin Resource Sharing)</h3>
+					<h3 class="text-ink font-semibold">
+						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" target="_blank" rel="noreferrer" class="hover:underline">CORS (Cross-Origin Resource Sharing)</a>
+					</h3>
 					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
 						No CORS headers are configured anywhere on the site, which means the default, most
 						restrictive browser behaviour applies: no other website can make an authenticated request
@@ -356,12 +412,16 @@
 				</div>
 
 				<div>
-					<h3 class="text-ink font-semibold">SQL injection</h3>
+					<h3 class="text-ink font-semibold">
+						<a href="https://owasp.org/www-community/attacks/SQL_Injection" target="_blank" rel="noreferrer" class="hover:underline">SQL injection</a>
+					</h3>
 					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
-						Every database query on the site goes through Drizzle ORM's parameterised query builder —
-						submitted data is always passed as a bound value, never concatenated into a raw SQL
-						string. This rules out SQL injection, one of the most common ways sites get hacked,
-						structurally rather than by careful handling of each individual query.
+						Every database query on the site goes through
+						<a href="https://orm.drizzle.team" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Drizzle ORM</a>'s
+						parameterised query builder — submitted data is always passed as a bound value, never
+						concatenated into a raw SQL string. This rules out SQL injection, one of the most common
+						ways sites get hacked, structurally rather than by careful handling of each individual
+						query.
 					</p>
 				</div>
 

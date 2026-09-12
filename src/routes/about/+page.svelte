@@ -8,7 +8,7 @@
 	image="/images/shop/counter.jpg"
 />
 
-<section class="mx-auto max-w-3xl px-5 pt-14 pb-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Our story</p>
 	<h1 class="font-display mt-2 text-4xl text-ink sm:text-5xl">Small batches, big flavour.</h1>
 	<p class="font-display text-pink mt-2 text-xl italic">Taste the extraordinary.</p>
@@ -20,7 +20,7 @@
 	</p>
 </section>
 
-<section class="mx-auto max-w-3xl px-5 py-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 	<img
 		src="/images/shop/exterior.jpg"
 		alt="The Smashin' Bakes shopfront on Paisley Road, Barrhead, with customers queuing outside"
@@ -28,7 +28,7 @@
 	/>
 </section>
 
-<section class="mx-auto max-w-3xl px-5 py-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 	<div class="grid gap-6 sm:grid-cols-3">
 		<div class="bg-blush rounded-2xl p-6">
 			<p class="font-display text-2xl text-ink">Small batch</p>
@@ -55,7 +55,7 @@
 	</div>
 </section>
 
-<section class="mx-auto max-w-3xl px-5 py-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 	<div class="grid items-center gap-8 sm:grid-cols-2">
 		<div class="order-2 sm:order-1">
 			<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">The bakery</p>
@@ -78,7 +78,7 @@
 	</div>
 </section>
 
-<section class="mx-auto max-w-3xl px-5 py-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 py-8 sm:px-8">
 	<div class="bg-pink-deep grid gap-10 rounded-[2rem] px-6 py-12 text-cream sm:px-12 lg:grid-cols-[1fr_auto] lg:items-center">
 		<div class="max-w-xl">
 			<h2 class="font-display text-3xl sm:text-4xl">Rooted in Barrhead</h2>
@@ -94,7 +94,7 @@
 	</div>
 </section>
 
-<section class="mx-auto max-w-3xl px-5 py-16 text-center sm:px-8">
+<section class="mx-auto max-w-5xl px-5 py-16 text-center sm:px-8">
 	<h2 class="font-display text-3xl text-ink sm:text-4xl">Come and say hello</h2>
 	<p class="text-ink-soft mx-auto mt-4 max-w-md leading-relaxed">
 		Follow along for weekly menus and drops, or come find us in person at 9&ndash;11 Paisley Road.
