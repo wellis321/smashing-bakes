@@ -63,7 +63,7 @@
 <h1 class="font-display mt-2 text-3xl text-ink">{data.newsletter.subject}</h1>
 
 {#if isSent}
-	<div class="bg-blush mt-6 max-w-2xl rounded-2xl p-6">
+	<div class="bg-blush mt-6 max-w-4xl rounded-2xl p-6">
 		<p class="text-ink text-sm font-medium">
 			Sent {new Date(data.newsletter.sentAt ?? '').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
 			to {data.newsletter.recipientCount ?? 0} subscriber{data.newsletter.recipientCount === 1 ? '' : 's'}.

@@ -16,7 +16,7 @@
 
 <form
 	method="POST"
-	class="border-ink/10 mt-6 max-w-2xl rounded-2xl border bg-white/60 p-6"
+	class="border-ink/10 mt-6 max-w-4xl rounded-2xl border bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update }) => {

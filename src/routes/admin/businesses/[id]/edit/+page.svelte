@@ -24,7 +24,7 @@
 <form
 	method="POST"
 	action="?/update"
-	class="border-ink/10 mt-6 max-w-2xl rounded-2xl border bg-white/60 p-6"
+	class="border-ink/10 mt-6 max-w-4xl rounded-2xl border bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update, result }) => {
@@ -138,6 +138,6 @@
 	</div>
 </form>
 
-<form method="POST" action="?/delete" use:enhance onsubmit={confirmDelete} class="mt-4 max-w-2xl">
+<form method="POST" action="?/delete" use:enhance onsubmit={confirmDelete} class="mt-4 max-w-4xl">
 	<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete this business</button>
 </form>

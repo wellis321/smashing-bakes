@@ -42,7 +42,7 @@
 <a href="/admin/newsletters" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Newsletters</a>
 <h1 class="font-display mt-2 text-3xl text-ink">New newsletter</h1>
 
-<div class="border-pink/20 bg-blush/40 mt-6 max-w-2xl rounded-2xl border p-5">
+<div class="border-pink/20 bg-blush/40 mt-6 max-w-4xl rounded-2xl border p-5">
 	<p class="text-ink text-sm font-semibold">What makes a bakery newsletter worth opening</p>
 	<ul class="text-ink-soft mt-2 list-disc space-y-1 pl-5 text-sm">
 		<li><strong class="text-ink">Be specific, not generic.</strong> "New flavour: Salted Caramel Brownies 🍫" gets opened; "This month's update" gets ignored.</li>
