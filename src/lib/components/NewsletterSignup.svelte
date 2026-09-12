@@ -29,7 +29,7 @@
 		<p class={`font-display text-xl ${variant === 'compact' ? 'text-cream' : 'text-ink'}`}>
 			{result.alreadySubscribed ? "You're already on the list!" : "You're in!"}
 		</p>
-		<p class={`mt-2 text-sm leading-relaxed ${variant === 'compact' ? 'text-cream/70' : 'text-ink-soft'}`}>
+		<p class={`mt-2 text-[15px] leading-relaxed ${variant === 'compact' ? 'text-cream/85' : 'text-ink-soft'}`}>
 			{result.alreadySubscribed
 				? "No need to sign up twice — here's your welcome code again, just in case:"
 				: "We'll let you know about specials, new bakes and the odd surprise. Here's your welcome offer:"}
@@ -42,11 +42,11 @@
 			<span class={`font-display text-lg tracking-wide ${variant === 'compact' ? 'text-cream' : 'text-pink-deep'}`}>
 				{offer.code}
 			</span>
-			<span class={`text-xs ${variant === 'compact' ? 'text-cream/60' : 'text-ink-soft'}`}>
+			<span class={`text-sm ${variant === 'compact' ? 'text-cream/80' : 'text-ink-soft'}`}>
 				{offer.description}
 			</span>
 		</div>
-		<p class={`mt-3 text-xs ${variant === 'compact' ? 'text-cream/50' : 'text-ink-soft/70'}`}>
+		<p class={`mt-3 text-sm ${variant === 'compact' ? 'text-cream/60' : 'text-ink-soft/70'}`}>
 			Just mention it when you order for pickup.
 		</p>
 	</div>
@@ -92,16 +92,16 @@
 				required
 				bind:value={email}
 				placeholder="Your email address"
-				class={`w-full rounded-full border px-4 py-2.5 text-sm outline-none focus:ring-2 ${
+				class={`w-full rounded-full border px-4 py-3 text-[15px] outline-none focus:ring-2 ${
 					variant === 'compact'
-						? 'border-cream/20 bg-cream/5 text-cream placeholder:text-cream/40 focus:ring-pink/40'
+						? 'border-cream/30 bg-cream/10 text-cream placeholder:text-cream/55 focus:ring-pink/40'
 						: 'border-ink/15 bg-white text-ink focus:ring-pink/40'
 				}`}
 			/>
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="bg-pink hover:bg-pink-deep shrink-0 rounded-full px-6 py-3 text-[15px] font-semibold text-cream transition-colors disabled:opacity-60"
 			>
 				{submitting ? 'Joining…' : 'Get my offer'}
 			</button>
