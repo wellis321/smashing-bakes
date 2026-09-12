@@ -1,12 +1,31 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
+	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
+	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
 	let closeAfterSave = $state(false);
 	let imageZoom = $state(data.poster.imageZoom ?? 100);
+
+	let heading = $state(data.poster.heading);
+	let message = $state(data.poster.message);
+	let style = $state(data.poster.style);
+	let ctaLabel = $state(data.poster.ctaLabel ?? '');
+	let ctaUrl = $state(data.poster.ctaUrl ?? '');
+	let imagePreviewUrl = $state<string | null>(data.poster.imageUrl);
+
+	const previewPoster = $derived({
+		heading: heading || 'Your heading here',
+		message: message || 'Your message will appear here as you type.',
+		imageUrl: imagePreviewUrl,
+		imageZoom,
+		style,
+		ctaLabel: ctaLabel || null,
+		ctaUrl: ctaUrl || null
+	});
 
 	function confirmDelete(event: SubmitEvent) {
 		if (!confirm(`Delete "${data.poster.heading}"? This can't be undone.`)) {
@@ -21,6 +40,13 @@
 
 <a href="/admin/posters" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Posters</a>
 <h1 class="font-display mt-2 text-3xl text-ink">{data.poster.heading}</h1>
+
+<div class="mt-6">
+	<p class="text-ink-soft text-xs font-semibold tracking-widest uppercase">Live preview</p>
+	<div class="border-ink/10 mt-2 rounded-2xl border bg-white/40 p-4">
+		<PosterBanner poster={previewPoster} />
+	</div>
+</div>
 
 <form
 	method="POST"
@@ -51,7 +77,7 @@
 				id="heading"
 				name="heading"
 				required
-				value={data.poster.heading}
+				bind:value={heading}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
 		</div>
@@ -63,9 +89,9 @@
 				name="message"
 				rows="3"
 				required
+				bind:value={message}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
-				>{data.poster.message}</textarea
-			>
+			></textarea>
 		</div>
 
 		<div>
@@ -73,27 +99,19 @@
 			<select
 				id="style"
 				name="style"
+				bind:value={style}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			>
-				<option value="general" selected={data.poster.style === 'general'}>General</option>
-				<option value="announcement" selected={data.poster.style === 'announcement'}>Announcement</option>
-				<option value="sold-out" selected={data.poster.style === 'sold-out'}>Sold out</option>
-				<option value="celebration" selected={data.poster.style === 'celebration'}>Celebration</option>
+				<option value="general">General</option>
+				<option value="announcement">Announcement</option>
+				<option value="sold-out">Sold out</option>
+				<option value="celebration">Celebration</option>
 			</select>
 		</div>
 
 		<div class="sm:col-span-2">
 			<label for="image" class="text-ink-soft text-sm font-medium">Image</label>
 			{#if data.poster.imageUrl}
-				<div class="bg-cream-dim relative mt-1 h-32 w-full overflow-hidden rounded-lg">
-					<img
-						src={data.poster.imageUrl}
-						alt="Current poster"
-						class="absolute inset-0 h-full w-full object-cover object-right"
-						style:transform={`scale(${imageZoom / 100})`}
-						style:transform-origin="right center"
-					/>
-				</div>
 				<div class="mt-3 flex items-center gap-3">
 					<label for="imageZoom" class="text-ink-soft shrink-0 text-sm">Zoom</label>
 					<input
@@ -108,21 +126,22 @@
 					/>
 					<span class="text-ink-soft w-12 shrink-0 text-right text-sm">{imageZoom}%</span>
 				</div>
+				<p class="text-ink-soft/70 mt-1 text-xs">See the live preview above — zoom applies to the current photo.</p>
 			{:else}
 				<input type="hidden" name="imageZoom" value={imageZoom} />
 			{/if}
-			<input
-				id="image"
-				name="image"
-				type="file"
-				accept="image/jpeg,image/png,image/webp"
-				class="text-ink-soft mt-3 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
-			/>
-			<p class="text-ink-soft/70 mt-1 text-xs">
-				JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape, at least 1600&times;600px &mdash;
-				the right-hand side shows most prominently, so keep the main subject there. Leave blank to
-				keep the current photo.
-			</p>
+			<div class="mt-3">
+				<MediaPicker
+					items={data.mediaItems}
+					fileFieldName="image"
+					urlFieldName="imageUrl"
+					label=""
+					showPreview={false}
+					hint="JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape, at least 1600×600px — the right-hand side shows most prominently, so keep the main subject there. Leave blank to keep the current photo."
+					currentUrl={data.poster.imageUrl}
+					bind:previewUrl={imagePreviewUrl}
+				/>
+			</div>
 		</div>
 
 		<div>
@@ -130,7 +149,7 @@
 			<input
 				id="ctaLabel"
 				name="ctaLabel"
-				value={data.poster.ctaLabel ?? ''}
+				bind:value={ctaLabel}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
 		</div>
@@ -140,7 +159,7 @@
 			<input
 				id="ctaUrl"
 				name="ctaUrl"
-				value={data.poster.ctaUrl ?? ''}
+				bind:value={ctaUrl}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
 		</div>

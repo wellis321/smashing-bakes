@@ -4,14 +4,18 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { posters } from '$lib/server/db/schema';
 import { saveUploadedImage } from '$lib/server/uploads';
+import { getMediaLibraryItems } from '$lib/server/db/queries';
 
 const STYLES = ['announcement', 'sold-out', 'celebration', 'general'] as const;
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = Number(params.id);
-	const poster = await db.query.posters.findFirst({ where: eq(posters.id, id) });
+	const [poster, mediaItems] = await Promise.all([
+		db.query.posters.findFirst({ where: eq(posters.id, id) }),
+		getMediaLibraryItems()
+	]);
 	if (!poster) throw error(404, 'Poster not found');
-	return { poster };
+	return { poster, mediaItems };
 };
 
 export const actions: Actions = {
@@ -26,6 +30,7 @@ export const actions: Actions = {
 		const ctaUrl = String(formData.get('ctaUrl') ?? '').trim() || null;
 		const isActive = formData.get('isActive') === 'true';
 		const imageFile = formData.get('image');
+		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 		const imageZoom = Math.min(200, Math.max(100, Number(formData.get('imageZoom')) || 100));
 
 		if (!heading || !message) {
@@ -42,6 +47,8 @@ export const actions: Actions = {
 			} catch (err) {
 				return fail(400, { message: err instanceof Error ? err.message : 'Could not upload image.' });
 			}
+		} else if (libraryImageUrl) {
+			imageUrl = libraryImageUrl;
 		}
 
 		await db.transaction(async (tx) => {

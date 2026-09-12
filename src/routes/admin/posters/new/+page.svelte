@@ -1,9 +1,28 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
+	import PosterBanner from '$lib/components/PosterBanner.svelte';
+	import type { ActionData, PageData } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
+
+	let heading = $state('');
+	let message = $state('');
+	let style = $state<'general' | 'announcement' | 'sold-out' | 'celebration'>('general');
+	let ctaLabel = $state('');
+	let ctaUrl = $state('');
+	let imagePreviewUrl = $state<string | null>(null);
+
+	const previewPoster = $derived({
+		heading: heading || 'Your heading here',
+		message: message || 'Your message will appear here as you type.',
+		imageUrl: imagePreviewUrl,
+		imageZoom: 100,
+		style,
+		ctaLabel: ctaLabel || null,
+		ctaUrl: ctaUrl || null
+	});
 </script>
 
 <svelte:head>
@@ -12,6 +31,13 @@
 
 <a href="/admin/posters" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Posters</a>
 <h1 class="font-display mt-2 text-3xl text-ink">New poster</h1>
+
+<div class="mt-6">
+	<p class="text-ink-soft text-xs font-semibold tracking-widest uppercase">Live preview</p>
+	<div class="border-ink/10 mt-2 rounded-2xl border bg-white/40 p-4">
+		<PosterBanner poster={previewPoster} />
+	</div>
+</div>
 
 <form
 	method="POST"
@@ -36,6 +62,7 @@
 				id="heading"
 				name="heading"
 				required
+				bind:value={heading}
 				placeholder="Caramel Cornflake Brownie"
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
@@ -48,6 +75,7 @@
 				name="message"
 				rows="3"
 				required
+				bind:value={message}
 				placeholder="Honestly can't believe how fast these sold out! They'll be making an appearance again this weekend."
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			></textarea>
@@ -58,6 +86,7 @@
 			<select
 				id="style"
 				name="style"
+				bind:value={style}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			>
 				<option value="general">General</option>
@@ -68,18 +97,14 @@
 		</div>
 
 		<div>
-			<label for="image" class="text-ink-soft text-sm font-medium">Image (optional)</label>
-			<input
-				id="image"
-				name="image"
-				type="file"
-				accept="image/jpeg,image/png,image/webp"
-				class="text-ink-soft mt-1 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+			<MediaPicker
+				items={data.mediaItems}
+				fileFieldName="image"
+				urlFieldName="imageUrl"
+				label="Image (optional)"
+				hint="JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape, at least 1600×600px — the right-hand side shows most prominently, so keep the main subject there."
+				bind:previewUrl={imagePreviewUrl}
 			/>
-			<p class="text-ink-soft/70 mt-1 text-xs">
-				JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape, at least 1600&times;600px &mdash;
-				the right-hand side shows most prominently, so keep the main subject there.
-			</p>
 		</div>
 
 		<div>
@@ -87,6 +112,7 @@
 			<input
 				id="ctaLabel"
 				name="ctaLabel"
+				bind:value={ctaLabel}
 				placeholder="Vote for next week's flavour"
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
@@ -97,6 +123,7 @@
 			<input
 				id="ctaUrl"
 				name="ctaUrl"
+				bind:value={ctaUrl}
 				placeholder="/vote"
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
