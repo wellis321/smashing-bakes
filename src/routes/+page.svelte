@@ -185,12 +185,12 @@
 					🎂
 				</span>
 
-				<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">Happening now</p>
+				<p class="text-base font-semibold tracking-widest text-cream/80 uppercase">Happening now</p>
 				<h2 class="font-display mt-2 text-3xl sm:text-5xl">{data.promotion.title}</h2>
 				{#if data.promotion.tagline}
-					<p class="mt-3 text-lg text-cream/90 italic">{data.promotion.tagline}</p>
+					<p class="mt-3 text-xl text-cream/90 italic">{data.promotion.tagline}</p>
 				{/if}
-				<span class="relative mt-6 inline-flex items-center gap-2 text-base font-semibold">
+				<span class="relative mt-6 inline-flex items-center gap-2 text-lg font-semibold">
 					See how to enter &rarr;
 				</span>
 			</div>
