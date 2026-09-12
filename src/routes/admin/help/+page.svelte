@@ -142,10 +142,11 @@
 			</ul>
 
 			<p class="text-ink-soft mt-4 text-base leading-relaxed">
-				Beyond that, everything below is organised to match the admin nav exactly — if you already
-				know which part you need, jump straight to it. If you're trying to understand what's actually
-				protecting the site and its customers rather than how to use a specific page, that's covered
-				separately under <a href="#security" class="text-pink-deep hover:underline">Security</a>.
+				Beyond that, each section further down this page covers one specific part of the site — the
+				same list you can see on the left (or in the dropdown menu, if your screen is narrower). If you
+				already know what you're looking for, click it there and you'll jump straight to it. If you
+				want to know what's actually protecting the site and its customers, rather than how to use a
+				specific page, that's covered separately under <a href="#security" class="text-pink-deep hover:underline">Security</a>.
 			</p>
 		</section>
 
