@@ -143,7 +143,10 @@
 		<section id="products" use:registerSection={'products'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Products</h2>
-				<a href="/admin/products" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Products &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/shop" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/products" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Everything customers can see and order in the shop.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -158,7 +161,10 @@
 		<section id="categories" use:registerSection={'categories'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Categories</h2>
-				<a href="/admin/categories" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Categories &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/shop" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/categories" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -170,7 +176,10 @@
 		<section id="weekly-menus" use:registerSection={'weekly-menus'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Weekly menus</h2>
-				<a href="/admin/menus" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Weekly menus &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/menus" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/menus" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">The specials board for a given week.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -182,7 +191,10 @@
 		<section id="orders" use:registerSection={'orders'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Orders</h2>
-				<a href="/admin/orders" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Orders &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/cart" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/orders" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">
 				Quick-buy orders placed on the site — a customer picks an item (or a few), checks out with their
@@ -203,7 +215,10 @@
 		<section id="promotions" use:registerSection={'promotions'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Promotions</h2>
-				<a href="/admin/promotions" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Promotions &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/promotions" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/promotions" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Giveaways and competitions, like "Supporting Local Businesses".</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -216,7 +231,10 @@
 		<section id="local-businesses" use:registerSection={'local-businesses'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Local businesses</h2>
-				<a href="/admin/businesses" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Local businesses &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/promotions/supporting-local-businesses" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/businesses" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Powers the scrolling strip on the "Supporting Local Businesses" promotion.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -231,7 +249,10 @@
 		<section id="polls" use:registerSection={'polls'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Polls</h2>
-				<a href="/admin/polls" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Polls &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/vote" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/polls" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">The flavour vote customers see at <code class="text-xs">/vote</code>.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -243,7 +264,10 @@
 		<section id="posters" use:registerSection={'posters'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Posters</h2>
-				<a href="/admin/posters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Posters &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/posters" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">The swappable banner at the top of the homepage.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -256,7 +280,10 @@
 		<section id="newsletters" use:registerSection={'newsletters'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Newsletters</h2>
-				<a href="/admin/newsletters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Newsletters &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/newsletter" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/newsletters" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Compose and send a proper email newsletter to everyone on the subscriber &amp; opted-in customer list.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -272,7 +299,7 @@
 		<section id="media" use:registerSection={'media'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Media library</h2>
-				<a href="/admin/media" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Media library &#8599;</a>
+				<a href="/admin/media" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">A general place to upload cake photos and other images, separate from the per-product/promotion/poster uploads.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -285,7 +312,10 @@
 		<section id="enquiries" use:registerSection={'enquiries'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Enquiries</h2>
-				<a href="/admin/enquiries" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Enquiries &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/contact" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/enquiries" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Messages sent through the Contact page.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -297,7 +327,10 @@
 		<section id="subscribers" use:registerSection={'subscribers'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Subscribers</h2>
-				<a href="/admin/subscribers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Subscribers &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/newsletter" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/subscribers" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Everyone who's signed up for specials and offers, via the footer, homepage or the <code class="text-xs">/newsletter</code> page.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -312,7 +345,10 @@
 		<section id="customers" use:registerSection={'customers'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Customers</h2>
-				<a href="/admin/customers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Customers &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/account/register" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/customers" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Everyone with a full account — created when someone registers to vote, pick a local business, or check out.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -326,7 +362,7 @@
 		<section id="staff" use:registerSection={'staff'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Staff accounts</h2>
-				<a href="/admin/staff" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Staff &#8599;</a>
+				<a href="/admin/staff" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Who can log into this admin area — only visible to admins, under <strong>People &rarr; Staff</strong>.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
@@ -342,7 +378,10 @@
 		<section id="settings" use:registerSection={'settings'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Settings</h2>
-				<a href="/admin/settings" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Settings &#8599;</a>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a href="/" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Front page &#8599;</a>
+					<a href="/admin/settings" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Admin page &#8599;</a>
+				</div>
 			</div>
 			<p class="text-ink-soft mt-1 text-base">Site-wide settings that show up on the public site.</p>
 			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
