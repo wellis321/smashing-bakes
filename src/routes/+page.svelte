@@ -171,13 +171,26 @@
 					class="aspect-[16/9] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] sm:aspect-auto sm:h-full"
 				/>
 			{/if}
-			<div class="flex flex-col justify-center px-8 py-10 sm:px-10">
+			<div class="relative flex flex-col justify-center overflow-hidden px-8 py-10 sm:px-10">
+				<div
+					class="border-gold/60 text-gold pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 text-center text-[10px] font-bold tracking-[0.15em] uppercase"
+					aria-hidden="true"
+				>
+					Smashin<br />Bakes
+				</div>
+				<span class="pointer-events-none absolute -right-4 -bottom-10 text-[9rem] rotate-[10deg] opacity-10 select-none" aria-hidden="true">
+					🧁
+				</span>
+				<span class="pointer-events-none absolute right-24 bottom-6 text-6xl -rotate-12 opacity-10 select-none" aria-hidden="true">
+					🎂
+				</span>
+
 				<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">Happening now</p>
-				<h2 class="font-display mt-2 text-3xl sm:text-4xl">{data.promotion.title}</h2>
+				<h2 class="font-display mt-2 text-3xl sm:text-5xl">{data.promotion.title}</h2>
 				{#if data.promotion.tagline}
-					<p class="mt-3 text-cream/80 italic">{data.promotion.tagline}</p>
+					<p class="mt-3 text-lg text-cream/90 italic">{data.promotion.tagline}</p>
 				{/if}
-				<span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold">
+				<span class="relative mt-6 inline-flex items-center gap-2 text-base font-semibold">
 					See how to enter &rarr;
 				</span>
 			</div>
