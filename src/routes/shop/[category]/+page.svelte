@@ -15,7 +15,7 @@
 	<a href="/shop" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; All bakes</a>
 	<h1 class="font-display mt-3 text-4xl text-ink sm:text-5xl">{data.category.name}</h1>
 	{#if data.category.description}
-		<p class="text-ink-soft mt-4 max-w-2xl leading-relaxed">{data.category.description}</p>
+		<p class="text-ink-soft mt-4 leading-relaxed">{data.category.description}</p>
 	{/if}
 
 	<nav class="mt-8 flex flex-wrap gap-2.5">
