@@ -10,7 +10,7 @@
 
 <SeoHead title="Reset your password — Smashin' Bakes" noindex={true} />
 
-<div class="bg-cream flex min-h-dvh items-center justify-center px-5 py-16">
+<div class="bg-cream flex justify-center px-5 pt-10 pb-20 sm:pt-14">
 	<div class="w-full max-w-sm">
 		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
