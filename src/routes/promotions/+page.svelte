@@ -14,7 +14,7 @@
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Community</p>
 	<h1 class="font-display mt-2 text-4xl text-ink sm:text-5xl">Promotions &amp; giveaways</h1>
-	<p class="text-ink-soft mt-4 max-w-lg leading-relaxed">
+	<p class="text-ink-soft mt-4 max-w-2xl leading-relaxed">
 		Giveaways, shout-outs and the odd surprise for our community &mdash; all in one place.
 	</p>
 </section>

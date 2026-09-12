@@ -49,7 +49,7 @@
 <section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Every weekend&rsquo;s bakes</p>
 	<h1 class="font-display mt-2 text-4xl text-ink sm:text-5xl">Weekly menus</h1>
-	<p class="text-ink-soft mt-4 max-w-lg leading-relaxed">
+	<p class="text-ink-soft mt-4 max-w-2xl leading-relaxed">
 		What we&rsquo;ve had on for pickup, week by week &mdash; search for a favourite or browse what&rsquo;s
 		coming up.
 	</p>
