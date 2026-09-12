@@ -78,19 +78,22 @@
 		{/if}
 
 		<div class="min-w-0 flex-1">
-			<div class="flex flex-wrap items-center gap-3">
+			<div class="flex flex-wrap items-start gap-4">
 				{#if allowUpload}
-					<input
-						id={fileFieldName}
-						name={fileFieldName}
-						type="file"
-						accept="image/jpeg,image/png,image/webp"
-						onchange={handleFileChange}
-						class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
-					/>
+					<div>
+						<span class="text-ink-soft mb-1 block text-xs font-medium">Upload new photo</span>
+						<input
+							id={fileFieldName}
+							name={fileFieldName}
+							type="file"
+							accept="image/jpeg,image/png,image/webp"
+							onchange={handleFileChange}
+							class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+						/>
+					</div>
 				{/if}
 
-				<div class="relative" bind:this={wrapper}>
+				<div class="relative pt-5" bind:this={wrapper}>
 					<button
 						type="button"
 						aria-haspopup="menu"
@@ -131,7 +134,7 @@
 				</div>
 
 				{#if selectedUrl}
-					<button type="button" onclick={clearLibrarySelection} class="text-ink-soft hover:text-ink shrink-0 text-xs underline">
+					<button type="button" onclick={clearLibrarySelection} class="text-ink-soft hover:text-ink shrink-0 pt-5 text-xs underline">
 						Undo library pick
 					</button>
 				{/if}
