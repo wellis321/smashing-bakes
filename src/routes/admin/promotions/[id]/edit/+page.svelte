@@ -66,6 +66,7 @@
 		}}
 		currentImageUrl={data.promotion.heroImageUrl}
 		initialSteps={data.promotion.steps.map((s) => ({ label: s.label, description: s.description }))}
+		mediaItems={data.mediaItems}
 	/>
 
 	<div class="mt-6 flex gap-3">

@@ -5,6 +5,7 @@ import { db } from '$lib/server/db';
 import { promotionSteps, promotions } from '$lib/server/db/schema';
 import { slugify } from '$lib/utils/slugify';
 import { saveUploadedImage } from '$lib/server/uploads';
+import { getMediaLibraryItems } from '$lib/server/db/queries';
 
 async function loadPromotion(id: number) {
 	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
@@ -20,9 +21,9 @@ async function loadPromotion(id: number) {
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = Number(params.id);
-	const promotion = await loadPromotion(id);
+	const [promotion, mediaItems] = await Promise.all([loadPromotion(id), getMediaLibraryItems()]);
 	if (!promotion) throw error(404, 'Promotion not found');
-	return { promotion };
+	return { promotion, mediaItems };
 };
 
 function parseSteps(formData: FormData) {
@@ -51,6 +52,7 @@ export const actions: Actions = {
 		const mechanic = (formData.get('mechanic') as 'manual' | 'business_picker') || 'manual';
 		const slug = slugify(String(formData.get('slug') || title));
 		const heroImageFile = formData.get('heroImage');
+		const libraryHeroImageUrl = String(formData.get('heroImageUrl') ?? '').trim();
 		const steps = mechanic === 'manual' ? parseSteps(formData) : [];
 
 		if (!title || !slug) {
@@ -64,6 +66,8 @@ export const actions: Actions = {
 			} catch (err) {
 				return fail(400, { message: err instanceof Error ? err.message : 'Could not upload image.' });
 			}
+		} else if (libraryHeroImageUrl) {
+			heroImageUrl = libraryHeroImageUrl;
 		}
 
 		try {

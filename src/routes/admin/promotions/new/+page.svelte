@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import PromotionFormFields from '$lib/components/admin/PromotionFormFields.svelte';
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
 </script>
 
@@ -30,7 +30,7 @@
 		<p class="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>
 	{/if}
 
-	<PromotionFormFields />
+	<PromotionFormFields mediaItems={data.mediaItems} />
 
 	<button
 		type="submit"

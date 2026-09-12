@@ -1,9 +1,14 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { promotionSteps, promotions } from '$lib/server/db/schema';
 import { slugify } from '$lib/utils/slugify';
 import { saveUploadedImage } from '$lib/server/uploads';
+import { getMediaLibraryItems } from '$lib/server/db/queries';
+
+export const load: PageServerLoad = async () => {
+	return { mediaItems: await getMediaLibraryItems() };
+};
 
 function parseSteps(formData: FormData) {
 	const labels = formData.getAll('stepLabel').map(String);
@@ -30,6 +35,7 @@ export const actions: Actions = {
 		const mechanic = (formData.get('mechanic') as 'manual' | 'business_picker') || 'manual';
 		const slug = slugify(String(formData.get('slug') || title));
 		const heroImageFile = formData.get('heroImage');
+		const libraryHeroImageUrl = String(formData.get('heroImageUrl') ?? '').trim();
 		const steps = mechanic === 'manual' ? parseSteps(formData) : [];
 
 		if (!title || !slug) {
@@ -43,6 +49,8 @@ export const actions: Actions = {
 			} catch (err) {
 				return fail(400, { message: err instanceof Error ? err.message : 'Could not upload image.' });
 			}
+		} else if (libraryHeroImageUrl) {
+			heroImageUrl = libraryHeroImageUrl;
 		}
 
 		let insertedId: number;

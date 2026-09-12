@@ -1,5 +1,6 @@
 <script lang="ts">
 	import StepsEditor from './StepsEditor.svelte';
+	import MediaPicker from './MediaPicker.svelte';
 
 	type Values = {
 		title?: string;
@@ -19,11 +20,13 @@
 	let {
 		values = {},
 		currentImageUrl,
-		initialSteps = []
+		initialSteps = [],
+		mediaItems = []
 	}: {
 		values?: Values;
 		currentImageUrl?: string | null;
 		initialSteps?: { label: string; description: string }[];
+		mediaItems?: { id: number; url: string; filename: string; altText: string | null }[];
 	} = $props();
 
 	let mechanic = $state(values.mechanic ?? 'manual');
@@ -165,20 +168,13 @@
 	</div>
 
 	<div class="sm:col-span-2">
-		<label for="heroImage" class="text-ink-soft text-sm font-medium">Hero photo</label>
-		{#if currentImageUrl}
-			<img src={currentImageUrl} alt="Current hero" class="bg-cream-dim mt-2 h-24 w-24 rounded-lg object-cover" />
-		{/if}
-		<input
-			id="heroImage"
-			name="heroImage"
-			type="file"
-			accept="image/jpeg,image/png,image/webp"
-			class="text-ink-soft mt-2 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+		<MediaPicker
+			items={mediaItems}
+			fileFieldName="heroImage"
+			urlFieldName="heroImageUrl"
+			currentUrl={currentImageUrl}
+			label="Hero photo"
+			hint="JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape (16:9), at least 1600×900px. Leave blank to keep the current photo."
 		/>
-		<p class="text-ink-soft/70 mt-1 text-xs">
-			JPG, PNG or WEBP, up to 5MB. Recommended: wide landscape (16:9), at least 1600&times;900px. Leave
-			blank to keep the current photo.
-		</p>
 	</div>
 </div>

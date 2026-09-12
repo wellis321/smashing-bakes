@@ -30,7 +30,7 @@
 		<p class="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>
 	{/if}
 
-	<ProductFormFields categories={data.categories} values={form?.values} />
+	<ProductFormFields categories={data.categories} values={form?.values} mediaItems={data.mediaItems} />
 
 	<button
 		type="submit"

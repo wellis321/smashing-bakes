@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { productImages, productVariants, products } from '$lib/server/db/schema';
-import { getActiveCategories } from '$lib/server/db/queries';
+import { getActiveCategories, getMediaLibraryItems } from '$lib/server/db/queries';
 import { slugify } from '$lib/utils/slugify';
 import { saveProductImage } from '$lib/server/uploads';
 
@@ -18,10 +18,14 @@ async function loadProduct(id: number) {
 
 export const load: PageServerLoad = async ({ params }) => {
 	const id = Number(params.id);
-	const product = await loadProduct(id);
+	const [product, categories, mediaItems] = await Promise.all([
+		loadProduct(id),
+		getActiveCategories(),
+		getMediaLibraryItems()
+	]);
 	if (!product) throw error(404, 'Product not found');
 
-	return { product, categories: await getActiveCategories() };
+	return { product, categories, mediaItems };
 };
 
 function parsePrice(value: FormDataEntryValue | null): number | null {
@@ -46,6 +50,7 @@ export const actions: Actions = {
 		const isFeatured = formData.get('isFeatured') === 'true';
 		const slug = slugify(String(formData.get('slug') || name));
 		const imageFile = formData.get('image');
+		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 
 		if (!name || !categoryId || basePricePence == null || !slug) {
 			return fail(400, { message: 'Please fill in the product name, category and price.' });
@@ -58,6 +63,8 @@ export const actions: Actions = {
 			} catch (err) {
 				return fail(400, { message: err instanceof Error ? err.message : 'Could not upload image.' });
 			}
+		} else if (libraryImageUrl) {
+			imageUrl = libraryImageUrl;
 		}
 
 		try {

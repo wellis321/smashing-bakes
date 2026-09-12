@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { CategorySummary } from '$lib/types';
+	import MediaPicker from './MediaPicker.svelte';
 
 	type Values = {
 		name?: string;
@@ -16,8 +17,14 @@
 	let {
 		categories,
 		values = {},
-		currentImageUrl
-	}: { categories: CategorySummary[]; values?: Values; currentImageUrl?: string | null } = $props();
+		currentImageUrl,
+		mediaItems = []
+	}: {
+		categories: CategorySummary[];
+		values?: Values;
+		currentImageUrl?: string | null;
+		mediaItems?: { id: number; url: string; filename: string; altText: string | null }[];
+	} = $props();
 </script>
 
 <div class="grid gap-6 sm:grid-cols-2">
@@ -120,19 +127,13 @@
 	</div>
 
 	<div class="sm:col-span-2">
-		<label for="image" class="text-ink-soft text-sm font-medium">Product photo</label>
-		{#if currentImageUrl}
-			<img src={currentImageUrl} alt="Current product" class="bg-cream-dim mt-2 h-24 w-24 rounded-lg object-cover" />
-		{/if}
-		<input
-			id="image"
-			name="image"
-			type="file"
-			accept="image/jpeg,image/png,image/webp"
-			class="text-ink-soft mt-2 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+		<MediaPicker
+			items={mediaItems}
+			fileFieldName="image"
+			urlFieldName="imageUrl"
+			currentUrl={currentImageUrl}
+			label="Product photo"
+			hint="JPG, PNG or WEBP, up to 5MB. Recommended: square, at least 1000×1000px. Leave blank to keep the current photo."
 		/>
-		<p class="text-ink-soft/70 mt-1 text-xs">
-			JPG, PNG or WEBP, up to 5MB. Recommended: square, at least 1000&times;1000px. Leave blank to keep the current photo.
-		</p>
 	</div>
 </div>

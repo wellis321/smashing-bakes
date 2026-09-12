@@ -2,12 +2,13 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { productImages, products } from '$lib/server/db/schema';
-import { getActiveCategories } from '$lib/server/db/queries';
+import { getActiveCategories, getMediaLibraryItems } from '$lib/server/db/queries';
 import { slugify } from '$lib/utils/slugify';
 import { saveProductImage } from '$lib/server/uploads';
 
 export const load: PageServerLoad = async () => {
-	return { categories: await getActiveCategories() };
+	const [categories, mediaItems] = await Promise.all([getActiveCategories(), getMediaLibraryItems()]);
+	return { categories, mediaItems };
 };
 
 function parsePrice(value: FormDataEntryValue | null): number | null {
@@ -31,6 +32,7 @@ export const actions: Actions = {
 		const isFeatured = formData.get('isFeatured') === 'true';
 		const slug = slugify(String(formData.get('slug') || name));
 		const imageFile = formData.get('image');
+		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 
 		if (!name || !categoryId || basePricePence == null || !slug) {
 			return fail(400, {
@@ -49,6 +51,8 @@ export const actions: Actions = {
 					values: { name, categoryId, description, basePricePence, salePricePence, badge, isActive, isFeatured, slug }
 				});
 			}
+		} else if (libraryImageUrl) {
+			imageUrl = libraryImageUrl;
 		}
 
 		let insertedId: number;

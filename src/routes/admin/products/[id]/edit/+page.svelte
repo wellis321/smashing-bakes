@@ -58,6 +58,7 @@
 			isFeatured: data.product.isFeatured
 		}}
 		currentImageUrl={data.product.images[0]?.url}
+		mediaItems={data.mediaItems}
 	/>
 
 	<div class="mt-6 flex gap-3">

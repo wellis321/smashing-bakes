@@ -1,10 +1,15 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { posters } from '$lib/server/db/schema';
 import { saveUploadedImage } from '$lib/server/uploads';
+import { getMediaLibraryItems } from '$lib/server/db/queries';
 
 const STYLES = ['announcement', 'sold-out', 'celebration', 'general'] as const;
+
+export const load: PageServerLoad = async () => {
+	return { mediaItems: await getMediaLibraryItems() };
+};
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -16,6 +21,7 @@ export const actions: Actions = {
 		const ctaLabel = String(formData.get('ctaLabel') ?? '').trim() || null;
 		const ctaUrl = String(formData.get('ctaUrl') ?? '').trim() || null;
 		const imageFile = formData.get('image');
+		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 
 		if (!heading || !message) {
 			return fail(400, { message: 'Please fill in a heading and a message.' });
@@ -31,6 +37,8 @@ export const actions: Actions = {
 			} catch (err) {
 				return fail(400, { message: err instanceof Error ? err.message : 'Could not upload image.' });
 			}
+		} else if (libraryImageUrl) {
+			imageUrl = libraryImageUrl;
 		}
 
 		await db.insert(posters).values({ heading, message, style, ctaLabel, ctaUrl, imageUrl });

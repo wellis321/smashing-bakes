@@ -13,8 +13,15 @@ import {
 	posters,
 	flavorPolls,
 	flavorPollOptions,
-	siteSettings
+	siteSettings,
+	mediaLibraryItems
 } from './schema';
+
+// Used to populate the "choose from library" picker on every admin image
+// field (products, promotions, posters) — one query shared across all of them.
+export async function getMediaLibraryItems() {
+	return db.query.mediaLibraryItems.findMany({ orderBy: [desc(mediaLibraryItems.uploadedAt)] });
+}
 
 // MariaDB (used by our Hostinger hosting) doesn't support the LATERAL JOIN +
 // JSON_ARRAYAGG SQL that Drizzle's relational `with:` API generates for every
