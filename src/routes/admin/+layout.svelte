@@ -80,9 +80,8 @@
 	<div class="bg-cream-dim min-h-dvh">
 		<header class="border-ink/10 bg-cream border-b">
 			<div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
-				<a href="/admin" class="flex shrink-0 items-center gap-2" aria-label="Smashin' Bakes admin home">
-					<Logo class="h-6 w-auto" />
-					<span class="text-ink-soft text-xs">admin</span>
+				<a href="/admin" class="flex shrink-0 items-center" aria-label="Smashin' Bakes admin home">
+					<Logo class="h-9 w-auto" />
 				</a>
 				<div class="flex min-w-0 items-center gap-3 sm:gap-4">
 					<a
