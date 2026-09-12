@@ -23,7 +23,7 @@
 	<div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
 		<div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
 			<div class="lg:col-span-2">
-				<Logo class="h-16 w-auto sm:h-20" />
+				<Logo class="h-auto max-h-16 w-auto max-w-full sm:max-h-20" />
 				<p class="mt-4 max-w-sm text-base leading-relaxed text-cream/85">
 					Small-batch cupcakes, brownies, cookies and cakes, baked fresh in Barrhead. Proudly
 					independent, proudly part of the community.

@@ -2,11 +2,17 @@
 	import { page } from '$app/state';
 	import type { CategorySummary } from '$lib/types';
 	import type { CustomerSessionUser } from '$lib/server/auth/customer-auth';
+	import { cart } from '$lib/stores/cart.svelte';
 	import Logo from './Logo.svelte';
 
 	let { categories, customer }: { categories: CategorySummary[]; customer: CustomerSessionUser | null } = $props();
 
 	let menuOpen = $state(false);
+	let mobileShopOpen = $state(false);
+
+	$effect(() => {
+		if (!menuOpen) mobileShopOpen = false;
+	});
 	let shopOpen = $state(false);
 	let shopWrapper: HTMLDivElement | undefined = $state();
 	let accountOpen = $state(false);
@@ -55,7 +61,7 @@
 <header class="bg-cream/90 sticky top-0 z-30 border-b border-ink/[0.06] backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
 		<a href="/" class="shrink-0" aria-label="Smashin' Bakes home">
-			<Logo class="h-11 w-auto sm:h-14" />
+			<Logo class="h-auto max-h-11 w-auto max-w-full sm:max-h-14" />
 		</a>
 
 		<nav class="hidden items-center gap-1 xl:flex">
@@ -158,8 +164,32 @@
 				{/if}
 			</div>
 			<a
+				href="/cart"
+				class="text-ink relative -mr-1 grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors hover:bg-blush focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50"
+				aria-label={`Cart${cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}`}
+			>
+				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+					<path
+						d="M5 6h11.5l-1.2 7.2a1.5 1.5 0 01-1.48 1.3H6.7a1.5 1.5 0 01-1.48-1.3L4 3.5H2"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<circle cx="8" cy="17.5" r="1.1" fill="currentColor" />
+					<circle cx="14.5" cy="17.5" r="1.1" fill="currentColor" />
+				</svg>
+				{#if cart.count > 0}
+					<span
+						class="bg-pink text-cream absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full text-[10px] font-bold"
+					>
+						{cart.count}
+					</span>
+				{/if}
+			</a>
+			<a
 				href="/shop"
-				class="bg-pink hover:bg-pink-deep hidden rounded-full px-5 py-2.5 text-sm font-semibold text-cream shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:inline-flex"
+				class="bg-pink hover:bg-pink-deep hidden shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-cream shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:inline-flex"
 			>
 				Order for pickup
 			</a>
@@ -197,15 +227,35 @@
 				>
 					Shop all
 				</a>
-				{#each categories as category (category.id)}
-					<a
-						href={`/shop/${category.slug}`}
-						class="text-ink-soft hover:bg-blush hover:text-ink rounded-lg px-2 py-2.5 text-sm font-medium transition-colors"
-						onclick={() => (menuOpen = false)}
+				<button
+					type="button"
+					class="text-ink-soft hover:bg-blush hover:text-ink flex items-center justify-between rounded-lg px-2 py-2.5 text-sm font-medium transition-colors"
+					aria-expanded={mobileShopOpen}
+					onclick={() => (mobileShopOpen = !mobileShopOpen)}
+				>
+					Browse by category
+					<svg
+						width="11"
+						height="11"
+						viewBox="0 0 12 12"
+						fill="none"
+						class={`transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''}`}
+						aria-hidden="true"
 					>
-						{category.name}
-					</a>
-				{/each}
+						<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+				{#if mobileShopOpen}
+					{#each categories as category (category.id)}
+						<a
+							href={`/shop/${category.slug}`}
+							class="text-ink-soft hover:bg-blush hover:text-ink rounded-lg py-2.5 pr-2 pl-6 text-sm font-medium transition-colors"
+							onclick={() => (menuOpen = false)}
+						>
+							{category.name}
+						</a>
+					{/each}
+				{/if}
 
 				<p class="text-ink-soft/70 mt-4 mb-1 px-2 text-xs font-semibold tracking-widest uppercase">More</p>
 				<a
