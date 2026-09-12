@@ -128,15 +128,24 @@
 		<section id="getting-started" use:registerSection={'getting-started'} class="scroll-mt-6 p-6 sm:p-8">
 			<h2 class="font-display text-2xl text-ink">Getting started</h2>
 			<p class="text-ink-soft mt-3 text-base leading-relaxed">
-				The admin nav is grouped the same way this guide is: <strong>Shop</strong> is the products customers
-				browse and order; <strong>Marketing</strong> is everything that promotes the business (promotions,
-				polls, posters, newsletters); <strong>People</strong> is everyone who's got in touch or signed up.
-				<strong>Orders</strong> and <strong>Settings</strong> sit on their own at the top level since you'll
-				likely check them often.
+				New here? The short version: Smashin' Bakes takes pre-orders online for pickup Friday and
+				Saturday — there's no online payment yet, so most of what you'll do in here is keeping the
+				public site current and following up on what customers have already asked for.
 			</p>
-			<p class="text-ink-soft mt-3 text-base leading-relaxed">
-				Use the menu above (or the sidebar, on a wider screen) to jump straight to any section — this page covers what every feature does and how
-				to use it, plus a full technical rundown of the site's security under <a href="#security" class="text-pink-deep hover:underline">Security</a>.
+
+			<p class="text-ink-soft mt-4 text-base font-semibold">A typical routine looks like:</p>
+			<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
+				<li>Check <a href="#orders" class="text-pink-deep hover:underline">Orders</a> for anything placed since you last looked.</li>
+				<li>Check <a href="#enquiries" class="text-pink-deep hover:underline">Enquiries</a> for anything sent through the contact form.</li>
+				<li>Keep <a href="#weekly-menus" class="text-pink-deep hover:underline">Weekly menus</a> up to date with what's actually available this week.</li>
+				<li>Swap the homepage <a href="#posters" class="text-pink-deep hover:underline">poster</a> if there's something worth announcing — sold out, a new bake, a shout-out.</li>
+			</ul>
+
+			<p class="text-ink-soft mt-4 text-base leading-relaxed">
+				Beyond that, everything below is organised to match the admin nav exactly — if you already
+				know which part you need, jump straight to it. If you're trying to understand what's actually
+				protecting the site and its customers rather than how to use a specific page, that's covered
+				separately under <a href="#security" class="text-pink-deep hover:underline">Security</a>.
 			</p>
 		</section>
 
