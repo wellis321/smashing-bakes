@@ -14,10 +14,11 @@
 
 <div class="bg-cream flex min-h-dvh items-center justify-center px-5 py-16">
 	<div class="w-full max-w-sm">
-		<a href="/" class="mx-auto block w-40" aria-label="Smashin' Bakes home">
+		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
-		<h1 class="font-display text-ink mt-4 text-center text-xl">Log in to your account</h1>
+		<p class="text-pink-deep mt-5 text-center text-xs font-semibold tracking-[0.2em] uppercase">Account login</p>
+		<h1 class="font-display text-ink mt-1 text-center text-2xl">Sign in to your account</h1>
 
 		<form
 			method="POST"
@@ -50,7 +51,10 @@
 			</div>
 
 			<div>
-				<label for="password" class="text-ink-soft text-sm font-medium">Password</label>
+				<div class="flex items-baseline justify-between">
+					<label for="password" class="text-ink-soft text-sm font-medium">Password</label>
+					<a href="/account/forgot-password" class="text-pink-deep text-xs font-semibold hover:underline">Forgot your password?</a>
+				</div>
 				<input
 					id="password"
 					name="password"

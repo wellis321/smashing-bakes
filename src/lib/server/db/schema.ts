@@ -370,6 +370,11 @@ export const customers = mysqlTable(
 		marketingOptIn: boolean('marketing_opt_in').notNull().default(false),
 		// Same one-click-unsubscribe purpose as newsletterSubscribers.unsubscribeToken.
 		unsubscribeToken: varchar('unsubscribe_token', { length: 64 }),
+		// Self-service "forgot password" — sha256 hash of a one-time token (the
+		// raw token only ever lives in the emailed link), cleared on use or once
+		// it expires. Null when there's no reset in progress.
+		passwordResetTokenHash: varchar('password_reset_token_hash', { length: 64 }),
+		passwordResetExpiresAt: timestamp('password_reset_expires_at'),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 	},

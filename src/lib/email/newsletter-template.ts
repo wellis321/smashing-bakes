@@ -3,7 +3,7 @@
 // (email clients, especially Outlook, don't support either reliably). Colors
 // below are manually-converted sRGB hex equivalents of the site's own oklch
 // design tokens (src/routes/layout.css) — kept in sync by eye, not a build step.
-const COLOR = {
+export const COLOR = {
 	cream: '#fcf6ed',
 	creamDim: '#f3eadd',
 	ink: '#2d1a10',
@@ -31,7 +31,7 @@ export type NewsletterContent = {
 	signOff: string | null;
 };
 
-function escapeHtml(value: string): string {
+export function escapeHtml(value: string): string {
 	return value
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')

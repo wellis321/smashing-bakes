@@ -14,10 +14,14 @@
 
 <div class="bg-cream flex min-h-dvh items-center justify-center px-5 py-16">
 	<div class="w-full max-w-sm">
-		<a href="/" class="mx-auto block w-40" aria-label="Smashin' Bakes home">
+		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
-		<h1 class="font-display text-ink mt-4 text-center text-xl">Create an account</h1>
+		<p class="text-pink-deep mt-5 text-center text-xs font-semibold tracking-[0.2em] uppercase">Join us</p>
+		<h1 class="font-display text-ink mt-1 text-center text-2xl">Create your account</h1>
+		<p class="text-ink-soft mt-2 text-center text-sm">
+			Track your pickup orders, save your details for next time, and hear about new flavours first.
+		</p>
 
 		<form
 			method="POST"
