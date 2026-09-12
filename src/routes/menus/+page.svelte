@@ -64,7 +64,9 @@
 <section class="mx-auto max-w-5xl px-5 pt-4 pb-8 sm:px-8">
 	<h2 class="text-ink text-lg font-semibold">All menus</h2>
 	<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+		<label for="menu-search" class="sr-only">Search past and upcoming menus</label>
 		<input
+			id="menu-search"
 			type="search"
 			bind:value={search}
 			placeholder="Search a bake, e.g. &ldquo;Oreo&rdquo;&hellip;"
