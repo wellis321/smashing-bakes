@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { formatPence } from '$lib/utils/money';
+	import { cart } from '$lib/stores/cart.svelte';
 	import Badge from '$lib/components/Badge.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -11,6 +13,48 @@
 	const product = $derived(data.product);
 	const image = $derived(product.images[0]);
 	const onSale = $derived(product.badge === 'sale' && product.salePricePence != null);
+	const activeVariants = $derived(product.variants.filter((v) => v.isActive));
+
+	let selectedVariantId = $state<number | null>(null);
+	let quantity = $state(1);
+	let justAdded = $state(false);
+
+	$effect(() => {
+		// Reset per-product state when navigating between products (e.g. via
+		// "You might also like") rather than carrying over a stale selection.
+		product.id;
+		selectedVariantId = activeVariants[0]?.id ?? null;
+		quantity = 1;
+		justAdded = false;
+	});
+
+	const selectedVariant = $derived(activeVariants.find((v) => v.id === selectedVariantId) ?? null);
+	const unitPricePence = $derived(
+		selectedVariant?.priceOverridePence ?? (onSale ? product.salePricePence! : product.basePricePence)
+	);
+
+	function currentCartItem() {
+		return {
+			productId: product.id,
+			variantId: selectedVariant?.id ?? null,
+			slug: product.slug,
+			name: product.name,
+			variantName: selectedVariant?.name ?? null,
+			unitPricePence,
+			imageUrl: image?.url ?? null
+		};
+	}
+
+	function addToCart() {
+		cart.add(currentCartItem(), quantity);
+		justAdded = true;
+		setTimeout(() => (justAdded = false), 2000);
+	}
+
+	function buyNow() {
+		cart.add(currentCartItem(), quantity);
+		goto('/checkout');
+	}
 
 	// Match the column count to how many related products there actually are, so a
 	// short row never leaves a gap of empty columns on the right.
@@ -69,7 +113,9 @@
 			<h1 class="font-display text-4xl text-ink sm:text-5xl">{product.name}</h1>
 
 			<p class="mt-4 flex items-baseline gap-3">
-				{#if onSale}
+				{#if selectedVariant?.priceOverridePence != null}
+					<span class="text-ink text-2xl font-semibold">{formatPence(selectedVariant.priceOverridePence)}</span>
+				{:else if onSale}
 					<span class="text-pink-deep text-2xl font-semibold">{formatPence(product.salePricePence!)}</span>
 					<span class="text-ink-soft/60 text-lg line-through">{formatPence(product.basePricePence)}</span>
 				{:else}
@@ -82,29 +128,68 @@
 			{/if}
 
 			<div class="bg-blush mt-8 max-w-md rounded-2xl p-6">
-				<p class="font-display text-lg text-ink">Reserve this for pickup</p>
-				<p class="text-ink-soft mt-2 text-sm leading-relaxed">
-					Online ordering is on its way. For now, message us on Instagram or Facebook with what
-					you&rsquo;d like and your preferred pickup day &mdash; Friday or Saturday.
-				</p>
-				<div class="mt-4 flex flex-wrap gap-3">
-					<a
-						href="https://www.instagram.com/smashinbakes"
-						target="_blank"
-						rel="noreferrer"
-						class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors"
+				{#if activeVariants.length > 0}
+					<p class="text-ink text-sm font-semibold">Choose an option</p>
+					<div class="mt-2.5 flex flex-wrap gap-2">
+						{#each activeVariants as variant (variant.id)}
+							<button
+								type="button"
+								onclick={() => (selectedVariantId = variant.id)}
+								class={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+									selectedVariantId === variant.id
+										? 'border-pink bg-pink text-cream'
+										: 'border-ink/15 bg-white text-ink hover:border-ink/30'
+								}`}
+							>
+								{variant.name}
+							</button>
+						{/each}
+					</div>
+				{/if}
+
+				<div class="mt-4 flex items-center gap-3">
+					<p class="text-ink text-sm font-semibold">Quantity</p>
+					<div class="border-ink/15 flex items-center rounded-full border bg-white">
+						<button
+							type="button"
+							onclick={() => (quantity = Math.max(1, quantity - 1))}
+							class="text-ink hover:text-pink-deep grid h-9 w-9 place-items-center text-lg font-semibold"
+							aria-label="Decrease quantity"
+						>
+							&minus;
+						</button>
+						<span class="w-6 text-center text-sm font-semibold text-ink">{quantity}</span>
+						<button
+							type="button"
+							onclick={() => (quantity = Math.min(20, quantity + 1))}
+							class="text-ink hover:text-pink-deep grid h-9 w-9 place-items-center text-lg font-semibold"
+							aria-label="Increase quantity"
+						>
+							+
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-5 flex flex-wrap gap-3">
+					<button
+						type="button"
+						onclick={buyNow}
+						class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors"
 					>
-						Message on Instagram
-					</a>
-					<a
-						href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB"
-						target="_blank"
-						rel="noreferrer"
+						Buy now &mdash; {formatPence(unitPricePence * quantity)}
+					</button>
+					<button
+						type="button"
+						onclick={addToCart}
 						class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30"
 					>
-						Message on Facebook
-					</a>
+						{justAdded ? 'Added ✓' : 'Add to cart'}
+					</button>
 				</div>
+				<p class="text-ink-soft/70 mt-3 text-xs">
+					Reserve now, pick up Friday or Saturday, and pay in person when you collect &mdash; online
+					payment is coming soon.
+				</p>
 			</div>
 		</div>
 	</div>

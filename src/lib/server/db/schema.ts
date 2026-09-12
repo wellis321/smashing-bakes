@@ -85,6 +85,59 @@ export const productVariants = mysqlTable('product_variants', {
 	isActive: boolean('is_active').notNull().default(true)
 });
 
+// --- Quick-buy orders (pre-paid pickup, no cart-abandonment recovery yet) ---
+//
+// No payment provider is connected yet — orders are created with
+// paymentStatus 'unpaid' and staff currently take payment in person at
+// pickup. The intent is for a future payment step (e.g. Stripe Checkout) to
+// slot in before order creation and flip paymentStatus to 'paid', without
+// needing to change this shape.
+export const orders = mysqlTable('orders', {
+	id: int('id').autoincrement().primaryKey(),
+	// Guest checkout is allowed — customerId is only set when the buyer was
+	// logged in at checkout, guest* fields are always populated regardless
+	// (so admin order lists never need to join out to a maybe-missing customer).
+	customerId: int('customer_id').references(() => customers.id),
+	guestName: varchar('guest_name', { length: 150 }).notNull(),
+	guestEmail: varchar('guest_email', { length: 255 }).notNull(),
+	guestPhone: varchar('guest_phone', { length: 50 }),
+	pickupDate: date('pickup_date', { mode: 'string' }).notNull(),
+	status: mysqlEnum('status', ['pending', 'ready', 'collected', 'cancelled']).notNull().default('pending'),
+	paymentStatus: mysqlEnum('payment_status', ['unpaid', 'paid']).notNull().default('unpaid'),
+	totalPence: int('total_pence').notNull(),
+	notes: text('notes'),
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
+});
+
+// Snapshots product/variant name and price at time of order — so a later
+// price change or renamed/deleted product never rewrites history on an
+// order that's already been placed.
+export const orderItems = mysqlTable('order_items', {
+	id: int('id').autoincrement().primaryKey(),
+	orderId: int('order_id')
+		.notNull()
+		.references(() => orders.id),
+	productId: int('product_id')
+		.notNull()
+		.references(() => products.id),
+	variantId: int('variant_id').references(() => productVariants.id),
+	productName: varchar('product_name', { length: 150 }).notNull(),
+	variantName: varchar('variant_name', { length: 100 }),
+	unitPricePence: int('unit_price_pence').notNull(),
+	quantity: int('quantity').notNull(),
+	subtotalPence: int('subtotal_pence').notNull()
+});
+
+export const ordersRelations = relations(orders, ({ many, one }) => ({
+	items: many(orderItems),
+	customer: one(customers, { fields: [orders.customerId], references: [customers.id] })
+}));
+
+export const orderItemsRelations = relations(orderItems, ({ one }) => ({
+	order: one(orders, { fields: [orderItems.orderId], references: [orders.id] })
+}));
+
 export const categoriesRelations = relations(categories, ({ many }) => ({
 	products: many(products)
 }));

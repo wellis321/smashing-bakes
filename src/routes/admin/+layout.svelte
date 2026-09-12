@@ -12,6 +12,7 @@
 
 	const navEntries = $derived<NavEntry[]>([
 		{ type: 'link', href: '/admin', label: 'Dashboard' },
+		{ type: 'link', href: '/admin/orders', label: 'Orders' },
 		{
 			type: 'group',
 			label: 'Shop',
