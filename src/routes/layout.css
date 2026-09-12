@@ -37,6 +37,15 @@
 		-webkit-font-smoothing: antialiased;
 	}
 
+	/* Animates every same-page anchor jump (href="#section") — sidebar links,
+	   inline text links, "back to top" etc. — rather than the default instant
+	   snap. Skipped for anyone who's told their OS they prefer reduced motion. */
+	@media (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
+
 	body {
 		min-height: 100dvh;
 	}
