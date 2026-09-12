@@ -372,7 +372,7 @@
 
 				<div>
 					<h3 class="text-ink font-semibold">
-						<a href="https://owasp.org/www-community/attacks/csrf" target="_blank" rel="noreferrer" class="hover:underline">CSRF (Cross-Site Request Forgery)</a>
+						<a href="https://owasp.org/www-community/attacks/csrf" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">CSRF (Cross-Site Request Forgery)</a>
 					</h3>
 					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						<a href="https://svelte.dev/docs/kit" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SvelteKit</a>
@@ -385,8 +385,9 @@
 
 				<div>
 					<h3 class="text-ink font-semibold">
-						<a href="https://owasp.org/www-community/attacks/xss/" target="_blank" rel="noreferrer" class="hover:underline">XSS (Cross-Site Scripting)</a>
-						&amp; HTML escaping
+						<a href="https://owasp.org/www-community/attacks/xss/" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">XSS (Cross-Site Scripting)</a>
+						&amp;
+						<a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">HTML escaping</a>
 					</h3>
 					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						Every dynamic value rendered on the site is auto-escaped by
@@ -402,7 +403,7 @@
 
 				<div>
 					<h3 class="text-ink font-semibold">
-						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" target="_blank" rel="noreferrer" class="hover:underline">CORS (Cross-Origin Resource Sharing)</a>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">CORS (Cross-Origin Resource Sharing)</a>
 					</h3>
 					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						No CORS headers are configured anywhere on the site, which means the default, most
@@ -413,7 +414,7 @@
 
 				<div>
 					<h3 class="text-ink font-semibold">
-						<a href="https://owasp.org/www-community/attacks/SQL_Injection" target="_blank" rel="noreferrer" class="hover:underline">SQL injection</a>
+						<a href="https://owasp.org/www-community/attacks/SQL_Injection" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SQL injection</a>
 					</h3>
 					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						Every database query on the site goes through
