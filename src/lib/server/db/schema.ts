@@ -7,9 +7,21 @@ import {
 	timestamp,
 	date,
 	mysqlEnum,
-	uniqueIndex
+	uniqueIndex,
+	customType
 } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
+
+// Hostinger's Node.js hosting rebuilds the app from git on every deploy, so
+// anything saved to plain disk (e.g. process.cwd()/uploads) is wiped on the
+// very next push — there's no persistent volume outside the git-tracked
+// source. Storing uploaded file bytes here instead means they live in the
+// same database that already reliably survives every deploy.
+const longblob = customType<{ data: Buffer }>({
+	dataType() {
+		return 'longblob';
+	}
+});
 
 // --- Catalog ---
 
@@ -329,6 +341,16 @@ export const siteSettings = mysqlTable('site_settings', {
 // General-purpose image library — uploaded once here, then the URL is copied
 // into whichever product/promotion/poster/etc field needs it. Separate from
 // those entities' own per-record uploads, which stay as-is.
+// Backs every /uploads/<folder>/<filename> URL — the folder+filename *is*
+// the primary key, so saveUploadedImage's return value never has to change
+// regardless of where the bytes actually live.
+export const uploadedFiles = mysqlTable('uploaded_files', {
+	path: varchar('path', { length: 255 }).primaryKey(),
+	contentType: varchar('content_type', { length: 100 }).notNull(),
+	data: longblob('data').notNull(),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
 export const mediaLibraryItems = mysqlTable('media_library_items', {
 	id: int('id').autoincrement().primaryKey(),
 	url: varchar('url', { length: 500 }).notNull(),
