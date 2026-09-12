@@ -1,10 +1,13 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/fraunces';
 @import '@fontsource-variable/figtree';
+@import '@fontsource-variable/figtree/wght-italic.css';
 @import '@fontsource/bungee';
 
 @theme {
-	--font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+	/* Bold sans headings (was a serif, Fraunces) — same family as body copy,
+	   just much heavier, closer to the blocky uppercase headline treatment
+	   competitor bakery sites use for promo/hero copy. */
+	--font-display: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-brand: 'Bungee', ui-sans-serif, system-ui, sans-serif;
 
@@ -43,7 +46,7 @@
 	h3,
 	h4 {
 		font-family: var(--font-display);
-		font-weight: 600;
+		font-weight: 800;
 		letter-spacing: -0.01em;
 		line-height: 1.05;
 	}
