@@ -335,6 +335,12 @@ export const siteSettings = mysqlTable('site_settings', {
 	welcomeOfferDescription: varchar('welcome_offer_description', { length: 255 })
 		.notNull()
 		.default('a free coffee or iced latte every month, plus a free bake on your birthday'),
+	// The three overlapping photo cards in the homepage hero — null falls back
+	// to the built-in placeholder illustrations, so an empty settings row still
+	// renders a complete hero rather than a gap.
+	heroImage1Url: varchar('hero_image_1_url', { length: 500 }),
+	heroImage2Url: varchar('hero_image_2_url', { length: 500 }),
+	heroImage3Url: varchar('hero_image_3_url', { length: 500 }),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

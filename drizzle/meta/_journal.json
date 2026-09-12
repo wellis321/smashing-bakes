@@ -134,6 +134,13 @@
       "when": 1789237271809,
       "tag": "0018_clear_colonel_america",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1789238020097,
+      "tag": "0019_complete_medusa",
+      "breakpoints": true
     }
   ]
 }

@@ -228,6 +228,24 @@ export async function getWelcomeOffer(): Promise<{ code: string; description: st
 	return { code: row.welcomeOfferCode, description: row.welcomeOfferDescription };
 }
 
+const DEFAULT_HERO_IMAGES = [
+	'/images/placeholder/cheesecakes.svg',
+	'/images/placeholder/cupcakes.svg',
+	'/images/placeholder/cake-slices.svg'
+] as const;
+
+// Each of the three hero photo cards falls back independently to its own
+// placeholder illustration — an admin can swap in one real photo at a time
+// rather than needing all three ready before any of it can go live.
+export async function getHeroImages(): Promise<[string, string, string]> {
+	const row = await db.query.siteSettings.findFirst();
+	return [
+		row?.heroImage1Url ?? DEFAULT_HERO_IMAGES[0],
+		row?.heroImage2Url ?? DEFAULT_HERO_IMAGES[1],
+		row?.heroImage3Url ?? DEFAULT_HERO_IMAGES[2]
+	];
+}
+
 export async function getFeaturedPromotion() {
 	return db.query.promotions.findFirst({
 		where: and(eq(promotions.isPublished, true), eq(promotions.isFeaturedOnHomepage, true)),

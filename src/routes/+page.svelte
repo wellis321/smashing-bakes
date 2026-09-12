@@ -45,17 +45,17 @@
 
 		<div class="relative mx-auto aspect-square w-full max-w-md lg:max-w-none">
 			<img
-				src="/images/placeholder/cheesecakes.svg"
+				src={data.heroImages[0]}
 				alt=""
 				class="hero-card-1 shadow-soft absolute top-[6%] left-[8%] aspect-square w-[58%] rounded-[2rem] object-cover"
 			/>
 			<img
-				src="/images/placeholder/cupcakes.svg"
+				src={data.heroImages[1]}
 				alt=""
 				class="hero-card-2 shadow-soft absolute top-[2%] right-[4%] aspect-square w-[46%] rounded-[2rem] object-cover"
 			/>
 			<img
-				src="/images/placeholder/cake-slices.svg"
+				src={data.heroImages[2]}
 				alt=""
 				class="hero-card-3 shadow-soft absolute bottom-[4%] left-[18%] aspect-square w-[50%] rounded-[2rem] object-cover"
 			/>

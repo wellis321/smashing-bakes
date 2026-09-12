@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	let submitting = $state(false);
+	let heroSubmitting = $state(false);
 </script>
 
 <svelte:head>
@@ -23,6 +25,7 @@
 
 	<form
 		method="POST"
+		action="?/updateOffer"
 		class="mt-5 space-y-4"
 		use:enhance={() => {
 			submitting = true;
@@ -79,6 +82,68 @@
 			class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
+		</button>
+	</form>
+</div>
+
+<div class="border-ink/10 mt-6 max-w-lg rounded-2xl border bg-white/60 p-6">
+	<h2 class="text-ink text-lg font-semibold">Homepage hero images</h2>
+	<p class="text-ink-soft mt-1 text-sm">
+		The three overlapping photo cards next to the homepage headline. Leave any of them blank to use the
+		built-in placeholder illustration instead.
+	</p>
+
+	<form
+		method="POST"
+		action="?/updateHeroImages"
+		enctype="multipart/form-data"
+		class="mt-5 space-y-5"
+		use:enhance={() => {
+			heroSubmitting = true;
+			return async ({ update }) => {
+				await update();
+				heroSubmitting = false;
+			};
+		}}
+	>
+		<MediaPicker
+			items={data.mediaItems}
+			fileFieldName="heroImage1File"
+			urlFieldName="heroImage1Url"
+			label="Photo 1 — left"
+			hint="Square photo works best (it's cropped to a square card)."
+			currentUrl={data.settings?.heroImage1Url ?? null}
+		/>
+		<MediaPicker
+			items={data.mediaItems}
+			fileFieldName="heroImage2File"
+			urlFieldName="heroImage2Url"
+			label="Photo 2 — top right"
+			hint="Square photo works best (it's cropped to a square card)."
+			currentUrl={data.settings?.heroImage2Url ?? null}
+		/>
+		<MediaPicker
+			items={data.mediaItems}
+			fileFieldName="heroImage3File"
+			urlFieldName="heroImage3Url"
+			label="Photo 3 — bottom left"
+			hint="Square photo works best (it's cropped to a square card)."
+			currentUrl={data.settings?.heroImage3Url ?? null}
+		/>
+
+		{#if form?.heroMessage}
+			<p class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.heroMessage}</p>
+		{/if}
+		{#if form?.heroSuccess}
+			<p class="bg-blush text-ink rounded-lg px-3 py-2 text-sm">Saved.</p>
+		{/if}
+
+		<button
+			type="submit"
+			disabled={heroSubmitting}
+			class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+		>
+			{heroSubmitting ? 'Saving…' : 'Save changes'}
 		</button>
 	</form>
 </div>
