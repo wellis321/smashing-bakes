@@ -60,16 +60,6 @@
 		celebration: 'border-ink/30 text-ink'
 	};
 
-	// The accent motif shown in the empty right-hand side when there's no
-	// photo — same heart used elsewhere on the site (promo pages, newsletter),
-	// so a photo-less poster still feels like it belongs rather than reading
-	// as a flat, empty block.
-	const accentClasses: Record<Poster['style'], string> = {
-		announcement: 'text-pink/25',
-		general: 'text-cream/10',
-		'sold-out': 'text-cream/10',
-		celebration: 'text-gold-deep/25'
-	};
 
 	const perkList = $derived(
 		(poster.perks ?? '')
@@ -103,24 +93,26 @@
 			</div>
 
 			{#if !poster.imageUrl}
-				<svg
-					width="340"
-					height="340"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-					class={`pointer-events-none absolute -right-12 -bottom-16 hidden rotate-[8deg] sm:block ${accentClasses[poster.style]}`}
+				<span
+					class="pointer-events-none absolute -right-4 -bottom-10 hidden text-[9rem] rotate-[10deg] opacity-15 select-none sm:block"
 					aria-hidden="true"
 				>
-					<path d="M10 17.5s-6.5-4.2-6.5-9A4 4 0 0110 6.2 4 4 0 0116.5 8.5c0 4.8-6.5 9-6.5 9z" />
-				</svg>
+					🧁
+				</span>
+				<span
+					class="pointer-events-none absolute right-28 bottom-8 hidden text-6xl -rotate-12 opacity-15 select-none sm:block"
+					aria-hidden="true"
+				>
+					🎂
+				</span>
 			{/if}
 
 			<div class="max-w-md pr-16">
 				{#if poster.eyebrow}
-					<p class="text-xs font-semibold tracking-[0.2em] uppercase opacity-80">{poster.eyebrow}</p>
+					<p class="text-sm font-semibold tracking-[0.2em] uppercase opacity-80">{poster.eyebrow}</p>
 				{/if}
-				<h2 class="font-display mt-1.5 text-2xl sm:text-3xl">{poster.heading}</h2>
-				<p class={`mt-3 leading-relaxed ${softTextClasses[poster.style]}`}>{poster.message}</p>
+				<h2 class="font-display mt-1.5 text-3xl sm:text-4xl">{poster.heading}</h2>
+				<p class={`mt-3 text-lg leading-relaxed ${softTextClasses[poster.style]}`}>{poster.message}</p>
 
 				{#if perkList.length > 0}
 					<div class={`mt-5 border-t border-dashed pt-4 ${dividerClasses[poster.style]}`}>
@@ -154,7 +146,7 @@
 				{#if poster.ctaLabel && poster.ctaUrl}
 					<a
 						href={poster.ctaUrl}
-						class={`mt-6 inline-flex w-fit rounded-full border-2 px-6 py-2.5 text-sm font-bold tracking-wide uppercase transition-colors ${ctaClasses[poster.style]}`}
+						class={`mt-6 inline-flex w-fit rounded-full border-2 px-6 py-2.5 text-base font-bold tracking-wide uppercase transition-colors ${ctaClasses[poster.style]}`}
 					>
 						{poster.ctaLabel}
 					</a>
