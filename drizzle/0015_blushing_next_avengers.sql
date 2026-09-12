@@ -1,0 +1,2 @@
+ALTER TABLE `site_settings` MODIFY COLUMN `welcome_offer_code` varchar(50) NOT NULL DEFAULT 'TREAT CLUB';--> statement-breakpoint
+ALTER TABLE `site_settings` MODIFY COLUMN `welcome_offer_description` varchar(255) NOT NULL DEFAULT 'a free coffee or iced latte every month, plus a free bake on your birthday';

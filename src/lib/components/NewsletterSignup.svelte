@@ -17,6 +17,7 @@
 
 	let email = $state('');
 	let name = $state('');
+	let birthday = $state('');
 	let submitting = $state(false);
 	let result = $state<{ status: 'success'; alreadySubscribed: boolean } | { status: 'error'; message: string } | null>(
 		null
@@ -63,6 +64,7 @@
 					result = { status: 'success', alreadySubscribed: Boolean(actionResult.data.alreadySubscribed) };
 					email = '';
 					name = '';
+					birthday = '';
 					onSuccess?.();
 				} else if (actionResult.type === 'failure') {
 					result = {
@@ -115,8 +117,20 @@
 				placeholder="Name (optional)"
 				class="border-ink/15 focus:ring-pink/40 mt-2.5 w-full rounded-full border bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2"
 			/>
+
+			<label for={`${uid}-birthday`} class="text-ink-soft mt-3 block text-xs">
+				Birthday (optional) — for a free treat on the day!
+			</label>
+			<input
+				id={`${uid}-birthday`}
+				name="birthday"
+				type="date"
+				bind:value={birthday}
+				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-full border bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2"
+			/>
 		{:else}
 			<input type="hidden" name="name" value={name} />
+			<input type="hidden" name="birthday" value={birthday} />
 		{/if}
 
 		{#if result?.status === 'error'}

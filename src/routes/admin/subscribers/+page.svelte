@@ -8,6 +8,12 @@
 		return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 	}
 
+	// Day + month only — what matters for a birthday perk is the date it recurs
+	// on each year, not which year they were born.
+	function formatBirthday(iso: string) {
+		return new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+	}
+
 	function confirmDelete(event: SubmitEvent, email: string) {
 		if (!confirm(`Remove "${email}" from the list? This can't be undone.`)) {
 			event.preventDefault();
@@ -57,6 +63,11 @@
 			</div>
 			{#if subscriber.source}
 				<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs">{subscriber.source}</span>
+			{/if}
+			{#if subscriber.birthday}
+				<span class="bg-gold/20 text-gold-deep shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
+					🎂 {formatBirthday(subscriber.birthday)}
+				</span>
 			{/if}
 			<span class="text-ink-soft shrink-0 text-xs">{formatDate(subscriber.subscribedAt)}</span>
 			<form method="POST" action="?/toggleRedeemed" use:enhance>

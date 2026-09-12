@@ -33,16 +33,19 @@
 		}}
 	>
 		<div>
-			<label for="welcomeOfferCode" class="text-ink-soft text-sm font-medium">Code</label>
+			<label for="welcomeOfferCode" class="text-ink-soft text-sm font-medium">Short label</label>
 			<input
 				id="welcomeOfferCode"
 				name="welcomeOfferCode"
 				type="text"
 				required
 				maxlength="50"
-				value={form?.values?.welcomeOfferCode ?? data.settings?.welcomeOfferCode ?? 'WELCOME10'}
+				value={form?.values?.welcomeOfferCode ?? data.settings?.welcomeOfferCode ?? 'TREAT CLUB'}
 				class="border-ink/15 focus:ring-pink/40 mt-1.5 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
+			<p class="text-ink-soft/70 mt-1.5 text-xs">
+				A short name shown in a badge — doesn't need to be a redeemable code. "TREAT CLUB" or "WELCOME10" both work.
+			</p>
 		</div>
 		<div>
 			<label for="welcomeOfferDescription" class="text-ink-soft text-sm font-medium">What it means</label>
@@ -54,12 +57,12 @@
 				maxlength="255"
 				value={form?.values?.welcomeOfferDescription ??
 					data.settings?.welcomeOfferDescription ??
-					'10% off your next pickup order'}
+					'a free coffee or iced latte every month, plus a free bake on your birthday'}
 				class="border-ink/15 focus:ring-pink/40 mt-1.5 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 			/>
 			<p class="text-ink-soft/70 mt-1.5 text-xs">
-				Staff honor this manually at pickup — there's no automatic discount system yet, so keep it something
-				you're happy to give whoever shows up with the code.
+				Staff honor this manually in person — there's no automatic redemption system yet, so keep it something
+				you're happy to give whoever asks for it, however often it applies.
 			</p>
 		</div>
 

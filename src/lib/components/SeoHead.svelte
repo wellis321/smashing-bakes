@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { env } from '$env/dynamic/public';
 
 	let {
 		title,
@@ -17,13 +18,19 @@
 
 	const canonicalUrl = $derived(`${page.url.origin}${page.url.pathname}`);
 	const absoluteImage = $derived(/^https?:\/\//.test(image) ? image : `${page.url.origin}${image}`);
+
+	// Defaults to "not live" (blocked from indexing) unless explicitly told
+	// otherwise — safer than accidentally indexing a staging site because
+	// someone forgot to flip a flag. Set PUBLIC_SITE_LIVE=true when launching.
+	const siteIsLive = env.PUBLIC_SITE_LIVE === 'true';
+	const effectiveNoindex = $derived(noindex || !siteIsLive);
 </script>
 
 <svelte:head>
 	<title>{title}</title>
 	{#if description}<meta name="description" content={description} />{/if}
 	<link rel="canonical" href={canonicalUrl} />
-	{#if noindex}<meta name="robots" content="noindex" />{/if}
+	{#if effectiveNoindex}<meta name="robots" content="noindex, nofollow" />{/if}
 
 	<meta property="og:site_name" content="Smashin' Bakes" />
 	<meta property="og:type" content={type} />

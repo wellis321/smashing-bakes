@@ -256,6 +256,7 @@ export const newsletterSubscribers = mysqlTable(
 		id: int('id').autoincrement().primaryKey(),
 		email: varchar('email', { length: 255 }).notNull(),
 		name: varchar('name', { length: 150 }),
+		birthday: date('birthday', { mode: 'string' }),
 		source: varchar('source', { length: 100 }),
 		welcomeCodeRedeemedAt: timestamp('welcome_code_redeemed_at'),
 		// One-click unsubscribe from an email footer link needs to work without
@@ -318,10 +319,10 @@ export const newsletterHighlightsRelations = relations(newsletterHighlights, ({ 
 // per setting is simpler to work with than a KV store would be.
 export const siteSettings = mysqlTable('site_settings', {
 	id: int('id').autoincrement().primaryKey(),
-	welcomeOfferCode: varchar('welcome_offer_code', { length: 50 }).notNull().default('WELCOME10'),
+	welcomeOfferCode: varchar('welcome_offer_code', { length: 50 }).notNull().default('TREAT CLUB'),
 	welcomeOfferDescription: varchar('welcome_offer_description', { length: 255 })
 		.notNull()
-		.default('10% off your next pickup order'),
+		.default('a free coffee or iced latte every month, plus a free bake on your birthday'),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

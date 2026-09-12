@@ -1,0 +1,1 @@
+ALTER TABLE `newsletter_subscribers` ADD `birthday` date;

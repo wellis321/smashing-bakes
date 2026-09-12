@@ -214,7 +214,10 @@ export async function getPromotionBySlug(slug: string) {
 	return { ...row, steps };
 }
 
-const DEFAULT_WELCOME_OFFER = { code: 'WELCOME10', description: '10% off your next pickup order' };
+const DEFAULT_WELCOME_OFFER = {
+	code: 'TREAT CLUB',
+	description: 'a free coffee or iced latte every month, plus a free bake on your birthday'
+};
 
 // Falls back to a default rather than throwing if the settings row is
 // somehow missing — the newsletter signup CTA shouldn't break the whole

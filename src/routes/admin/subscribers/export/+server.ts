@@ -18,10 +18,11 @@ export const GET: RequestHandler = async ({ locals }) => {
 		orderBy: [desc(newsletterSubscribers.subscribedAt)]
 	});
 
-	const header = ['Email', 'Name', 'Source', 'Subscribed at', 'Welcome offer redeemed'];
+	const header = ['Email', 'Name', 'Birthday', 'Source', 'Subscribed at', 'Welcome offer redeemed'];
 	const rows = subscribers.map((s) => [
 		s.email,
 		s.name ?? '',
+		s.birthday ?? '',
 		s.source ?? '',
 		s.subscribedAt.toISOString(),
 		s.welcomeCodeRedeemedAt ? s.welcomeCodeRedeemedAt.toISOString() : ''
