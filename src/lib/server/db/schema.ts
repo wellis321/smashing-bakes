@@ -258,10 +258,60 @@ export const newsletterSubscribers = mysqlTable(
 		name: varchar('name', { length: 150 }),
 		source: varchar('source', { length: 100 }),
 		welcomeCodeRedeemedAt: timestamp('welcome_code_redeemed_at'),
+		// One-click unsubscribe from an email footer link needs to work without
+		// being logged in — a random token is the standard way to authorize that
+		// single action safely. Nullable so the column can be added to existing
+		// rows without a backfill migration; always set for new subscribers.
+		unsubscribeToken: varchar('unsubscribe_token', { length: 64 }),
 		subscribedAt: timestamp('subscribed_at').notNull().defaultNow()
 	},
-	(table) => [uniqueIndex('newsletter_subscribers_email_unique').on(table.email)]
+	(table) => [
+		uniqueIndex('newsletter_subscribers_email_unique').on(table.email),
+		uniqueIndex('newsletter_subscribers_unsubscribe_token_unique').on(table.unsubscribeToken)
+	]
 );
+
+// --- Newsletter campaigns (composed here, sent through an external email API) ---
+
+export const newsletters = mysqlTable('newsletters', {
+	id: int('id').autoincrement().primaryKey(),
+	subject: varchar('subject', { length: 200 }).notNull(),
+	preheader: varchar('preheader', { length: 200 }),
+	heroImageUrl: varchar('hero_image_url', { length: 500 }),
+	heading: varchar('heading', { length: 200 }).notNull(),
+	intro: text('intro'),
+	ctaLabel: varchar('cta_label', { length: 100 }),
+	ctaUrl: varchar('cta_url', { length: 500 }),
+	signOff: varchar('sign_off', { length: 200 }),
+	status: mysqlEnum('status', ['draft', 'scheduled', 'sent']).notNull().default('draft'),
+	scheduledFor: timestamp('scheduled_for'),
+	sentAt: timestamp('sent_at'),
+	recipientCount: int('recipient_count'),
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
+});
+
+// A handful of promotional "cards" inside the newsletter — this week's menu,
+// a current promotion, a bestseller — each with its own image/title/link.
+export const newsletterHighlights = mysqlTable('newsletter_highlights', {
+	id: int('id').autoincrement().primaryKey(),
+	newsletterId: int('newsletter_id')
+		.notNull()
+		.references(() => newsletters.id),
+	imageUrl: varchar('image_url', { length: 500 }),
+	title: varchar('title', { length: 150 }).notNull(),
+	description: varchar('description', { length: 300 }),
+	linkUrl: varchar('link_url', { length: 500 }),
+	sortOrder: int('sort_order').notNull().default(0)
+});
+
+export const newslettersRelations = relations(newsletters, ({ many }) => ({
+	highlights: many(newsletterHighlights)
+}));
+
+export const newsletterHighlightsRelations = relations(newsletterHighlights, ({ one }) => ({
+	newsletter: one(newsletters, { fields: [newsletterHighlights.newsletterId], references: [newsletters.id] })
+}));
 
 // Site-wide settings editable from admin. A single row (id 1) rather than a
 // generic key/value table — there's only one setting so far and a real column
@@ -312,10 +362,15 @@ export const customers = mysqlTable(
 		passwordHash: varchar('password_hash', { length: 255 }).notNull(),
 		name: varchar('name', { length: 150 }).notNull(),
 		marketingOptIn: boolean('marketing_opt_in').notNull().default(false),
+		// Same one-click-unsubscribe purpose as newsletterSubscribers.unsubscribeToken.
+		unsubscribeToken: varchar('unsubscribe_token', { length: 64 }),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 	},
-	(table) => [uniqueIndex('customers_email_unique').on(table.email)]
+	(table) => [
+		uniqueIndex('customers_email_unique').on(table.email),
+		uniqueIndex('customers_unsubscribe_token_unique').on(table.unsubscribeToken)
+	]
 );
 
 export const customerSessions = mysqlTable('customer_sessions', {

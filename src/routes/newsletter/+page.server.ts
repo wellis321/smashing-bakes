@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
+import { randomBytes } from 'node:crypto';
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
 import { newsletterSubscribers } from '$lib/server/db/schema';
@@ -37,7 +38,7 @@ export const actions: Actions = {
 			return { success: true, alreadySubscribed: true };
 		}
 
-		await db.insert(newsletterSubscribers).values({ email, name, source });
+		await db.insert(newsletterSubscribers).values({ email, name, source, unsubscribeToken: randomBytes(24).toString('hex') });
 
 		return { success: true, alreadySubscribed: false };
 	}

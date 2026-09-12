@@ -1,4 +1,5 @@
-import { and, asc, desc, eq, inArray } from 'drizzle-orm';
+import { randomBytes } from 'node:crypto';
+import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm';
 import { db } from './index';
 import {
 	categories,
@@ -14,13 +15,59 @@ import {
 	flavorPolls,
 	flavorPollOptions,
 	siteSettings,
-	mediaLibraryItems
+	mediaLibraryItems,
+	customers,
+	newsletterSubscribers
 } from './schema';
 
 // Used to populate the "choose from library" picker on every admin image
 // field (products, promotions, posters) — one query shared across all of them.
 export async function getMediaLibraryItems() {
 	return db.query.mediaLibraryItems.findMany({ orderBy: [desc(mediaLibraryItems.uploadedAt)] });
+}
+
+export type NewsletterRecipient = { email: string; name: string | null; unsubscribeToken: string };
+
+// Everyone a newsletter send should reach: newsletter-only subscribers, plus
+// customer accounts that opted into marketing — deduped by email (a customer
+// who's also on the newsletter list only gets one copy).
+export async function getNewsletterAudience(): Promise<NewsletterRecipient[]> {
+	// Backfill any missing unsubscribe tokens first (older rows created before
+	// the column existed) so every recipient has one before a send goes out.
+	const subscribersWithoutToken = await db.query.newsletterSubscribers.findMany({
+		where: isNull(newsletterSubscribers.unsubscribeToken)
+	});
+	for (const s of subscribersWithoutToken) {
+		await db
+			.update(newsletterSubscribers)
+			.set({ unsubscribeToken: randomBytes(24).toString('hex') })
+			.where(eq(newsletterSubscribers.id, s.id));
+	}
+	const customersWithoutToken = await db.query.customers.findMany({
+		where: and(eq(customers.marketingOptIn, true), isNull(customers.unsubscribeToken))
+	});
+	for (const c of customersWithoutToken) {
+		await db.update(customers).set({ unsubscribeToken: randomBytes(24).toString('hex') }).where(eq(customers.id, c.id));
+	}
+
+	const [subscribers, optedInCustomers] = await Promise.all([
+		db.query.newsletterSubscribers.findMany(),
+		db.query.customers.findMany({ where: eq(customers.marketingOptIn, true) })
+	]);
+
+	const byEmail = new Map<string, NewsletterRecipient>();
+	for (const c of optedInCustomers) {
+		if (c.unsubscribeToken) byEmail.set(c.email, { email: c.email, name: c.name, unsubscribeToken: c.unsubscribeToken });
+	}
+	// Subscriber rows go last so a plain newsletter signup doesn't overwrite a
+	// customer's real account name if the same email is on both lists.
+	for (const s of subscribers) {
+		if (!byEmail.has(s.email) && s.unsubscribeToken) {
+			byEmail.set(s.email, { email: s.email, name: s.name, unsubscribeToken: s.unsubscribeToken });
+		}
+	}
+
+	return [...byEmail.values()];
 }
 
 // MariaDB (used by our Hostinger hosting) doesn't support the LATERAL JOIN +

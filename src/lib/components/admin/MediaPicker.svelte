@@ -9,15 +9,17 @@
 		label,
 		hint,
 		showPreview = true,
+		allowUpload = true,
 		previewUrl = $bindable(null)
 	}: {
 		items: MediaItem[];
-		fileFieldName: string;
+		fileFieldName?: string;
 		urlFieldName: string;
 		currentUrl?: string | null;
 		label: string;
 		hint?: string;
 		showPreview?: boolean;
+		allowUpload?: boolean;
 		previewUrl?: string | null;
 	} = $props();
 
@@ -68,21 +70,23 @@
 <svelte:window onclick={closeOnOutsideClick} onkeydown={handleKeydown} />
 
 <div>
-	<label for={fileFieldName} class="text-ink-soft text-sm font-medium">{label}</label>
+	<label for={fileFieldName ?? urlFieldName} class="text-ink-soft text-sm font-medium">{label}</label>
 
 	{#if showPreview && previewUrl}
 		<img src={previewUrl} alt="" class="bg-cream-dim mt-2 h-24 w-24 rounded-lg object-cover" />
 	{/if}
 
 	<div class="mt-2 flex flex-wrap items-center gap-3">
-		<input
-			id={fileFieldName}
-			name={fileFieldName}
-			type="file"
-			accept="image/jpeg,image/png,image/webp"
-			onchange={handleFileChange}
-			class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
-		/>
+		{#if allowUpload}
+			<input
+				id={fileFieldName}
+				name={fileFieldName}
+				type="file"
+				accept="image/jpeg,image/png,image/webp"
+				onchange={handleFileChange}
+				class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+			/>
+		{/if}
 
 		<div class="relative" bind:this={wrapper}>
 			<button
@@ -131,7 +135,10 @@
 		{/if}
 	</div>
 
-	<input type="hidden" name={urlFieldName} value={selectedUrl ?? ''} />
+	<!-- Re-submits the existing url when nothing new is picked — matters for any
+	     caller (e.g. newsletter highlights) that fully replaces rows on save
+	     rather than only patching changed columns. -->
+	<input type="hidden" name={urlFieldName} value={selectedUrl ?? currentUrl ?? ''} />
 
 	{#if hint}
 		<p class="text-ink-soft/70 mt-1 text-xs">{hint}</p>

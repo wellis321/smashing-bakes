@@ -100,8 +100,21 @@
 		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
 			<li>Everyone who signs up sees the same welcome code on screen straight away — change what it says any time on the <a href="/admin/settings" class="hover:underline">Settings</a> page.</li>
 			<li>"Mark redeemed" tracks who's already used their welcome code at pickup, so it doesn't get used twice.</li>
-			<li>"Export CSV" downloads the full list (email, name, source, date, redeemed status) — ready to import into an email tool once you're set up to actually send campaigns.</li>
-			<li>There's no email-sending built in yet — this collects and organizes the list; sending from it is a separate piece of work.</li>
+			<li>"Export CSV" downloads the full list (email, name, source, date, redeemed status).</li>
+			<li>This list, plus any customer account with marketing opted in, is exactly who a Newsletter goes to — see below.</li>
+		</ul>
+	</section>
+
+	<section class="border-ink/10 rounded-2xl border bg-white/60 p-6">
+		<h2 class="text-ink text-lg font-semibold">Newsletters</h2>
+		<p class="text-ink-soft mt-1 text-sm">Compose and send a proper email newsletter to everyone on the list above.</p>
+		<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm">
+			<li>Build it from a subject line, a hero image, a heading/intro, a few "highlight" cards (this week's menu, a promotion, a bestseller), a button and a sign-off — the live preview on the right shows exactly what it'll look like in an inbox.</li>
+			<li>Always "Send test" to yourself first and check it in a real inbox before sending to everyone.</li>
+			<li>"Send now" goes out immediately; "Schedule" sets a target date but still needs either a click on "Send now" once it arrives, or a cron/uptime service pointed at <code class="text-xs">/admin/newsletters/dispatch-scheduled?secret=...</code> to fire automatically.</li>
+			<li>Sending anything needs an email service connected first (Resend, via <code class="text-xs">RESEND_API_KEY</code>/<code class="text-xs">RESEND_FROM_EMAIL</code>) — without it, everything here still works except the actual sending.</li>
+			<li>Every email includes a one-click unsubscribe link, as required by law for marketing email — clicking it removes a subscriber or turns off a customer's marketing opt-in.</li>
+			<li>A sent newsletter is kept as a permanent record and can't be edited or deleted.</li>
 		</ul>
 	</section>
 
