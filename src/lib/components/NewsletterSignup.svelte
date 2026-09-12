@@ -4,8 +4,14 @@
 	let {
 		source,
 		variant = 'hero',
-		offer
-	}: { source: string; variant?: 'compact' | 'hero'; offer: { code: string; description: string } } = $props();
+		offer,
+		onSuccess
+	}: {
+		source: string;
+		variant?: 'compact' | 'hero' | 'minimal';
+		offer: { code: string; description: string };
+		onSuccess?: () => void;
+	} = $props();
 
 	const uid = $derived(`newsletter-${source}`);
 
@@ -57,6 +63,7 @@
 					result = { status: 'success', alreadySubscribed: Boolean(actionResult.data.alreadySubscribed) };
 					email = '';
 					name = '';
+					onSuccess?.();
 				} else if (actionResult.type === 'failure') {
 					result = {
 						status: 'error',

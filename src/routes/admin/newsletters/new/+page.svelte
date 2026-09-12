@@ -42,6 +42,15 @@
 <a href="/admin/newsletters" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Newsletters</a>
 <h1 class="font-display mt-2 text-3xl text-ink">New newsletter</h1>
 
+<div class="border-pink/20 bg-blush/40 mt-6 max-w-2xl rounded-2xl border p-5">
+	<p class="text-ink text-sm font-semibold">What makes a bakery newsletter worth opening</p>
+	<ul class="text-ink-soft mt-2 list-disc space-y-1 pl-5 text-sm">
+		<li><strong class="text-ink">Be specific, not generic.</strong> "New flavour: Salted Caramel Brownies 🍫" gets opened; "This month's update" gets ignored.</li>
+		<li><strong class="text-ink">Show, don't summarise.</strong> One real thing happening (a new bake, a sourcing story, a behind-the-scenes moment) beats a roundup of everything.</li>
+		<li><strong class="text-ink">Ask something.</strong> A quick question ("Biscoff or Oreo next?") gets replies and comments — people like being asked.</li>
+	</ul>
+</div>
+
 <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-start">
 	<form
 		method="POST"
@@ -67,7 +76,7 @@
 					name="subject"
 					required
 					bind:value={subject}
-					placeholder="This month at Smashin' Bakes 🧁"
+					placeholder="New flavour alert: Salted Caramel Brownies 🍫"
 					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 				/>
 			</div>
@@ -78,7 +87,7 @@
 					id="preheader"
 					name="preheader"
 					bind:value={preheader}
-					placeholder="New flavours, a giveaway, and what's coming up this month"
+					placeholder="Three batches deep testing this one — worth every crumb"
 					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 				/>
 				<p class="text-ink-soft/70 mt-1 text-xs">Shown next to the subject line in most inboxes.</p>
@@ -99,7 +108,7 @@
 					name="heading"
 					required
 					bind:value={heading}
-					placeholder="New month, new bakes"
+					placeholder="Meet our newest bake"
 					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 				/>
 			</div>
@@ -111,7 +120,7 @@
 					name="intro"
 					rows="4"
 					bind:value={intro}
-					placeholder="A quick catch-up on what's been happening at the bakery this month..."
+					placeholder="We've been testing a new salted caramel brownie recipe all week (three batches deep — someone had to eat the rejects) and it's ready for its debut this weekend. Which one should we bring back next: Biscoff or Oreo?"
 					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
 				></textarea>
 			</div>
