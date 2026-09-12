@@ -74,12 +74,12 @@
 </svelte:head>
 
 <h1 class="font-display text-3xl text-ink">Help</h1>
-<p class="text-ink-soft mt-1 text-sm">
+<p class="text-ink-soft mt-1 text-base">
 	How to use every feature on the site, what's protecting it, and what's still on the list.
 </p>
 
 <div class="mt-6 lg:hidden">
-	<label for="help-jump" class="text-ink-soft text-sm font-medium">Jump to a section</label>
+	<label for="help-jump" class="text-ink-soft text-base font-medium">Jump to a section</label>
 	<select
 		id="help-jump"
 		value={activeId}
@@ -101,7 +101,7 @@
 
 <div class="mt-8 grid gap-8 lg:grid-cols-[220px_1fr]">
 	<aside class="hidden lg:block">
-		<nav class="sticky top-6 space-y-5">
+		<nav class="border-ink/10 sticky top-6 space-y-5 rounded-2xl border bg-white/60 p-4">
 			{#each groups as group, i (i)}
 				<div>
 					{#if group.label}
@@ -111,7 +111,7 @@
 						{#each group.items as item (item.id)}
 							<a
 								href={`#${item.id}`}
-								class={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
+								class={`block rounded-lg px-3 py-1.5 text-base transition-colors ${
 									activeId === item.id ? 'bg-pink/15 text-pink-deep font-semibold' : 'text-ink-soft hover:bg-blush hover:text-ink'
 								}`}
 							>
@@ -127,14 +127,14 @@
 	<div class="border-ink/10 min-w-0 divide-y divide-ink/10 rounded-2xl border bg-white/60">
 		<section id="getting-started" use:registerSection={'getting-started'} class="scroll-mt-6 p-6 sm:p-8">
 			<h2 class="font-display text-2xl text-ink">Getting started</h2>
-			<p class="text-ink-soft mt-3 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-3 text-base leading-relaxed">
 				The admin nav is grouped the same way this guide is: <strong>Shop</strong> is the products customers
 				browse and order; <strong>Marketing</strong> is everything that promotes the business (promotions,
 				polls, posters, newsletters); <strong>People</strong> is everyone who's got in touch or signed up.
 				<strong>Orders</strong> and <strong>Settings</strong> sit on their own at the top level since you'll
 				likely check them often.
 			</p>
-			<p class="text-ink-soft mt-3 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-3 text-base leading-relaxed">
 				Use the menu above (or the sidebar, on a wider screen) to jump straight to any section — this page covers what every feature does and how
 				to use it, plus a full technical rundown of the site's security under <a href="#security" class="text-pink-deep hover:underline">Security</a>.
 			</p>
@@ -145,8 +145,8 @@
 				<h2 class="font-display text-2xl text-ink">Products</h2>
 				<a href="/admin/products" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Products &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Everything customers can see and order in the shop.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Everything customers can see and order in the shop.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>"Add product" needs a name, category, price and photo at minimum — description and a badge ("New bake" or "On sale") are optional.</li>
 				<li>Turn a product's <strong>Active</strong> toggle off to hide it from the shop without deleting it — handy for anything seasonal.</li>
 				<li>Use the search box and the category/status filters at the top of the list to find something quickly once you've got a lot of products.</li>
@@ -160,8 +160,8 @@
 				<h2 class="font-display text-2xl text-ink">Categories</h2>
 				<a href="/admin/categories" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Categories &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Set these up before adding products for a brand-new type of bake — a product always needs a category to belong to.</li>
 				<li>Renaming a category updates it everywhere it's used; nothing needs to be re-linked.</li>
 			</ul>
@@ -172,8 +172,8 @@
 				<h2 class="font-display text-2xl text-ink">Weekly menus</h2>
 				<a href="/admin/menus" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Weekly menus &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">The specials board for a given week.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">The specials board for a given week.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Add a menu with a date, then build it up in sections (e.g. "Brownies", "Cookie Pie") with items underneath each one.</li>
 				<li>There's no separate "featured" switch — whichever menu has the soonest upcoming date automatically becomes the one shown on the homepage and at the top of <code class="text-xs">/menus</code>. Older ones stay visible further down.</li>
 			</ul>
@@ -184,11 +184,11 @@
 				<h2 class="font-display text-2xl text-ink">Orders</h2>
 				<a href="/admin/orders" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Orders &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">
+			<p class="text-ink-soft mt-1 text-base">
 				Quick-buy orders placed on the site — a customer picks an item (or a few), checks out with their
 				details and a pickup day, and it lands here.
 			</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>
 					There's no online payment connected yet — every order is placed as "reserve now, pay in
 					person at pickup," and the checkout page and confirmation email both say so plainly. Nothing
@@ -205,8 +205,8 @@
 				<h2 class="font-display text-2xl text-ink">Promotions</h2>
 				<a href="/admin/promotions" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Promotions &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Giveaways and competitions, like "Supporting Local Businesses".</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Giveaways and competitions, like "Supporting Local Businesses".</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Two styles: a plain step-by-step one (you write your own "Like / Comment / Share" style steps), or the "local business picker" style with the scrolling strip — set this on the edit page.</li>
 				<li>A promotion only shows on its page once <strong>Published</strong> is on, and only shows its banner on the homepage once <strong>Feature on homepage</strong> is also on.</li>
 				<li>If more than one promotion is marked "Feature on homepage" at the same time, the most recently created one wins — so switch the old one off before featuring a new one.</li>
@@ -218,8 +218,8 @@
 				<h2 class="font-display text-2xl text-ink">Local businesses</h2>
 				<a href="/admin/businesses" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Local businesses &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Powers the scrolling strip on the "Supporting Local Businesses" promotion.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Powers the scrolling strip on the "Supporting Local Businesses" promotion.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Bulk-add names one per line — add a category after a <code class="text-xs">|</code> if you like, e.g. <code class="text-xs">Cafe 136 | Cafe</code>.</li>
 				<li>Click into a business to add its description, address, phone and website — anything filled in shows in the info card when a customer taps it on the strip.</li>
 				<li>Toggle a business to <strong>Hidden</strong> to pull it from the strip without losing its details.</li>
@@ -233,8 +233,8 @@
 				<h2 class="font-display text-2xl text-ink">Polls</h2>
 				<a href="/admin/polls" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Polls &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">The flavour vote customers see at <code class="text-xs">/vote</code>.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">The flavour vote customers see at <code class="text-xs">/vote</code>.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Add your flavour options, then mark the poll <strong>Active</strong> — only one poll can run at a time, so activating a new one automatically switches off whichever was running before.</li>
 				<li>Results and the list of voters build up on the poll's edit page as votes come in, ready for picking a winner.</li>
 			</ul>
@@ -245,8 +245,8 @@
 				<h2 class="font-display text-2xl text-ink">Posters</h2>
 				<a href="/admin/posters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Posters &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">The swappable banner at the top of the homepage.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">The swappable banner at the top of the homepage.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Set a heading, message, image and style, then mark it <strong>Active</strong>. Only one poster shows at a time — activating one automatically switches off whichever was live before, so there's no cleanup needed.</li>
 				<li>An optional overline (small label above the heading) and a perks list (one per line, shown as a checklist) turn a plain announcement into more of a "join us" style pitch — both are entirely optional and hidden when left blank.</li>
 				<li>The image bleeds past the card's top and bottom edges on the right-hand side — a square-ish photo with the main subject centred works best.</li>
@@ -258,8 +258,8 @@
 				<h2 class="font-display text-2xl text-ink">Newsletters</h2>
 				<a href="/admin/newsletters" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Newsletters &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Compose and send a proper email newsletter to everyone on the subscriber &amp; opted-in customer list.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Compose and send a proper email newsletter to everyone on the subscriber &amp; opted-in customer list.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Build it from a subject line, a hero image, a heading/intro, a few "highlight" cards (this week's menu, a promotion, a bestseller), a button and a sign-off — the live preview on the right shows exactly what it'll look like in an inbox.</li>
 				<li>Always "Send test" to yourself first and check it in a real inbox before sending to everyone.</li>
 				<li>"Send now" goes out immediately; "Schedule" sets a target date but still needs either a click on "Send now" once it arrives, or a cron/uptime service pointed at the dispatch endpoint (with its secret key) to fire automatically.</li>
@@ -274,8 +274,8 @@
 				<h2 class="font-display text-2xl text-ink">Media library</h2>
 				<a href="/admin/media" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Media library &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">A general place to upload cake photos and other images, separate from the per-product/promotion/poster uploads.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">A general place to upload cake photos and other images, separate from the per-product/promotion/poster uploads.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Select several files at once — open a folder in the file picker and select-all to upload the whole thing in one go.</li>
 				<li>Each uploaded image gets a permanent URL — use <strong>Copy URL</strong> and paste it anywhere on the site that asks for one, or pick it straight from the library on any image field elsewhere in admin.</li>
 				<li>Every image — here and anywhere else in admin — is stored in the database itself, not as a file on the server. That matters in practice: it means an upload survives every future deploy rather than being at risk of quietly disappearing.</li>
@@ -287,8 +287,8 @@
 				<h2 class="font-display text-2xl text-ink">Enquiries</h2>
 				<a href="/admin/enquiries" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Enquiries &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Messages sent through the Contact page.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Messages sent through the Contact page.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>New enquiries are highlighted on the Dashboard as soon as they come in.</li>
 				<li>Mark each one <strong>Contacted</strong> or <strong>Archived</strong> as you work through it, so the "new" count on the Dashboard stays a true to-do list rather than a running total.</li>
 			</ul>
@@ -299,8 +299,8 @@
 				<h2 class="font-display text-2xl text-ink">Subscribers</h2>
 				<a href="/admin/subscribers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Subscribers &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Everyone who's signed up for specials and offers, via the footer, homepage or the <code class="text-xs">/newsletter</code> page.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Everyone who's signed up for specials and offers, via the footer, homepage or the <code class="text-xs">/newsletter</code> page.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Everyone who signs up sees the same welcome offer on screen straight away — change what it says any time on the <a href="#settings" class="text-pink-deep hover:underline">Settings</a> page.</li>
 				<li>Signing up can optionally include a birthday — shown as a 🎂 badge in the list, so staff can spot who's due their birthday treat.</li>
 				<li>"Mark redeemed" tracks who's already used their welcome offer at pickup, so it doesn't get used twice.</li>
@@ -314,8 +314,8 @@
 				<h2 class="font-display text-2xl text-ink">Customers</h2>
 				<a href="/admin/customers" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Customers &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Everyone with a full account — created when someone registers to vote, pick a local business, or check out.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Everyone with a full account — created when someone registers to vote, pick a local business, or check out.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Different from <strong>Subscribers</strong>: these are people who created a password-protected account, not just an email on the list.</li>
 				<li>The <strong>Marketing OK</strong> badge reflects the opt-in checkbox they ticked when they registered.</li>
 				<li>A customer can reset their own forgotten password from the login page — nothing for staff to do there unless they ask for help.</li>
@@ -328,8 +328,8 @@
 				<h2 class="font-display text-2xl text-ink">Staff accounts</h2>
 				<a href="/admin/staff" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Staff &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Who can log into this admin area — only visible to admins, under <strong>People &rarr; Staff</strong>.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Who can log into this admin area — only visible to admins, under <strong>People &rarr; Staff</strong>.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>Creating an account generates a password shown once on screen — there's no email sending set up for this, so you'll need to pass it on to the new person yourself.</li>
 				<li>They can change it afterwards from the account link in the top-right (their name), under <strong>My account</strong>.</li>
 				<li><strong>Admin</strong> vs <strong>Staff</strong> role only currently controls who can manage staff accounts — both roles can otherwise do everything else in here.</li>
@@ -344,8 +344,8 @@
 				<h2 class="font-display text-2xl text-ink">Settings</h2>
 				<a href="/admin/settings" target="_blank" rel="noreferrer" class="text-pink-deep shrink-0 text-sm font-semibold hover:underline">Open Settings &#8599;</a>
 			</div>
-			<p class="text-ink-soft mt-1 text-sm">Site-wide settings that show up on the public site.</p>
-			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base">Site-wide settings that show up on the public site.</p>
+			<ul class="text-ink-soft mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 				<li>The newsletter welcome offer shown on signup — a short label plus what it actually means — is entirely free text, so it can say whatever offer you're actually running (e.g. "TREAT CLUB — a free coffee every month, plus a free bake on your birthday"). Staff currently honour it manually in person; there's no automatic redemption system.</li>
 				<li>The three overlapping photo cards next to the homepage headline can each be replaced with a real photo — upload or choose from the library, one slot at a time. Leave any blank and it falls back to the built-in illustration.</li>
 			</ul>
@@ -353,7 +353,7 @@
 
 		<section id="security" use:registerSection={'security'} class="scroll-mt-6 p-6 sm:p-8">
 			<h2 class="font-display text-2xl text-ink">Security</h2>
-			<p class="text-ink-soft mt-1 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base leading-relaxed">
 				A technical rundown of what's actually protecting this site and the people who use it — every
 				item below is a real, verifiable mechanism in the code, not a policy statement.
 			</p>
@@ -361,7 +361,7 @@
 			<div class="mt-5 space-y-5">
 				<div>
 					<h3 class="text-ink font-semibold">Passwords &amp; sessions</h3>
-					<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+					<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 						<li><strong>Password hashing (<a href="https://en.wikipedia.org/wiki/Scrypt" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">scrypt</a>).</strong> Every password — staff and customer — is run through scrypt with a unique per-user random salt before storage, and compared using a timing-safe check on login. The raw password is never stored, and the process can't be reversed even with full database access.</li>
 						<li><strong>Session tokens, not passwords, drive "logged in."</strong> A random session token is set as an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">httpOnly</a> (unreadable by JavaScript), <code class="text-xs">secure</code> (HTTPS-only) cookie with a strict <code class="text-xs">sameSite</code> policy. The database only ever stores a <a href="https://en.wikipedia.org/wiki/SHA-2" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SHA-256</a> hash of that token — the same principle as password storage — so a database leak alone can't be used to forge a session.</li>
 						<li><strong>Staff lockout.</strong> 5 wrong password attempts locks a staff account for 15 minutes, stopping unlimited automated guessing. Customer accounts don't have this yet — see What's next.</li>
@@ -374,7 +374,7 @@
 					<h3 class="text-ink font-semibold">
 						<a href="https://owasp.org/www-community/attacks/csrf" target="_blank" rel="noreferrer" class="hover:underline">CSRF (Cross-Site Request Forgery)</a>
 					</h3>
-					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
+					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						<a href="https://svelte.dev/docs/kit" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">SvelteKit</a>
 						checks the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Origin" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Origin header</a>
 						on every form submission by default and rejects anything that didn't originate from this
@@ -388,7 +388,7 @@
 						<a href="https://owasp.org/www-community/attacks/xss/" target="_blank" rel="noreferrer" class="hover:underline">XSS (Cross-Site Scripting)</a>
 						&amp; HTML escaping
 					</h3>
-					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
+					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						Every dynamic value rendered on the site is auto-escaped by
 						<a href="https://svelte.dev" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Svelte</a>
 						by default — a product description or a customer's name can never be interpreted as HTML
@@ -404,7 +404,7 @@
 					<h3 class="text-ink font-semibold">
 						<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS" target="_blank" rel="noreferrer" class="hover:underline">CORS (Cross-Origin Resource Sharing)</a>
 					</h3>
-					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
+					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						No CORS headers are configured anywhere on the site, which means the default, most
 						restrictive browser behaviour applies: no other website can make an authenticated request
 						to this site on a visitor's behalf. There's no API exposed for another origin to call.
@@ -415,7 +415,7 @@
 					<h3 class="text-ink font-semibold">
 						<a href="https://owasp.org/www-community/attacks/SQL_Injection" target="_blank" rel="noreferrer" class="hover:underline">SQL injection</a>
 					</h3>
-					<p class="text-ink-soft mt-2 text-sm leading-relaxed">
+					<p class="text-ink-soft mt-2 text-base leading-relaxed">
 						Every database query on the site goes through
 						<a href="https://orm.drizzle.team" target="_blank" rel="noreferrer" class="text-pink-deep hover:underline">Drizzle ORM</a>'s
 						parameterised query builder — submitted data is always passed as a bound value, never
@@ -427,7 +427,7 @@
 
 				<div>
 					<h3 class="text-ink font-semibold">Other things worth knowing about</h3>
-					<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+					<ul class="text-ink-soft mt-2 list-disc space-y-1.5 pl-5 text-base leading-relaxed">
 						<li><strong>Open-redirect protection.</strong> Anywhere the site redirects somewhere after an action (e.g. back to the page you were on before logging in), it only ever accepts a same-site relative path — never an arbitrary external URL — so a link can't be crafted to bounce someone off this site to a lookalike phishing page after a real login.</li>
 						<li><strong>Spam honeypots.</strong> The contact form and newsletter signup both have a hidden field invisible to a real visitor but that automated bots tend to fill in anyway — any submission that fills it in is quietly dropped.</li>
 						<li><strong>Unsubscribe links require a confirm step.</strong> Rather than unsubscribing on a bare click of a link, it requires submitting a form on the page that link opens. This defeats the common problem of email security scanners automatically "clicking" every link in an email (including unsubscribe links) the moment it arrives, which would otherwise unsubscribe people who never actually asked to be.</li>
@@ -440,7 +440,7 @@
 			</div>
 
 			<div class="border-ink/10 mt-6 rounded-xl border border-dashed p-5">
-				<p class="text-ink-soft text-sm leading-relaxed">
+				<p class="text-ink-soft text-base leading-relaxed">
 					Nothing here is a substitute for the basics on your end: use a proper password for your admin
 					account and don't share logins between staff. See <a href="#whats-next" class="text-pink-deep hover:underline">What's next</a>
 					for the handful of things that could still be tightened up.
@@ -450,7 +450,7 @@
 
 		<section id="whats-next" use:registerSection={'whats-next'} class="scroll-mt-6 p-6 sm:p-8">
 			<h2 class="font-display text-2xl text-ink">What's next</h2>
-			<p class="text-ink-soft mt-1 text-sm leading-relaxed">
+			<p class="text-ink-soft mt-1 text-base leading-relaxed">
 				A punch-list for a future tidy-up pass, not a list of live problems — nothing here is critical
 				or urgent.
 			</p>
@@ -461,19 +461,19 @@
 					<div class="border-ink/10 mt-3 divide-y divide-ink/10 rounded-2xl border">
 						<div class="p-4">
 							<div class="flex items-start justify-between gap-3">
-								<p class="text-ink text-sm font-medium">Customer logins don't lock out after repeated wrong guesses</p>
+								<p class="text-ink text-base font-medium">Customer logins don't lock out after repeated wrong guesses</p>
 								<span class="bg-pink/10 text-pink-deep shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">Recommended next</span>
 							</div>
-							<p class="text-ink-soft mt-1.5 text-sm leading-relaxed">
+							<p class="text-ink-soft mt-1.5 text-base leading-relaxed">
 								Staff logins already lock for 15 minutes after 5 wrong attempts; customer logins don't have the same protection yet.
 							</p>
 						</div>
 						<div class="p-4">
 							<div class="flex items-start justify-between gap-3">
-								<p class="text-ink-soft text-sm font-medium">Uploaded photos are trusted to be what they claim to be</p>
+								<p class="text-ink-soft text-base font-medium">Uploaded photos are trusted to be what they claim to be</p>
 								<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">Low priority</span>
 							</div>
-							<p class="text-ink-soft mt-1.5 text-sm leading-relaxed">
+							<p class="text-ink-soft mt-1.5 text-base leading-relaxed">
 								Only JPG/PNG/WEBP are accepted and files are renamed on upload, so real-world risk is low — but the file's actual content isn't double-checked against what it claims to be.
 							</p>
 						</div>
@@ -485,10 +485,10 @@
 					<div class="border-ink/10 mt-3 divide-y divide-ink/10 rounded-2xl border">
 						<div class="p-4">
 							<div class="flex items-start justify-between gap-3">
-								<p class="text-ink text-sm font-medium">No online payment yet</p>
+								<p class="text-ink text-base font-medium">No online payment yet</p>
 								<span class="bg-pink/10 text-pink-deep shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">Recommended next</span>
 							</div>
-							<p class="text-ink-soft mt-1.5 text-sm leading-relaxed">
+							<p class="text-ink-soft mt-1.5 text-base leading-relaxed">
 								Quick-buy orders are placed and paid for in person at pickup — connecting a real
 								payment provider (e.g. Stripe) would let customers actually pay online, which is
 								a fairly contained change on top of what's already built.
@@ -496,10 +496,10 @@
 						</div>
 						<div class="p-4">
 							<div class="flex items-start justify-between gap-3">
-								<p class="text-ink-soft text-sm font-medium">The domain isn't pointed here yet</p>
+								<p class="text-ink-soft text-base font-medium">The domain isn't pointed here yet</p>
 								<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">Waiting on you</span>
 							</div>
-							<p class="text-ink-soft mt-1.5 text-sm leading-relaxed">
+							<p class="text-ink-soft mt-1.5 text-base leading-relaxed">
 								The site is still on its Hostinger subdomain — once the real domain's DNS is
 								pointed here and you're ready to actually launch, flip <code class="text-xs">PUBLIC_SITE_LIVE</code>
 								on so search engines can index it.
