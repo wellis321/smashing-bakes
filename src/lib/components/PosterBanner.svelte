@@ -84,17 +84,17 @@
 		class={`relative flex flex-col overflow-visible rounded-[2rem] sm:min-h-[380px] sm:flex-row ${textClasses[poster.style]}`}
 		style:background-color={bgVar[poster.style]}
 	>
-		{#if poster.style === 'sold-out'}
-			<div
-				class="bg-pink text-cream absolute -left-24 top-8 z-20 w-72 -rotate-45 py-2.5 text-center text-sm font-bold tracking-[0.2em] uppercase shadow-lg sm:text-base"
-			>
-				Sold out
-			</div>
-		{/if}
-
 		<div
-			class={`relative z-10 flex flex-1 flex-col justify-center overflow-hidden rounded-[2rem] px-8 py-10 sm:px-10 sm:py-12 ${poster.style === 'sold-out' ? 'pt-28 sm:pt-24' : ''} ${poster.imageUrl ? 'sm:rounded-r-none' : ''}`}
+			class={`relative z-10 flex flex-1 flex-col justify-center overflow-hidden rounded-[2rem] px-8 py-10 sm:px-10 sm:py-12 ${poster.style === 'sold-out' ? 'pt-16 sm:pt-12' : ''} ${poster.imageUrl ? 'sm:rounded-r-none' : ''}`}
 		>
+			{#if poster.style === 'sold-out'}
+				<div
+					class="bg-pink text-cream absolute -left-14 top-6 z-20 w-52 -rotate-45 py-1.5 text-center text-xs font-bold tracking-[0.2em] uppercase shadow-lg"
+				>
+					Sold out
+				</div>
+			{/if}
+
 			<div
 				class={`pointer-events-none absolute right-6 top-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 text-center text-[10px] font-bold tracking-[0.15em] uppercase ${badgeClasses[poster.style]}`}
 				aria-hidden="true"
