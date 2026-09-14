@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffSessions, staffUsers } from '$lib/server/db/schema';
 import { generateTempPassword, hashPassword } from '$lib/server/auth/password';
+import { isProtectedFromOthers } from '$lib/server/auth/staff-auth';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -13,7 +14,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const id = Number(params.id);
 	const member = await db.query.staffUsers.findFirst({
 		where: eq(staffUsers.id, id),
-		columns: { id: true, name: true, email: true, role: true, isActive: true }
+		columns: { id: true, name: true, email: true, role: true, isActive: true, isProtected: true }
 	});
 	if (!member) throw error(404, 'Staff account not found');
 
@@ -52,6 +53,9 @@ export const actions: Actions = {
 		if (isSelf) {
 			await db.update(staffUsers).set({ name, email }).where(eq(staffUsers.id, id));
 		} else {
+			if (await isProtectedFromOthers(id, locals.staff.id)) {
+				return fail(403, { message: 'This account can only be changed by its own owner.' });
+			}
 			const role = formData.get('role') === 'admin' ? 'admin' : 'staff';
 			const isActive = formData.get('isActive') === 'true';
 			await db.update(staffUsers).set({ name, email, role, isActive }).where(eq(staffUsers.id, id));
@@ -66,6 +70,9 @@ export const actions: Actions = {
 		const id = Number(params.id);
 		if (id === locals.staff.id) {
 			return fail(400, { message: 'Change your own password from My account instead.' });
+		}
+		if (await isProtectedFromOthers(id, locals.staff.id)) {
+			return fail(403, { message: 'This account can only be changed by its own owner.' });
 		}
 
 		const tempPassword = generateTempPassword();
@@ -90,6 +97,9 @@ export const actions: Actions = {
 		const id = Number(params.id);
 		if (id === locals.staff.id) {
 			return fail(400, { message: "You can't delete your own account." });
+		}
+		if (await isProtectedFromOthers(id, locals.staff.id)) {
+			return fail(403, { message: 'This account can only be changed by its own owner.' });
 		}
 
 		// staff_sessions references staff_users with no cascade delete.

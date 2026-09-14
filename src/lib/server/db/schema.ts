@@ -556,6 +556,12 @@ export const staffUsers = mysqlTable(
 		name: varchar('name', { length: 150 }).notNull(),
 		role: mysqlEnum('role', ['admin', 'staff']).notNull().default('staff'),
 		isActive: boolean('is_active').notNull().default(true),
+		// Locks this account against every staff-management action taken by
+		// anyone else — including other admins. There's deliberately no form
+		// field anywhere that sets this; it's only ever flipped by hand
+		// directly in the database, so no admin (including a compromised one)
+		// can grant it to themselves or strip it from the protected account.
+		isProtected: boolean('is_protected').notNull().default(false),
 		failedLoginAttempts: int('failed_login_attempts').notNull().default(0),
 		lockedUntil: timestamp('locked_until'),
 		createdAt: timestamp('created_at').notNull().defaultNow(),

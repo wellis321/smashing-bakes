@@ -91,3 +91,17 @@ export async function invalidateStaffSession(event: RequestEvent) {
 	}
 	event.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
 }
+
+// A `staff_users.is_protected` account can only be changed by logging in as
+// that account and using the self-service flows (My account for password,
+// or the "isSelf" path on the edit form for name/email) — every admin-acting-
+// on-someone-else action (reset password, change role, deactivate, delete)
+// must call this first and refuse if it's true, no matter who's asking.
+export async function isProtectedFromOthers(targetId: number, actingStaffId: number): Promise<boolean> {
+	if (targetId === actingStaffId) return false;
+	const target = await db.query.staffUsers.findFirst({
+		where: eq(staffUsers.id, targetId),
+		columns: { isProtected: true }
+	});
+	return target?.isProtected ?? false;
+}

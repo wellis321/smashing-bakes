@@ -181,6 +181,16 @@
 						<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
 							{member.role}
 						</span>
+					{:else if member.isProtected}
+						<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
+							{member.role}
+						</span>
+						<span
+							class="text-ink-soft shrink-0 text-xs italic"
+							title="Only this account's own owner can change it"
+						>
+							Protected
+						</span>
 					{:else}
 						<form method="POST" action="?/changeRole" use:enhance>
 							<input type="hidden" name="id" value={member.id} />

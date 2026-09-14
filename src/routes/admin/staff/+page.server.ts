@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffSessions, staffUsers } from '$lib/server/db/schema';
 import { generateTempPassword, hashPassword } from '$lib/server/auth/password';
+import { isProtectedFromOthers } from '$lib/server/auth/staff-auth';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,7 +16,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	// load silently shadow the parent's in the merged `data`/`page.data`.
 	const staffList = await db.query.staffUsers.findMany({
 		orderBy: [desc(staffUsers.createdAt)],
-		columns: { id: true, name: true, email: true, role: true, isActive: true, createdAt: true }
+		columns: { id: true, name: true, email: true, role: true, isActive: true, isProtected: true, createdAt: true }
 	});
 
 	return { staffList };
@@ -64,6 +65,9 @@ export const actions: Actions = {
 		const nextValue = formData.get('nextValue') === 'true';
 		if (!id) return fail(400, { message: 'Missing staff id.' });
 		if (id === locals.staff.id) return fail(400, { message: "You can't deactivate your own account." });
+		if (await isProtectedFromOthers(id, locals.staff.id)) {
+			return fail(403, { message: 'This account can only be changed by its own owner.' });
+		}
 
 		await db.update(staffUsers).set({ isActive: nextValue }).where(eq(staffUsers.id, id));
 		return { success: true };
@@ -77,6 +81,9 @@ export const actions: Actions = {
 		const nextRole = formData.get('nextRole') === 'admin' ? 'admin' : 'staff';
 		if (!id) return fail(400, { message: 'Missing staff id.' });
 		if (id === locals.staff.id) return fail(400, { message: "You can't change your own role." });
+		if (await isProtectedFromOthers(id, locals.staff.id)) {
+			return fail(403, { message: 'This account can only be changed by its own owner.' });
+		}
 
 		await db.update(staffUsers).set({ role: nextRole }).where(eq(staffUsers.id, id));
 		return { success: true };
@@ -89,6 +96,9 @@ export const actions: Actions = {
 		const id = Number(formData.get('id'));
 		if (!id) return fail(400, { message: 'Missing staff id.' });
 		if (id === locals.staff.id) return fail(400, { message: "You can't delete your own account." });
+		if (await isProtectedFromOthers(id, locals.staff.id)) {
+			return fail(403, { message: 'This account can only be changed by its own owner.' });
+		}
 
 		// staff_sessions references staff_users with no cascade delete.
 		await db.delete(staffSessions).where(eq(staffSessions.staffUserId, id));

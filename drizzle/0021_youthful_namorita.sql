@@ -1,0 +1,1 @@
+ALTER TABLE `staff_users` ADD `is_protected` boolean DEFAULT false NOT NULL;

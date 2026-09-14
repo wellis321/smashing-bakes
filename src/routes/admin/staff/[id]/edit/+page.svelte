@@ -9,6 +9,11 @@
 	let resetting = $state(false);
 	let copied = $state(false);
 
+	// Locked for everyone except the account's own owner — matches the
+	// server-side checks in +page.server.ts, which refuse these actions
+	// regardless of what the (disabled) form fields say.
+	const lockedForOthers = $derived(data.member.isProtected && !data.isSelf);
+
 	const resetPassword = $derived(form && 'tempPassword' in form ? (form.tempPassword as string | undefined) : undefined);
 
 	function confirmDelete(event: SubmitEvent) {
@@ -78,8 +83,9 @@
 				id="name"
 				name="name"
 				required
+				disabled={lockedForOthers}
 				value={data.member.name}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 disabled:opacity-50"
 			/>
 		</div>
 
@@ -90,8 +96,9 @@
 				name="email"
 				type="email"
 				required
+				disabled={lockedForOthers}
 				value={data.member.email}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 disabled:opacity-50"
 			/>
 		</div>
 
@@ -100,7 +107,7 @@
 			<select
 				id="role"
 				name="role"
-				disabled={data.isSelf}
+				disabled={data.isSelf || lockedForOthers}
 				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 disabled:opacity-50"
 			>
 				<option value="staff" selected={data.member.role === 'staff'}>Staff</option>
@@ -115,7 +122,7 @@
 					name="isActive"
 					value="true"
 					checked={data.member.isActive}
-					disabled={data.isSelf}
+					disabled={data.isSelf || lockedForOthers}
 					class="accent-pink h-4 w-4 disabled:opacity-50"
 				/>
 				Active (can log in)
@@ -126,13 +133,18 @@
 			<p class="text-ink-soft/70 -mt-2 text-xs sm:col-span-2">
 				You can't change your own role or active status here.
 			</p>
+		{:else if lockedForOthers}
+			<p class="text-ink-soft/70 -mt-2 text-xs sm:col-span-2">
+				This account is protected — only {data.member.name.split(' ')[0]} can change it, by logging in
+				as themselves.
+			</p>
 		{/if}
 	</div>
 
 	<div class="mt-6 flex gap-3">
 		<button
 			type="submit"
-			disabled={submitting}
+			disabled={submitting || lockedForOthers}
 			onclick={() => (closeAfterSave = false)}
 			class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
 		>
@@ -140,7 +152,7 @@
 		</button>
 		<button
 			type="submit"
-			disabled={submitting}
+			disabled={submitting || lockedForOthers}
 			onclick={() => (closeAfterSave = true)}
 			class="text-ink rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30 disabled:opacity-60"
 		>
@@ -149,7 +161,7 @@
 	</div>
 </form>
 
-{#if !data.isSelf}
+{#if !data.isSelf && !lockedForOthers}
 	<div class="border-ink/10 mt-4 max-w-xl rounded-2xl border bg-white/60 p-6">
 		<h2 class="text-ink text-lg font-semibold">Reset password</h2>
 		<p class="text-ink-soft mt-1 text-sm">
