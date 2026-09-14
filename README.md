@@ -40,3 +40,27 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Deploying schema changes
+
+This app is deployed on Hostinger's git-triggered Node.js hosting, which only
+runs `npm run build` on push — **it never runs drizzle migrations**. Any
+commit that adds a file under `drizzle/` needs its SQL applied to the
+production database by hand, or the live site will start throwing 500s on
+whatever route touches the new/changed table (with `ER_NO_SUCH_TABLE` /
+`ER_BAD_FIELD_ERROR` logged to the Node.js runtime logs — see
+`hooks.server.ts`'s `handleError`, which flags this specific failure shape).
+
+Steps:
+
+1. `git push` as normal and let the build finish.
+2. Open the production database in phpMyAdmin (hPanel → Databases → the
+   `u248320297_smashing_bakes` database → "Enter phpMyAdmin", or via the
+   Hostinger MCP's `hosting_getPhpMyAdminLinkV1`).
+3. Copy the new file(s) from `drizzle/000N_*.sql`, **remove every
+   `--> statement-breakpoint` line** (that's a drizzle-kit-only delimiter,
+   not valid SQL — phpMyAdmin's SQL tab will reject it), and run the
+   remaining statements in the SQL tab, in file order.
+4. If a `CREATE TABLE`/`ALTER TABLE` errors with "already exists", that
+   statement already ran in a previous partial attempt — skip it and
+   continue with the rest.
