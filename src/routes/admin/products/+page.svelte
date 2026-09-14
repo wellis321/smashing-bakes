@@ -8,13 +8,25 @@
 	let search = $state('');
 	let categoryId = $state<number | 'all'>('all');
 	let status = $state<'all' | 'active' | 'hidden'>('all');
+	let badgeFilter = $state<'all' | 'sale' | 'new' | 'none'>('all');
 	let sortBy = $state<'category' | 'name' | 'price-asc' | 'price-desc' | 'newest'>('category');
+
+	// A product only actually counts as "on sale" once both the badge is set
+	// to sale *and* a sale price exists — matches how the public product page
+	// decides whether to show a struck-through price, so this list and the
+	// storefront never disagree about what's genuinely on sale.
+	function isOnSale(product: (typeof data.products)[number]) {
+		return product.badge === 'sale' && product.salePricePence != null;
+	}
 
 	const filteredProducts = $derived(
 		data.products.filter((product) => {
 			if (categoryId !== 'all' && product.categoryId !== categoryId) return false;
 			if (status === 'active' && !product.isActive) return false;
 			if (status === 'hidden' && product.isActive) return false;
+			if (badgeFilter === 'sale' && !isOnSale(product)) return false;
+			if (badgeFilter === 'new' && product.badge !== 'new') return false;
+			if (badgeFilter === 'none' && product.badge !== 'none') return false;
 			const query = search.trim().toLowerCase();
 			if (query) {
 				const haystack = `${product.name} ${product.description ?? ''}`.toLowerCase();
@@ -43,15 +55,22 @@
 			}));
 	});
 
+	// The price actually being charged today — the sale price when a product
+	// is genuinely on sale, otherwise the regular price. Sorting "by price"
+	// should reflect what a customer pays, not the pre-discount figure.
+	function effectivePrice(product: (typeof data.products)[number]) {
+		return isOnSale(product) ? product.salePricePence! : product.basePricePence;
+	}
+
 	const sortedFlat = $derived.by(() => {
 		const list = [...filteredProducts];
 		switch (sortBy) {
 			case 'name':
 				return list.sort((a, b) => a.name.localeCompare(b.name));
 			case 'price-asc':
-				return list.sort((a, b) => a.basePricePence - b.basePricePence);
+				return list.sort((a, b) => effectivePrice(a) - effectivePrice(b));
 			case 'price-desc':
-				return list.sort((a, b) => b.basePricePence - a.basePricePence);
+				return list.sort((a, b) => effectivePrice(b) - effectivePrice(a));
 			case 'newest':
 				return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 			default:
@@ -59,12 +78,13 @@
 		}
 	});
 
-	const hasFilters = $derived(search.trim() !== '' || categoryId !== 'all' || status !== 'all');
+	const hasFilters = $derived(search.trim() !== '' || categoryId !== 'all' || status !== 'all' || badgeFilter !== 'all');
 
 	function clearFilters() {
 		search = '';
 		categoryId = 'all';
 		status = 'all';
+		badgeFilter = 'all';
 	}
 
 	function confirmDelete(event: SubmitEvent, name: string) {
@@ -80,11 +100,25 @@
 
 		<a href={`/admin/products/${product.id}/edit`} class="min-w-0 flex-1">
 			<p class="text-ink truncate text-sm font-medium">{product.name}</p>
-			<p class="text-ink-soft text-xs">{product.category.name} &middot; {formatPence(product.basePricePence)}</p>
+			<p class="text-ink-soft text-xs">
+				{product.category.name} &middot;
+				{#if isOnSale(product)}
+					<span class="text-pink-deep font-semibold">{formatPence(product.salePricePence!)}</span>
+					<span class="line-through opacity-60">{formatPence(product.basePricePence)}</span>
+				{:else}
+					{formatPence(product.basePricePence)}
+				{/if}
+			</p>
 		</a>
 
 		{#if product.badge !== 'none'}
-			<span class="text-ink-soft hidden text-xs uppercase sm:inline">{product.badge}</span>
+			<span
+				class={`hidden shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold uppercase sm:inline ${
+					product.badge === 'sale' ? 'bg-pink/10 text-pink-deep' : 'bg-gold/15 text-gold-deep'
+				}`}
+			>
+				{product.badge === 'sale' ? 'Sale' : 'New'}
+			</span>
 		{/if}
 
 		<form method="POST" action="?/toggleActive" use:enhance>
@@ -167,6 +201,16 @@
 		<option value="all">All statuses</option>
 		<option value="active">Active only</option>
 		<option value="hidden">Hidden only</option>
+	</select>
+
+	<select
+		bind:value={badgeFilter}
+		class="border-ink/15 focus:ring-pink/40 rounded-full border bg-white px-3 py-2 text-sm outline-none focus:ring-2"
+	>
+		<option value="all">Any badge</option>
+		<option value="sale">On sale only</option>
+		<option value="new">New bakes only</option>
+		<option value="none">No badge</option>
 	</select>
 
 	<label class="flex items-center gap-2 text-sm">
