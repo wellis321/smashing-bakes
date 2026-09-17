@@ -11,16 +11,16 @@
 	<title>Staff login — Smashin&rsquo; Bakes</title>
 </svelte:head>
 
-<div class="bg-cream flex min-h-dvh items-center justify-center px-5">
+<div class="flex min-h-dvh items-center justify-center bg-cream px-5">
 	<div class="w-full max-w-sm">
 		<a href="/" class="mx-auto block w-40" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
-		<p class="text-ink-soft mt-4 text-center text-sm">Staff login</p>
+		<p class="mt-4 text-center text-sm text-ink-soft">Staff login</p>
 
 		<form
 			method="POST"
-			class="border-ink/10 mt-8 space-y-4 rounded-2xl border bg-white/60 p-6"
+			class="mt-8 space-y-4 rounded-2xl border border-ink/10 bg-white/60 p-6"
 			use:enhance={() => {
 				submitting = true;
 				return async ({ update }) => {
@@ -34,7 +34,7 @@
 			{/if}
 
 			<div>
-				<label for="email" class="text-ink-soft text-sm font-medium">Email</label>
+				<label for="email" class="text-sm font-medium text-ink-soft">Email</label>
 				<input
 					id="email"
 					name="email"
@@ -42,29 +42,35 @@
 					autocomplete="username"
 					required
 					value={form?.email ?? ''}
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
 
 			<div>
-				<label for="password" class="text-ink-soft text-sm font-medium">Password</label>
+				<label for="password" class="text-sm font-medium text-ink-soft">Password</label>
 				<input
 					id="password"
 					name="password"
 					type="password"
 					autocomplete="current-password"
 					required
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
 
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep w-full rounded-lg py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="w-full rounded-lg bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{submitting ? 'Signing in…' : 'Sign in'}
 			</button>
 		</form>
+
+		<p class="mt-5 text-center text-sm text-ink-soft">
+			<a href="/admin/forgot-password" class="font-semibold text-pink-deep hover:underline"
+				>Forgot your password?</a
+			>
+		</p>
 	</div>
 </div>

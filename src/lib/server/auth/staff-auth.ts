@@ -66,10 +66,7 @@ export async function validateStaffSession(
 	const remaining = row.expiresAt.getTime() - Date.now();
 	if (remaining < RENEW_THRESHOLD_MS) {
 		const newExpiresAt = new Date(Date.now() + SESSION_DURATION_MS);
-		await db
-			.update(staffSessions)
-			.set({ expiresAt: newExpiresAt })
-			.where(eq(staffSessions.id, id));
+		await db.update(staffSessions).set({ expiresAt: newExpiresAt }).where(eq(staffSessions.id, id));
 		event.cookies.set(SESSION_COOKIE_NAME, token, {
 			path: '/',
 			httpOnly: true,
@@ -97,7 +94,10 @@ export async function invalidateStaffSession(event: RequestEvent) {
 // or the "isSelf" path on the edit form for name/email) — every admin-acting-
 // on-someone-else action (reset password, change role, deactivate, delete)
 // must call this first and refuse if it's true, no matter who's asking.
-export async function isProtectedFromOthers(targetId: number, actingStaffId: number): Promise<boolean> {
+export async function isProtectedFromOthers(
+	targetId: number,
+	actingStaffId: number
+): Promise<boolean> {
 	if (targetId === actingStaffId) return false;
 	const target = await db.query.staffUsers.findFirst({
 		where: eq(staffUsers.id, targetId),

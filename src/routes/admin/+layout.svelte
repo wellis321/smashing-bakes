@@ -5,10 +5,20 @@
 
 	let { data, children } = $props();
 
-	const isLoginPage = $derived(page.url.pathname === '/admin/login');
+	// These render their own full-bleed centered layout (same as the login
+	// page) rather than the authenticated header/sidebar chrome — they're
+	// reachable by a logged-out visitor, so there's no staff session to build
+	// that chrome around anyway.
+	const isBareLayoutPage = $derived(
+		page.url.pathname === '/admin/login' ||
+			page.url.pathname === '/admin/forgot-password' ||
+			page.url.pathname.startsWith('/admin/reset-password/')
+	);
 
 	type NavLink = { href: string; label: string };
-	type NavEntry = { type: 'link'; href: string; label: string } | { type: 'group'; label: string; items: NavLink[] };
+	type NavEntry =
+		| { type: 'link'; href: string; label: string }
+		| { type: 'group'; label: string; items: NavLink[] };
 
 	const navEntries = $derived<NavEntry[]>([
 		{ type: 'link', href: '/admin', label: 'Dashboard' },
@@ -41,7 +51,12 @@
 				{ href: '/admin/enquiries', label: 'Enquiries' },
 				{ href: '/admin/subscribers', label: 'Subscribers' },
 				{ href: '/admin/customers', label: 'Customers' },
-				...(data.staff?.role === 'admin' ? [{ href: '/admin/staff', label: 'Staff' }] : [])
+				...(data.staff?.role === 'admin'
+					? [
+							{ href: '/admin/staff', label: 'Staff' },
+							{ href: '/admin/activity', label: 'Activity log' }
+						]
+					: [])
 			]
 		},
 		{ type: 'link', href: '/admin/settings', label: 'Settings' },
@@ -74,11 +89,11 @@
 
 <svelte:window onclick={closeMenusOnOutsideClick} onkeydown={handleKeydown} />
 
-{#if isLoginPage}
+{#if isBareLayoutPage}
 	{@render children()}
 {:else}
-	<div class="bg-cream-dim min-h-dvh">
-		<header class="border-ink/10 bg-cream border-b">
+	<div class="min-h-dvh bg-cream-dim">
+		<header class="border-b border-ink/10 bg-cream">
 			<div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-4">
 				<a href="/admin" class="flex shrink-0 items-center" aria-label="Smashin' Bakes admin home">
 					<Logo class="h-9 w-auto" />
@@ -88,21 +103,27 @@
 						href="/"
 						target="_blank"
 						rel="noreferrer"
-						class="text-ink-soft hidden text-sm hover:text-ink sm:inline"
+						class="hidden text-sm text-ink-soft hover:text-ink sm:inline"
 					>
 						View site &#8599;
 					</a>
-					<a href="/admin/account" class="text-ink-soft hidden truncate text-sm hover:text-ink sm:inline">
+					<a
+						href="/admin/account"
+						class="hidden truncate text-sm text-ink-soft hover:text-ink sm:inline"
+					>
 						{data.staff?.name}
 					</a>
 					<form method="POST" action="/admin/logout">
-						<button type="submit" class="text-ink-soft shrink-0 rounded-lg border border-ink/10 px-3 py-1.5 text-sm hover:text-ink">
+						<button
+							type="submit"
+							class="shrink-0 rounded-lg border border-ink/10 px-3 py-1.5 text-sm text-ink-soft hover:text-ink"
+						>
 							Sign out
 						</button>
 					</form>
 				</div>
 			</div>
-			<nav class="border-ink/10 mx-auto flex max-w-5xl items-center gap-1 border-t px-5 py-2.5">
+			<nav class="mx-auto flex max-w-5xl items-center gap-1 border-t border-ink/10 px-5 py-2.5">
 				{#each navEntries as entry (entry.label)}
 					{#if entry.type === 'link'}
 						<a
@@ -133,19 +154,30 @@
 									class={`transition-transform duration-200 ${openGroup === entry.label ? 'rotate-180' : ''}`}
 									aria-hidden="true"
 								>
-									<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+									<path
+										d="M2.5 4.5L6 8L9.5 4.5"
+										stroke="currentColor"
+										stroke-width="1.5"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
 								</svg>
 							</button>
 
 							{#if openGroup === entry.label}
-								<div role="menu" class="border-ink/10 shadow-soft absolute top-full left-0 z-10 mt-2 w-52 rounded-2xl border bg-cream p-2">
+								<div
+									role="menu"
+									class="absolute top-full left-0 z-10 mt-2 w-52 rounded-2xl border border-ink/10 bg-cream p-2 shadow-soft"
+								>
 									{#each entry.items as item (item.href)}
 										<a
 											href={item.href}
 											role="menuitem"
 											onclick={() => (openGroup = null)}
 											class={`block rounded-lg px-3 py-2 text-sm transition-colors ${
-												isActiveHref(item.href) ? 'text-ink bg-blush font-semibold' : 'text-ink-soft hover:bg-blush hover:text-ink'
+												isActiveHref(item.href)
+													? 'bg-blush font-semibold text-ink'
+													: 'text-ink-soft hover:bg-blush hover:text-ink'
 											}`}
 										>
 											{item.label}
@@ -156,7 +188,12 @@
 						</div>
 					{/if}
 				{/each}
-				<a href="/" target="_blank" rel="noreferrer" class="text-ink-soft ml-auto shrink-0 text-sm hover:text-ink sm:hidden">
+				<a
+					href="/"
+					target="_blank"
+					rel="noreferrer"
+					class="ml-auto shrink-0 text-sm text-ink-soft hover:text-ink sm:hidden"
+				>
 					View site &#8599;
 				</a>
 			</nav>

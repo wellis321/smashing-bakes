@@ -102,7 +102,9 @@ export const orders = mysqlTable('orders', {
 	guestEmail: varchar('guest_email', { length: 255 }).notNull(),
 	guestPhone: varchar('guest_phone', { length: 50 }),
 	pickupDate: date('pickup_date', { mode: 'string' }).notNull(),
-	status: mysqlEnum('status', ['pending', 'ready', 'collected', 'cancelled']).notNull().default('pending'),
+	status: mysqlEnum('status', ['pending', 'ready', 'collected', 'cancelled'])
+		.notNull()
+		.default('pending'),
 	paymentStatus: mysqlEnum('payment_status', ['unpaid', 'paid']).notNull().default('unpaid'),
 	totalPence: int('total_pence').notNull(),
 	notes: text('notes'),
@@ -249,9 +251,15 @@ export const localBusinessesRelations = relations(localBusinesses, ({ many }) =>
 }));
 
 export const businessChoicesRelations = relations(businessChoices, ({ one }) => ({
-	promotion: one(promotions, { fields: [businessChoices.promotionId], references: [promotions.id] }),
+	promotion: one(promotions, {
+		fields: [businessChoices.promotionId],
+		references: [promotions.id]
+	}),
 	customer: one(customers, { fields: [businessChoices.customerId], references: [customers.id] }),
-	business: one(localBusinesses, { fields: [businessChoices.businessId], references: [localBusinesses.id] })
+	business: one(localBusinesses, {
+		fields: [businessChoices.businessId],
+		references: [localBusinesses.id]
+	})
 }));
 
 // --- Weekly menus (the "what's on this weekend" posts they currently do on Instagram) ---
@@ -376,7 +384,10 @@ export const newslettersRelations = relations(newsletters, ({ many }) => ({
 }));
 
 export const newsletterHighlightsRelations = relations(newsletterHighlights, ({ one }) => ({
-	newsletter: one(newsletters, { fields: [newsletterHighlights.newsletterId], references: [newsletters.id] })
+	newsletter: one(newsletters, {
+		fields: [newsletterHighlights.newsletterId],
+		references: [newsletters.id]
+	})
 }));
 
 // Site-wide settings editable from admin. A single row (id 1) rather than a
@@ -431,7 +442,9 @@ export const posters = mysqlTable('posters', {
 	perks: text('perks'),
 	imageUrl: varchar('image_url', { length: 500 }),
 	imageZoom: int('image_zoom').notNull().default(100),
-	style: mysqlEnum('style', ['announcement', 'sold-out', 'celebration', 'general']).notNull().default('general'),
+	style: mysqlEnum('style', ['announcement', 'sold-out', 'celebration', 'general'])
+		.notNull()
+		.default('general'),
 	ctaLabel: varchar('cta_label', { length: 100 }),
 	ctaUrl: varchar('cta_url', { length: 500 }),
 	isActive: boolean('is_active').notNull().default(false),
@@ -512,7 +525,9 @@ export const flavorPollVotes = mysqlTable(
 			.references(() => customers.id),
 		createdAt: timestamp('created_at').notNull().defaultNow()
 	},
-	(table) => [uniqueIndex('flavor_poll_votes_poll_customer_unique').on(table.pollId, table.customerId)]
+	(table) => [
+		uniqueIndex('flavor_poll_votes_poll_customer_unique').on(table.pollId, table.customerId)
+	]
 );
 
 export const flavorPollVoteSelections = mysqlTable('flavor_poll_vote_selections', {
@@ -541,8 +556,14 @@ export const flavorPollVotesRelations = relations(flavorPollVotes, ({ one, many 
 }));
 
 export const flavorPollVoteSelectionsRelations = relations(flavorPollVoteSelections, ({ one }) => ({
-	vote: one(flavorPollVotes, { fields: [flavorPollVoteSelections.voteId], references: [flavorPollVotes.id] }),
-	option: one(flavorPollOptions, { fields: [flavorPollVoteSelections.optionId], references: [flavorPollOptions.id] })
+	vote: one(flavorPollVotes, {
+		fields: [flavorPollVoteSelections.voteId],
+		references: [flavorPollVotes.id]
+	}),
+	option: one(flavorPollOptions, {
+		fields: [flavorPollVoteSelections.optionId],
+		references: [flavorPollOptions.id]
+	})
 }));
 
 // --- Staff auth (separate from customer auth) ---
@@ -564,11 +585,46 @@ export const staffUsers = mysqlTable(
 		isProtected: boolean('is_protected').notNull().default(false),
 		failedLoginAttempts: int('failed_login_attempts').notNull().default(0),
 		lockedUntil: timestamp('locked_until'),
+		// Self-service "forgot password" — same pattern as customers.*, a sha256
+		// hash of a one-time emailed token, cleared on use or once it expires.
+		passwordResetTokenHash: varchar('password_reset_token_hash', { length: 64 }),
+		passwordResetExpiresAt: timestamp('password_reset_expires_at'),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 	},
 	(table) => [uniqueIndex('staff_users_email_unique').on(table.email)]
 );
+
+// Login/logout and staff-account-management history. Deliberately has no
+// foreign keys to staff_users: an audit trail needs to survive the actor or
+// target account later being deleted, so actor/target are plain nullable ids
+// plus an email snapshot captured at the time, not a live join.
+export const staffActivityLog = mysqlTable('staff_activity_log', {
+	id: int('id').autoincrement().primaryKey(),
+	action: mysqlEnum('action', [
+		'login_success',
+		'login_failed',
+		'logout',
+		'staff_created',
+		'staff_updated',
+		'staff_role_changed',
+		'staff_activated',
+		'staff_deactivated',
+		'staff_deleted',
+		'password_changed_self',
+		'password_reset_by_admin',
+		'password_reset_requested',
+		'password_reset_completed'
+	]).notNull(),
+	actorStaffUserId: int('actor_staff_user_id'),
+	actorEmail: varchar('actor_email', { length: 255 }),
+	targetStaffUserId: int('target_staff_user_id'),
+	targetEmail: varchar('target_email', { length: 255 }),
+	detail: varchar('detail', { length: 500 }),
+	ipAddress: varchar('ip_address', { length: 64 }),
+	userAgent: varchar('user_agent', { length: 255 }),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
 
 export const staffSessions = mysqlTable('staff_sessions', {
 	id: varchar('id', { length: 64 }).primaryKey(), // sha256 hex of the session token

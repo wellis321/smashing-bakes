@@ -5,6 +5,7 @@ import { db } from '$lib/server/db';
 import { staffUsers } from '$lib/server/db/schema';
 import { verifyPassword } from '$lib/server/auth/password';
 import { createStaffSession } from '$lib/server/auth/staff-auth';
+import { logStaffActivity } from '$lib/server/auth/activity-log';
 
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 1000 * 60 * 15;
@@ -29,12 +30,27 @@ export const actions: Actions = {
 		const [user] = await db.select().from(staffUsers).where(eq(staffUsers.email, email));
 
 		if (!user || !user.isActive) {
+			await logStaffActivity({
+				event,
+				action: 'login_failed',
+				actorStaffUserId: user?.id ?? null,
+				actorEmail: email,
+				detail: user ? 'account deactivated' : 'no account with this email'
+			});
 			return fail(400, { message: 'Incorrect email or password.', email });
 		}
 
 		if (user.lockedUntil && user.lockedUntil.getTime() > Date.now()) {
+			await logStaffActivity({
+				event,
+				action: 'login_failed',
+				actorStaffUserId: user.id,
+				actorEmail: email,
+				detail: 'account locked out'
+			});
 			return fail(400, {
-				message: 'This account is temporarily locked after too many failed attempts. Try again later.',
+				message:
+					'This account is temporarily locked after too many failed attempts. Try again later.',
 				email
 			});
 		}
@@ -43,11 +59,21 @@ export const actions: Actions = {
 
 		if (!validPassword) {
 			const attempts = user.failedLoginAttempts + 1;
-			const lockedUntil = attempts >= MAX_FAILED_ATTEMPTS ? new Date(Date.now() + LOCKOUT_DURATION_MS) : null;
+			const lockedUntil =
+				attempts >= MAX_FAILED_ATTEMPTS ? new Date(Date.now() + LOCKOUT_DURATION_MS) : null;
 			await db
 				.update(staffUsers)
 				.set({ failedLoginAttempts: attempts, lockedUntil })
 				.where(eq(staffUsers.id, user.id));
+			await logStaffActivity({
+				event,
+				action: 'login_failed',
+				actorStaffUserId: user.id,
+				actorEmail: email,
+				detail: lockedUntil
+					? `wrong password (attempt ${attempts}) — now locked for 15 min`
+					: `wrong password (attempt ${attempts})`
+			});
 			return fail(400, { message: 'Incorrect email or password.', email });
 		}
 
@@ -57,6 +83,12 @@ export const actions: Actions = {
 			.where(eq(staffUsers.id, user.id));
 
 		await createStaffSession(user.id, event);
+		await logStaffActivity({
+			event,
+			action: 'login_success',
+			actorStaffUserId: user.id,
+			actorEmail: user.email
+		});
 
 		throw redirect(303, '/admin');
 	}

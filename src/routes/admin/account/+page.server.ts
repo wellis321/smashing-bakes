@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffUsers } from '$lib/server/db/schema';
 import { hashPassword, verifyPassword } from '$lib/server/auth/password';
+import { logStaffActivity } from '$lib/server/auth/activity-log';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.staff) throw redirect(303, '/admin/login');
@@ -11,7 +12,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ request, locals }) => {
+	default: async (event) => {
+		const { request, locals } = event;
 		if (!locals.staff) throw redirect(303, '/admin/login');
 
 		const formData = await request.formData();
@@ -36,6 +38,12 @@ export const actions: Actions = {
 
 		const passwordHash = await hashPassword(newPassword);
 		await db.update(staffUsers).set({ passwordHash }).where(eq(staffUsers.id, locals.staff.id));
+		await logStaffActivity({
+			event,
+			action: 'password_changed_self',
+			actorStaffUserId: locals.staff.id,
+			actorEmail: locals.staff.email
+		});
 
 		return { success: true };
 	}
