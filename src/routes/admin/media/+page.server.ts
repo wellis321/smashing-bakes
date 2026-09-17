@@ -16,7 +16,9 @@ export const load: PageServerLoad = async () => {
 export const actions: Actions = {
 	upload: async ({ request }) => {
 		const formData = await request.formData();
-		const files = formData.getAll('files').filter((f): f is File => f instanceof File && f.size > 0);
+		const files = formData
+			.getAll('files')
+			.filter((f): f is File => f instanceof File && f.size > 0);
 
 		if (files.length === 0) {
 			return fail(400, { message: 'Choose at least one image.' });
@@ -27,10 +29,10 @@ export const actions: Actions = {
 
 		// Each file is saved independently so one bad file (wrong type, too
 		// large) doesn't throw away the rest of a multi-file selection.
+		// saveUploadedImage already registers the file in the media library.
 		for (const file of files) {
 			try {
-				const url = await saveUploadedImage(file, 'media');
-				await db.insert(mediaLibraryItems).values({ url, filename: file.name });
+				await saveUploadedImage(file, 'media');
 				uploaded++;
 			} catch (err) {
 				errors.push(`${file.name}: ${err instanceof Error ? err.message : 'upload failed'}`);
@@ -64,7 +66,9 @@ export const actions: Actions = {
 		const id = Number(formData.get('id'));
 		if (!id) return fail(400, { message: 'Missing media id.' });
 
-		const item = await db.query.mediaLibraryItems.findFirst({ where: eq(mediaLibraryItems.id, id) });
+		const item = await db.query.mediaLibraryItems.findFirst({
+			where: eq(mediaLibraryItems.id, id)
+		});
 		if (item) {
 			await deleteUploadedImage(item.url);
 			await db.delete(mediaLibraryItems).where(eq(mediaLibraryItems.id, id));
