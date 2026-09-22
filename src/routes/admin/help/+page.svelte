@@ -214,6 +214,12 @@
 					<strong>Save &amp; close</strong> saves and takes you back to the list.
 				</li>
 				<li>
+					A product can have up to 3 additional photos beyond the main one, via
+					<strong>Additional photos</strong> on the edit page — shown as a row of thumbnails under the
+					main photo on the product page (sized up the fewer there are), hidden entirely with none added.
+					The shop page and admin list always use the main photo only.
+				</li>
+				<li>
 					A product can have named options (variants) with their own price — a customer picks one
 					before adding it to their cart. None are set up yet, but the field's ready whenever you
 					need it (e.g. cake sizes).
