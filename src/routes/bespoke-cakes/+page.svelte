@@ -27,6 +27,10 @@
 	const firstQuote = $derived(data.testimonials[0] ?? null);
 	const secondQuote = $derived(data.testimonials[1] ?? null);
 	const moreQuotes = $derived(data.testimonials.slice(2));
+
+	// Pace the auto-scroll to the number of photos so it never feels rushed
+	// with only a couple of designs, or sluggish with a lot of them.
+	const galleryDurationSeconds = $derived(Math.max(20, data.galleryItems.length * 6));
 </script>
 
 <SeoHead
@@ -52,6 +56,23 @@
 			stroke-linejoin="round"
 		/>
 	</svg>
+{/snippet}
+
+{#snippet galleryFigure(item: (typeof data.galleryItems)[number])}
+	<figure class="w-[78vw] shrink-0 sm:w-[420px]">
+		<div class="aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-cream-dim">
+			<img
+				src={item.imageUrl}
+				alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
+				class="h-full w-full object-cover"
+				style:object-position={item.focalPoint}
+				style:transform={`scale(${item.imageZoom / 100})`}
+			/>
+		</div>
+		{#if item.caption}
+			<figcaption class="mt-2.5 text-sm text-ink-soft">{item.caption}</figcaption>
+		{/if}
+	</figure>
 {/snippet}
 
 <div class="mx-auto max-w-5xl px-5 pt-8 text-center sm:px-8">
@@ -99,24 +120,19 @@
 		</div>
 
 		<div
-			class="mt-8 flex snap-x snap-mandatory [scrollbar-width:none] gap-5 overflow-x-auto px-5 pb-4 sm:px-8 [&::-webkit-scrollbar]:hidden"
+			class="gallery-track-wrap mt-8 px-5 pb-4 sm:px-8"
+			style:--gallery-duration={`${galleryDurationSeconds}s`}
 		>
-			{#each data.galleryItems as item (item.id)}
-				<figure class="w-[78vw] shrink-0 snap-center sm:w-[420px]">
-					<div class="aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-cream-dim">
-						<img
-							src={item.imageUrl}
-							alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
-							class="h-full w-full object-cover"
-							style:object-position={item.focalPoint}
-							style:transform={`scale(${item.imageZoom / 100})`}
-						/>
-					</div>
-					{#if item.caption}
-						<figcaption class="mt-2.5 text-sm text-ink-soft">{item.caption}</figcaption>
-					{/if}
-				</figure>
-			{/each}
+			<div class="gallery-track">
+				{#each data.galleryItems as item (item.id)}
+					{@render galleryFigure(item)}
+				{/each}
+				<div class="gallery-duplicate" aria-hidden="true">
+					{#each data.galleryItems as item (`dup-${item.id}`)}
+						{@render galleryFigure(item)}
+					{/each}
+				</div>
+			</div>
 		</div>
 	</section>
 {/if}
@@ -148,3 +164,56 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	/* Base (and prefers-reduced-motion: reduce) state: the original manual
+	   horizontal scroller — swipe/drag through the photos once, no movement
+	   forced on anyone who's told their OS they'd rather not have it. */
+	.gallery-track-wrap {
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+	.gallery-track-wrap::-webkit-scrollbar {
+		display: none;
+	}
+	.gallery-track-wrap :global(figure) {
+		scroll-snap-align: center;
+	}
+	.gallery-track {
+		display: flex;
+		gap: 1.25rem;
+	}
+	/* The duplicated set only exists to make the loop below seamless — kept
+	   out of the accessibility tree and out of the layout entirely here. */
+	.gallery-duplicate {
+		display: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.gallery-track-wrap {
+			overflow: hidden;
+			scroll-snap-type: none;
+		}
+		.gallery-track {
+			width: max-content;
+			animation: gallery-scroll var(--gallery-duration, 32s) linear infinite;
+		}
+		.gallery-track-wrap:hover .gallery-track {
+			animation-play-state: paused;
+		}
+		.gallery-duplicate {
+			display: flex;
+			gap: 1.25rem;
+		}
+	}
+
+	@keyframes gallery-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+</style>
