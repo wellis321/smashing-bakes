@@ -35,42 +35,32 @@
 	image={data.imageUrl ?? undefined}
 />
 
-<a href="#enquiry-form" class="group relative block overflow-hidden bg-pink-deep text-cream">
-	<span
-		class="pointer-events-none absolute -right-6 -bottom-8 text-8xl opacity-10 select-none sm:text-9xl"
-		aria-hidden="true"
+<div class="mx-auto max-w-5xl px-5 pt-8 text-center sm:px-8">
+	<a
+		href="#enquiry-form"
+		class="group inline-flex items-center gap-2.5 rounded-full bg-pink-deep px-6 py-3.5 text-sm font-bold text-cream shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-ink hover:shadow-lg sm:text-base"
 	>
-		🎂
-	</span>
-	<div
-		class="relative mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-5 py-4 text-center sm:px-8 sm:py-5"
-	>
-		<span class="font-display text-base sm:text-lg"> Already know what you want? </span>
-		<span
-			class="inline-flex items-center gap-1.5 rounded-full bg-cream px-4 py-1.5 text-sm font-bold text-pink-deep shadow-soft transition-transform duration-200 group-hover:translate-x-0.5"
+		⚡ Already know what you want? Skip straight to the form
+		<svg
+			width="15"
+			height="15"
+			viewBox="0 0 20 20"
+			fill="none"
+			class="shrink-0 transition-transform duration-200 group-hover:translate-y-0.5"
+			aria-hidden="true"
 		>
-			Skip straight to the form
-			<svg
-				width="14"
-				height="14"
-				viewBox="0 0 20 20"
-				fill="none"
-				class="transition-transform duration-200 group-hover:translate-y-0.5"
-				aria-hidden="true"
-			>
-				<path
-					d="M10 4v12M5 11l5 5 5-5"
-					stroke="currentColor"
-					stroke-width="2.2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				/>
-			</svg>
-		</span>
-	</div>
-</a>
+			<path
+				d="M10 4v12M5 11l5 5 5-5"
+				stroke="currentColor"
+				stroke-width="2.2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</a>
+</div>
 
-<section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
+<section class="mx-auto max-w-5xl px-5 pt-10 pb-8 sm:px-8">
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
 	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
