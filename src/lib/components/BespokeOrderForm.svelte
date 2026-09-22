@@ -8,14 +8,20 @@
 	} | null;
 
 	let {
-		form,
 		// Submits to a different route's action than the current page — used by
 		// any page (e.g. /bespoke-cakes) that embeds this form but isn't itself
 		// /contact, which is where the actual insert/notify logic lives.
 		action = ''
-	}: { form: FormResult; action?: string } = $props();
+	}: { action?: string } = $props();
 
 	let submitting = $state(false);
+	// Read directly from the enhance callback's own `result`, not from
+	// `$page.form` — that only reliably reflects a submission when the form's
+	// `action` targets the CURRENT route's own action. For a cross-route
+	// submission (action="/contact" rendered on a different page), `$page.form`
+	// never updates, which showed as "nothing happens" with no success message
+	// at all despite the submission genuinely succeeding server-side.
+	let result = $state<FormResult>(null);
 </script>
 
 <div class="rounded-[2rem] bg-blush p-6 sm:p-8">
@@ -26,7 +32,7 @@
 		what you want yet, just leave us your details and we&rsquo;ll help you figure it out.
 	</p>
 
-	{#if form?.success}
+	{#if result?.success}
 		<div class="mt-6 rounded-xl bg-white/70 px-5 py-6 text-center">
 			<p class="font-display text-xl text-ink">Thanks &mdash; got it!</p>
 			<p class="mt-2 text-sm text-ink-soft">
@@ -40,9 +46,16 @@
 			class="mt-6 space-y-4"
 			use:enhance={() => {
 				submitting = true;
-				return async ({ update }) => {
-					await update();
+				return async ({ result: actionResult }) => {
 					submitting = false;
+					if (actionResult.type === 'success' || actionResult.type === 'failure') {
+						result = (actionResult.data as FormResult) ?? null;
+					} else {
+						// 'error' (thrown exception) or 'redirect' — neither of
+						// which this action ever does, but fail closed with a
+						// generic message rather than silently showing nothing.
+						result = { message: 'Something went wrong — please try again.' };
+					}
 				};
 			}}
 		>
@@ -52,8 +65,8 @@
 				<input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
 			</div>
 
-			{#if form?.message}
-				<p class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>
+			{#if result?.message}
+				<p class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{result.message}</p>
 			{/if}
 
 			<div>
@@ -62,7 +75,7 @@
 					id="name"
 					name="name"
 					required
-					value={form?.values?.name ?? ''}
+					value={result?.values?.name ?? ''}
 					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
@@ -75,7 +88,7 @@
 						name="email"
 						type="email"
 						required
-						value={form?.values?.email ?? ''}
+						value={result?.values?.email ?? ''}
 						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
 				</div>
@@ -85,7 +98,7 @@
 						id="phone"
 						name="phone"
 						type="tel"
-						value={form?.values?.phone ?? ''}
+						value={result?.values?.phone ?? ''}
 						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
 				</div>
@@ -102,7 +115,7 @@
 					required
 					placeholder="Occasion, date, flavours, how many people it needs to feed…"
 					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
-					>{form?.values?.details ?? ''}</textarea
+					>{result?.values?.details ?? ''}</textarea
 				>
 			</div>
 

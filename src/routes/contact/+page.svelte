@@ -1,9 +1,6 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
-	import type { ActionData } from './$types';
-
-	let { form }: { form: ActionData } = $props();
 
 	const address = '9-11 Paisley Road, Barrhead, G78 1HG';
 	const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
@@ -26,7 +23,7 @@
 
 <section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
 	<div class="grid gap-8 lg:grid-cols-2 lg:items-start">
-		<BespokeOrderForm {form} />
+		<BespokeOrderForm />
 
 		<!-- Contact details + map -->
 		<div class="space-y-6">

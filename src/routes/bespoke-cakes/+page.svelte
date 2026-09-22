@@ -1,24 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
 	import TestimonialQuote from '$lib/components/TestimonialQuote.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-
-	// This page has no actions of its own — the embedded form posts to
-	// /contact, whose action does the actual insert/notify. `page.form` is
-	// shared app state (not scoped to the route that owns the action), so it
-	// still reflects that result here once submitted — hence reading it via
-	// $app/state rather than this route's own (actionless) generated types.
-	const form = $derived(
-		page.form as {
-			success?: boolean;
-			message?: string;
-			values?: { name: string; email: string; phone: string; details: string };
-		} | null
-	);
 
 	// Quotes are meant to be dotted throughout the page rather than bunched
 	// into one testimonials block — the first goes between the hero and the
@@ -144,7 +130,7 @@
 {/if}
 
 <section id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-24 px-5 pb-16 sm:px-8">
-	<BespokeOrderForm {form} action="/contact" />
+	<BespokeOrderForm action="/contact" />
 </section>
 
 {#if moreQuotes.length > 0}
