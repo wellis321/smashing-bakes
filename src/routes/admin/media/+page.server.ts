@@ -61,6 +61,21 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
+	// Uploads that came from a product/poster/promotion's own upload field
+	// (rather than the media library page itself) only ever get a generated
+	// filename — no original name to fall back on — so this is the only way
+	// to turn e.g. "d3dd0f26-fe07-4c50-a992-281f90a…" into something readable.
+	updateFilename: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		const filename = String(formData.get('filename') ?? '').trim();
+		if (!id) return fail(400, { message: 'Missing media id.' });
+		if (!filename) return fail(400, { message: 'Title can’t be empty.' });
+
+		await db.update(mediaLibraryItems).set({ filename }).where(eq(mediaLibraryItems.id, id));
+		return { success: true };
+	},
+
 	delete: async ({ request }) => {
 		const formData = await request.formData();
 		const id = Number(formData.get('id'));
