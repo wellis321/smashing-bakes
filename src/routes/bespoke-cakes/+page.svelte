@@ -35,28 +35,33 @@
 	image={data.imageUrl ?? undefined}
 />
 
+{#snippet skipArrow()}
+	<svg
+		width="15"
+		height="15"
+		viewBox="0 0 20 20"
+		fill="none"
+		class="shrink-0 transition-transform duration-200 group-hover:translate-y-0.5"
+		aria-hidden="true"
+	>
+		<path
+			d="M10 4v12M5 11l5 5 5-5"
+			stroke="currentColor"
+			stroke-width="2.2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+{/snippet}
+
 <div class="mx-auto max-w-5xl px-5 pt-8 text-center sm:px-8">
 	<a
 		href="#enquiry-form"
 		class="group inline-flex items-center gap-2.5 rounded-full bg-pink-deep px-6 py-3.5 text-sm font-bold text-cream shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-ink hover:shadow-lg sm:text-base"
 	>
-		⚡ Already know what you want? Skip straight to the form
-		<svg
-			width="15"
-			height="15"
-			viewBox="0 0 20 20"
-			fill="none"
-			class="shrink-0 transition-transform duration-200 group-hover:translate-y-0.5"
-			aria-hidden="true"
-		>
-			<path
-				d="M10 4v12M5 11l5 5 5-5"
-				stroke="currentColor"
-				stroke-width="2.2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
+		{@render skipArrow()}
+		Already know what you want? Skip straight to the form
+		{@render skipArrow()}
 	</a>
 </div>
 
