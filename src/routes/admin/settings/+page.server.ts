@@ -7,7 +7,10 @@ import { saveUploadedImage } from '$lib/server/uploads';
 import { getMediaLibraryItems } from '$lib/server/db/queries';
 
 export const load: PageServerLoad = async () => {
-	const [row, mediaItems] = await Promise.all([db.query.siteSettings.findFirst(), getMediaLibraryItems()]);
+	const [row, mediaItems] = await Promise.all([
+		db.query.siteSettings.findFirst(),
+		getMediaLibraryItems()
+	]);
 	return { settings: row, mediaItems };
 };
 
@@ -55,7 +58,9 @@ export const actions: Actions = {
 				try {
 					updates[`heroImage${slot}Url`] = await saveUploadedImage(file, 'media');
 				} catch (err) {
-					return fail(400, { heroMessage: err instanceof Error ? err.message : 'Could not upload image.' });
+					return fail(400, {
+						heroMessage: err instanceof Error ? err.message : 'Could not upload image.'
+					});
 				}
 			} else if (libraryUrl) {
 				updates[`heroImage${slot}Url`] = libraryUrl;
@@ -67,5 +72,37 @@ export const actions: Actions = {
 		await upsertSettings(updates);
 
 		return { heroSuccess: true };
+	},
+
+	updateBespokeCakesPage: async ({ request }) => {
+		const formData = await request.formData();
+		const bespokeCakesHeading = String(formData.get('bespokeCakesHeading') ?? '').trim();
+		const bespokeCakesIntro = String(formData.get('bespokeCakesIntro') ?? '').trim();
+
+		if (!bespokeCakesHeading || !bespokeCakesIntro) {
+			return fail(400, { bespokeMessage: 'Both the heading and intro text are required.' });
+		}
+
+		const updates: Record<string, string | null> = { bespokeCakesHeading, bespokeCakesIntro };
+
+		const file = formData.get('bespokeCakesImageFile');
+		const libraryUrl = String(formData.get('bespokeCakesImageUrl') ?? '').trim();
+		if (file instanceof File && file.size > 0) {
+			try {
+				updates.bespokeCakesImageUrl = await saveUploadedImage(file, 'media');
+			} catch (err) {
+				return fail(400, {
+					bespokeMessage: err instanceof Error ? err.message : 'Could not upload image.'
+				});
+			}
+		} else if (libraryUrl) {
+			updates.bespokeCakesImageUrl = libraryUrl;
+		} else {
+			updates.bespokeCakesImageUrl = null;
+		}
+
+		await upsertSettings(updates);
+
+		return { bespokeSuccess: true };
 	}
 };

@@ -18,13 +18,21 @@
 	});
 
 	function formatDate(date: string | Date) {
-		return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(
-			new Date(date)
-		);
+		return new Intl.DateTimeFormat('en-GB', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit'
+		}).format(new Date(date));
 	}
 
 	function formatPickupDate(dateStr: string) {
-		return new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(`${dateStr}T00:00:00`));
+		return new Intl.DateTimeFormat('en-GB', {
+			weekday: 'long',
+			day: 'numeric',
+			month: 'long'
+		}).format(new Date(`${dateStr}T00:00:00`));
 	}
 
 	function confirmDelete(event: SubmitEvent) {
@@ -38,51 +46,70 @@
 	<title>Order #{data.order.id} — Admin</title>
 </svelte:head>
 
-<a href="/admin/orders" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Orders</a>
-<h1 class="font-display mt-2 text-3xl text-ink">Order #{data.order.id}</h1>
-<p class="text-ink-soft mt-1 text-sm">Placed {formatDate(data.order.createdAt)}</p>
+<a href="/admin/orders" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Orders</a>
+<h1 class="mt-2 font-display text-3xl text-ink">Order #{data.order.id}</h1>
+<p class="mt-1 text-sm text-ink-soft">Placed {formatDate(data.order.createdAt)}</p>
 
 <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
-	<div class="border-ink/10 rounded-2xl border bg-white/60 p-6">
-		<h2 class="text-ink text-lg font-semibold">Items</h2>
-		<ul class="divide-ink/10 mt-4 divide-y">
+	<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
+		<h2 class="text-lg font-semibold text-ink">Items</h2>
+		<ul class="mt-4 divide-y divide-ink/10">
 			{#each data.items as item (item.id)}
 				<li class="flex items-center justify-between gap-4 py-3 text-sm">
 					<span class="text-ink">
-						{item.quantity}&times; {item.productName}{item.variantName ? ` (${item.variantName})` : ''}
+						{item.quantity}&times; {item.productName}{item.variantName
+							? ` (${item.variantName})`
+							: ''}
 					</span>
-					<span class="text-ink-soft shrink-0">{formatPence(item.subtotalPence)}</span>
+					<span class="shrink-0 text-ink-soft">{formatPence(item.subtotalPence)}</span>
 				</li>
 			{/each}
 		</ul>
-		<div class="border-ink/10 mt-3 flex items-center justify-between border-t pt-3">
-			<p class="text-ink-soft text-sm font-semibold">Total</p>
-			<p class="text-ink font-semibold">{formatPence(data.order.totalPence)}</p>
+		<div class="mt-3 flex items-center justify-between border-t border-ink/10 pt-3">
+			<p class="text-sm font-semibold text-ink-soft">Total</p>
+			<p class="font-semibold text-ink">{formatPence(data.order.totalPence)}</p>
 		</div>
 
 		{#if data.order.notes}
-			<div class="bg-blush mt-5 rounded-xl p-4">
-				<p class="text-ink-soft text-xs font-semibold tracking-widest uppercase">Notes</p>
-				<p class="text-ink mt-1 text-sm whitespace-pre-line">{data.order.notes}</p>
+			<div class="mt-5 rounded-xl bg-blush p-4">
+				<p class="text-xs font-semibold tracking-widest text-ink-soft uppercase">Notes</p>
+				<p class="mt-1 text-sm whitespace-pre-line text-ink">{data.order.notes}</p>
 			</div>
 		{/if}
 	</div>
 
 	<div class="space-y-6">
-		<div class="border-ink/10 rounded-2xl border bg-white/60 p-6">
-			<h2 class="text-ink text-lg font-semibold">Customer</h2>
-			<p class="text-ink mt-3 text-sm font-medium">{data.order.guestName}</p>
-			<a href={`mailto:${data.order.guestEmail}`} class="text-pink-deep mt-1 block text-sm hover:underline">{data.order.guestEmail}</a>
+		<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
+			<h2 class="text-lg font-semibold text-ink">Customer</h2>
+			<p class="mt-3 text-sm font-medium text-ink">{data.order.guestName}</p>
+			<a
+				href={`mailto:${data.order.guestEmail}`}
+				class="mt-1 block text-sm text-pink-deep hover:underline">{data.order.guestEmail}</a
+			>
 			{#if data.order.guestPhone}
-				<a href={`tel:${data.order.guestPhone}`} class="text-pink-deep mt-1 block text-sm hover:underline">{data.order.guestPhone}</a>
+				<a
+					href={`tel:${data.order.guestPhone}`}
+					class="mt-1 block text-sm text-pink-deep hover:underline">{data.order.guestPhone}</a
+				>
 			{/if}
-			<p class="text-ink-soft mt-3 text-sm">Pickup: <span class="text-ink font-medium">{formatPickupDate(data.order.pickupDate)}</span></p>
+			<p class="mt-3 text-sm text-ink-soft">
+				{data.order.fulfilmentMethod === 'delivery' ? 'Delivery' : 'Pickup'}:
+				<span class="font-medium text-ink">{formatPickupDate(data.order.pickupDate)}</span>
+			</p>
+			{#if data.order.fulfilmentMethod === 'delivery' && data.order.deliveryAddress}
+				<div class="mt-3 rounded-xl bg-gold/10 p-3">
+					<p class="text-xs font-semibold tracking-widest text-gold-deep uppercase">
+						Delivery address
+					</p>
+					<p class="mt-1 text-sm whitespace-pre-line text-ink">{data.order.deliveryAddress}</p>
+				</div>
+			{/if}
 		</div>
 
 		<form
 			method="POST"
 			action="?/update"
-			class="border-ink/10 rounded-2xl border bg-white/60 p-6"
+			class="rounded-2xl border border-ink/10 bg-white/60 p-6"
 			use:enhance={() => {
 				submitting = true;
 				return async ({ update }) => {
@@ -91,22 +118,22 @@
 				};
 			}}
 		>
-			<h2 class="text-ink text-lg font-semibold">Status</h2>
+			<h2 class="text-lg font-semibold text-ink">Status</h2>
 
 			{#if form?.message}
 				<p class="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>
 			{/if}
 			{#if form?.success}
-				<p class="bg-blush text-ink mt-3 rounded-lg px-3 py-2 text-sm">Saved.</p>
+				<p class="mt-3 rounded-lg bg-blush px-3 py-2 text-sm text-ink">Saved.</p>
 			{/if}
 
 			<div class="mt-4">
-				<label for="status" class="text-ink-soft text-sm font-medium">Order status</label>
+				<label for="status" class="text-sm font-medium text-ink-soft">Order status</label>
 				<select
 					id="status"
 					name="status"
 					bind:value={status}
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				>
 					<option value="pending">Pending</option>
 					<option value="ready">Ready for pickup</option>
@@ -116,12 +143,12 @@
 			</div>
 
 			<div class="mt-4">
-				<label for="paymentStatus" class="text-ink-soft text-sm font-medium">Payment</label>
+				<label for="paymentStatus" class="text-sm font-medium text-ink-soft">Payment</label>
 				<select
 					id="paymentStatus"
 					name="paymentStatus"
 					bind:value={paymentStatus}
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				>
 					<option value="unpaid">Unpaid</option>
 					<option value="paid">Paid (in person)</option>
@@ -131,14 +158,16 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep mt-4 w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="mt-4 w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{submitting ? 'Saving…' : 'Save changes'}
 			</button>
 		</form>
 
 		<form method="POST" action="?/delete" use:enhance onsubmit={confirmDelete}>
-			<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete this order</button>
+			<button type="submit" class="text-sm text-red-600/70 hover:text-red-600"
+				>Delete this order</button
+			>
 		</form>
 	</div>
 </div>

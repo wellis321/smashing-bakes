@@ -17,6 +17,8 @@
 	let phone = $state('');
 	let pickupDate = $state(pickupDates[0]?.date ?? '');
 	let notes = $state('');
+	let fulfilmentMethod = $state<'pickup' | 'delivery'>('pickup');
+	let deliveryAddress = $state('');
 	let submitting = $state(false);
 
 	$effect(() => {
@@ -30,27 +32,29 @@
 	<h1 class="font-display text-4xl text-ink sm:text-5xl">Checkout</h1>
 
 	{#if cart.items.length > 0}
-		<div class="border-ink/10 mt-8 rounded-2xl border bg-white/60 p-6">
-			<h2 class="text-ink text-lg font-semibold">Your order</h2>
-			<ul class="divide-ink/10 mt-4 divide-y">
+		<div class="mt-8 rounded-2xl border border-ink/10 bg-white/60 p-6">
+			<h2 class="text-lg font-semibold text-ink">Your order</h2>
+			<ul class="mt-4 divide-y divide-ink/10">
 				{#each cart.items as item (`${item.productId}-${item.variantId}`)}
 					<li class="flex items-center justify-between gap-4 py-3 text-sm">
 						<span class="text-ink">
 							{item.quantity}&times; {item.name}{item.variantName ? ` (${item.variantName})` : ''}
 						</span>
-						<span class="text-ink-soft shrink-0">{formatPence(item.unitPricePence * item.quantity)}</span>
+						<span class="shrink-0 text-ink-soft"
+							>{formatPence(item.unitPricePence * item.quantity)}</span
+						>
 					</li>
 				{/each}
 			</ul>
-			<div class="border-ink/10 mt-3 flex items-center justify-between border-t pt-3">
-				<p class="text-ink-soft text-sm font-semibold">Subtotal</p>
-				<p class="text-ink font-semibold">{formatPence(cart.subtotalPence)}</p>
+			<div class="mt-3 flex items-center justify-between border-t border-ink/10 pt-3">
+				<p class="text-sm font-semibold text-ink-soft">Subtotal</p>
+				<p class="font-semibold text-ink">{formatPence(cart.subtotalPence)}</p>
 			</div>
 		</div>
 
 		<form
 			method="POST"
-			class="border-ink/10 mt-6 space-y-5 rounded-2xl border bg-white/60 p-6"
+			class="mt-6 space-y-5 rounded-2xl border border-ink/10 bg-white/60 p-6"
 			use:enhance={() => {
 				submitting = true;
 				return async ({ result, update }) => {
@@ -68,49 +72,117 @@
 
 			<div class="grid gap-4 sm:grid-cols-2">
 				<div>
-					<label for="name" class="text-ink-soft text-sm font-medium">Name</label>
+					<label for="name" class="text-sm font-medium text-ink-soft">Name</label>
 					<input
 						id="name"
 						name="name"
 						required
 						bind:value={name}
-						class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
 				</div>
 				<div>
-					<label for="email" class="text-ink-soft text-sm font-medium">Email</label>
+					<label for="email" class="text-sm font-medium text-ink-soft">Email</label>
 					<input
 						id="email"
 						name="email"
 						type="email"
 						required
 						bind:value={email}
-						class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
 				</div>
 			</div>
 
 			<div>
-				<label for="phone" class="text-ink-soft text-sm font-medium">Phone (optional)</label>
+				<label for="phone" class="text-sm font-medium text-ink-soft">Phone (optional)</label>
 				<input
 					id="phone"
 					name="phone"
 					type="tel"
 					bind:value={phone}
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full max-w-xs rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full max-w-xs rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
 
 			<fieldset>
-				<legend class="text-ink-soft text-sm font-medium">Pickup day</legend>
+				<legend class="text-sm font-medium text-ink-soft">How would you like it?</legend>
+				<div class="mt-2 flex flex-wrap gap-3">
+					<label
+						class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+							fulfilmentMethod === 'pickup'
+								? 'border-pink bg-pink text-cream'
+								: 'border-ink/15 bg-white text-ink hover:border-ink/30'
+						}`}
+					>
+						<input
+							type="radio"
+							name="fulfilmentMethod"
+							value="pickup"
+							bind:group={fulfilmentMethod}
+							class="sr-only"
+						/>
+						Pickup in store
+					</label>
+					<label
+						class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+							fulfilmentMethod === 'delivery'
+								? 'border-pink bg-pink text-cream'
+								: 'border-ink/15 bg-white text-ink hover:border-ink/30'
+						}`}
+					>
+						<input
+							type="radio"
+							name="fulfilmentMethod"
+							value="delivery"
+							bind:group={fulfilmentMethod}
+							class="sr-only"
+						/>
+						Free delivery
+					</label>
+				</div>
+				<p class="mt-1.5 text-xs text-ink-soft/70">
+					Free delivery is only available in Barrhead and Neilston.
+				</p>
+			</fieldset>
+
+			{#if fulfilmentMethod === 'delivery'}
+				<div>
+					<label for="deliveryAddress" class="text-sm font-medium text-ink-soft"
+						>Delivery address</label
+					>
+					<textarea
+						id="deliveryAddress"
+						name="deliveryAddress"
+						rows="2"
+						required
+						bind:value={deliveryAddress}
+						placeholder="Address, including postcode"
+						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
+					></textarea>
+				</div>
+			{/if}
+
+			<fieldset>
+				<legend class="text-sm font-medium text-ink-soft"
+					>{fulfilmentMethod === 'delivery' ? 'Delivery day' : 'Pickup day'}</legend
+				>
 				<div class="mt-2 flex flex-wrap gap-3">
 					{#each pickupDates as option (option.date)}
 						<label
 							class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-								pickupDate === option.date ? 'border-pink bg-pink text-cream' : 'border-ink/15 bg-white text-ink hover:border-ink/30'
+								pickupDate === option.date
+									? 'border-pink bg-pink text-cream'
+									: 'border-ink/15 bg-white text-ink hover:border-ink/30'
 							}`}
 						>
-							<input type="radio" name="pickupDate" value={option.date} bind:group={pickupDate} class="sr-only" />
+							<input
+								type="radio"
+								name="pickupDate"
+								value={option.date}
+								bind:group={pickupDate}
+								class="sr-only"
+							/>
 							{option.label}
 						</label>
 					{/each}
@@ -118,26 +190,27 @@
 			</fieldset>
 
 			<div>
-				<label for="notes" class="text-ink-soft text-sm font-medium">Notes (optional)</label>
+				<label for="notes" class="text-sm font-medium text-ink-soft">Notes (optional)</label>
 				<textarea
 					id="notes"
 					name="notes"
 					rows="2"
 					bind:value={notes}
 					placeholder="Allergies, a message to include, anything else we should know."
-					class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				></textarea>
 			</div>
 
-			<div class="border-ink/10 border-t pt-5">
-				<p class="text-ink-soft text-xs">
-					Online payment is coming soon — for now, placing an order reserves it for pickup and you pay in
-					person when you collect.
+			<div class="border-t border-ink/10 pt-5">
+				<p class="text-xs text-ink-soft">
+					Online payment is coming soon — for now, placing an order reserves it and you pay in
+					person
+					{fulfilmentMethod === 'delivery' ? 'when it arrives' : 'when you collect'}.
 				</p>
 				<button
 					type="submit"
 					disabled={submitting}
-					class="bg-pink hover:bg-pink-deep mt-4 w-full rounded-full py-3 text-sm font-semibold text-cream shadow-soft transition-colors disabled:opacity-60 sm:w-auto sm:px-8"
+					class="mt-4 w-full rounded-full bg-pink py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep disabled:opacity-60 sm:w-auto sm:px-8"
 				>
 					{submitting ? 'Placing order…' : `Place order — ${formatPence(cart.subtotalPence)}`}
 				</button>

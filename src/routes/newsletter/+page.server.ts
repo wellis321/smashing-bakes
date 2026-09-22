@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
 import { newsletterSubscribers } from '$lib/server/db/schema';
+import { notifyOwnerOfSubscriber } from '$lib/server/email/owner-notifications';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -45,7 +46,10 @@ export const actions: Actions = {
 			if (name && !existing.name) fillIn.name = name;
 			if (birthday && !existing.birthday) fillIn.birthday = birthday;
 			if (Object.keys(fillIn).length > 0) {
-				await db.update(newsletterSubscribers).set(fillIn).where(eq(newsletterSubscribers.id, existing.id));
+				await db
+					.update(newsletterSubscribers)
+					.set(fillIn)
+					.where(eq(newsletterSubscribers.id, existing.id));
 			}
 			return { success: true, alreadySubscribed: true };
 		}
@@ -53,6 +57,7 @@ export const actions: Actions = {
 		await db
 			.insert(newsletterSubscribers)
 			.values({ email, name, birthday, source, unsubscribeToken: randomBytes(24).toString('hex') });
+		await notifyOwnerOfSubscriber(email, name);
 
 		return { success: true, alreadySubscribed: false };
 	}

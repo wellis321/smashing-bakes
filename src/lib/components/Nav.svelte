@@ -5,7 +5,10 @@
 	import { cart } from '$lib/stores/cart.svelte';
 	import Logo from './Logo.svelte';
 
-	let { categories, customer }: { categories: CategorySummary[]; customer: CustomerSessionUser | null } = $props();
+	let {
+		categories,
+		customer
+	}: { categories: CategorySummary[]; customer: CustomerSessionUser | null } = $props();
 
 	let menuOpen = $state(false);
 	let mobileShopOpen = $state(false);
@@ -18,10 +21,13 @@
 	let accountOpen = $state(false);
 	let accountWrapper: HTMLDivElement | undefined = $state();
 
-	const isShopActive = $derived(page.url.pathname.startsWith('/shop') || page.url.pathname.startsWith('/product'));
+	const isShopActive = $derived(
+		page.url.pathname.startsWith('/shop') || page.url.pathname.startsWith('/product')
+	);
 	const isMenusActive = $derived(page.url.pathname.startsWith('/menus'));
 	const isVoteActive = $derived(page.url.pathname.startsWith('/vote'));
 	const isAboutActive = $derived(page.url.pathname === '/about');
+	const isBespokeActive = $derived(page.url.pathname === '/bespoke-cakes');
 	const isContactActive = $derived(page.url.pathname === '/contact');
 	const isAccountActive = $derived(page.url.pathname.startsWith('/account'));
 
@@ -54,11 +60,13 @@
 
 <svelte:window onclick={closeMenusOnOutsideClick} onkeydown={handleKeydown} />
 
-<div class="bg-blush-deep text-ink px-4 py-2 text-center text-xs font-medium tracking-wide sm:text-sm">
+<div
+	class="bg-blush-deep px-4 py-2 text-center text-xs font-medium tracking-wide text-ink sm:text-sm"
+>
 	Pre-order now for Friday &amp; Saturday pickup · 9&ndash;11 Paisley Road, Barrhead
 </div>
 
-<header class="bg-cream/90 sticky top-0 z-30 border-b border-ink/[0.06] backdrop-blur">
+<header class="sticky top-0 z-30 border-b border-ink/[0.06] bg-cream/90 backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
 		<a href="/" class="shrink-0" aria-label="Smashin' Bakes home">
 			<Logo class="h-auto w-[165px] min-[375px]:w-[220px] sm:w-[260px] xl:w-[300px]" />
@@ -82,29 +90,35 @@
 						class={`transition-transform duration-200 ${shopOpen ? 'rotate-180' : ''}`}
 						aria-hidden="true"
 					>
-						<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path
+							d="M2.5 4.5L6 8L9.5 4.5"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
 					</svg>
 				</button>
 
 				{#if shopOpen}
 					<div
 						role="menu"
-						class="border-ink/10 shadow-soft absolute top-full left-0 mt-2 w-60 rounded-2xl border bg-cream p-2"
+						class="absolute top-full left-0 mt-2 w-60 rounded-2xl border border-ink/10 bg-cream p-2 shadow-soft"
 					>
 						<a
 							href="/shop"
 							role="menuitem"
-							class="text-ink hover:bg-blush block rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
+							class="block rounded-lg px-3 py-2 text-sm font-semibold text-ink transition-colors hover:bg-blush"
 							onclick={() => (shopOpen = false)}
 						>
 							Shop all
 						</a>
-						<div class="bg-ink/10 my-1.5 h-px"></div>
+						<div class="my-1.5 h-px bg-ink/10"></div>
 						{#each categories as category (category.id)}
 							<a
 								href={`/shop/${category.slug}`}
 								role="menuitem"
-								class="text-ink-soft hover:bg-blush hover:text-ink block rounded-lg px-3 py-2 text-sm transition-colors"
+								class="block rounded-lg px-3 py-2 text-sm text-ink-soft transition-colors hover:bg-blush hover:text-ink"
 								onclick={() => (shopOpen = false)}
 							>
 								{category.name}
@@ -117,6 +131,7 @@
 			<a href="/menus" class={linkClass(isMenusActive)}>Weekly menus</a>
 			<a href="/vote" class={linkClass(isVoteActive)}>Vote</a>
 			<a href="/about" class={linkClass(isAboutActive)}>About</a>
+			<a href="/bespoke-cakes" class={linkClass(isBespokeActive)}>Bespoke cakes</a>
 			<a href="/contact" class={linkClass(isContactActive)}>Contact</a>
 		</nav>
 
@@ -139,21 +154,34 @@
 							class={`transition-transform duration-200 ${accountOpen ? 'rotate-180' : ''}`}
 							aria-hidden="true"
 						>
-							<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+							<path
+								d="M2.5 4.5L6 8L9.5 4.5"
+								stroke="currentColor"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
 						</svg>
 					</button>
 					{#if accountOpen}
-						<div role="menu" class="border-ink/10 shadow-soft absolute top-full right-0 mt-2 w-48 rounded-2xl border bg-cream p-2">
+						<div
+							role="menu"
+							class="absolute top-full right-0 mt-2 w-48 rounded-2xl border border-ink/10 bg-cream p-2 shadow-soft"
+						>
 							<a
 								href="/account"
 								role="menuitem"
-								class="text-ink hover:bg-blush block rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
+								class="block rounded-lg px-3 py-2 text-sm font-semibold text-ink transition-colors hover:bg-blush"
 								onclick={() => (accountOpen = false)}
 							>
 								My account
 							</a>
 							<form method="POST" action="/account/logout">
-								<button type="submit" role="menuitem" class="text-ink-soft hover:bg-blush block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors">
+								<button
+									type="submit"
+									role="menuitem"
+									class="block w-full rounded-lg px-3 py-2 text-left text-sm text-ink-soft transition-colors hover:bg-blush"
+								>
 									Sign out
 								</button>
 							</form>
@@ -165,7 +193,7 @@
 			</div>
 			<a
 				href="/cart"
-				class="text-ink relative -mr-1 grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors hover:bg-blush focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50"
+				class="relative -mr-1 grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink transition-colors hover:bg-blush focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:outline-none"
 				aria-label={`Cart${cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}`}
 			>
 				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -181,7 +209,7 @@
 				</svg>
 				{#if cart.count > 0}
 					<span
-						class="bg-pink text-cream absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full text-[10px] font-bold"
+						class="absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full bg-pink text-[10px] font-bold text-cream"
 					>
 						{cart.count}
 					</span>
@@ -189,24 +217,34 @@
 			</a>
 			<a
 				href="/shop"
-				class="bg-pink hover:bg-pink-deep hidden shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-cream shadow-soft transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream sm:inline-flex"
+				class="hidden shrink-0 rounded-full bg-pink px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-cream shadow-soft transition-colors hover:bg-pink-deep focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream focus-visible:outline-none sm:inline-flex"
 			>
 				Order for pickup
 			</a>
 			<button
 				type="button"
-				class="text-ink -mr-2 grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-blush focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 lg:hidden"
+				class="-mr-2 grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-blush focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:outline-none lg:hidden"
 				aria-expanded={menuOpen}
 				aria-label="Toggle menu"
 				onclick={() => (menuOpen = !menuOpen)}
 			>
 				{#if menuOpen}
 					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-						<path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+						<path
+							d="M4 4L16 16M16 4L4 16"
+							stroke="currentColor"
+							stroke-width="1.6"
+							stroke-linecap="round"
+						/>
 					</svg>
 				{:else}
 					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-						<path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+						<path
+							d="M3 5.5H17M3 10H17M3 14.5H17"
+							stroke="currentColor"
+							stroke-width="1.6"
+							stroke-linecap="round"
+						/>
 					</svg>
 				{/if}
 			</button>
@@ -219,7 +257,9 @@
 	>
 		<div class="overflow-hidden">
 			<nav class="flex flex-col gap-1 px-5 pb-5">
-				<p class="text-ink-soft/70 mt-1 mb-1 px-2 text-xs font-semibold tracking-widest uppercase">Shop</p>
+				<p class="mt-1 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+					Shop
+				</p>
 				<a
 					href="/shop"
 					class={`rounded-lg px-2 py-2.5 text-sm font-semibold transition-colors ${isShopActive ? 'bg-pink text-cream' : 'text-ink hover:bg-blush'}`}
@@ -229,7 +269,7 @@
 				</a>
 				<button
 					type="button"
-					class="text-ink-soft hover:bg-blush hover:text-ink flex items-center justify-between rounded-lg px-2 py-2.5 text-sm font-medium transition-colors"
+					class="flex items-center justify-between rounded-lg px-2 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:bg-blush hover:text-ink"
 					aria-expanded={mobileShopOpen}
 					onclick={() => (mobileShopOpen = !mobileShopOpen)}
 				>
@@ -242,14 +282,20 @@
 						class={`transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''}`}
 						aria-hidden="true"
 					>
-						<path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path
+							d="M2.5 4.5L6 8L9.5 4.5"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
 					</svg>
 				</button>
 				{#if mobileShopOpen}
 					{#each categories as category (category.id)}
 						<a
 							href={`/shop/${category.slug}`}
-							class="text-ink-soft hover:bg-blush hover:text-ink rounded-lg py-2.5 pr-2 pl-6 text-sm font-medium transition-colors"
+							class="rounded-lg py-2.5 pr-2 pl-6 text-sm font-medium text-ink-soft transition-colors hover:bg-blush hover:text-ink"
 							onclick={() => (menuOpen = false)}
 						>
 							{category.name}
@@ -257,7 +303,9 @@
 					{/each}
 				{/if}
 
-				<p class="text-ink-soft/70 mt-4 mb-1 px-2 text-xs font-semibold tracking-widest uppercase">More</p>
+				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+					More
+				</p>
 				<a
 					href="/menus"
 					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isMenusActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
@@ -280,6 +328,13 @@
 					About
 				</a>
 				<a
+					href="/bespoke-cakes"
+					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isBespokeActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+					onclick={() => (menuOpen = false)}
+				>
+					Bespoke cakes
+				</a>
+				<a
 					href="/contact"
 					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isContactActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 					onclick={() => (menuOpen = false)}
@@ -287,7 +342,9 @@
 					Contact
 				</a>
 
-				<p class="text-ink-soft/70 mt-4 mb-1 px-2 text-xs font-semibold tracking-widest uppercase">Account</p>
+				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+					Account
+				</p>
 				{#if customer}
 					<a
 						href="/account"
@@ -299,7 +356,7 @@
 					<form method="POST" action="/account/logout">
 						<button
 							type="submit"
-							class="text-ink-soft hover:bg-blush hover:text-ink w-full rounded-lg px-2 py-2.5 text-left text-sm font-medium transition-colors"
+							class="w-full rounded-lg px-2 py-2.5 text-left text-sm font-medium text-ink-soft transition-colors hover:bg-blush hover:text-ink"
 						>
 							Sign out
 						</button>
@@ -307,7 +364,7 @@
 				{:else}
 					<a
 						href="/account/login"
-						class="text-ink-soft hover:bg-blush hover:text-ink rounded-lg px-2 py-2.5 text-sm font-medium transition-colors"
+						class="rounded-lg px-2 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:bg-blush hover:text-ink"
 						onclick={() => (menuOpen = false)}
 					>
 						Log in
@@ -316,7 +373,7 @@
 
 				<a
 					href="/shop"
-					class="bg-pink mt-3 rounded-full px-5 py-2.5 text-center text-sm font-semibold text-cream"
+					class="mt-3 rounded-full bg-pink px-5 py-2.5 text-center text-sm font-semibold text-cream"
 					onclick={() => (menuOpen = false)}
 				>
 					Order for pickup

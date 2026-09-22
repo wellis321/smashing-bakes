@@ -101,6 +101,15 @@ export const orders = mysqlTable('orders', {
 	guestName: varchar('guest_name', { length: 150 }).notNull(),
 	guestEmail: varchar('guest_email', { length: 255 }).notNull(),
 	guestPhone: varchar('guest_phone', { length: 50 }),
+	// Free delivery is limited to Barrhead/Neilston (self-declared address, not
+	// postcode-validated — staff eyeball it against the order list before the
+	// pickup/delivery day, same trust level the rest of guest checkout runs on).
+	// pickupDate is still the shared "which Friday/Saturday" field regardless
+	// of method — a delivery still goes out on one of those two days.
+	fulfilmentMethod: mysqlEnum('fulfilment_method', ['pickup', 'delivery'])
+		.notNull()
+		.default('pickup'),
+	deliveryAddress: text('delivery_address'),
 	pickupDate: date('pickup_date', { mode: 'string' }).notNull(),
 	status: mysqlEnum('status', ['pending', 'ready', 'collected', 'cancelled'])
 		.notNull()
@@ -405,6 +414,18 @@ export const siteSettings = mysqlTable('site_settings', {
 	heroImage1Url: varchar('hero_image_1_url', { length: 500 }),
 	heroImage2Url: varchar('hero_image_2_url', { length: 500 }),
 	heroImage3Url: varchar('hero_image_3_url', { length: 500 }),
+	// The /bespoke-cakes page's own hero photo + copy — null image falls back
+	// to no photo (a text-only hero) rather than a placeholder illustration,
+	// since a generic cupcake graphic would undersell an actual cake photo.
+	bespokeCakesImageUrl: varchar('bespoke_cakes_image_url', { length: 500 }),
+	bespokeCakesHeading: varchar('bespoke_cakes_heading', { length: 200 })
+		.notNull()
+		.default("Bespoke cakes for your Smashin' occasion"),
+	bespokeCakesIntro: text('bespoke_cakes_intro')
+		.notNull()
+		.default(
+			'Birthdays, celebrations, anything worth marking with something a bit special — tell us what you have in mind and our baker Alanah will help bring it to life.'
+		),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

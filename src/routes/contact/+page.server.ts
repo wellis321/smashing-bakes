@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
 import { bespokeOrderEnquiries, newsletterSubscribers } from '$lib/server/db/schema';
+import { notifyOwnerOfEnquiry } from '$lib/server/email/owner-notifications';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -25,13 +26,17 @@ export const actions: Actions = {
 		const values = { name, email, phone: phone ?? '', details };
 
 		if (!name || !email || !details) {
-			return fail(400, { message: 'Please fill in your name, email and what you’re after.', values });
+			return fail(400, {
+				message: 'Please fill in your name, email and what you’re after.',
+				values
+			});
 		}
 		if (!EMAIL_PATTERN.test(email)) {
 			return fail(400, { message: 'That email address doesn’t look quite right.', values });
 		}
 
 		await db.insert(bespokeOrderEnquiries).values({ name, email, phone, details, wantsNewsletter });
+		await notifyOwnerOfEnquiry({ name, email, phone, details });
 
 		if (wantsNewsletter) {
 			const existing = await db.query.newsletterSubscribers.findFirst({
