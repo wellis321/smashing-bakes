@@ -238,7 +238,7 @@
 								<input
 									id={`zoom-${item.id}`}
 									type="range"
-									min="100"
+									min="40"
 									max="200"
 									bind:value={editZoom}
 									class="w-full accent-pink"

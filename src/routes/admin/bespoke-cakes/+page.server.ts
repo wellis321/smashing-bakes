@@ -23,7 +23,7 @@ const FOCAL_POINTS = new Set([
 ]);
 
 function parseZoom(formData: FormData, field: string): number {
-	return Math.min(200, Math.max(100, Number(formData.get(field)) || 100));
+	return Math.min(200, Math.max(40, Number(formData.get(field)) || 100));
 }
 
 function parseFocalPoint(formData: FormData, field: string): string {

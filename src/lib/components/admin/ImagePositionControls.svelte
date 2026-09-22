@@ -52,7 +52,7 @@
 					<input
 						id={zoomFieldName}
 						type="range"
-						min="100"
+						min="40"
 						max="200"
 						step="1"
 						bind:value={zoom}
@@ -60,6 +60,10 @@
 					/>
 					<span class="w-12 shrink-0 text-right text-sm text-ink-soft">{zoom}%</span>
 				</div>
+				<p class="mt-1 text-xs text-ink-soft/70">
+					Below 100%, shrinks back in — the space around it fills with a plain background rather
+					than cropping. Above 100% crops in tighter.
+				</p>
 			</div>
 
 			<div>
