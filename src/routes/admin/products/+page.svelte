@@ -72,13 +72,17 @@
 			case 'price-desc':
 				return list.sort((a, b) => effectivePrice(b) - effectivePrice(a));
 			case 'newest':
-				return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+				return list.sort(
+					(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+				);
 			default:
 				return list;
 		}
 	});
 
-	const hasFilters = $derived(search.trim() !== '' || categoryId !== 'all' || status !== 'all' || badgeFilter !== 'all');
+	const hasFilters = $derived(
+		search.trim() !== '' || categoryId !== 'all' || status !== 'all' || badgeFilter !== 'all'
+	);
 
 	function clearFilters() {
 		search = '';
@@ -96,14 +100,45 @@
 
 {#snippet productRow(product: (typeof filteredProducts)[number])}
 	<div class="flex items-center gap-4 px-4 py-3">
-		<img src={product.images[0]?.url} alt="" class="bg-cream-dim h-12 w-12 shrink-0 rounded-lg object-cover" />
+		{#if product.images[0]?.url}
+			<img
+				src={product.images[0].url}
+				alt=""
+				class="h-12 w-12 shrink-0 rounded-lg bg-cream-dim object-cover"
+			/>
+		{:else}
+			<div
+				class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-cream-dim text-ink-soft/50"
+				title="No photo yet"
+			>
+				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+					<rect
+						x="2.5"
+						y="4.5"
+						width="15"
+						height="11"
+						rx="1.5"
+						stroke="currentColor"
+						stroke-width="1.3"
+					/>
+					<circle cx="7" cy="8.5" r="1.3" stroke="currentColor" stroke-width="1.3" />
+					<path
+						d="M3 13.5l4-4 3 3 2.5-2.5L17 13.5"
+						stroke="currentColor"
+						stroke-width="1.3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</div>
+		{/if}
 
 		<a href={`/admin/products/${product.id}/edit`} class="min-w-0 flex-1">
-			<p class="text-ink truncate text-sm font-medium">{product.name}</p>
-			<p class="text-ink-soft text-xs">
+			<p class="truncate text-sm font-medium text-ink">{product.name}</p>
+			<p class="text-xs text-ink-soft">
 				{product.category.name} &middot;
 				{#if isOnSale(product)}
-					<span class="text-pink-deep font-semibold">{formatPence(product.salePricePence!)}</span>
+					<span class="font-semibold text-pink-deep">{formatPence(product.salePricePence!)}</span>
 					<span class="line-through opacity-60">{formatPence(product.basePricePence)}</span>
 				{:else}
 					{formatPence(product.basePricePence)}
@@ -134,9 +169,16 @@
 			</button>
 		</form>
 
-		<a href={`/admin/products/${product.id}/edit`} class="text-ink-soft hover:text-ink text-sm">Edit</a>
+		<a href={`/admin/products/${product.id}/edit`} class="text-sm text-ink-soft hover:text-ink"
+			>Edit</a
+		>
 
-		<form method="POST" action="?/delete" use:enhance onsubmit={(e) => confirmDelete(e, product.name)}>
+		<form
+			method="POST"
+			action="?/delete"
+			use:enhance
+			onsubmit={(e) => confirmDelete(e, product.name)}
+		>
 			<input type="hidden" name="id" value={product.id} />
 			<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete</button>
 		</form>
@@ -150,10 +192,12 @@
 <div class="flex items-center justify-between">
 	<h1 class="font-display text-3xl text-ink">Products</h1>
 	<div class="flex items-center gap-3">
-		<a href="/admin/categories" class="text-ink-soft hover:text-ink text-sm font-semibold">Manage categories</a>
+		<a href="/admin/categories" class="text-sm font-semibold text-ink-soft hover:text-ink"
+			>Manage categories</a
+		>
 		<a
 			href="/admin/products/new"
-			class="bg-pink hover:bg-pink-deep rounded-full px-4 py-2 text-sm font-semibold text-cream transition-colors"
+			class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
 		>
 			+ Add product
 		</a>
@@ -170,7 +214,7 @@
 			stroke="currentColor"
 			stroke-width="1.6"
 			stroke-linecap="round"
-			class="text-ink-soft/60 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
+			class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-soft/60"
 			aria-hidden="true"
 		>
 			<circle cx="8.5" cy="8.5" r="6" />
@@ -180,13 +224,13 @@
 			type="text"
 			bind:value={search}
 			placeholder="Search products…"
-			class="border-ink/15 focus:ring-pink/40 w-full rounded-full border bg-white py-2 pr-3 pl-9 text-sm outline-none focus:ring-2"
+			class="w-full rounded-full border border-ink/15 bg-white py-2 pr-3 pl-9 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		/>
 	</div>
 
 	<select
 		bind:value={categoryId}
-		class="border-ink/15 focus:ring-pink/40 rounded-full border bg-white px-3 py-2 text-sm outline-none focus:ring-2"
+		class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 	>
 		<option value="all">All categories</option>
 		{#each data.categories as category (category.id)}
@@ -196,7 +240,7 @@
 
 	<select
 		bind:value={status}
-		class="border-ink/15 focus:ring-pink/40 rounded-full border bg-white px-3 py-2 text-sm outline-none focus:ring-2"
+		class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 	>
 		<option value="all">All statuses</option>
 		<option value="active">Active only</option>
@@ -205,7 +249,7 @@
 
 	<select
 		bind:value={badgeFilter}
-		class="border-ink/15 focus:ring-pink/40 rounded-full border bg-white px-3 py-2 text-sm outline-none focus:ring-2"
+		class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 	>
 		<option value="all">Any badge</option>
 		<option value="sale">On sale only</option>
@@ -217,7 +261,7 @@
 		<span class="text-ink-soft">Sort</span>
 		<select
 			bind:value={sortBy}
-			class="border-ink/15 focus:ring-pink/40 rounded-full border bg-white px-3 py-2 text-sm outline-none focus:ring-2"
+			class="rounded-full border border-ink/15 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		>
 			<option value="category">By category</option>
 			<option value="name">Name (A–Z)</option>
@@ -228,29 +272,33 @@
 	</label>
 
 	{#if hasFilters}
-		<button type="button" onclick={clearFilters} class="text-ink-soft hover:text-ink text-sm font-medium underline underline-offset-2">
+		<button
+			type="button"
+			onclick={clearFilters}
+			class="text-sm font-medium text-ink-soft underline underline-offset-2 hover:text-ink"
+		>
 			Clear filters
 		</button>
 	{/if}
 </div>
 
-<p class="text-ink-soft mt-3 text-xs">
+<p class="mt-3 text-xs text-ink-soft">
 	{filteredProducts.length} of {data.products.length} product{data.products.length === 1 ? '' : 's'}
 </p>
 
 {#if filteredProducts.length === 0}
-	<div class="border-ink/10 mt-3 rounded-xl border bg-white/60">
-		<p class="text-ink-soft px-4 py-8 text-center text-sm">No products match your filters.</p>
+	<div class="mt-3 rounded-xl border border-ink/10 bg-white/60">
+		<p class="px-4 py-8 text-center text-sm text-ink-soft">No products match your filters.</p>
 	</div>
 {:else if sortBy === 'category'}
 	<div class="mt-3 space-y-6">
 		{#each groupedByCategory as group (group.category.id)}
 			<div>
 				<div class="mb-2 flex items-baseline gap-2 px-1">
-					<h2 class="text-ink text-sm font-semibold">{group.category.name}</h2>
-					<span class="text-ink-soft/70 text-xs">({group.products.length})</span>
+					<h2 class="text-sm font-semibold text-ink">{group.category.name}</h2>
+					<span class="text-xs text-ink-soft/70">({group.products.length})</span>
 				</div>
-				<div class="border-ink/10 divide-ink/10 divide-y rounded-xl border bg-white/60">
+				<div class="divide-y divide-ink/10 rounded-xl border border-ink/10 bg-white/60">
 					{#each group.products as product (product.id)}
 						{@render productRow(product)}
 					{/each}
@@ -259,7 +307,7 @@
 		{/each}
 	</div>
 {:else}
-	<div class="border-ink/10 divide-ink/10 mt-3 divide-y rounded-xl border bg-white/60">
+	<div class="mt-3 divide-y divide-ink/10 rounded-xl border border-ink/10 bg-white/60">
 		{#each sortedFlat as product (product.id)}
 			{@render productRow(product)}
 		{/each}
