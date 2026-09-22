@@ -13,6 +13,10 @@
 
 	const product = $derived(data.product);
 	const image = $derived(product.images[0]);
+	// Anything beyond the main photo — shown as a row of thumbnails below it,
+	// sized up as there are fewer of them so a single extra photo isn't a
+	// tiny square floating under a big one.
+	const extraImages = $derived(product.images.slice(1));
 	const onSale = $derived(product.badge === 'sale' && product.salePricePence != null);
 	const activeVariants = $derived(product.variants.filter((v) => v.isActive));
 
@@ -107,16 +111,36 @@
 	</a>
 
 	<div class="mt-6 grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-		<div class="relative overflow-hidden rounded-[2rem]">
-			{#if image}
-				<img
-					src={image.url}
-					alt={image.altText ?? product.name}
-					class="aspect-square w-full object-cover"
-				/>
-			{/if}
-			{#if product.badge !== 'none'}
-				<Badge kind={product.badge} />
+		<div>
+			<div class="relative overflow-hidden rounded-[2rem]">
+				{#if image}
+					<img
+						src={image.url}
+						alt={image.altText ?? product.name}
+						class="aspect-square w-full object-cover"
+					/>
+				{/if}
+				{#if product.badge !== 'none'}
+					<Badge kind={product.badge} />
+				{/if}
+			</div>
+
+			{#if extraImages.length > 0}
+				<div class="mt-4 flex gap-4">
+					{#each extraImages as extra (extra.id)}
+						<div
+							class={`flex-1 overflow-hidden rounded-2xl bg-cream-dim ${
+								extraImages.length === 1 ? 'aspect-[16/9]' : 'aspect-square'
+							}`}
+						>
+							<img
+								src={extra.url}
+								alt={extra.altText ?? product.name}
+								class="h-full w-full object-cover"
+							/>
+						</div>
+					{/each}
+				</div>
 			{/if}
 		</div>
 
