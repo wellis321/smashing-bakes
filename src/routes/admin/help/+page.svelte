@@ -30,7 +30,8 @@
 				{ id: 'enquiries', label: 'Enquiries' },
 				{ id: 'subscribers', label: 'Subscribers' },
 				{ id: 'customers', label: 'Customers' },
-				{ id: 'staff', label: 'Staff accounts' }
+				{ id: 'staff', label: 'Staff accounts' },
+				{ id: 'activity-log', label: 'Activity log' }
 			]
 		},
 		{ label: '', items: [{ id: 'settings', label: 'Settings' }] },
@@ -193,8 +194,11 @@
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
-					"Add product" needs a name, category, price and photo at minimum — description and a badge
-					("New bake" or "On sale") are optional.
+					"Add product" needs a name, category and price at minimum — description, a photo and a
+					badge ("New bake" or "On sale") are all optional. A product with no photo still gets
+					created and shows fine on the shop page (just with no image); on the admin list it shows a
+					small "no photo" icon in place of a thumbnail, so it's easy to spot which products still
+					need one.
 				</li>
 				<li>
 					Turn a product's <strong>Active</strong> toggle off to hide it from the shop without deleting
@@ -290,21 +294,33 @@
 			</div>
 			<p class="mt-1 text-base text-ink-soft">
 				Quick-buy orders placed on the site — a customer picks an item (or a few), checks out with
-				their details and a pickup day, and it lands here.
+				their details and a pickup or delivery day, and it lands here.
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					There's no online payment connected yet — every order is placed as "reserve now, pay in
-					person at pickup," and the checkout page and confirmation email both say so plainly.
-					Nothing here pretends to have taken a payment that hasn't happened.
+					person on pickup/delivery," and the checkout page and confirmation email both say so
+					plainly. Nothing here pretends to have taken a payment that hasn't happened.
+				</li>
+				<li>
+					At checkout, a customer chooses <strong>pickup in store</strong> or
+					<strong>free delivery</strong> (Barrhead/Neilston only, by copy alone — the address itself isn't
+					validated against those areas, so it's worth a glance before the delivery day). A delivery order
+					shows its address on the order detail page.
+				</li>
+				<li>
+					An email goes out to <code class="text-xs">alanah@smashinbakes.co.uk</code> every time a
+					new order comes in (set via the <code class="text-xs">NOTIFY_OWNER_EMAIL</code> environment
+					variable, not from anywhere in this admin area) — so this list isn't the only way to notice
+					one.
 				</li>
 				<li>
 					The <strong>Active</strong> filter hides collected/cancelled orders so the list stays a
 					working to-do rather than a full history — switch to <strong>All</strong> to see everything.
 				</li>
 				<li>
-					Open an order to see the items, customer contact details, pickup day and any notes they
-					left (allergies, messages), and to set its status (<strong>Pending</strong> →
+					Open an order to see the items, customer contact details, pickup/delivery day and any
+					notes they left (allergies, messages), and to set its status (<strong>Pending</strong> →
 					<strong>Ready for pickup</strong>
 					→ <strong>Collected</strong>, or <strong>Cancelled</strong>) and mark payment as received
 					once they've paid in person.
@@ -567,9 +583,21 @@
 					>
 				</div>
 			</div>
-			<p class="mt-1 text-base text-ink-soft">Messages sent through the Contact page.</p>
+			<p class="mt-1 text-base text-ink-soft">
+				Bespoke cake requests, sent through either the Contact page or the dedicated <code
+					class="text-xs">/bespoke-cakes</code
+				> page — both post to the same form and land here identically.
+			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>New enquiries are highlighted on the Dashboard as soon as they come in.</li>
+				<li>
+					An email also goes out straight away to <code class="text-xs"
+						>alanah@smashinbakes.co.uk</code
+					>
+					(see the note on this under
+					<a href="#orders" class="text-pink-deep hover:underline">Orders</a>) — so a new enquiry
+					doesn't rely on someone happening to check this list.
+				</li>
 				<li>
 					Mark each one <strong>Contacted</strong> or <strong>Archived</strong> as you work through it,
 					so the "new" count on the Dashboard stays a true to-do list rather than a running total.
@@ -610,6 +638,9 @@
 				<li>
 					Signing up can optionally include a birthday — shown as a 🎂 badge in the list, so staff
 					can spot who's due their birthday treat.
+				</li>
+				<li>
+					A new signup also emails <code class="text-xs">alanah@smashinbakes.co.uk</code> straight away.
 				</li>
 				<li>
 					"Mark redeemed" tracks who's already used their welcome offer at pickup, so it doesn't get
@@ -707,8 +738,43 @@
 				<li>
 					If someone loses or mistypes their password and can't log in, use <strong
 						>Reset password</strong
-					> on their edit page to generate a fresh one — it replaces the old one immediately and signs
-					them out of anywhere they were still logged in.
+					>
+					on their edit page to generate a fresh one — it replaces the old one immediately and signs
+					them out of anywhere they were still logged in. This is blocked for a
+					<a href="#security" class="text-pink-deep hover:underline">protected account</a> — only its
+					own owner can act on it.
+				</li>
+				<li>
+					Staff can also reset their own password without anyone's help, via
+					<strong>Forgot your password?</strong> on the login page — a one-hour emailed link, the same
+					pattern customer accounts already use.
+				</li>
+			</ul>
+		</section>
+
+		<section id="activity-log" use:registerSection={'activity-log'} class="scroll-mt-6 p-6 sm:p-8">
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Activity log</h2>
+				<a
+					href="/admin/activity"
+					target="_blank"
+					rel="noreferrer"
+					class="text-pink-deep hover:underline">Admin page &#8599;</a
+				>
+			</div>
+			<p class="mt-1 text-base text-ink-soft">
+				Who logged in (or failed to), logged out, and every change made to a staff account —
+				admin-only, under <strong>People &rarr; Activity log</strong>.
+			</p>
+			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+				<li>
+					Shows the most recent 200 events: successful and failed logins (with a reason — wrong
+					password, locked out, deactivated, no such account), logouts, and every staff-management
+					action (account created, role changed, activated/deactivated, deleted, password reset).
+				</li>
+				<li>
+					Exists specifically so "is someone else on my account" or "did my login just fail
+					repeatedly" is answerable from evidence rather than guesswork.
 				</li>
 			</ul>
 		</section>
@@ -742,6 +808,12 @@
 					The three overlapping photo cards next to the homepage headline can each be replaced with
 					a real photo — upload or choose from the library, one slot at a time. Leave any blank and
 					it falls back to the built-in illustration.
+				</li>
+				<li>
+					The <code class="text-xs">/bespoke-cakes</code> page's heading, intro text and hero photo are
+					all set here too. Leave the photo blank and the page just shows the text with no image — there's
+					no placeholder illustration for this one, since a generic graphic would undersell an actual
+					cake photo.
 				</li>
 			</ul>
 		</section>
@@ -1062,9 +1134,10 @@
 								>
 							</div>
 							<p class="mt-1.5 text-base leading-relaxed text-ink-soft">
-								Quick-buy orders are placed and paid for in person at pickup — connecting a real
-								payment provider (e.g. Stripe) would let customers actually pay online, which is a
-								fairly contained change on top of what's already built.
+								Quick-buy orders are placed and paid for in person at pickup/delivery — connecting a
+								real payment provider (SumUp, per the shop owner's request) would let customers
+								actually pay online. Blocked on SumUp API credentials from whoever holds the SumUp
+								business account; nothing to build until those exist.
 							</p>
 						</div>
 						<div class="p-4">
@@ -1076,11 +1149,12 @@
 								>
 							</div>
 							<p class="mt-1.5 text-base leading-relaxed text-ink-soft">
-								The site is still on its Hostinger subdomain — once the real domain's DNS is pointed
-								here and you're ready to actually launch, flip <code class="text-xs"
-									>PUBLIC_SITE_LIVE</code
+								The site is still on its Hostinger subdomain — <code class="text-xs"
+									>smashinbakes.co.uk</code
 								>
-								on so search engines can index it.
+								is registered at GoDaddy and just needs pointing here. Once that's done and you're
+								ready to actually launch, flip <code class="text-xs">PUBLIC_SITE_LIVE</code> on so search
+								engines can index it.
 							</p>
 						</div>
 					</div>
