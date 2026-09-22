@@ -166,7 +166,7 @@
 </section>
 
 <!-- This week's bakes -->
-<section id="this-weeks-bakes" class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+<section id="this-weeks-bakes" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8">
 	<div class="flex items-end justify-between gap-4">
 		<div>
 			<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Fresh this week</p>

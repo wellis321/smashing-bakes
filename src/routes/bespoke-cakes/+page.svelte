@@ -122,7 +122,7 @@
 	</section>
 {/if}
 
-<section id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-6 px-5 pb-16 sm:px-8">
+<section id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-24 px-5 pb-16 sm:px-8">
 	<BespokeOrderForm {form} action="/contact" />
 </section>
 
