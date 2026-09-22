@@ -19,9 +19,9 @@
 	let name = $state('');
 	let birthday = $state('');
 	let submitting = $state(false);
-	let result = $state<{ status: 'success'; alreadySubscribed: boolean } | { status: 'error'; message: string } | null>(
-		null
-	);
+	let result = $state<
+		{ status: 'success'; alreadySubscribed: boolean } | { status: 'error'; message: string } | null
+	>(null);
 </script>
 
 {#if result?.status === 'success'}
@@ -29,7 +29,9 @@
 		<p class={`font-display text-xl ${variant === 'compact' ? 'text-cream' : 'text-ink'}`}>
 			{result.alreadySubscribed ? "You're already on the list!" : "You're in!"}
 		</p>
-		<p class={`mt-2 text-[15px] leading-relaxed ${variant === 'compact' ? 'text-cream/85' : 'text-ink-soft'}`}>
+		<p
+			class={`mt-2 text-[15px] leading-relaxed ${variant === 'compact' ? 'text-cream/85' : 'text-ink-soft'}`}
+		>
 			{result.alreadySubscribed
 				? "No need to sign up twice — here's your welcome code again, just in case:"
 				: "We'll let you know about specials, new bakes and the odd surprise. Here's your welcome offer:"}
@@ -39,7 +41,9 @@
 				variant === 'compact' ? 'border-cream/25' : 'border-pink/40'
 			}`}
 		>
-			<span class={`font-display text-lg tracking-wide ${variant === 'compact' ? 'text-cream' : 'text-pink-deep'}`}>
+			<span
+				class={`font-display text-lg tracking-wide ${variant === 'compact' ? 'text-cream' : 'text-pink-deep'}`}
+			>
 				{offer.code}
 			</span>
 			<span class={`text-sm ${variant === 'compact' ? 'text-cream/80' : 'text-ink-soft'}`}>
@@ -61,7 +65,10 @@
 			return async ({ result: actionResult }) => {
 				submitting = false;
 				if (actionResult.type === 'success' && actionResult.data) {
-					result = { status: 'success', alreadySubscribed: Boolean(actionResult.data.alreadySubscribed) };
+					result = {
+						status: 'success',
+						alreadySubscribed: Boolean(actionResult.data.alreadySubscribed)
+					};
 					email = '';
 					name = '';
 					birthday = '';
@@ -69,7 +76,8 @@
 				} else if (actionResult.type === 'failure') {
 					result = {
 						status: 'error',
-						message: (actionResult.data?.message as string) ?? 'Something went wrong — please try again.'
+						message:
+							(actionResult.data?.message as string) ?? 'Something went wrong — please try again.'
 					};
 				}
 			};
@@ -77,8 +85,10 @@
 	>
 		<input type="hidden" name="source" value={source} />
 
-		<!-- Honeypot — left blank by real visitors, hidden from view and the tab order. -->
-		<div class="absolute -left-[9999px]" aria-hidden="true">
+		<!-- Honeypot — left blank by real visitors. display:none (not off-screen
+		     positioning) so real browsers' autofill/password managers never see
+		     it as a fillable field, only naive bots that scrape raw HTML do. -->
+		<div class="hidden" aria-hidden="true">
 			<label for={`${uid}-company`}>Company</label>
 			<input type="text" id={`${uid}-company`} name="company" tabindex="-1" autocomplete="off" />
 		</div>
@@ -101,7 +111,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep shrink-0 rounded-full px-6 py-3 text-[15px] font-semibold text-cream transition-colors disabled:opacity-60"
+				class="shrink-0 rounded-full bg-pink px-6 py-3 text-[15px] font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{submitting ? 'Joining…' : 'Get my offer'}
 			</button>
@@ -115,10 +125,10 @@
 				type="text"
 				bind:value={name}
 				placeholder="Name (optional)"
-				class="border-ink/15 focus:ring-pink/40 mt-2.5 w-full rounded-full border bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2"
+				class="mt-2.5 w-full rounded-full border border-ink/15 bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 
-			<label for={`${uid}-birthday`} class="text-ink-soft mt-3 block text-xs">
+			<label for={`${uid}-birthday`} class="mt-3 block text-xs text-ink-soft">
 				Birthday (optional) — for a free treat on the day!
 			</label>
 			<input
@@ -126,7 +136,7 @@
 				name="birthday"
 				type="date"
 				bind:value={birthday}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-full border bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2"
+				class="mt-1 w-full rounded-full border border-ink/15 bg-white px-4 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		{:else}
 			<input type="hidden" name="name" value={name} />
@@ -134,7 +144,9 @@
 		{/if}
 
 		{#if result?.status === 'error'}
-			<p class={`mt-2.5 text-sm ${variant === 'compact' ? 'text-pink' : 'text-red-700'}`}>{result.message}</p>
+			<p class={`mt-2.5 text-sm ${variant === 'compact' ? 'text-pink' : 'text-red-700'}`}>
+				{result.message}
+			</p>
 		{/if}
 	</form>
 {/if}

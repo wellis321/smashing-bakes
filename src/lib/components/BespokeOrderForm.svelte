@@ -59,8 +59,10 @@
 				};
 			}}
 		>
-			<!-- Honeypot — left blank by real visitors, hidden from view and the tab order. -->
-			<div class="absolute -left-[9999px]" aria-hidden="true">
+			<!-- Honeypot — left blank by real visitors. display:none (not off-screen
+			     positioning) so real browsers' autofill/password managers never see
+			     it as a fillable field, only naive bots that scrape raw HTML do. -->
+			<div class="hidden" aria-hidden="true">
 				<label for="company">Company</label>
 				<input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
 			</div>
