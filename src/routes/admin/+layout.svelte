@@ -40,6 +40,7 @@
 				{ href: '/admin/businesses', label: 'Local businesses' },
 				{ href: '/admin/polls', label: 'Polls' },
 				{ href: '/admin/posters', label: 'Posters' },
+				{ href: '/admin/bespoke-cakes', label: 'Bespoke cakes' },
 				{ href: '/admin/newsletters', label: 'Newsletters' },
 				{ href: '/admin/media', label: 'Media' }
 			]

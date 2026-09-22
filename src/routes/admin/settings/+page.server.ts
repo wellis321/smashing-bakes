@@ -72,37 +72,5 @@ export const actions: Actions = {
 		await upsertSettings(updates);
 
 		return { heroSuccess: true };
-	},
-
-	updateBespokeCakesPage: async ({ request }) => {
-		const formData = await request.formData();
-		const bespokeCakesHeading = String(formData.get('bespokeCakesHeading') ?? '').trim();
-		const bespokeCakesIntro = String(formData.get('bespokeCakesIntro') ?? '').trim();
-
-		if (!bespokeCakesHeading || !bespokeCakesIntro) {
-			return fail(400, { bespokeMessage: 'Both the heading and intro text are required.' });
-		}
-
-		const updates: Record<string, string | null> = { bespokeCakesHeading, bespokeCakesIntro };
-
-		const file = formData.get('bespokeCakesImageFile');
-		const libraryUrl = String(formData.get('bespokeCakesImageUrl') ?? '').trim();
-		if (file instanceof File && file.size > 0) {
-			try {
-				updates.bespokeCakesImageUrl = await saveUploadedImage(file, 'media');
-			} catch (err) {
-				return fail(400, {
-					bespokeMessage: err instanceof Error ? err.message : 'Could not upload image.'
-				});
-			}
-		} else if (libraryUrl) {
-			updates.bespokeCakesImageUrl = libraryUrl;
-		} else {
-			updates.bespokeCakesImageUrl = null;
-		}
-
-		await upsertSettings(updates);
-
-		return { bespokeSuccess: true };
 	}
 };

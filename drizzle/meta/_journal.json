@@ -169,6 +169,13 @@
       "when": 1790089175363,
       "tag": "0023_curvy_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1790091000295,
+      "tag": "0024_chubby_iron_monger",
+      "breakpoints": true
     }
   ]
 }

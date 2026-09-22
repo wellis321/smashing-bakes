@@ -20,6 +20,7 @@
 				{ id: 'local-businesses', label: 'Local businesses' },
 				{ id: 'polls', label: 'Polls' },
 				{ id: 'posters', label: 'Posters' },
+				{ id: 'bespoke-cakes', label: 'Bespoke cakes' },
 				{ id: 'newsletters', label: 'Newsletters' },
 				{ id: 'media', label: 'Media library' }
 			]
@@ -483,6 +484,53 @@
 			</ul>
 		</section>
 
+		<section
+			id="bespoke-cakes"
+			use:registerSection={'bespoke-cakes'}
+			class="scroll-mt-6 p-6 sm:p-8"
+		>
+			<div class="flex flex-wrap items-baseline justify-between gap-2">
+				<h2 class="font-display text-2xl text-ink">Bespoke cakes</h2>
+				<div class="flex shrink-0 gap-4 text-sm font-semibold">
+					<a
+						href="/bespoke-cakes"
+						target="_blank"
+						rel="noreferrer"
+						class="text-pink-deep hover:underline">Front page &#8599;</a
+					>
+					<a
+						href="/admin/bespoke-cakes"
+						target="_blank"
+						rel="noreferrer"
+						class="text-pink-deep hover:underline">Admin page &#8599;</a
+					>
+				</div>
+			</div>
+			<p class="mt-1 text-base text-ink-soft">
+				Everything on the public <code class="text-xs">/bespoke-cakes</code> page — hero, gallery,
+				and customer quotes — has its own admin page, under
+				<strong>Marketing &rarr; Bespoke cakes</strong>. Enquiries submitted from that page still
+				land in <a href="#enquiries" class="text-pink-deep hover:underline">Enquiries</a>, same as
+				the ones from the Contact page.
+			</p>
+			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+				<li>
+					The hero heading, intro text and photo work exactly like the homepage hero images — set
+					once, shown until changed. Leave the photo blank and the page shows just the text.
+				</li>
+				<li>
+					The gallery is a horizontally-scrolling slider of past designs — add a photo (upload or
+					choose from the library) with an optional caption, most recently added shown first. Remove
+					one any time; nothing else on the site references these photos, so removing one is safe.
+				</li>
+				<li>
+					Customer quotes are deliberately <em>not</em> all shown together — the first two appear dotted
+					between the hero, gallery and enquiry form, and anything beyond that shows as a small grid near
+					the bottom. Edit or delete a quote any time; there's no limit on how many you can add.
+				</li>
+			</ul>
+		</section>
+
 		<section id="newsletters" use:registerSection={'newsletters'} class="scroll-mt-6 p-6 sm:p-8">
 			<div class="flex flex-wrap items-baseline justify-between gap-2">
 				<h2 class="font-display text-2xl text-ink">Newsletters</h2>
@@ -739,8 +787,8 @@
 					If someone loses or mistypes their password and can't log in, use <strong
 						>Reset password</strong
 					>
-					on their edit page to generate a fresh one — it replaces the old one immediately and signs
-					them out of anywhere they were still logged in. This is blocked for a
+					on their edit page to generate a fresh one — it replaces the old one immediately and signs them
+					out of anywhere they were still logged in. This is blocked for a
 					<a href="#security" class="text-pink-deep hover:underline">protected account</a> — only its
 					own owner can act on it.
 				</li>
@@ -808,12 +856,6 @@
 					The three overlapping photo cards next to the homepage headline can each be replaced with
 					a real photo — upload or choose from the library, one slot at a time. Leave any blank and
 					it falls back to the built-in illustration.
-				</li>
-				<li>
-					The <code class="text-xs">/bespoke-cakes</code> page's heading, intro text and hero photo are
-					all set here too. Leave the photo blank and the page just shows the text with no image — there's
-					no placeholder illustration for this one, since a generic graphic would undersell an actual
-					cake photo.
 				</li>
 			</ul>
 		</section>
@@ -1152,9 +1194,9 @@
 								The site is still on its Hostinger subdomain — <code class="text-xs"
 									>smashinbakes.co.uk</code
 								>
-								is registered at GoDaddy and just needs pointing here. Once that's done and you're
-								ready to actually launch, flip <code class="text-xs">PUBLIC_SITE_LIVE</code> on so search
-								engines can index it.
+								is registered at GoDaddy and just needs pointing here. Once that's done and you're ready
+								to actually launch, flip <code class="text-xs">PUBLIC_SITE_LIVE</code> on so search engines
+								can index it.
 							</p>
 						</div>
 					</div>

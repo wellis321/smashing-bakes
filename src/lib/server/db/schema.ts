@@ -429,6 +429,25 @@ export const siteSettings = mysqlTable('site_settings', {
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 
+// Past cake photos shown in the gallery/slider on /bespoke-cakes — managed
+// independently of the page's own hero photo above. Ordered by creation, so
+// the most recently added design shows first.
+export const bespokeCakeGalleryItems = mysqlTable('bespoke_cake_gallery_items', {
+	id: int('id').autoincrement().primaryKey(),
+	imageUrl: varchar('image_url', { length: 500 }).notNull(),
+	caption: varchar('caption', { length: 200 }),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
+// Customer quotes shown dotted throughout /bespoke-cakes rather than bunched
+// into one testimonials block.
+export const bespokeCakeTestimonials = mysqlTable('bespoke_cake_testimonials', {
+	id: int('id').autoincrement().primaryKey(),
+	quote: text('quote').notNull(),
+	authorName: varchar('author_name', { length: 150 }),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
 // General-purpose image library — uploaded once here, then the URL is copied
 // into whichever product/promotion/poster/etc field needs it. Separate from
 // those entities' own per-record uploads, which stay as-is.

@@ -7,7 +7,6 @@
 
 	let submitting = $state(false);
 	let heroSubmitting = $state(false);
-	let bespokeSubmitting = $state(false);
 </script>
 
 <svelte:head>
@@ -151,77 +150,6 @@
 				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{heroSubmitting ? 'Saving…' : 'Save changes'}
-			</button>
-		</form>
-	</div>
-
-	<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
-		<h2 class="text-lg font-semibold text-ink">Bespoke cakes page</h2>
-		<p class="mt-1 text-sm text-ink-soft">
-			The photo and intro text shown on the public <code class="text-xs">/bespoke-cakes</code> page, above
-			the enquiry form.
-		</p>
-
-		<form
-			method="POST"
-			action="?/updateBespokeCakesPage"
-			enctype="multipart/form-data"
-			class="mt-5 space-y-4"
-			use:enhance={() => {
-				bespokeSubmitting = true;
-				return async ({ update }) => {
-					await update();
-					bespokeSubmitting = false;
-				};
-			}}
-		>
-			<div>
-				<label for="bespokeCakesHeading" class="text-sm font-medium text-ink-soft">Heading</label>
-				<input
-					id="bespokeCakesHeading"
-					name="bespokeCakesHeading"
-					type="text"
-					required
-					maxlength="200"
-					value={data.settings?.bespokeCakesHeading ?? "Bespoke cakes for your Smashin' occasion"}
-					class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
-				/>
-			</div>
-			<div>
-				<label for="bespokeCakesIntro" class="text-sm font-medium text-ink-soft">Intro text</label>
-				<textarea
-					id="bespokeCakesIntro"
-					name="bespokeCakesIntro"
-					rows="3"
-					required
-					class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
-					>{data.settings?.bespokeCakesIntro ??
-						'Birthdays, celebrations, anything worth marking with something a bit special — tell us what you have in mind and our baker Alanah will help bring it to life.'}</textarea
-				>
-			</div>
-
-			<MediaPicker
-				items={data.mediaItems}
-				fileFieldName="bespokeCakesImageFile"
-				urlFieldName="bespokeCakesImageUrl"
-				label="Photo"
-				hint="A wide photo works best — it spans the full page width. Leave blank to show the page with no photo."
-				currentUrl={data.settings?.bespokeCakesImageUrl ?? null}
-			/>
-
-			{#if form?.bespokeMessage}
-				<p class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.bespokeMessage}</p>
-			{/if}
-			{#if form?.bespokeSuccess}
-				<p class="rounded-lg bg-blush px-3 py-2 text-sm text-ink">Saved.</p>
-			{/if}
-
-			<button
-				type="submit"
-				disabled={bespokeSubmitting}
-				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
-			>
-				{bespokeSubmitting ? 'Saving…' : 'Save changes'}
 			</button>
 		</form>
 	</div>
