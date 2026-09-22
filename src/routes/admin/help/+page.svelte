@@ -515,18 +515,39 @@
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
+					A bold "Already know what you want? Skip straight to the form" button sits above
+					everything else on the page, for anyone who doesn't want to scroll through the hero and
+					gallery first — it jumps straight down to the enquiry form.
+				</li>
+				<li>
 					The hero heading, intro text and photo work exactly like the homepage hero images — set
 					once, shown until changed. Leave the photo blank and the page shows just the text.
 				</li>
 				<li>
-					The gallery is a horizontally-scrolling slider of past designs — add a photo (upload or
-					choose from the library) with an optional caption, most recently added shown first. Remove
-					one any time; nothing else on the site references these photos, so removing one is safe.
+					Both the hero photo and every gallery photo have <strong>Zoom</strong> and
+					<strong>Position</strong> controls, with a live preview, for when a photo doesn't crop the
+					way you'd like inside its box — drag the zoom slider below 100% to shrink back in (showing
+					plain background around it) or above 100% to crop in tighter, and click one of the 9
+					position dots to choose which part of the photo stays visible. Already-added gallery
+					photos can be fixed the same way via their <strong>Adjust</strong> link, not just new ones.
+				</li>
+				<li>
+					The gallery auto-scrolls continuously and loops seamlessly — hover over it to pause and
+					read a caption. Add a photo (upload or choose from the library) with an optional caption,
+					most recently added shown first; remove one any time, nothing else on the site references
+					these photos so removing one is safe. Anyone with reduced-motion turned on at the OS level
+					sees the original manual swipe-through-once version instead — nothing auto-moves for them.
 				</li>
 				<li>
 					Customer quotes are deliberately <em>not</em> all shown together — the first two appear dotted
 					between the hero, gallery and enquiry form, and anything beyond that shows as a small grid near
 					the bottom. Edit or delete a quote any time; there's no limit on how many you can add.
+				</li>
+				<li>
+					When choosing a photo "from library" for any of the above, double-check you've picked the
+					right one — see the note under <a href="#media" class="text-pink-deep hover:underline"
+						>Media library</a
+					> about why that's easier to get wrong than it sounds.
 				</li>
 			</ul>
 		</section>
@@ -595,8 +616,11 @@
 				>
 			</div>
 			<p class="mt-1 text-base text-ink-soft">
-				A general place to upload cake photos and other images, separate from the
-				per-product/promotion/poster uploads.
+				The single shared pool of every image on the site — not just the ones uploaded here
+				directly. Upload a photo anywhere in admin (a product, a poster, the bespoke cakes gallery,
+				this page, anywhere with an image field) and it registers here automatically, so it can be
+				found and reused anywhere else too, rather than getting re-uploaded as a separate copy each
+				time it's needed.
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
@@ -607,6 +631,19 @@
 					Each uploaded image gets a permanent URL — use <strong>Copy URL</strong> and paste it anywhere
 					on the site that asks for one, or pick it straight from the library on any image field elsewhere
 					in admin.
+				</li>
+				<li>
+					Click the title under any thumbnail to rename it — handy since a photo uploaded through a
+					product/poster/etc's own upload field only ever gets a generated filename like
+					<code class="text-xs">d3dd0f26-fe07-4c50-a992-…</code>, not the original name, since
+					that's never captured.
+				</li>
+				<li>
+					Because everything funnels into one shared pool, it's easy to click the wrong thumbnail
+					when picking "Choose from library" somewhere else — a product photo and a bespoke cake
+					photo can sit right next to each other in the grid, looking similar at a glance. Hover a
+					thumbnail first to check its title (shown as a tooltip) before picking, especially once
+					there are a lot of images in here.
 				</li>
 				<li>
 					Every image — here and anywhere else in admin — is stored in the database itself, not as a
