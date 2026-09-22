@@ -43,11 +43,15 @@
 
 {#if data.imageUrl}
 	<section class="mx-auto max-w-5xl px-5 pb-8 sm:px-8">
-		<img
-			src={data.imageUrl}
-			alt="A bespoke Smashin' Bakes cake"
-			class="aspect-[16/9] w-full rounded-[2rem] bg-cream-dim object-cover sm:aspect-[21/9]"
-		/>
+		<div class="aspect-[16/9] w-full overflow-hidden rounded-[2rem] bg-cream-dim sm:aspect-[21/9]">
+			<img
+				src={data.imageUrl}
+				alt="A bespoke Smashin' Bakes cake"
+				class="h-full w-full object-cover"
+				style:object-position={data.imageFocalPoint}
+				style:transform={`scale(${data.imageZoom / 100})`}
+			/>
+		</div>
 	</section>
 {/if}
 
@@ -69,11 +73,15 @@
 		>
 			{#each data.galleryItems as item (item.id)}
 				<figure class="w-[78vw] shrink-0 snap-center sm:w-[420px]">
-					<img
-						src={item.imageUrl}
-						alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
-						class="aspect-[4/5] w-full rounded-[1.75rem] bg-cream-dim object-cover"
-					/>
+					<div class="aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-cream-dim">
+						<img
+							src={item.imageUrl}
+							alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
+							class="h-full w-full object-cover"
+							style:object-position={item.focalPoint}
+							style:transform={`scale(${item.imageZoom / 100})`}
+						/>
+					</div>
 					{#if item.caption}
 						<figcaption class="mt-2.5 text-sm text-ink-soft">{item.caption}</figcaption>
 					{/if}

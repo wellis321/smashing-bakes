@@ -10,6 +10,27 @@ import {
 import { saveUploadedImage } from '$lib/server/uploads';
 import { getMediaLibraryItems } from '$lib/server/db/queries';
 
+const FOCAL_POINTS = new Set([
+	'top left',
+	'top',
+	'top right',
+	'left',
+	'center',
+	'right',
+	'bottom left',
+	'bottom',
+	'bottom right'
+]);
+
+function parseZoom(formData: FormData, field: string): number {
+	return Math.min(200, Math.max(100, Number(formData.get(field)) || 100));
+}
+
+function parseFocalPoint(formData: FormData, field: string): string {
+	const value = String(formData.get(field) ?? '');
+	return FOCAL_POINTS.has(value) ? value : 'center';
+}
+
 export const load: PageServerLoad = async () => {
 	const [settings, mediaItems, galleryItems, testimonials] = await Promise.all([
 		db.query.siteSettings.findFirst(),
@@ -46,7 +67,12 @@ export const actions: Actions = {
 			return fail(400, { contentMessage: 'Both the heading and intro text are required.' });
 		}
 
-		const updates: Record<string, string | null> = { bespokeCakesHeading, bespokeCakesIntro };
+		const updates: Record<string, string | number | null> = {
+			bespokeCakesHeading,
+			bespokeCakesIntro,
+			bespokeCakesImageZoom: parseZoom(formData, 'bespokeCakesImageZoom'),
+			bespokeCakesImageFocalPoint: parseFocalPoint(formData, 'bespokeCakesImageFocalPoint')
+		};
 
 		const file = formData.get('bespokeCakesImageFile');
 		const libraryUrl = String(formData.get('bespokeCakesImageUrl') ?? '').trim();
@@ -92,7 +118,26 @@ export const actions: Actions = {
 			return fail(400, { galleryMessage: 'Choose or upload a photo first.' });
 		}
 
-		await db.insert(bespokeCakeGalleryItems).values({ imageUrl, caption });
+		const imageZoom = parseZoom(formData, 'imageZoom');
+		const focalPoint = parseFocalPoint(formData, 'focalPoint');
+
+		await db.insert(bespokeCakeGalleryItems).values({ imageUrl, caption, imageZoom, focalPoint });
+		return { gallerySuccess: true };
+	},
+
+	updateGalleryImage: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		if (!id) return fail(400, { galleryMessage: 'Missing gallery item id.' });
+
+		const caption = String(formData.get('caption') ?? '').trim() || null;
+		const imageZoom = parseZoom(formData, 'imageZoom');
+		const focalPoint = parseFocalPoint(formData, 'focalPoint');
+
+		await db
+			.update(bespokeCakeGalleryItems)
+			.set({ caption, imageZoom, focalPoint })
+			.where(eq(bespokeCakeGalleryItems.id, id));
 		return { gallerySuccess: true };
 	},
 

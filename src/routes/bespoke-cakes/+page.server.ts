@@ -6,7 +6,13 @@ import { bespokeCakeGalleryItems, bespokeCakeTestimonials } from '$lib/server/db
 export const load: PageServerLoad = async () => {
 	const [settings, galleryItems, testimonials] = await Promise.all([
 		db.query.siteSettings.findFirst({
-			columns: { bespokeCakesImageUrl: true, bespokeCakesHeading: true, bespokeCakesIntro: true }
+			columns: {
+				bespokeCakesImageUrl: true,
+				bespokeCakesImageZoom: true,
+				bespokeCakesImageFocalPoint: true,
+				bespokeCakesHeading: true,
+				bespokeCakesIntro: true
+			}
 		}),
 		db.query.bespokeCakeGalleryItems.findMany({
 			orderBy: [desc(bespokeCakeGalleryItems.createdAt)]
@@ -22,6 +28,8 @@ export const load: PageServerLoad = async () => {
 			settings?.bespokeCakesIntro ??
 			'Birthdays, celebrations, anything worth marking with something a bit special — tell us what you have in mind and our baker Alanah will help bring it to life.',
 		imageUrl: settings?.bespokeCakesImageUrl ?? null,
+		imageZoom: settings?.bespokeCakesImageZoom ?? 100,
+		imageFocalPoint: settings?.bespokeCakesImageFocalPoint ?? 'center',
 		galleryItems,
 		testimonials
 	};

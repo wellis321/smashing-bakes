@@ -418,6 +418,14 @@ export const siteSettings = mysqlTable('site_settings', {
 	// to no photo (a text-only hero) rather than a placeholder illustration,
 	// since a generic cupcake graphic would undersell an actual cake photo.
 	bespokeCakesImageUrl: varchar('bespoke_cakes_image_url', { length: 500 }),
+	// How the hero photo sits inside its fixed-aspect box — a photo rarely
+	// crops well by default, so staff can zoom in and pick which part of the
+	// image stays visible rather than being stuck with whatever object-fit:
+	// cover happens to show.
+	bespokeCakesImageZoom: int('bespoke_cakes_image_zoom').notNull().default(100),
+	bespokeCakesImageFocalPoint: varchar('bespoke_cakes_image_focal_point', { length: 20 })
+		.notNull()
+		.default('center'),
 	bespokeCakesHeading: varchar('bespoke_cakes_heading', { length: 200 })
 		.notNull()
 		.default("Bespoke cakes for your Smashin' occasion"),
@@ -435,6 +443,8 @@ export const siteSettings = mysqlTable('site_settings', {
 export const bespokeCakeGalleryItems = mysqlTable('bespoke_cake_gallery_items', {
 	id: int('id').autoincrement().primaryKey(),
 	imageUrl: varchar('image_url', { length: 500 }).notNull(),
+	imageZoom: int('image_zoom').notNull().default(100),
+	focalPoint: varchar('focal_point', { length: 20 }).notNull().default('center'),
 	caption: varchar('caption', { length: 200 }),
 	createdAt: timestamp('created_at').notNull().defaultNow()
 });

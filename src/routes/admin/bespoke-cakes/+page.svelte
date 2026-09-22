@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
+	import ImagePositionControls from '$lib/components/admin/ImagePositionControls.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -9,6 +10,26 @@
 	let gallerySubmitting = $state(false);
 	let testimonialSubmitting = $state(false);
 	let editingTestimonialId = $state<number | null>(null);
+	let editingGalleryId = $state<number | null>(null);
+
+	let heroPreviewUrl = $state<string | null>(data.settings?.bespokeCakesImageUrl ?? null);
+	let heroZoom = $state(data.settings?.bespokeCakesImageZoom ?? 100);
+	let heroFocalPoint = $state(data.settings?.bespokeCakesImageFocalPoint ?? 'center');
+
+	let newGalleryPreviewUrl = $state<string | null>(null);
+	let newGalleryZoom = $state(100);
+	let newGalleryFocalPoint = $state('center');
+
+	// Shared across whichever single gallery item is being adjusted at a time
+	// (editingGalleryId), seeded from that item's saved values when opened.
+	let editZoom = $state(100);
+	let editFocalPoint = $state('center');
+
+	function startEditingGallery(item: { id: number; imageZoom: number; focalPoint: string }) {
+		editingGalleryId = item.id;
+		editZoom = item.imageZoom;
+		editFocalPoint = item.focalPoint;
+	}
 
 	function confirmDeleteImage(event: SubmitEvent) {
 		if (!confirm("Remove this photo from the gallery? This can't be undone.")) {
@@ -92,6 +113,16 @@
 			label="Hero photo"
 			hint="A wide photo works best — it spans the full page width. Leave blank to show the page with no photo."
 			currentUrl={data.settings?.bespokeCakesImageUrl ?? null}
+			showPreview={false}
+			bind:previewUrl={heroPreviewUrl}
+		/>
+		<ImagePositionControls
+			previewUrl={heroPreviewUrl}
+			bind:zoom={heroZoom}
+			bind:focalPoint={heroFocalPoint}
+			zoomFieldName="bespokeCakesImageZoom"
+			focalFieldName="bespokeCakesImageFocalPoint"
+			aspectClass="aspect-[21/9]"
 		/>
 
 		{#if form?.contentMessage}
@@ -127,6 +158,9 @@
 			return async ({ update }) => {
 				await update({ reset: true });
 				gallerySubmitting = false;
+				newGalleryPreviewUrl = null;
+				newGalleryZoom = 100;
+				newGalleryFocalPoint = 'center';
 			};
 		}}
 	>
@@ -135,6 +169,16 @@
 			fileFieldName="imageFile"
 			urlFieldName="imageUrl"
 			label="Add a photo"
+			showPreview={false}
+			bind:previewUrl={newGalleryPreviewUrl}
+		/>
+		<ImagePositionControls
+			previewUrl={newGalleryPreviewUrl}
+			bind:zoom={newGalleryZoom}
+			bind:focalPoint={newGalleryFocalPoint}
+			zoomFieldName="imageZoom"
+			focalFieldName="focalPoint"
+			aspectClass="aspect-square"
 		/>
 		<div>
 			<label for="caption" class="text-sm font-medium text-ink-soft">Caption (optional)</label>
@@ -167,28 +211,113 @@
 		<div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
 			{#each data.galleryItems as item (item.id)}
 				<div class="overflow-hidden rounded-xl border border-ink/10 bg-white">
-					<img
-						src={item.imageUrl}
-						alt={item.caption ?? ''}
-						class="aspect-square w-full object-cover"
-					/>
-					<div class="p-2.5">
-						{#if item.caption}
-							<p class="truncate text-xs text-ink-soft" title={item.caption}>{item.caption}</p>
-						{/if}
+					{#if editingGalleryId === item.id}
+						<div class="aspect-square w-full overflow-hidden bg-cream-dim">
+							<img
+								src={item.imageUrl}
+								alt={item.caption ?? ''}
+								class="h-full w-full object-cover"
+								style:object-position={editFocalPoint}
+								style:transform={`scale(${editZoom / 100})`}
+							/>
+						</div>
 						<form
 							method="POST"
-							action="?/deleteGalleryImage"
-							use:enhance
-							onsubmit={confirmDeleteImage}
-							class="mt-1.5"
+							action="?/updateGalleryImage"
+							use:enhance={() => {
+								return async ({ update }) => {
+									await update();
+									editingGalleryId = null;
+								};
+							}}
+							class="space-y-2 p-2.5"
 						>
 							<input type="hidden" name="id" value={item.id} />
-							<button type="submit" class="text-xs text-red-600/70 hover:text-red-600"
-								>Remove</button
-							>
+							<div class="flex items-center gap-2">
+								<label for={`zoom-${item.id}`} class="shrink-0 text-xs text-ink-soft">Zoom</label>
+								<input
+									id={`zoom-${item.id}`}
+									type="range"
+									min="100"
+									max="200"
+									bind:value={editZoom}
+									class="w-full accent-pink"
+								/>
+							</div>
+							<div class="flex items-center gap-1.5">
+								{#each ['top left', 'top', 'top right', 'left', 'center', 'right', 'bottom left', 'bottom', 'bottom right'] as point (point)}
+									<button
+										type="button"
+										onclick={() => (editFocalPoint = point)}
+										title={point}
+										aria-label={point}
+										aria-pressed={editFocalPoint === point}
+										class={`h-4 w-4 rounded-sm ${editFocalPoint === point ? 'bg-pink' : 'bg-ink/10 hover:bg-ink/20'}`}
+									></button>
+								{/each}
+							</div>
+							<input type="hidden" name="imageZoom" value={editZoom} />
+							<input type="hidden" name="focalPoint" value={editFocalPoint} />
+							<input
+								name="caption"
+								type="text"
+								maxlength="200"
+								value={item.caption ?? ''}
+								placeholder="Caption (optional)"
+								class="w-full rounded-lg border border-ink/15 bg-white px-2 py-1.5 text-xs outline-none focus:ring-2 focus:ring-pink/40"
+							/>
+							<div class="flex items-center gap-3">
+								<button
+									type="submit"
+									class="rounded-full bg-pink px-3 py-1 text-xs font-semibold text-cream hover:bg-pink-deep"
+								>
+									Save
+								</button>
+								<button
+									type="button"
+									onclick={() => (editingGalleryId = null)}
+									class="text-xs font-semibold text-ink-soft hover:text-ink"
+								>
+									Cancel
+								</button>
+							</div>
 						</form>
-					</div>
+					{:else}
+						<div class="aspect-square w-full overflow-hidden bg-cream-dim">
+							<img
+								src={item.imageUrl}
+								alt={item.caption ?? ''}
+								class="h-full w-full object-cover"
+								style:object-position={item.focalPoint}
+								style:transform={`scale(${item.imageZoom / 100})`}
+							/>
+						</div>
+						<div class="p-2.5">
+							{#if item.caption}
+								<p class="truncate text-xs text-ink-soft" title={item.caption}>{item.caption}</p>
+							{/if}
+							<div class="mt-1.5 flex items-center gap-3">
+								<button
+									type="button"
+									onclick={() => startEditingGallery(item)}
+									class="text-xs font-semibold text-ink-soft hover:text-ink"
+								>
+									Adjust
+								</button>
+								<form
+									method="POST"
+									action="?/deleteGalleryImage"
+									use:enhance
+									onsubmit={confirmDeleteImage}
+								>
+									<input type="hidden" name="id" value={item.id} />
+									<button type="submit" class="text-xs text-red-600/70 hover:text-red-600"
+										>Remove</button
+									>
+								</form>
+							</div>
+						</div>
+					{/if}
 				</div>
 			{/each}
 		</div>
