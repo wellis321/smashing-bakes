@@ -5,6 +5,7 @@
 	import Badge from '$lib/components/Badge.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import FulfilmentBenefits from '$lib/components/FulfilmentBenefits.svelte';
 	import { safeJsonLd } from '$lib/utils/json-ld';
 	import type { PageData } from './$types';
 
@@ -30,7 +31,8 @@
 
 	const selectedVariant = $derived(activeVariants.find((v) => v.id === selectedVariantId) ?? null);
 	const unitPricePence = $derived(
-		selectedVariant?.priceOverridePence ?? (onSale ? product.salePricePence! : product.basePricePence)
+		selectedVariant?.priceOverridePence ??
+			(onSale ? product.salePricePence! : product.basePricePence)
 	);
 
 	function currentCartItem() {
@@ -59,7 +61,11 @@
 	// Match the column count to how many related products there actually are, so a
 	// short row never leaves a gap of empty columns on the right.
 	const relatedColsClass = $derived(
-		data.related.length === 2 ? 'sm:grid-cols-2' : data.related.length === 1 ? 'sm:grid-cols-1' : 'sm:grid-cols-3'
+		data.related.length === 2
+			? 'sm:grid-cols-2'
+			: data.related.length === 1
+				? 'sm:grid-cols-1'
+				: 'sm:grid-cols-3'
 	);
 
 	const productJsonLd = $derived(
@@ -73,7 +79,9 @@
 				'@type': 'Offer',
 				priceCurrency: 'GBP',
 				price: ((onSale ? product.salePricePence! : product.basePricePence) / 100).toFixed(2),
-				availability: product.isActive ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+				availability: product.isActive
+					? 'https://schema.org/InStock'
+					: 'https://schema.org/OutOfStock'
 			}
 		})
 	);
@@ -91,7 +99,10 @@
 </svelte:head>
 
 <section class="mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-8">
-	<a href={`/shop/${product.category.slug}`} class="text-ink-soft hover:text-ink text-sm font-semibold">
+	<a
+		href={`/shop/${product.category.slug}`}
+		class="text-sm font-semibold text-ink-soft hover:text-ink"
+	>
 		&larr; {product.category.name}
 	</a>
 
@@ -114,22 +125,28 @@
 
 			<p class="mt-4 flex items-baseline gap-3">
 				{#if selectedVariant?.priceOverridePence != null}
-					<span class="text-ink text-2xl font-semibold">{formatPence(selectedVariant.priceOverridePence)}</span>
+					<span class="text-2xl font-semibold text-ink"
+						>{formatPence(selectedVariant.priceOverridePence)}</span
+					>
 				{:else if onSale}
-					<span class="text-pink-deep text-2xl font-semibold">{formatPence(product.salePricePence!)}</span>
-					<span class="text-ink-soft/60 text-lg line-through">{formatPence(product.basePricePence)}</span>
+					<span class="text-2xl font-semibold text-pink-deep"
+						>{formatPence(product.salePricePence!)}</span
+					>
+					<span class="text-lg text-ink-soft/60 line-through"
+						>{formatPence(product.basePricePence)}</span
+					>
 				{:else}
-					<span class="text-ink text-2xl font-semibold">{formatPence(product.basePricePence)}</span>
+					<span class="text-2xl font-semibold text-ink">{formatPence(product.basePricePence)}</span>
 				{/if}
 			</p>
 
 			{#if product.description}
-				<p class="text-ink-soft mt-6 max-w-md leading-relaxed">{product.description}</p>
+				<p class="mt-6 max-w-md leading-relaxed text-ink-soft">{product.description}</p>
 			{/if}
 
-			<div class="bg-blush mt-8 max-w-md rounded-2xl p-6">
+			<div class="mt-8 max-w-md rounded-2xl bg-blush p-6">
 				{#if activeVariants.length > 0}
-					<p class="text-ink text-sm font-semibold">Choose an option</p>
+					<p class="text-sm font-semibold text-ink">Choose an option</p>
 					<div class="mt-2.5 flex flex-wrap gap-2">
 						{#each activeVariants as variant (variant.id)}
 							<button
@@ -148,12 +165,12 @@
 				{/if}
 
 				<div class="mt-4 flex items-center gap-3">
-					<p class="text-ink text-sm font-semibold">Quantity</p>
-					<div class="border-ink/15 flex items-center rounded-full border bg-white">
+					<p class="text-sm font-semibold text-ink">Quantity</p>
+					<div class="flex items-center rounded-full border border-ink/15 bg-white">
 						<button
 							type="button"
 							onclick={() => (quantity = Math.max(1, quantity - 1))}
-							class="text-ink hover:text-pink-deep grid h-9 w-9 place-items-center text-lg font-semibold"
+							class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
 							aria-label="Decrease quantity"
 						>
 							&minus;
@@ -162,7 +179,7 @@
 						<button
 							type="button"
 							onclick={() => (quantity = Math.min(20, quantity + 1))}
-							class="text-ink hover:text-pink-deep grid h-9 w-9 place-items-center text-lg font-semibold"
+							class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
 							aria-label="Increase quantity"
 						>
 							+
@@ -174,22 +191,25 @@
 					<button
 						type="button"
 						onclick={buyNow}
-						class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors"
+						class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
 					>
 						Buy now &mdash; {formatPence(unitPricePence * quantity)}
 					</button>
 					<button
 						type="button"
 						onclick={addToCart}
-						class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30"
+						class="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
 					>
 						{justAdded ? 'Added ✓' : 'Add to cart'}
 					</button>
 				</div>
-				<p class="text-ink-soft/70 mt-3 text-xs">
-					Reserve now, pick up Friday or Saturday, and pay in person when you collect &mdash; online
-					payment is coming soon.
+				<p class="mt-3 text-xs text-ink-soft/70">
+					Pay in person when you collect or it&rsquo;s delivered &mdash; online payment is coming
+					soon.
 				</p>
+				<div class="mt-4">
+					<FulfilmentBenefits variant="compact" />
+				</div>
 			</div>
 		</div>
 	</div>
