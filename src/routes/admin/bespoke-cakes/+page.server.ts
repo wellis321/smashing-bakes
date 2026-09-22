@@ -62,16 +62,29 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const bespokeCakesHeading = String(formData.get('bespokeCakesHeading') ?? '').trim();
 		const bespokeCakesIntro = String(formData.get('bespokeCakesIntro') ?? '').trim();
+		const bespokeCakesImageZoom = parseZoom(formData, 'bespokeCakesImageZoom');
+		const bespokeCakesImageFocalPoint = parseFocalPoint(formData, 'bespokeCakesImageFocalPoint');
+
+		const currentImageUrl = (await db.query.siteSettings.findFirst())?.bespokeCakesImageUrl ?? null;
 
 		if (!bespokeCakesHeading || !bespokeCakesIntro) {
-			return fail(400, { contentMessage: 'Both the heading and intro text are required.' });
+			return fail(400, {
+				contentMessage: 'Both the heading and intro text are required.',
+				contentValues: {
+					bespokeCakesHeading,
+					bespokeCakesIntro,
+					bespokeCakesImageUrl: currentImageUrl,
+					bespokeCakesImageZoom,
+					bespokeCakesImageFocalPoint
+				}
+			});
 		}
 
 		const updates: Record<string, string | number | null> = {
 			bespokeCakesHeading,
 			bespokeCakesIntro,
-			bespokeCakesImageZoom: parseZoom(formData, 'bespokeCakesImageZoom'),
-			bespokeCakesImageFocalPoint: parseFocalPoint(formData, 'bespokeCakesImageFocalPoint')
+			bespokeCakesImageZoom,
+			bespokeCakesImageFocalPoint
 		};
 
 		const file = formData.get('bespokeCakesImageFile');
@@ -81,7 +94,14 @@ export const actions: Actions = {
 				updates.bespokeCakesImageUrl = await saveUploadedImage(file, 'media');
 			} catch (err) {
 				return fail(400, {
-					contentMessage: err instanceof Error ? err.message : 'Could not upload image.'
+					contentMessage: err instanceof Error ? err.message : 'Could not upload image.',
+					contentValues: {
+						bespokeCakesHeading,
+						bespokeCakesIntro,
+						bespokeCakesImageUrl: currentImageUrl,
+						bespokeCakesImageZoom,
+						bespokeCakesImageFocalPoint
+					}
 				});
 			}
 		} else if (libraryUrl) {
@@ -92,7 +112,20 @@ export const actions: Actions = {
 
 		await upsertSettings(updates);
 
-		return { contentSuccess: true };
+		// Echoed back rather than trusted to come from a fresh `data.settings`
+		// on the client — that re-render depends on invalidation timing that's
+		// prone to visually (not actually) losing the just-saved values for a
+		// beat, which reads as "my changes vanished" even though they saved.
+		return {
+			contentSuccess: true,
+			contentValues: {
+				bespokeCakesHeading,
+				bespokeCakesIntro,
+				bespokeCakesImageUrl: updates.bespokeCakesImageUrl,
+				bespokeCakesImageZoom,
+				bespokeCakesImageFocalPoint
+			}
+		};
 	},
 
 	addGalleryImage: async ({ request }) => {

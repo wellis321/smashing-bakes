@@ -75,9 +75,24 @@
 		class="mt-5 space-y-4"
 		use:enhance={() => {
 			contentSubmitting = true;
-			return async ({ update }) => {
+			return async ({ result, update }) => {
 				await update();
 				contentSubmitting = false;
+				// Re-sync straight from what the server just confirmed it saved,
+				// rather than trusting the post-update `data` prop to have
+				// already caught up — that reactivity lands a beat later, which
+				// otherwise shows the photo/zoom/position reverting to blank
+				// for a moment right after a real save.
+				if (result.type === 'success' && result.data && 'contentValues' in result.data) {
+					const values = result.data.contentValues as {
+						bespokeCakesImageUrl: string | null;
+						bespokeCakesImageZoom: number;
+						bespokeCakesImageFocalPoint: string;
+					};
+					heroPreviewUrl = values.bespokeCakesImageUrl ?? null;
+					heroZoom = values.bespokeCakesImageZoom ?? 100;
+					heroFocalPoint = values.bespokeCakesImageFocalPoint ?? 'center';
+				}
 			};
 		}}
 	>
@@ -89,7 +104,9 @@
 				type="text"
 				required
 				maxlength="200"
-				value={data.settings?.bespokeCakesHeading ?? "Bespoke cakes for your Smashin' occasion"}
+				value={form?.contentValues?.bespokeCakesHeading ??
+					data.settings?.bespokeCakesHeading ??
+					"Bespoke cakes for your Smashin' occasion"}
 				class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
@@ -101,7 +118,8 @@
 				rows="3"
 				required
 				class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
-				>{data.settings?.bespokeCakesIntro ??
+				>{form?.contentValues?.bespokeCakesIntro ??
+					data.settings?.bespokeCakesIntro ??
 					'Birthdays, celebrations, anything worth marking with something a bit special — tell us what you have in mind and our baker Alanah will help bring it to life.'}</textarea
 			>
 		</div>
@@ -112,7 +130,9 @@
 			urlFieldName="bespokeCakesImageUrl"
 			label="Hero photo"
 			hint="A wide photo works best — it spans the full page width. Leave blank to show the page with no photo."
-			currentUrl={data.settings?.bespokeCakesImageUrl ?? null}
+			currentUrl={form?.contentValues?.bespokeCakesImageUrl ??
+				data.settings?.bespokeCakesImageUrl ??
+				null}
 			showPreview={false}
 			bind:previewUrl={heroPreviewUrl}
 		/>
