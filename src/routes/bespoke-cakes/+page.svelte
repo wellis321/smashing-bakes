@@ -39,6 +39,21 @@
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
 	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
+	<a
+		href="#enquiry-form"
+		class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-pink-deep hover:underline"
+	>
+		Know what you want? Jump straight to the form
+		<svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+			<path
+				d="M10 4v12M5 11l5 5 5-5"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</a>
 </section>
 
 {#if data.imageUrl}
@@ -97,7 +112,7 @@
 	</section>
 {/if}
 
-<section class="mx-auto max-w-3xl px-5 pb-16 sm:px-8">
+<section id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-6 px-5 pb-16 sm:px-8">
 	<BespokeOrderForm {form} action="/contact" />
 </section>
 
