@@ -35,25 +35,45 @@
 	image={data.imageUrl ?? undefined}
 />
 
+<a href="#enquiry-form" class="group relative block overflow-hidden bg-pink-deep text-cream">
+	<span
+		class="pointer-events-none absolute -right-6 -bottom-8 text-8xl opacity-10 select-none sm:text-9xl"
+		aria-hidden="true"
+	>
+		🎂
+	</span>
+	<div
+		class="relative mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-5 py-4 text-center sm:px-8 sm:py-5"
+	>
+		<span class="font-display text-base sm:text-lg"> Already know what you want? </span>
+		<span
+			class="inline-flex items-center gap-1.5 rounded-full bg-cream px-4 py-1.5 text-sm font-bold text-pink-deep shadow-soft transition-transform duration-200 group-hover:translate-x-0.5"
+		>
+			Skip straight to the form
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 20 20"
+				fill="none"
+				class="transition-transform duration-200 group-hover:translate-y-0.5"
+				aria-hidden="true"
+			>
+				<path
+					d="M10 4v12M5 11l5 5 5-5"
+					stroke="currentColor"
+					stroke-width="2.2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+		</span>
+	</div>
+</a>
+
 <section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
 	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
-	<a
-		href="#enquiry-form"
-		class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-pink-deep hover:underline"
-	>
-		Know what you want? Jump straight to the form
-		<svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-			<path
-				d="M10 4v12M5 11l5 5 5-5"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
-	</a>
 </section>
 
 {#if data.imageUrl}
