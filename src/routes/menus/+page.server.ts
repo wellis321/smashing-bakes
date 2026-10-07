@@ -1,7 +1,11 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getPublishedMenus } from '$lib/server/db/queries';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ parent }) => {
+	const { navVisibility } = await parent();
+	if (!navVisibility.menus) throw error(404, 'Not found');
+
 	const todayIso = new Date().toISOString().slice(0, 10);
 	const menus = await getPublishedMenus();
 

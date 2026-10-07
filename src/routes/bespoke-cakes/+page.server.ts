@@ -1,9 +1,13 @@
+import { error } from '@sveltejs/kit';
 import { desc } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { bespokeCakeGalleryItems, bespokeCakeTestimonials } from '$lib/server/db/schema';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ parent }) => {
+	const { navVisibility } = await parent();
+	if (!navVisibility.bespokeCakes) throw error(404, 'Not found');
+
 	const [settings, galleryItems, testimonials] = await Promise.all([
 		db.query.siteSettings.findFirst({
 			columns: {

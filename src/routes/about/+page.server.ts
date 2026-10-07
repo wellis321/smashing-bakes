@@ -1,10 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getPublishedPromotions } from '$lib/server/db/queries';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	const { navVisibility } = await parent();
-	if (!navVisibility.promotions) throw error(404, 'Not found');
-
-	return { promotions: await getPublishedPromotions() };
+	if (!navVisibility.about) throw error(404, 'Not found');
 };

@@ -1,20 +1,28 @@
 <script lang="ts">
 	import type { CategorySummary } from '$lib/types';
+	import type { NavVisibility } from '$lib/server/db/queries';
 	import Logo from './Logo.svelte';
 	import NewsletterSignup from './NewsletterSignup.svelte';
 
 	let {
 		categories,
-		welcomeOffer
-	}: { categories: CategorySummary[]; welcomeOffer: { code: string; description: string } } = $props();
+		welcomeOffer,
+		navVisibility
+	}: {
+		categories: CategorySummary[];
+		welcomeOffer: { code: string; description: string };
+		navVisibility: NavVisibility;
+	} = $props();
 </script>
 
-<footer class="bg-ink text-cream mt-24">
+<footer class="mt-24 bg-ink text-cream">
 	<div class="mx-auto max-w-6xl px-5 pt-14 sm:px-8">
-		<div class="flex flex-col justify-between gap-6 border-b border-cream/10 pb-14 sm:flex-row sm:items-end">
+		<div
+			class="flex flex-col justify-between gap-6 border-b border-cream/10 pb-14 sm:flex-row sm:items-end"
+		>
 			<div>
 				<p class="text-xs font-semibold tracking-widest text-cream/60 uppercase">Join the list</p>
-				<h2 class="font-display mt-2 text-3xl text-cream">Specials, new bakes &amp; offers</h2>
+				<h2 class="mt-2 font-display text-3xl text-cream">Specials, new bakes &amp; offers</h2>
 			</div>
 			<NewsletterSignup source="footer" variant="compact" offer={welcomeOffer} />
 		</div>
@@ -29,9 +37,24 @@
 					independent, proudly part of the community.
 				</p>
 				<div class="mt-6 flex gap-5 text-sm font-semibold">
-					<a href="https://www.instagram.com/smashinbakes" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">Instagram</a>
-					<a href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">Facebook</a>
-					<a href="https://www.tiktok.com/@smashinbakesbarrhead" class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream" target="_blank" rel="noreferrer">TikTok</a>
+					<a
+						href="https://www.instagram.com/smashinbakes"
+						class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream"
+						target="_blank"
+						rel="noreferrer">Instagram</a
+					>
+					<a
+						href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB"
+						class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream"
+						target="_blank"
+						rel="noreferrer">Facebook</a
+					>
+					<a
+						href="https://www.tiktok.com/@smashinbakesbarrhead"
+						class="underline decoration-cream/30 underline-offset-4 hover:decoration-cream"
+						target="_blank"
+						rel="noreferrer">TikTok</a
+					>
 				</div>
 			</div>
 
@@ -47,10 +70,18 @@
 			<div>
 				<p class="text-xs font-semibold tracking-widest text-cream/60 uppercase">Company</p>
 				<ul class="mt-4 space-y-3 text-[15px] font-medium text-cream/90">
-					<li><a href="/menus" class="hover:text-cream">Weekly menus</a></li>
-					<li><a href="/promotions" class="hover:text-cream">Promotions</a></li>
-					<li><a href="/about" class="hover:text-cream">About</a></li>
-					<li><a href="/contact" class="hover:text-cream">Contact</a></li>
+					{#if navVisibility.menus}
+						<li><a href="/menus" class="hover:text-cream">Weekly menus</a></li>
+					{/if}
+					{#if navVisibility.promotions}
+						<li><a href="/promotions" class="hover:text-cream">Promotions</a></li>
+					{/if}
+					{#if navVisibility.about}
+						<li><a href="/about" class="hover:text-cream">About</a></li>
+					{/if}
+					{#if navVisibility.contact}
+						<li><a href="/contact" class="hover:text-cream">Contact</a></li>
+					{/if}
 				</ul>
 			</div>
 
@@ -67,7 +98,9 @@
 			</div>
 		</div>
 
-		<div class="mt-14 flex flex-col-reverse items-start justify-between gap-4 border-t border-cream/10 pt-6 text-sm text-cream/60 sm:flex-row sm:items-center">
+		<div
+			class="mt-14 flex flex-col-reverse items-start justify-between gap-4 border-t border-cream/10 pt-6 text-sm text-cream/60 sm:flex-row sm:items-center"
+		>
 			<p>&copy; {new Date().getFullYear()} Smashin&rsquo; Bakes. All rights reserved.</p>
 			<a href="/admin/login" class="hover:text-cream/80">Staff login</a>
 		</div>

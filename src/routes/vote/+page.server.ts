@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { and, eq, inArray } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
@@ -7,7 +7,10 @@ import { getActivePoll } from '$lib/server/db/queries';
 
 const MAX_SELECTIONS = 3;
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, parent }) => {
+	const { navVisibility } = await parent();
+	if (!navVisibility.vote) throw error(404, 'Not found');
+
 	const poll = await getActivePoll();
 	if (!poll) return { poll: null, myVote: null, results: null };
 
@@ -18,7 +21,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 		// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
 		// flat queries instead (see queries.ts for the fuller explanation).
 		const existingVote = await db.query.flavorPollVotes.findFirst({
-			where: and(eq(flavorPollVotes.pollId, poll.id), eq(flavorPollVotes.customerId, locals.customer.id))
+			where: and(
+				eq(flavorPollVotes.pollId, poll.id),
+				eq(flavorPollVotes.customerId, locals.customer.id)
+			)
 		});
 		if (existingVote) {
 			const selections = await db.query.flavorPollVoteSelections.findMany({
@@ -76,7 +82,10 @@ export const actions: Actions = {
 		}
 
 		const existingVote = await db.query.flavorPollVotes.findFirst({
-			where: and(eq(flavorPollVotes.pollId, poll.id), eq(flavorPollVotes.customerId, locals.customer.id))
+			where: and(
+				eq(flavorPollVotes.pollId, poll.id),
+				eq(flavorPollVotes.customerId, locals.customer.id)
+			)
 		});
 		if (existingVote) {
 			return fail(400, { message: 'You’ve already voted in this poll.' });

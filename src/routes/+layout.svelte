@@ -12,7 +12,9 @@
 	const isAdminRoute = $derived(page.url.pathname.startsWith('/admin'));
 	// Both pages already are the newsletter signup — a popup on top of it would
 	// be redundant at best, comical at worst.
-	const hidePopup = $derived(page.url.pathname === '/newsletter' || page.url.pathname === '/unsubscribe');
+	const hidePopup = $derived(
+		page.url.pathname === '/newsletter' || page.url.pathname === '/unsubscribe'
+	);
 
 	// Same facts everywhere (site, Google Business Profile, social bios) is
 	// what local search and AI answer engines actually cross-reference — keep
@@ -31,7 +33,12 @@
 			addressCountry: 'GB'
 		},
 		openingHoursSpecification: [
-			{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Friday', 'Saturday'], opens: '10:00', closes: '16:00' }
+			{
+				'@type': 'OpeningHoursSpecification',
+				dayOfWeek: ['Friday', 'Saturday'],
+				opens: '10:00',
+				closes: '16:00'
+			}
 		],
 		servesCuisine: 'Bakery',
 		priceRange: '££',
@@ -55,16 +62,20 @@
 {:else}
 	<a
 		href="#main-content"
-		class="bg-pink focus:ring-pink/50 sr-only text-cream fixed top-3 left-3 z-50 rounded-full px-4 py-2 text-sm font-semibold focus:not-sr-only focus:ring-2 focus:outline-none"
+		class="sr-only fixed top-3 left-3 z-50 rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream focus:not-sr-only focus:ring-2 focus:ring-pink/50 focus:outline-none"
 	>
 		Skip to content
 	</a>
 	<div class="flex min-h-dvh flex-col">
-		<Nav categories={data.categories} customer={data.customer} />
+		<Nav categories={data.categories} customer={data.customer} navVisibility={data.navVisibility} />
 		<main id="main-content" class="flex-1">
 			{@render children()}
 		</main>
-		<Footer categories={data.categories} welcomeOffer={data.welcomeOffer} />
+		<Footer
+			categories={data.categories}
+			welcomeOffer={data.welcomeOffer}
+			navVisibility={data.navVisibility}
+		/>
 	</div>
 	{#if !hidePopup}
 		<NewsletterPopup welcomeOffer={data.welcomeOffer} />

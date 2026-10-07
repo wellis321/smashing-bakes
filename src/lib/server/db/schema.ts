@@ -434,6 +434,15 @@ export const siteSettings = mysqlTable('site_settings', {
 		.default(
 			'Birthdays, celebrations, anything worth marking with something a bit special — tell us what you have in mind and our baker Alanah will help bring it to life.'
 		),
+	// Lets admin hide a nav/footer link and 404 its page at the same time —
+	// e.g. taking the flavour vote down between polls — without deploying
+	// code. Core commerce routes (shop, cart, account) are never toggleable.
+	navMenusEnabled: boolean('nav_menus_enabled').notNull().default(true),
+	navVoteEnabled: boolean('nav_vote_enabled').notNull().default(true),
+	navAboutEnabled: boolean('nav_about_enabled').notNull().default(true),
+	navBespokeCakesEnabled: boolean('nav_bespoke_cakes_enabled').notNull().default(true),
+	navContactEnabled: boolean('nav_contact_enabled').notNull().default(true),
+	navPromotionsEnabled: boolean('nav_promotions_enabled').notNull().default(true),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

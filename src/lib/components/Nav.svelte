@@ -2,13 +2,19 @@
 	import { page } from '$app/state';
 	import type { CategorySummary } from '$lib/types';
 	import type { CustomerSessionUser } from '$lib/server/auth/customer-auth';
+	import type { NavVisibility } from '$lib/server/db/queries';
 	import { cart } from '$lib/stores/cart.svelte';
 	import Logo from './Logo.svelte';
 
 	let {
 		categories,
-		customer
-	}: { categories: CategorySummary[]; customer: CustomerSessionUser | null } = $props();
+		customer,
+		navVisibility
+	}: {
+		categories: CategorySummary[];
+		customer: CustomerSessionUser | null;
+		navVisibility: NavVisibility;
+	} = $props();
 
 	let menuOpen = $state(false);
 	let mobileShopOpen = $state(false);
@@ -128,11 +134,21 @@
 				{/if}
 			</div>
 
-			<a href="/menus" class={linkClass(isMenusActive)}>Weekly menus</a>
-			<a href="/vote" class={linkClass(isVoteActive)}>Vote</a>
-			<a href="/about" class={linkClass(isAboutActive)}>About</a>
-			<a href="/bespoke-cakes" class={linkClass(isBespokeActive)}>Bespoke cakes</a>
-			<a href="/contact" class={linkClass(isContactActive)}>Contact</a>
+			{#if navVisibility.menus}
+				<a href="/menus" class={linkClass(isMenusActive)}>Weekly menus</a>
+			{/if}
+			{#if navVisibility.vote}
+				<a href="/vote" class={linkClass(isVoteActive)}>Vote</a>
+			{/if}
+			{#if navVisibility.about}
+				<a href="/about" class={linkClass(isAboutActive)}>About</a>
+			{/if}
+			{#if navVisibility.bespokeCakes}
+				<a href="/bespoke-cakes" class={linkClass(isBespokeActive)}>Bespoke cakes</a>
+			{/if}
+			{#if navVisibility.contact}
+				<a href="/contact" class={linkClass(isContactActive)}>Contact</a>
+			{/if}
 		</nav>
 
 		<div class="flex items-center gap-3">
@@ -306,41 +322,51 @@
 				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
 					More
 				</p>
-				<a
-					href="/menus"
-					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isMenusActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
-					onclick={() => (menuOpen = false)}
-				>
-					Weekly menus
-				</a>
-				<a
-					href="/vote"
-					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isVoteActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
-					onclick={() => (menuOpen = false)}
-				>
-					Vote
-				</a>
-				<a
-					href="/about"
-					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAboutActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
-					onclick={() => (menuOpen = false)}
-				>
-					About
-				</a>
-				<a
-					href="/bespoke-cakes"
-					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isBespokeActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
-					onclick={() => (menuOpen = false)}
-				>
-					Bespoke cakes
-				</a>
-				<a
-					href="/contact"
-					class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isContactActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
-					onclick={() => (menuOpen = false)}
-				>
-					Contact
-				</a>
+				{#if navVisibility.menus}
+					<a
+						href="/menus"
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isMenusActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						onclick={() => (menuOpen = false)}
+					>
+						Weekly menus
+					</a>
+				{/if}
+				{#if navVisibility.vote}
+					<a
+						href="/vote"
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isVoteActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						onclick={() => (menuOpen = false)}
+					>
+						Vote
+					</a>
+				{/if}
+				{#if navVisibility.about}
+					<a
+						href="/about"
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAboutActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						onclick={() => (menuOpen = false)}
+					>
+						About
+					</a>
+				{/if}
+				{#if navVisibility.bespokeCakes}
+					<a
+						href="/bespoke-cakes"
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isBespokeActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						onclick={() => (menuOpen = false)}
+					>
+						Bespoke cakes
+					</a>
+				{/if}
+				{#if navVisibility.contact}
+					<a
+						href="/contact"
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isContactActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						onclick={() => (menuOpen = false)}
+					>
+						Contact
+					</a>
+				{/if}
 
 				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
 					Account

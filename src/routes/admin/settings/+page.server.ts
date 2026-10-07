@@ -72,5 +72,23 @@ export const actions: Actions = {
 		await upsertSettings(updates);
 
 		return { heroSuccess: true };
+	},
+
+	updateNavVisibility: async ({ request }) => {
+		const formData = await request.formData();
+
+		// Checkboxes only appear in form data when checked, so absence means off.
+		const updates = {
+			navMenusEnabled: formData.get('navMenusEnabled') === 'on',
+			navVoteEnabled: formData.get('navVoteEnabled') === 'on',
+			navAboutEnabled: formData.get('navAboutEnabled') === 'on',
+			navBespokeCakesEnabled: formData.get('navBespokeCakesEnabled') === 'on',
+			navContactEnabled: formData.get('navContactEnabled') === 'on',
+			navPromotionsEnabled: formData.get('navPromotionsEnabled') === 'on'
+		};
+
+		await upsertSettings(updates);
+
+		return { navSuccess: true };
 	}
 };

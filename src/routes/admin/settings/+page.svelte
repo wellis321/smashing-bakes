@@ -7,6 +7,16 @@
 
 	let submitting = $state(false);
 	let heroSubmitting = $state(false);
+	let navSubmitting = $state(false);
+
+	const navItems = [
+		{ key: 'navMenusEnabled', label: 'Weekly menus', href: '/menus' },
+		{ key: 'navVoteEnabled', label: 'Vote', href: '/vote' },
+		{ key: 'navAboutEnabled', label: 'About', href: '/about' },
+		{ key: 'navBespokeCakesEnabled', label: 'Bespoke cakes', href: '/bespoke-cakes' },
+		{ key: 'navContactEnabled', label: 'Contact', href: '/contact' },
+		{ key: 'navPromotionsEnabled', label: 'Promotions', href: '/promotions' }
+	] as const;
 </script>
 
 <svelte:head>
@@ -150,6 +160,54 @@
 				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{heroSubmitting ? 'Saving…' : 'Save changes'}
+			</button>
+		</form>
+	</div>
+
+	<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
+		<h2 class="text-lg font-semibold text-ink">Page visibility</h2>
+		<p class="mt-1 text-sm text-ink-soft">
+			Untick a page to hide it from the menu and footer and take it offline (visitors get a "page
+			not found"). Shop, cart and account pages always stay on.
+		</p>
+
+		<form
+			method="POST"
+			action="?/updateNavVisibility"
+			class="mt-5 space-y-3"
+			use:enhance={() => {
+				navSubmitting = true;
+				return async ({ update }) => {
+					await update();
+					navSubmitting = false;
+				};
+			}}
+		>
+			{#each navItems as item (item.key)}
+				<label class="flex items-center justify-between gap-3 rounded-lg px-1 py-1">
+					<span class="text-sm font-medium text-ink">
+						{item.label}
+						<span class="text-ink-soft/60">&middot; {item.href}</span>
+					</span>
+					<input
+						type="checkbox"
+						name={item.key}
+						checked={data.settings?.[item.key] ?? true}
+						class="h-4 w-4 accent-pink"
+					/>
+				</label>
+			{/each}
+
+			{#if form?.navSuccess}
+				<p class="rounded-lg bg-blush px-3 py-2 text-sm text-ink">Saved.</p>
+			{/if}
+
+			<button
+				type="submit"
+				disabled={navSubmitting}
+				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+			>
+				{navSubmitting ? 'Saving…' : 'Save changes'}
 			</button>
 		</form>
 	</div>

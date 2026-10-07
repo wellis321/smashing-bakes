@@ -1,11 +1,20 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { bespokeOrderEnquiries, newsletterSubscribers } from '$lib/server/db/schema';
 import { notifyOwnerOfEnquiry } from '$lib/server/email/owner-notifications';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Only gates the /contact page itself — this action is also the target for
+// the enquiry form embedded on /bespoke-cakes, which is gated independently
+// by that route's own load, so disabling one doesn't silently break the
+// other's form.
+export const load: PageServerLoad = async ({ parent }) => {
+	const { navVisibility } = await parent();
+	if (!navVisibility.contact) throw error(404, 'Not found');
+};
 
 export const actions: Actions = {
 	default: async ({ request }) => {

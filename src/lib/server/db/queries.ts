@@ -47,7 +47,10 @@ export async function getNewsletterAudience(): Promise<NewsletterRecipient[]> {
 		where: and(eq(customers.marketingOptIn, true), isNull(customers.unsubscribeToken))
 	});
 	for (const c of customersWithoutToken) {
-		await db.update(customers).set({ unsubscribeToken: randomBytes(24).toString('hex') }).where(eq(customers.id, c.id));
+		await db
+			.update(customers)
+			.set({ unsubscribeToken: randomBytes(24).toString('hex') })
+			.where(eq(customers.id, c.id));
 	}
 
 	const [subscribers, optedInCustomers] = await Promise.all([
@@ -57,7 +60,8 @@ export async function getNewsletterAudience(): Promise<NewsletterRecipient[]> {
 
 	const byEmail = new Map<string, NewsletterRecipient>();
 	for (const c of optedInCustomers) {
-		if (c.unsubscribeToken) byEmail.set(c.email, { email: c.email, name: c.name, unsubscribeToken: c.unsubscribeToken });
+		if (c.unsubscribeToken)
+			byEmail.set(c.email, { email: c.email, name: c.name, unsubscribeToken: c.unsubscribeToken });
 	}
 	// Subscriber rows go last so a plain newsletter signup doesn't overwrite a
 	// customer's real account name if the same email is on both lists.
@@ -114,7 +118,9 @@ async function attachCategory<T extends { categoryId: number }>(rows: T[]) {
 	return rows.map((r) => ({ ...r, category: byId.get(r.categoryId)! }));
 }
 
-type MenuSectionWithItems = typeof menuSections.$inferSelect & { items: (typeof menuItems.$inferSelect)[] };
+type MenuSectionWithItems = typeof menuSections.$inferSelect & {
+	items: (typeof menuItems.$inferSelect)[];
+};
 
 export async function attachMenuSections<T extends { id: number }>(
 	menu: T
@@ -137,7 +143,10 @@ export async function attachMenuSections<T extends { id: number }>(menu: T | und
 		orderBy: [asc(menuItems.sortOrder)]
 	});
 	const itemsBySection = groupBy(items, (i) => i.sectionId);
-	return { ...menu, sections: sections.map((s) => ({ ...s, items: itemsBySection.get(s.id) ?? [] })) };
+	return {
+		...menu,
+		sections: sections.map((s) => ({ ...s, items: itemsBySection.get(s.id) ?? [] }))
+	};
 }
 
 export async function getActiveCategories() {
@@ -226,6 +235,48 @@ export async function getWelcomeOffer(): Promise<{ code: string; description: st
 	const row = await db.query.siteSettings.findFirst();
 	if (!row) return DEFAULT_WELCOME_OFFER;
 	return { code: row.welcomeOfferCode, description: row.welcomeOfferDescription };
+}
+
+export type NavVisibility = {
+	menus: boolean;
+	vote: boolean;
+	about: boolean;
+	bespokeCakes: boolean;
+	contact: boolean;
+	promotions: boolean;
+};
+
+const DEFAULT_NAV_VISIBILITY: NavVisibility = {
+	menus: true,
+	vote: true,
+	about: true,
+	bespokeCakes: true,
+	contact: true,
+	promotions: true
+};
+
+// Same "missing row = defaults" fallback as getWelcomeOffer — an admin who's
+// never touched this setting should still see every page, not none of them.
+export async function getNavVisibility(): Promise<NavVisibility> {
+	const row = await db.query.siteSettings.findFirst({
+		columns: {
+			navMenusEnabled: true,
+			navVoteEnabled: true,
+			navAboutEnabled: true,
+			navBespokeCakesEnabled: true,
+			navContactEnabled: true,
+			navPromotionsEnabled: true
+		}
+	});
+	if (!row) return DEFAULT_NAV_VISIBILITY;
+	return {
+		menus: row.navMenusEnabled,
+		vote: row.navVoteEnabled,
+		about: row.navAboutEnabled,
+		bespokeCakes: row.navBespokeCakesEnabled,
+		contact: row.navContactEnabled,
+		promotions: row.navPromotionsEnabled
+	};
 }
 
 const DEFAULT_HERO_IMAGES = [
