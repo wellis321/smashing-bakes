@@ -3,6 +3,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
 	import TestimonialQuote from '$lib/components/TestimonialQuote.svelte';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -47,16 +48,13 @@
 
 {#snippet galleryFigure(item: (typeof data.galleryItems)[number])}
 	<figure class="w-[78vw] shrink-0 sm:w-[420px]">
-		<div class="aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] bg-cream-dim">
-			<img
-				src={item.imageUrl}
-				alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
-				class="h-full w-full object-cover"
-				style:object-position={item.focalPoint}
-				style:transform-origin={item.focalPoint}
-				style:transform={`scale(${item.imageZoom / 100})`}
-			/>
-		</div>
+		<PhotoFrame
+			src={item.imageUrl}
+			alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
+			zoom={item.imageZoom}
+			focal={item.focalPoint}
+			class="aspect-[4/5] w-full rounded-[1.75rem]"
+		/>
 		{#if item.caption}
 			<figcaption class="mt-2.5 text-sm text-ink-soft">{item.caption}</figcaption>
 		{/if}
@@ -74,7 +72,7 @@
 	</a>
 </div>
 
-<section class="mx-auto max-w-5xl px-5 pt-10 pb-8 sm:px-8">
+{#snippet heroText()}
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
 	<div class="flex items-center gap-2">
 		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
@@ -89,21 +87,37 @@
 		{/if}
 	</div>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
-</section>
+{/snippet}
 
-{#if data.imageUrl}
-	<section class="mx-auto max-w-5xl px-5 pb-8 sm:px-8">
-		<div class="aspect-[16/9] w-full overflow-hidden rounded-[2rem] bg-cream-dim sm:aspect-[21/9]">
-			<img
+{#if data.imageUrl && data.imageShape === 'tall'}
+	<section class="mx-auto max-w-5xl px-5 pt-10 pb-10 sm:px-8">
+		<div class="grid items-center gap-8 md:grid-cols-[1fr_minmax(0,22rem)] md:gap-12">
+			<div>{@render heroText()}</div>
+			<PhotoFrame
 				src={data.imageUrl}
 				alt="A bespoke Smashin' Bakes cake"
-				class="h-full w-full object-cover"
-				style:object-position={data.imageFocalPoint}
-				style:transform-origin={data.imageFocalPoint}
-				style:transform={`scale(${data.imageZoom / 100})`}
+				zoom={data.imageZoom}
+				focal={data.imageFocalPoint}
+				class="mx-auto aspect-[4/5] w-full max-w-sm rounded-[2rem] shadow-soft md:max-w-none"
 			/>
 		</div>
 	</section>
+{:else}
+	<section class="mx-auto max-w-5xl px-5 pt-10 pb-8 sm:px-8">
+		{@render heroText()}
+	</section>
+
+	{#if data.imageUrl}
+		<section class="mx-auto max-w-5xl px-5 pb-8 sm:px-8">
+			<PhotoFrame
+				src={data.imageUrl}
+				alt="A bespoke Smashin' Bakes cake"
+				zoom={data.imageZoom}
+				focal={data.imageFocalPoint}
+				class="aspect-[16/9] w-full rounded-[2rem] sm:aspect-[21/9]"
+			/>
+		</section>
+	{/if}
 {/if}
 
 {#if firstQuote}

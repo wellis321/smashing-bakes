@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import ImagePositionControls from '$lib/components/admin/ImagePositionControls.svelte';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -16,6 +17,25 @@
 	let heroPreviewUrl = $state<string | null>(data.settings?.bespokeCakesImageUrl ?? null);
 	let heroZoom = $state(data.settings?.bespokeCakesImageZoom ?? 100);
 	let heroFocalPoint = $state(data.settings?.bespokeCakesImageFocalPoint ?? 'center');
+	let heroShape = $state<'wide' | 'tall'>(
+		data.settings?.bespokeCakesImageShape === 'tall' ? 'tall' : 'wide'
+	);
+	let heroPhotoRatio = $state(0);
+
+	const shapes = [
+		{
+			value: 'wide',
+			label: 'Wide banner',
+			hint: 'Spans the page under the intro. Best for landscape photos.',
+			icon: 'h-6 w-12'
+		},
+		{
+			value: 'tall',
+			label: 'Tall',
+			hint: 'Upright photo beside the heading. Best for cakes shot portrait.',
+			icon: 'h-10 w-8'
+		}
+	] as const;
 
 	let newGalleryPreviewUrl = $state<string | null>(null);
 	let newGalleryZoom = $state(100);
@@ -92,10 +112,12 @@
 						bespokeCakesImageUrl: string | null;
 						bespokeCakesImageZoom: number;
 						bespokeCakesImageFocalPoint: string;
+						bespokeCakesImageShape?: string;
 					};
 					heroPreviewUrl = values.bespokeCakesImageUrl ?? null;
 					heroZoom = values.bespokeCakesImageZoom ?? 100;
 					heroFocalPoint = values.bespokeCakesImageFocalPoint ?? 'center';
+					heroShape = values.bespokeCakesImageShape === 'tall' ? 'tall' : 'wide';
 				}
 			};
 		}}
@@ -133,20 +155,62 @@
 			fileFieldName="bespokeCakesImageFile"
 			urlFieldName="bespokeCakesImageUrl"
 			label="Hero photo"
-			hint="A wide photo works best — it spans the full page width. Leave blank to show the page with no photo."
+			hint="Landscape photos suit the Wide banner shape; upright photos (most cake photos) suit Tall. Leave blank to show the page with no photo."
 			currentUrl={form?.contentValues?.bespokeCakesImageUrl ??
 				data.settings?.bespokeCakesImageUrl ??
 				null}
 			showPreview={false}
 			bind:previewUrl={heroPreviewUrl}
 		/>
+		<fieldset>
+			<legend class="text-sm font-medium text-ink-soft">Photo shape</legend>
+			<div class="mt-2 grid gap-3 sm:grid-cols-2">
+				{#each shapes as option (option.value)}
+					<label class="cursor-pointer">
+						<input
+							type="radio"
+							name="bespokeCakesImageShape"
+							value={option.value}
+							bind:group={heroShape}
+							class="peer sr-only"
+						/>
+						<span
+							class="flex items-center gap-3 rounded-xl border border-ink/15 bg-white p-3 transition-colors peer-checked:border-pink peer-checked:bg-pink/5 peer-focus-visible:ring-2 peer-focus-visible:ring-pink/40"
+						>
+							<span
+								class={`shrink-0 rounded-sm border-2 border-ink/40 bg-ink/10 ${option.icon}`}
+								aria-hidden="true"
+							></span>
+							<span>
+								<span class="block text-sm font-semibold text-ink">{option.label}</span>
+								<span class="block text-xs text-ink-soft">{option.hint}</span>
+							</span>
+						</span>
+					</label>
+				{/each}
+			</div>
+			{#if heroShape === 'wide' && heroPhotoRatio > 0 && heroPhotoRatio < 1}
+				<p class="mt-3 rounded-lg bg-blush px-3 py-2.5 text-sm text-ink">
+					This is an upright photo, so a wide banner will crop most of it away.
+					<button
+						type="button"
+						onclick={() => (heroShape = 'tall')}
+						class="font-semibold text-pink-deep underline"
+					>
+						Switch to Tall
+					</button>
+					to show it properly.
+				</p>
+			{/if}
+		</fieldset>
 		<ImagePositionControls
+			bind:photoRatio={heroPhotoRatio}
 			previewUrl={heroPreviewUrl}
 			bind:zoom={heroZoom}
 			bind:focalPoint={heroFocalPoint}
 			zoomFieldName="bespokeCakesImageZoom"
 			focalFieldName="bespokeCakesImageFocalPoint"
-			aspectClass="aspect-[21/9]"
+			aspectClass={heroShape === 'tall' ? 'aspect-[4/5]' : 'aspect-[21/9]'}
 		/>
 
 		{#if form?.contentMessage}
@@ -283,16 +347,13 @@
 							</div>
 						</form>
 					{:else}
-						<div class="aspect-[4/5] w-full overflow-hidden bg-cream-dim">
-							<img
-								src={item.imageUrl}
-								alt={item.caption ?? ''}
-								class="h-full w-full object-cover"
-								style:object-position={item.focalPoint}
-								style:transform-origin={item.focalPoint}
-								style:transform={`scale(${item.imageZoom / 100})`}
-							/>
-						</div>
+						<PhotoFrame
+							src={item.imageUrl}
+							alt={item.caption ?? ''}
+							zoom={item.imageZoom}
+							focal={item.focalPoint}
+							class="aspect-[4/5] w-full"
+						/>
 						<div class="p-2.5">
 							{#if item.caption}
 								<p class="truncate text-xs text-ink-soft" title={item.caption}>{item.caption}</p>

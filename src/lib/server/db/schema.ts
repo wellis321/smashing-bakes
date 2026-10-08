@@ -429,6 +429,11 @@ export const siteSettings = mysqlTable('site_settings', {
 	bespokeCakesImageFocalPoint: varchar('bespoke_cakes_image_focal_point', { length: 20 })
 		.notNull()
 		.default('center'),
+	// 'wide' = full-width banner under the intro; 'tall' = upright photo beside
+	// the heading, for photos (like most cakes) that can't work as a banner.
+	bespokeCakesImageShape: varchar('bespoke_cakes_image_shape', { length: 10 })
+		.notNull()
+		.default('wide'),
 	bespokeCakesHeading: varchar('bespoke_cakes_heading', { length: 200 })
 		.notNull()
 		.default("Bespoke cakes for your Smashin' occasion"),

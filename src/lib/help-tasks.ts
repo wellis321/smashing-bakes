@@ -173,9 +173,13 @@ export const helpTasks: HelpTask[] = [
 				'Change the “Heading”, the “Intro text” or the “Hero photo” in the first box.',
 				'bespoke-page-2'
 			),
+			s(
+				'If your photo is upright (most cake photos are), choose “Tall” under “Photo shape”. The photo then sits beside the heading so the whole cake shows. “Wide banner” is for landscape photos.',
+				'bespoke-page-3'
+			),
 			s('Press “Save changes” in that box.')
 		],
-		tip: 'You can zoom and move the photo so it fits its frame nicely. The gallery and quotes further down have their own guide.',
+		tip: 'Drag the pink frame and use Zoom to choose which part of the photo shows. “Fit whole photo” shows all of it. The gallery and quotes further down have their own guide.',
 		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
 		section: 'bespoke-cakes'
 	},
@@ -538,7 +542,7 @@ export const helpTasks: HelpTask[] = [
 				'For a photo that’s already there, press “Adjust” under it, change the frame and zoom the same way, and press “Save”.'
 			)
 		],
-		tip: 'The “How it will look” picture is the same shape as the real thing, so what you see there is what visitors get. Press “Reset” to start again. On a keyboard, click the frame and use the arrow keys.',
+		tip: 'The “How it will look” picture is the same shape as the real thing, so what you see there is what visitors get. Press “Fit whole photo” to see all of it (the gaps fill with a soft blur), or “Reset” to start again. On a keyboard, click the frame and use the arrow keys.',
 		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
 		section: 'bespoke-cakes'
 	},

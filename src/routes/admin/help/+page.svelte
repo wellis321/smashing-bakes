@@ -613,8 +613,11 @@
 					your whole photo with a pink frame on it — <strong>drag the frame</strong> over the part
 					you want (or click the photo to move it there) and use the <strong>Zoom</strong> slider to
 					get closer or show more. The <strong>How it will look</strong> picture is the same shape
-					as the live page, so it's a true preview. Already-added gallery photos can be fixed the
-					same way via their <strong>Adjust</strong> link, not just new ones.
+					as the live page, so it's a true preview. <strong>Fit whole photo</strong> shows all of
+					it. The hero photo also has a <strong>Photo shape</strong>: <strong>Wide banner</strong>
+					(full width, for landscape photos) or <strong>Tall</strong> (an upright photo beside the
+					heading, so portrait cake photos aren't cropped away). Already-added gallery photos can be
+					fixed the same way via their <strong>Adjust</strong> link, not just new ones.
 				</li>
 				<li>
 					The gallery auto-scrolls continuously and loops seamlessly — hover over it to pause and

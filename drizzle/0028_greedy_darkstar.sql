@@ -1,0 +1,1 @@
+ALTER TABLE `site_settings` ADD `bespoke_cakes_image_shape` varchar(10) DEFAULT 'wide' NOT NULL;

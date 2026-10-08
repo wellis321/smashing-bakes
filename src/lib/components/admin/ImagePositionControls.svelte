@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	// Lets staff choose exactly which part of a photo shows inside a fixed-shape
 	// box: drag a frame over the full photo, and zoom in or out. The frame is the
 	// same shape as the live box, so what's inside it is what visitors will see.
@@ -14,7 +15,8 @@
 		focalPoint = $bindable('50% 50%'),
 		zoomFieldName,
 		focalFieldName,
-		aspectClass = 'aspect-[16/9]'
+		aspectClass = 'aspect-[16/9]',
+		photoRatio = $bindable(0)
 	}: {
 		previewUrl: string | null;
 		zoom?: number;
@@ -22,6 +24,9 @@
 		zoomFieldName: string;
 		focalFieldName: string;
 		aspectClass?: string;
+		// Width ÷ height of the chosen photo (0 until it has loaded), so the page can
+		// suggest a better shape for upright photos.
+		photoRatio?: number;
 	} = $props();
 
 	const clamp = (n: number, min = 0, max = 100) => Math.min(max, Math.max(min, n));
@@ -47,6 +52,9 @@
 	let picker: HTMLDivElement | undefined = $state();
 
 	const imageRatio = $derived(naturalW > 0 && naturalH > 0 ? naturalW / naturalH : 1.5);
+	$effect(() => {
+		photoRatio = naturalW > 0 && naturalH > 0 ? naturalW / naturalH : 0;
+	});
 	const boxRatio = $derived(boxW > 0 && boxH > 0 ? boxW / boxH : 16 / 9);
 	const zoomFactor = $derived(zoom / 100);
 
@@ -123,6 +131,17 @@
 		focalPoint = `${Math.round(clamp(focal.x + move[0]))}% ${Math.round(clamp(focal.y + move[1]))}%`;
 	}
 
+	// The zoom at which the whole photo is visible inside the box (never below
+	// the slider's minimum).
+	function fitWholePhoto() {
+		const fit = Math.min(
+			imageRatio > boxRatio ? boxRatio / imageRatio : 1,
+			imageRatio > boxRatio ? 1 : imageRatio / boxRatio
+		);
+		zoom = Math.max(30, Math.min(100, Math.floor(fit * 100)));
+		focalPoint = '50% 50%';
+	}
+
 	function reset() {
 		focalPoint = '50% 50%';
 		zoom = 100;
@@ -182,14 +201,7 @@
 					bind:clientHeight={boxH}
 					class="mt-1.5 overflow-hidden rounded-xl border border-ink/10 bg-cream-dim {aspectClass}"
 				>
-					<img
-						src={previewUrl}
-						alt=""
-						class="h-full w-full object-cover"
-						style:object-position={focalPoint}
-						style:transform-origin={focalPoint}
-						style:transform={`scale(${zoomFactor})`}
-					/>
+					<PhotoFrame src={previewUrl} {zoom} focal={focalPoint} class="h-full w-full" />
 				</div>
 			</div>
 		</div>
@@ -200,7 +212,7 @@
 				<input
 					id={zoomFieldName}
 					type="range"
-					min="40"
+					min="30"
 					max="200"
 					step="1"
 					bind:value={zoom}
@@ -208,6 +220,13 @@
 				/>
 				<span class="w-12 shrink-0 text-right text-sm text-ink-soft">{zoom}%</span>
 			</div>
+			<button
+				type="button"
+				onclick={fitWholePhoto}
+				class="text-sm font-semibold text-pink-deep hover:underline"
+			>
+				Fit whole photo
+			</button>
 			<button
 				type="button"
 				onclick={reset}
@@ -218,7 +237,7 @@
 		</div>
 		<p class="mt-1 text-xs text-ink-soft/70">
 			Slide the zoom right to get closer, or left to show more of the photo (the space around it
-			fills with a plain background).
+			fills with a soft blur of the photo).
 		</p>
 	</div>
 {/if}

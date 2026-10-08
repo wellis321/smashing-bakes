@@ -23,7 +23,7 @@ const FOCAL_POINTS = new Set([
 ]);
 
 function parseZoom(formData: FormData, field: string): number {
-	return Math.min(200, Math.max(40, Number(formData.get(field)) || 100));
+	return Math.min(200, Math.max(30, Number(formData.get(field)) || 100));
 }
 
 // Accepts the drag-to-position value ("37% 62%") and the older named values
@@ -37,6 +37,10 @@ function parseFocalPoint(formData: FormData, field: string): string {
 		return `${clamp(Number(pct[1]))}% ${clamp(Number(pct[2]))}%`;
 	}
 	return FOCAL_POINTS.has(value) ? value : 'center';
+}
+
+function parseShape(formData: FormData): 'wide' | 'tall' {
+	return formData.get('bespokeCakesImageShape') === 'tall' ? 'tall' : 'wide';
 }
 
 export const load: PageServerLoad = async () => {
@@ -72,6 +76,7 @@ export const actions: Actions = {
 		const bespokeCakesIntro = String(formData.get('bespokeCakesIntro') ?? '').trim();
 		const bespokeCakesImageZoom = parseZoom(formData, 'bespokeCakesImageZoom');
 		const bespokeCakesImageFocalPoint = parseFocalPoint(formData, 'bespokeCakesImageFocalPoint');
+		const bespokeCakesImageShape = parseShape(formData);
 
 		const currentImageUrl = (await db.query.siteSettings.findFirst())?.bespokeCakesImageUrl ?? null;
 
@@ -83,7 +88,8 @@ export const actions: Actions = {
 					bespokeCakesIntro,
 					bespokeCakesImageUrl: currentImageUrl,
 					bespokeCakesImageZoom,
-					bespokeCakesImageFocalPoint
+					bespokeCakesImageFocalPoint,
+					bespokeCakesImageShape
 				}
 			});
 		}
@@ -92,7 +98,8 @@ export const actions: Actions = {
 			bespokeCakesHeading,
 			bespokeCakesIntro,
 			bespokeCakesImageZoom,
-			bespokeCakesImageFocalPoint
+			bespokeCakesImageFocalPoint,
+			bespokeCakesImageShape
 		};
 
 		const file = formData.get('bespokeCakesImageFile');
@@ -108,7 +115,8 @@ export const actions: Actions = {
 						bespokeCakesIntro,
 						bespokeCakesImageUrl: currentImageUrl,
 						bespokeCakesImageZoom,
-						bespokeCakesImageFocalPoint
+						bespokeCakesImageFocalPoint,
+						bespokeCakesImageShape
 					}
 				});
 			}
@@ -131,7 +139,8 @@ export const actions: Actions = {
 				bespokeCakesIntro,
 				bespokeCakesImageUrl: updates.bespokeCakesImageUrl,
 				bespokeCakesImageZoom,
-				bespokeCakesImageFocalPoint
+				bespokeCakesImageFocalPoint,
+				bespokeCakesImageShape
 			}
 		};
 	},

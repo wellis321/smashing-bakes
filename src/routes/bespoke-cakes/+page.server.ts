@@ -14,6 +14,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 				bespokeCakesImageUrl: true,
 				bespokeCakesImageZoom: true,
 				bespokeCakesImageFocalPoint: true,
+				bespokeCakesImageShape: true,
 				bespokeCakesHeading: true,
 				bespokeCakesIntro: true
 			}
@@ -34,6 +35,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 		imageUrl: settings?.bespokeCakesImageUrl ?? null,
 		imageZoom: settings?.bespokeCakesImageZoom ?? 100,
 		imageFocalPoint: settings?.bespokeCakesImageFocalPoint ?? 'center',
+		imageShape: settings?.bespokeCakesImageShape === 'tall' ? ('tall' as const) : ('wide' as const),
 		galleryItems,
 		testimonials
 	};
