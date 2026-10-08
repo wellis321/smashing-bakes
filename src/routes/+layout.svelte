@@ -67,7 +67,12 @@
 		Skip to content
 	</a>
 	<div class="flex min-h-dvh flex-col">
-		<Nav categories={data.categories} customer={data.customer} navVisibility={data.navVisibility} />
+		<Nav
+			categories={data.categories}
+			customer={data.customer}
+			navVisibility={data.navVisibility}
+			openingHours={data.openingHours}
+		/>
 		<main id="main-content" class="flex-1">
 			{@render children()}
 		</main>

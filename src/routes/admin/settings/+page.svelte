@@ -123,7 +123,7 @@
 	<SettingsCard
 		id="opening-hours"
 		title="Opening hours"
-		summary="Shown in the footer, on the homepage and on the Contact page."
+		summary="Shown in the top banner, footer, homepage and Contact page."
 		open={openId === 'opening-hours'}
 		ontoggle={() => toggle('opening-hours')}
 	>

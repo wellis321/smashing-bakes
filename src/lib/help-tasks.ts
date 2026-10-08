@@ -116,7 +116,7 @@ export const helpTasks: HelpTask[] = [
 		slug: 'opening-hours',
 		group: 'The homepage',
 		title: 'Change the opening hours',
-		summary: 'Shown in the footer, on the homepage and on the Contact page.',
+		summary: 'Shown in the banner at the very top, the footer, the homepage and the Contact page.',
 		steps: [
 			s('Press the pink button below to open Settings. The “Opening hours” box opens for you.'),
 			s(

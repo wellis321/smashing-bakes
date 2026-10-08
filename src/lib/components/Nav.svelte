@@ -9,11 +9,13 @@
 	let {
 		categories,
 		customer,
-		navVisibility
+		navVisibility,
+		openingHours
 	}: {
 		categories: CategorySummary[];
 		customer: CustomerSessionUser | null;
 		navVisibility: NavVisibility;
+		openingHours: string[];
 	} = $props();
 
 	let menuOpen = $state(false);
@@ -69,7 +71,7 @@
 <div
 	class="bg-blush-deep px-4 py-2 text-center text-xs font-medium tracking-wide text-ink sm:text-sm"
 >
-	Pre-order now for Friday &amp; Saturday pickup · 9&ndash;11 Paisley Road, Barrhead
+	Pre-order now for pickup · {openingHours.join(' · ')} · 9&ndash;11 Paisley Road, Barrhead
 </div>
 
 <header class="sticky top-0 z-30 border-b border-ink/[0.06] bg-cream/90 backdrop-blur">

@@ -948,8 +948,8 @@
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					<strong>Opening hours</strong> — type one line per day or range (e.g. "Friday 10am – 4pm").
-					They appear in the footer, on the homepage and on the Contact page. Clear the box and save to
-					go back to the default.
+					They appear in the top banner, the footer, on the homepage and on the Contact page. Clear the
+					box and save to go back to the default.
 				</li>
 				<li>
 					The newsletter welcome offer shown on signup — a short label plus what it actually means —
