@@ -222,8 +222,10 @@
 				<li>
 					<strong>Feature on homepage</strong> is what fills the <strong>This week's bakes</strong>
 					photo cards on the homepage — tick it on a product and it appears there, untick it to remove
-					it. Want three photos? Tick it on three products. (This is separate from Weekly menus, which
-					are a text list on the /menus page.)
+					it. You can also do this straight from the Products list with the
+					<strong>★ This week's bake</strong> button on each row (solid pink means it's showing). The
+					product also needs to be Active to appear. Want three photos? Switch it on for three products.
+					(This is separate from Weekly menus, which are a text list on the /menus page.)
 				</li>
 				<li>
 					Products with no photo show a placeholder. The illustrations used on the homepage "Browse
