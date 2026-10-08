@@ -7,11 +7,13 @@
 	let {
 		categories,
 		welcomeOffer,
-		navVisibility
+		navVisibility,
+		openingHours
 	}: {
 		categories: CategorySummary[];
 		welcomeOffer: { code: string; description: string };
 		navVisibility: NavVisibility;
+		openingHours: string[];
 	} = $props();
 </script>
 
@@ -91,9 +93,16 @@
 					9&ndash;11 Paisley Road<br />
 					Barrhead, G78 1HG
 				</p>
-				<p class="mt-4 text-[15px] leading-relaxed font-medium text-cream/90">
-					Pre-order for pickup<br />
-					Friday &amp; Saturday
+				<p class="mt-4 text-xs font-semibold tracking-widest text-cream/60 uppercase">
+					Opening hours
+				</p>
+				<ul class="mt-2 space-y-1 text-[15px] leading-relaxed font-medium text-cream/90">
+					{#each openingHours as line (line)}
+						<li>{line}</li>
+					{/each}
+				</ul>
+				<p class="mt-3 text-[15px] leading-relaxed font-medium text-cream/90">
+					Pre-order for pickup
 				</p>
 			</div>
 		</div>

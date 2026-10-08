@@ -32,6 +32,9 @@ export const categories = mysqlTable(
 		name: varchar('name', { length: 100 }).notNull(),
 		slug: varchar('slug', { length: 100 }).notNull(),
 		description: text('description'),
+		// Shown on the homepage "Browse by bake" tile; null falls back to the
+		// built-in illustration for the category's slug.
+		imageUrl: varchar('image_url', { length: 500 }),
 		sortOrder: int('sort_order').notNull().default(0),
 		isActive: boolean('is_active').notNull().default(true),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -443,6 +446,9 @@ export const siteSettings = mysqlTable('site_settings', {
 	navBespokeCakesEnabled: boolean('nav_bespoke_cakes_enabled').notNull().default(true),
 	navContactEnabled: boolean('nav_contact_enabled').notNull().default(true),
 	navPromotionsEnabled: boolean('nav_promotions_enabled').notNull().default(true),
+	// Free text, one line per day/range, shown in the footer and homepage. Null
+	// falls back to the shop's usual Friday & Saturday hours.
+	openingHoursText: text('opening_hours_text'),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

@@ -74,6 +74,19 @@ export const actions: Actions = {
 		return { heroSuccess: true };
 	},
 
+	updateOpeningHours: async ({ request }) => {
+		const formData = await request.formData();
+		const text = String(formData.get('openingHoursText') ?? '')
+			.split('\n')
+			.map((l) => l.trim())
+			.filter(Boolean)
+			.join('\n');
+
+		await upsertSettings({ openingHoursText: text || null });
+
+		return { hoursSuccess: true };
+	},
+
 	updateNavVisibility: async ({ request }) => {
 		const formData = await request.formData();
 

@@ -9,6 +9,17 @@
 	let selectedCount = $state(0);
 	let copiedId = $state<number | null>(null);
 
+	const illustrations = [
+		{ file: 'cupcakes', label: 'Cupcakes' },
+		{ file: 'brownies', label: 'Brownies & Blondies' },
+		{ file: 'cookies', label: 'Cookies' },
+		{ file: 'pies', label: 'Cookie Pies' },
+		{ file: 'cheesecakes', label: 'Cheesecakes' },
+		{ file: 'cake-slices', label: 'Cake slices' },
+		{ file: 'classics', label: 'Classics' },
+		{ file: 'empire-biscuits', label: 'Empire Biscuits' }
+	];
+
 	function handleFileChange(event: Event) {
 		const input = event.currentTarget as HTMLInputElement;
 		selectedCount = input.files?.length ?? 0;
@@ -176,3 +187,30 @@
 		{/each}
 	</div>
 {/if}
+
+<section class="mt-12">
+	<h2 class="text-lg font-semibold text-ink">Built-in illustrations</h2>
+	<p class="mt-1 max-w-xl text-sm text-ink-soft">
+		The illustrations the site uses when a category has no photo. Download one as a PNG, then upload
+		it above to use it on a product or category.
+	</p>
+	<div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+		{#each illustrations as item (item.file)}
+			<div class="overflow-hidden rounded-xl border border-ink/10 bg-white/60">
+				<img
+					src={`/images/placeholder/${item.file}.svg`}
+					alt=""
+					class="aspect-square w-full object-cover"
+				/>
+				<div class="flex items-center justify-between gap-2 p-2">
+					<span class="text-xs font-medium text-ink">{item.label}</span>
+					<a
+						href={`/images/placeholder/png/${item.file}.png`}
+						download={`${item.file}.png`}
+						class="text-xs font-semibold text-pink-deep hover:underline">Download</a
+					>
+				</div>
+			</div>
+		{/each}
+	</div>
+</section>

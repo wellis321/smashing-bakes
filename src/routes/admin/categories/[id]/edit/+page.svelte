@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
+	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import type { ActionData, PageData } from './$types';
@@ -30,6 +31,7 @@
 <form
 	method="POST"
 	action="?/update"
+	enctype="multipart/form-data"
 	class="mt-6 max-w-lg rounded-2xl border border-ink/10 bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
@@ -81,6 +83,23 @@
 				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				>{data.category.description ?? ''}</textarea
 			>
+		</div>
+
+		<div>
+			<MediaPicker
+				items={data.mediaItems}
+				fileFieldName="imageFile"
+				urlFieldName="imageUrl"
+				label="Homepage tile photo (optional)"
+				hint="Shown on the homepage's Browse by bake strip. Leave blank to use the built-in illustration."
+				currentUrl={data.category.imageUrl}
+			/>
+			{#if data.category.imageUrl}
+				<label class="mt-3 flex items-center gap-2 text-sm text-ink-soft">
+					<input type="checkbox" name="clearImage" value="true" class="h-4 w-4 accent-pink" />
+					Remove my photo and use the built-in illustration instead
+				</label>
+			{/if}
 		</div>
 
 		<label class="flex items-center gap-2 text-sm text-ink-soft">

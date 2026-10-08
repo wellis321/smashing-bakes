@@ -19,7 +19,9 @@ export const actions: Actions = {
 		try {
 			await db.insert(categories).values({ name, slug, description });
 		} catch {
-			return fail(400, { message: 'A category with that URL slug already exists — please choose another.' });
+			return fail(400, {
+				message: 'A category with that URL slug already exists — please choose another.'
+			});
 		}
 
 		throw redirect(303, '/admin/categories');

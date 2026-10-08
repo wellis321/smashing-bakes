@@ -75,6 +75,7 @@
 			categories={data.categories}
 			welcomeOffer={data.welcomeOffer}
 			navVisibility={data.navVisibility}
+			openingHours={data.openingHours}
 		/>
 	</div>
 	{#if !hidePopup}

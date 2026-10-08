@@ -5,8 +5,13 @@ import { db } from '$lib/server/db';
 import { categories, products } from '$lib/server/db/schema';
 
 export const load: PageServerLoad = async () => {
-	const allCategories = await db.query.categories.findMany({ orderBy: [asc(categories.sortOrder)] });
-	const productCounts = await db.select({ categoryId: products.categoryId, value: count() }).from(products).groupBy(products.categoryId);
+	const allCategories = await db.query.categories.findMany({
+		orderBy: [asc(categories.sortOrder)]
+	});
+	const productCounts = await db
+		.select({ categoryId: products.categoryId, value: count() })
+		.from(products)
+		.groupBy(products.categoryId);
 	const countsByCategory = new Map(productCounts.map((row) => [row.categoryId, row.value]));
 
 	return {
@@ -33,7 +38,10 @@ export const actions: Actions = {
 		const id = Number(formData.get('id'));
 		if (!id) return fail(400, { message: 'Missing category id.' });
 
-		const [{ value: productCount }] = await db.select({ value: count() }).from(products).where(eq(products.categoryId, id));
+		const [{ value: productCount }] = await db
+			.select({ value: count() })
+			.from(products)
+			.where(eq(products.categoryId, id));
 		if (productCount > 0) {
 			return fail(400, {
 				message: `Can't delete — ${productCount} product${productCount === 1 ? '' : 's'} still use this category. Move or delete them first.`

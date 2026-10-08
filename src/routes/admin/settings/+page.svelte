@@ -9,6 +9,7 @@
 	let submitting = $state(false);
 	let heroSubmitting = $state(false);
 	let navSubmitting = $state(false);
+	let hoursSubmitting = $state(false);
 
 	const navItems = [
 		{ key: 'navMenusEnabled', label: 'Weekly menus', href: '/menus' },
@@ -106,6 +107,49 @@
 					class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 				>
 					{submitting ? 'Saving…' : 'Save changes'}
+				</button>
+			</form>
+		</div>
+
+		<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
+			<h2 class="text-lg font-semibold text-ink">Opening hours</h2>
+			<p class="mt-1 text-sm text-ink-soft">
+				Shown in the site footer, on the homepage and on the Contact page. One line per day or
+				range, exactly as you'd like it to read.
+			</p>
+
+			<form
+				method="POST"
+				action="?/updateOpeningHours"
+				class="mt-5 space-y-4"
+				use:enhance={() => {
+					hoursSubmitting = true;
+					return async ({ update }) => {
+						await update({ reset: false });
+						hoursSubmitting = false;
+					};
+				}}
+			>
+				<textarea
+					name="openingHoursText"
+					rows="4"
+					class="w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
+					>{data.settings?.openingHoursText ?? 'Friday 10am – 4pm\nSaturday 10am – 4pm'}</textarea
+				>
+				<p class="text-xs text-ink-soft/70">
+					Clear the box and save to go back to the default (Friday and Saturday, 10am – 4pm).
+				</p>
+
+				{#if form?.hoursSuccess}
+					<p class="rounded-lg bg-blush px-3 py-2 text-sm text-ink">Saved.</p>
+				{/if}
+
+				<button
+					type="submit"
+					disabled={hoursSubmitting}
+					class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+				>
+					{hoursSubmitting ? 'Saving…' : 'Save changes'}
 				</button>
 			</form>
 		</div>

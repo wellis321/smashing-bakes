@@ -95,11 +95,12 @@
 			</div>
 
 			<div>
-				<label for="phone" class="text-sm font-medium text-ink-soft">Phone (optional)</label>
+				<label for="phone" class="text-sm font-medium text-ink-soft">Phone</label>
 				<input
 					id="phone"
 					name="phone"
 					type="tel"
+					required
 					bind:value={phone}
 					class="mt-1 w-full max-w-xs rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>

@@ -1,6 +1,9 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 
 	const address = '9-11 Paisley Road, Barrhead, G78 1HG';
 	const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
@@ -73,16 +76,11 @@
 				</div>
 
 				<p class="mt-8 font-display text-xl text-ink">Opening hours</p>
-				<dl class="mt-3 space-y-1 text-sm text-ink-soft">
-					<div class="flex justify-between gap-4">
-						<dt>Friday</dt>
-						<dd>10am &ndash; 4pm</dd>
-					</div>
-					<div class="flex justify-between gap-4">
-						<dt>Saturday</dt>
-						<dd>10am &ndash; 4pm</dd>
-					</div>
-				</dl>
+				<ul class="mt-3 space-y-1 text-sm text-ink-soft">
+					{#each data.openingHours as line (line)}
+						<li>{line}</li>
+					{/each}
+				</ul>
 			</div>
 
 			<div class="overflow-hidden rounded-[2rem]">

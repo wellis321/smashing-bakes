@@ -237,6 +237,19 @@ export async function getWelcomeOffer(): Promise<{ code: string; description: st
 	return { code: row.welcomeOfferCode, description: row.welcomeOfferDescription };
 }
 
+const DEFAULT_OPENING_HOURS = ['Friday 10am – 4pm', 'Saturday 10am – 4pm'];
+
+// One entry per non-blank line of the admin's free-text box; falls back to
+// the usual hours if it's never been set.
+export async function getOpeningHours(): Promise<string[]> {
+	const row = await db.query.siteSettings.findFirst({ columns: { openingHoursText: true } });
+	const lines = (row?.openingHoursText ?? '')
+		.split('\n')
+		.map((l) => l.trim())
+		.filter(Boolean);
+	return lines.length > 0 ? lines : DEFAULT_OPENING_HOURS;
+}
+
 export type NavVisibility = {
 	menus: boolean;
 	vote: boolean;

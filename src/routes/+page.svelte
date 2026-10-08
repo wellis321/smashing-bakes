@@ -251,7 +251,7 @@
 		{#each data.categories as category (category.id)}
 			<a href={`/shop/${category.slug}`} class="group relative block overflow-hidden rounded-2xl">
 				<img
-					src={`/images/placeholder/${category.slug}.svg`}
+					src={category.imageUrl ?? `/images/placeholder/${category.slug}.svg`}
 					alt=""
 					class="aspect-[4/5] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
 				/>
@@ -281,7 +281,13 @@
 		<div class="flex flex-col gap-1 lg:text-right">
 			<p class="font-display text-xl text-ink">9&ndash;11 Paisley Road</p>
 			<p class="text-ink-soft">Barrhead, G78 1HG</p>
-			<p class="mt-2 text-sm text-ink-soft">Pickup Fridays &amp; Saturdays</p>
+			<p class="mt-3 text-xs font-semibold tracking-widest text-ink-soft uppercase">
+				Opening hours
+			</p>
+			{#each data.openingHours as line (line)}
+				<p class="text-ink-soft">{line}</p>
+			{/each}
+			<p class="mt-2 text-sm text-ink-soft">Pre-order for pickup</p>
 		</div>
 	</div>
 </section>

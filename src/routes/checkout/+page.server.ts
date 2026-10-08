@@ -40,8 +40,10 @@ export const actions: Actions = {
 		const deliveryAddress = String(formData.get('deliveryAddress') ?? '').trim() || null;
 		const submittedItems = parseItems(String(formData.get('items') ?? ''));
 
-		if (!name || !email || !pickupDate) {
-			return fail(400, { message: 'Please fill in your name, email and a pickup day.' });
+		if (!name || !email || !phone || !pickupDate) {
+			return fail(400, {
+				message: 'Please fill in your name, email, phone number and a pickup day.'
+			});
 		}
 		if (fulfilmentMethod === 'delivery' && !deliveryAddress) {
 			return fail(400, { message: 'Please add a delivery address.' });

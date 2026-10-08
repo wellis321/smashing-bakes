@@ -226,10 +226,9 @@
 					are a text list on the /menus page.)
 				</li>
 				<li>
-					Products with no photo show a placeholder. The cupcake, brownie, cookie, cookie pie,
-					cheesecake and cake-slice illustrations on the homepage "Browse by bake" strip are built
-					into the site and aren't downloadable from the Media library — upload your own photo for a
-					category or product and it takes over from the illustration.
+					Products with no photo show a placeholder. The illustrations used on the homepage "Browse
+					by bake" strip can be downloaded as PNGs from the <strong>Built-in illustrations</strong>
+					panel at the bottom of the Media library, then uploaded as a product photo.
 				</li>
 				<li>
 					A product can have named options (variants) with their own price — a customer picks one
@@ -258,6 +257,11 @@
 				The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+				<li>
+					Each category can have its own <strong>Homepage tile photo</strong> (on its edit page) for the
+					"Browse by bake" strip on the homepage. Leave it blank to use the built-in illustration, or
+					tick "Remove my photo" to switch back.
+				</li>
 				<li>
 					Set these up before adding products for a brand-new type of bake — a product always needs
 					a category to belong to.
@@ -321,6 +325,10 @@
 				their details and a pickup or delivery day, and it lands here.
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+				<li>
+					The phone number is required at checkout, so every order has a number to reach the
+					customer on.
+				</li>
 				<li>
 					There's no online payment connected yet — every order is placed as "reserve now, pay in
 					person on pickup/delivery," and the checkout page and confirmation email both say so
@@ -647,6 +655,11 @@
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
+					Scroll to the bottom for <strong>Built-in illustrations</strong> — the images the site
+					uses when a category has no photo (cupcakes, brownies, cookies, classics and more). Click
+					<strong>Download</strong> to get one as a PNG you can upload like any other photo.
+				</li>
+				<li>
 					Select several files at once — open a folder in the file picker and select-all to upload
 					the whole thing in one go.
 				</li>
@@ -906,6 +919,11 @@
 				Site-wide settings that show up on the public site.
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+				<li>
+					<strong>Opening hours</strong> — type one line per day or range (e.g. "Friday 10am – 4pm").
+					They appear in the footer, on the homepage and on the Contact page. Clear the box and save to
+					go back to the default.
+				</li>
 				<li>
 					The newsletter welcome offer shown on signup — a short label plus what it actually means —
 					is entirely free text, so it can say whatever offer you're actually running (e.g. "TREAT
