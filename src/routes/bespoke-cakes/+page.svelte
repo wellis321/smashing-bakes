@@ -46,6 +46,30 @@
 	</svg>
 {/snippet}
 
+{#snippet quotesHelp()}
+	{#if data.staff}
+		<HelpLink
+			section="bespoke-cakes"
+			task="bespoke-quotes"
+			title="Staff only: how to add, change or remove customer quotes"
+			label="Staff help"
+			staff
+		/>
+	{/if}
+{/snippet}
+
+{#snippet galleryHelp()}
+	{#if data.staff}
+		<HelpLink
+			section="bespoke-cakes"
+			task="bespoke-gallery"
+			title="Staff only: how to add or remove cakes in this gallery"
+			label="Staff help"
+			staff
+		/>
+	{/if}
+{/snippet}
+
 {#snippet galleryFigure(item: (typeof data.galleryItems)[number])}
 	<figure class="w-[78vw] shrink-0 sm:w-[420px]">
 		<PhotoFrame
@@ -120,9 +144,33 @@
 	{/if}
 {/if}
 
+{#if data.staff && data.testimonials.length === 0}
+	<section class="mx-auto max-w-5xl px-5 pb-14 sm:px-8">
+		<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
+			<p class="text-sm text-ink-soft">
+				Staff only: there are no customer quotes yet, so quotes aren't shown to visitors.
+			</p>
+			<div class="mt-3 flex justify-center">{@render quotesHelp()}</div>
+		</div>
+	</section>
+{/if}
+
 {#if firstQuote}
 	<section class="mx-auto max-w-5xl px-5 pb-14 sm:px-8">
+		<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
 		<TestimonialQuote quote={firstQuote.quote} authorName={firstQuote.authorName} />
+	</section>
+{/if}
+
+{#if data.staff && data.galleryItems.length === 0}
+	<section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
+		<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
+			<p class="text-sm text-ink-soft">
+				Staff only: there are no cake photos in “Past designs” yet, so the gallery isn't shown to
+				visitors.
+			</p>
+			<div class="mt-3 flex justify-center">{@render galleryHelp()}</div>
+		</div>
 	</section>
 {/if}
 
@@ -130,7 +178,10 @@
 	<section class="pb-16">
 		<div class="mx-auto max-w-5xl px-5 sm:px-8">
 			<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Some of our work</p>
-			<h2 class="mt-2 font-display text-3xl text-ink sm:text-4xl">Past designs</h2>
+			<div class="mt-2 flex flex-wrap items-center gap-3">
+				<h2 class="font-display text-3xl text-ink sm:text-4xl">Past designs</h2>
+				{@render galleryHelp()}
+			</div>
 		</div>
 
 		<div
@@ -153,6 +204,7 @@
 
 {#if secondQuote}
 	<section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
+		<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
 		<TestimonialQuote quote={secondQuote.quote} authorName={secondQuote.authorName} />
 	</section>
 {/if}
@@ -163,7 +215,10 @@
 
 {#if moreQuotes.length > 0}
 	<section class="mx-auto max-w-5xl px-5 pb-20 sm:px-8">
-		<h2 class="text-center font-display text-2xl text-ink">More kind words</h2>
+		<div class="flex flex-wrap items-center justify-center gap-3">
+			<h2 class="font-display text-2xl text-ink">More kind words</h2>
+			{@render quotesHelp()}
+		</div>
 		<div class="mt-8 grid gap-5 sm:grid-cols-2">
 			{#each moreQuotes as item (item.id)}
 				<div class="rounded-2xl bg-blush p-6">

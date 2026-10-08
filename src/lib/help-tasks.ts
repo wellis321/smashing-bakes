@@ -186,25 +186,46 @@ export const helpTasks: HelpTask[] = [
 	{
 		slug: 'bespoke-gallery',
 		group: 'The homepage',
-		title: 'Add a cake to the gallery or a customer quote',
-		summary: 'The slider of past designs and the quotes on the Bespoke cakes page.',
+		title: 'Add or remove a cake in the gallery',
+		summary: 'The sliding “Past designs” photos on the Bespoke cakes page.',
 		steps: [
 			s('Open the Marketing menu at the top and choose Bespoke cakes.'),
 			s(
-				'To add a cake, find “Cake gallery”. Choose a photo, add a caption if you like, and press “Add to gallery”.',
+				'Find “Cake gallery”. Choose a photo, add a caption if you like, and press “Add to gallery”.',
 				'bespoke-gallery-2'
 			),
 			s(
-				'To add a quote, find “Customer quotes”. Type the “Quote” and who it’s from, then press “Add quote”.',
-				'bespoke-gallery-3'
-			)
+				'To change which part of a photo shows, press “Adjust” under it. (See “Choose which part of a photo shows” for how.)'
+			),
+			s('To take a cake out of the gallery, press “Remove” under it.')
 		],
-		tip: 'They go live straight away. Each box has its own button, so saving one doesn’t save the others.',
+		tip: 'Photos go live straight away, newest first. Upright photos suit the gallery well because its cards are tall.',
 		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
 		section: 'bespoke-cakes'
 	},
 
 	// ── Products and the shop ───────────────────────────────────────
+	{
+		slug: 'bespoke-quotes',
+		group: 'The homepage',
+		title: 'Add, change or remove a customer quote',
+		summary: 'The kind words shown on the Bespoke cakes page.',
+		steps: [
+			s('Open the Marketing menu at the top and choose Bespoke cakes.'),
+			s(
+				'Find “Customer quotes”. Type the “Quote” and, if you like, who it’s from under “Attributed to”, then press “Add quote”.',
+				'bespoke-quotes-2'
+			),
+			s(
+				'To fix a quote, press “Edit” under it, change the words, then press “Save”.',
+				'bespoke-quotes-3'
+			),
+			s('To take one down, press “Delete” under it.')
+		],
+		tip: 'Newest quotes come first. The first one sits under the main photo, the second further down the page, and any more are grouped together near the bottom as “More kind words”.',
+		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
+		section: 'bespoke-cakes'
+	},
 	{
 		slug: 'add-product',
 		group: 'Products and the shop',
