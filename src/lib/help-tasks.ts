@@ -515,6 +515,174 @@ export const helpTasks: HelpTask[] = [
 		tip: 'It needs to be at least 8 characters.',
 		goTo: { href: '/admin/account', label: 'Go to My account' },
 		section: 'security'
+	},
+	// ── More guides ─────────────────────────────────────────────────
+	{
+		slug: 'adjust-photo',
+		group: 'The homepage',
+		title: 'Zoom and move a photo so it fits its frame',
+		summary: 'Make a photo look right in its space, such as the cake gallery.',
+		steps: [
+			s(
+				'Open the Marketing menu at the top and choose Bespoke cakes. Under “Cake gallery”, choose or upload a photo. A preview appears.'
+			),
+			s(
+				'Use the “Zoom” slider. Slide left to shrink the photo back so more of it shows. Slide right to zoom in closer.',
+				'adjust-photo-2'
+			),
+			s('Use the nine “Position” squares to choose which part of the photo stays in view.'),
+			s('Add a caption if you like, then press “Add to gallery”.'),
+			s(
+				'For a photo that’s already there, press “Adjust” under it, make the same changes and press “Save”.'
+			)
+		],
+		tip: 'The preview shows exactly how it will look, so keep adjusting until you’re happy.',
+		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
+		section: 'bespoke-cakes'
+	},
+	{
+		slug: 'find-product',
+		group: 'Products and the shop',
+		title: 'Find a product quickly',
+		summary: 'Search and filter the product list.',
+		steps: [
+			s('Open the Shop menu at the top and choose Products.'),
+			s(
+				'Type part of the name in the search box, or use the drop-downs to narrow the list by category, by Active or Hidden, or by badge (for example “On sale only”).',
+				'find-product-2'
+			),
+			s('Use the “Sort” menu on the right to change the order, for example by price.'),
+			s('To see everything again, clear the search box and set the drop-downs back to “All…”.')
+		],
+		tip: 'The small line above the list tells you how many products are showing out of the total.',
+		goTo: { href: '/admin/products', label: 'Go to Products' },
+		section: 'products'
+	},
+	{
+		slug: 'hide-category',
+		group: 'Products and the shop',
+		title: 'Hide a category',
+		summary: 'Take a whole category off the shop without deleting it.',
+		steps: [
+			s('Open the Shop menu at the top and choose Categories.'),
+			s(
+				'Press the grey “Active” pill on that category’s row. It turns pink and says “Hidden”.',
+				'hide-category-2'
+			),
+			s('Press it again whenever you want it back.')
+		],
+		tip: 'A hidden category disappears from the menus and the homepage tiles. A category can’t be deleted while it still has products in it.',
+		goTo: { href: '/admin/categories', label: 'Go to Categories' },
+		section: 'categories'
+	},
+	{
+		slug: 'edit-menu',
+		group: 'Products and the shop',
+		title: 'Change or hide a weekly menu',
+		summary: 'Fix a typo, add an item or take a menu down.',
+		steps: [
+			s('Open the Shop menu at the top and choose Weekly menus.'),
+			s(
+				'To hide a menu, press its “Published” pill so it says “Draft”. Press it again to show it.',
+				'edit-menu-2'
+			),
+			s(
+				'To change what’s on it, press the menu, change the sections or items (one item per line), then press “Save changes”.',
+				'edit-menu-3'
+			)
+		],
+		tip: 'When a menu is published, a “View live page” link at the top of its edit page shows how it looks to customers.',
+		goTo: { href: '/admin/menus', label: 'Go to Weekly menus' },
+		section: 'weekly-menus'
+	},
+	{
+		slug: 'cancel-order',
+		group: 'Orders and customers',
+		title: 'Cancel an order or find a finished one',
+		summary: 'Look back at old orders, or cancel one.',
+		steps: [
+			s('Press “Orders” in the top bar.'),
+			s(
+				'The list only shows orders still to do. Press “All” to include collected and cancelled ones.',
+				'cancel-order-2'
+			),
+			s(
+				'To cancel an order, open it, change “Order status” to “Cancelled” and press “Save changes”.',
+				'cancel-order-3'
+			)
+		],
+		tip: 'The customer isn’t told automatically, so contact them yourself. Avoid the red “Delete this order” link, which removes the record for good.',
+		goTo: { href: '/admin/orders', label: 'Go to Orders' },
+		section: 'orders'
+	},
+	{
+		slug: 'customers',
+		group: 'Orders and customers',
+		title: 'See and download your customers',
+		summary: 'People who have made a full account on the site.',
+		steps: [
+			s('Open the People menu at the top and choose Customers.'),
+			s('The page shows how many accounts there are and how many agreed to marketing emails.'),
+			s('Press “Export CSV” to download the list as a spreadsheet.', 'customers-2')
+		],
+		tip: 'These are people with a full account (from voting or the local business picker). Newsletter subscribers are a separate list.',
+		goTo: { href: '/admin/customers', label: 'Go to Customers' },
+		section: 'customers'
+	},
+	{
+		slug: 'edit-promotion',
+		group: 'Marketing',
+		title: 'Switch a promotion on or off, or show it on the homepage',
+		summary: 'Control whether a promotion is live and where it appears.',
+		steps: [
+			s('Open the Marketing menu at the top and choose Promotions.'),
+			s(
+				'To switch one off quickly, press its “Published” pill so it says “Draft”. Press it again to bring it back.',
+				'edit-promotion-2'
+			),
+			s(
+				'To put it on the homepage, press the promotion, tick “Published (visible on site)” and “Feature on homepage”, then press “Save changes”.',
+				'edit-promotion-3'
+			)
+		],
+		tip: 'It only shows on the homepage if it’s published too. A small “Featured” label appears on its row when it’s on the homepage.',
+		goTo: { href: '/admin/promotions', label: 'Go to Promotions' },
+		section: 'promotions'
+	},
+	{
+		slug: 'pick-winner',
+		group: 'Marketing',
+		title: 'Pick a random winner',
+		summary: 'For the local business draw or a flavour vote prize.',
+		steps: [
+			s(
+				'For the local business draw, open the Marketing menu, choose Local businesses, and press “Pick random winner” under “This week’s entries”.',
+				'pick-winner-2'
+			),
+			s(
+				'For a flavour vote, choose Polls instead, press “Edit” on the poll, scroll down to “Results” and press “Pick random winner”.'
+			),
+			s('The winner’s name and email appear on the screen. Make a note of them.')
+		],
+		tip: 'The winner isn’t emailed automatically, so get in touch yourself. Local business entries start again every Monday.',
+		goTo: { href: '/admin/businesses', label: 'Go to Local businesses' },
+		section: 'local-businesses'
+	},
+	{
+		slug: 'activity-log',
+		group: 'People and your account',
+		title: 'See who has logged in and what changed',
+		summary: 'A record of staff logins and changes to staff accounts.',
+		steps: [
+			s('Open the People menu at the top and choose Activity log. (Only admins can see it.)'),
+			s(
+				'The newest entries are at the top. Each line shows when it happened, what it was (such as “Logged in” or “Login failed”) and who did it.'
+			),
+			s('A “Login failed” line means someone tried to sign in with the wrong password or email.')
+		],
+		tip: 'It records logins and staff account changes. It doesn’t record changes to products or orders.',
+		goTo: { href: '/admin/activity', label: 'Go to Activity log' },
+		section: 'activity-log'
 	}
 ];
 
