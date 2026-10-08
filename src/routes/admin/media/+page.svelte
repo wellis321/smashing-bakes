@@ -188,11 +188,11 @@
 	</div>
 {/if}
 
-<section class="mt-12">
-	<h2 class="text-lg font-semibold text-ink">Built-in illustrations</h2>
+<section id="illustrations" class="mt-12 scroll-mt-6">
+	<h2 class="text-lg font-semibold text-ink">Built-in pictures</h2>
 	<p class="mt-1 max-w-xl text-sm text-ink-soft">
-		The illustrations the site uses when a category has no photo. Download one as a PNG, then upload
-		it above to use it on a product or category.
+		The pictures the site uses when a category has no photo. Download one as a PNG, then upload it
+		above to use it on a product or category.
 	</p>
 	<div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
 		{#each illustrations as item (item.file)}

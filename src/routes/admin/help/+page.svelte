@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { helpTasks } from '$lib/help-tasks';
 	type Item = { id: string; label: string };
 	type Group = { label: string; items: Item[] };
 
@@ -77,10 +78,25 @@
 
 <h1 class="font-display text-3xl text-ink">Help</h1>
 <p class="mt-1 text-base text-ink-soft">
-	How to use every feature on the site, what's protecting it, and what's still on the list.
+	Pick a job below for a quick step-by-step, or scroll down for the full guide to every feature.
 </p>
 
-<div class="mt-6 lg:hidden">
+<section class="mt-8" aria-labelledby="quick-tasks">
+	<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
+	<div class="mt-4 grid gap-3 sm:grid-cols-2">
+		{#each helpTasks as task (task.slug)}
+			<a
+				href={`/admin/help/${task.slug}`}
+				class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+			>
+				{task.title} <span aria-hidden="true">&rarr;</span>
+			</a>
+		{/each}
+	</div>
+	<p class="mt-5 text-sm text-ink-soft">Looking for something else? The full guide is below.</p>
+</section>
+
+<div class="mt-8 lg:hidden">
 	<label for="help-jump" class="text-base font-medium text-ink-soft">Jump to a section</label>
 	<select
 		id="help-jump"
@@ -229,7 +245,7 @@
 				</li>
 				<li>
 					Products with no photo show a placeholder. The illustrations used on the homepage "Browse
-					by bake" strip can be downloaded as PNGs from the <strong>Built-in illustrations</strong>
+					by bake" strip can be downloaded as PNGs from the <strong>Built-in pictures</strong>
 					panel at the bottom of the Media library, then uploaded as a product photo.
 				</li>
 				<li>
@@ -657,7 +673,7 @@
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
-					Scroll to the bottom for <strong>Built-in illustrations</strong> — the images the site
+					Scroll to the bottom for <strong>Built-in pictures</strong> — the images the site
 					uses when a category has no photo (cupcakes, brownies, cookies, classics and more). Click
 					<strong>Download</strong> to get one as a PNG you can upload like any other photo.
 				</li>

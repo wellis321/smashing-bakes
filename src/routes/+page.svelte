@@ -59,6 +59,7 @@
 					<HelpLink
 						section="settings"
 						title="Staff only: how to change these three photos"
+						task="hero-photos"
 						label="Staff help"
 						staff
 					/>
@@ -91,6 +92,7 @@
 				<HelpLink
 					section="posters"
 					title="Staff only: how to edit this banner"
+					task="banner"
 					label="Staff help"
 					staff
 				/>
@@ -199,6 +201,7 @@
 					<HelpLink
 						section="products"
 						title="Staff only: how to choose which bakes appear here"
+						task="this-weeks-bakes"
 						label="Staff help"
 						staff
 					/>
@@ -282,6 +285,7 @@
 			<HelpLink
 				section="categories"
 				title="Staff only: how to change these category tiles"
+				task="category-photos"
 				label="Staff help"
 				staff
 			/>
@@ -329,6 +333,7 @@
 					<HelpLink
 						section="settings"
 						title="Staff only: how to change opening hours"
+						task="opening-hours"
 						label="Staff help"
 						staff
 					/>
@@ -353,6 +358,7 @@
 					<HelpLink
 						section="settings"
 						title="Staff only: how to change the welcome offer"
+						task="welcome-offer"
 						label="Staff help"
 						staff
 					/>

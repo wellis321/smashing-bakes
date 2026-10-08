@@ -140,7 +140,7 @@
 				class="h-4 w-4 accent-pink"
 			/>
 			Feature on homepage
-			<HelpLink section="products" title="How featuring works" />
+			<HelpLink section="products" task="this-weeks-bakes" title="How featuring works" />
 		</label>
 	</div>
 

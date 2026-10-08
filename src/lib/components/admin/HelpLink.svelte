@@ -1,18 +1,27 @@
 <script lang="ts">
 	// Points at the matching section id on /admin/help (see that page's own
 	// `groups` array in its <script> for the full list of valid ids).
+	// `task` sends people to a short step-by-step guide instead of the long
+	// reference section.
 	// `staff` is the stronger solid style used on the public site, where the
 	// pill has to stand out against page content rather than an admin header.
 	let {
 		section,
 		title = 'Help for this page',
 		label = 'Help',
-		staff = false
-	}: { section: string; title?: string; label?: string; staff?: boolean } = $props();
+		staff = false,
+		task
+	}: {
+		section: string;
+		title?: string;
+		label?: string;
+		staff?: boolean;
+		task?: string;
+	} = $props();
 </script>
 
 <a
-	href={`/admin/help#${section}`}
+	href={task ? `/admin/help/${task}` : `/admin/help#${section}`}
 	target="_blank"
 	rel="noreferrer"
 	class={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:outline-none ${
