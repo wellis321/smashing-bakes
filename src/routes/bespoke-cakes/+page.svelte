@@ -53,6 +53,7 @@
 				alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
 				class="h-full w-full object-cover"
 				style:object-position={item.focalPoint}
+				style:transform-origin={item.focalPoint}
 				style:transform={`scale(${item.imageZoom / 100})`}
 			/>
 		</div>
@@ -98,6 +99,7 @@
 				alt="A bespoke Smashin' Bakes cake"
 				class="h-full w-full object-cover"
 				style:object-position={data.imageFocalPoint}
+				style:transform-origin={data.imageFocalPoint}
 				style:transform={`scale(${data.imageZoom / 100})`}
 			/>
 		</div>

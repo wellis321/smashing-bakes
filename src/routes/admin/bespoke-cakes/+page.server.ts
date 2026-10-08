@@ -26,8 +26,16 @@ function parseZoom(formData: FormData, field: string): number {
 	return Math.min(200, Math.max(40, Number(formData.get(field)) || 100));
 }
 
+// Accepts the drag-to-position value ("37% 62%") and the older named values
+// ("top left", "center"), which are still valid CSS. Anything else falls back
+// to centred.
 function parseFocalPoint(formData: FormData, field: string): string {
-	const value = String(formData.get(field) ?? '');
+	const value = String(formData.get(field) ?? '').trim();
+	const pct = value.match(/^(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%$/);
+	if (pct) {
+		const clamp = (n: number) => Math.round(Math.min(100, Math.max(0, n)));
+		return `${clamp(Number(pct[1]))}% ${clamp(Number(pct[2]))}%`;
+	}
 	return FOCAL_POINTS.has(value) ? value : 'center';
 }
 

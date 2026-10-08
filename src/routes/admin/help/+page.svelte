@@ -609,12 +609,12 @@
 					once, shown until changed. Leave the photo blank and the page shows just the text.
 				</li>
 				<li>
-					Both the hero photo and every gallery photo have <strong>Zoom</strong> and
-					<strong>Position</strong> controls, with a live preview, for when a photo doesn't crop the
-					way you'd like inside its box — drag the zoom slider below 100% to shrink back in (showing
-					plain background around it) or above 100% to crop in tighter, and click one of the 9
-					position dots to choose which part of the photo stays visible. Already-added gallery
-					photos can be fixed the same way via their <strong>Adjust</strong> link, not just new ones.
+					Both the hero photo and every gallery photo let you choose exactly what shows: you'll see
+					your whole photo with a pink frame on it — <strong>drag the frame</strong> over the part
+					you want (or click the photo to move it there) and use the <strong>Zoom</strong> slider to
+					get closer or show more. The <strong>How it will look</strong> picture is the same shape
+					as the live page, so it's a true preview. Already-added gallery photos can be fixed the
+					same way via their <strong>Adjust</strong> link, not just new ones.
 				</li>
 				<li>
 					The gallery auto-scrolls continuously and loops seamlessly — hover over it to pause and

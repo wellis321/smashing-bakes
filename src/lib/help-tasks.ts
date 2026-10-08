@@ -520,23 +520,25 @@ export const helpTasks: HelpTask[] = [
 	{
 		slug: 'adjust-photo',
 		group: 'The homepage',
-		title: 'Zoom and move a photo so it fits its frame',
-		summary: 'Make a photo look right in its space, such as the cake gallery.',
+		title: 'Choose which part of a photo shows',
+		summary: 'Drag a frame over your photo to pick the part you want, such as in the cake gallery.',
 		steps: [
 			s(
-				'Open the Marketing menu at the top and choose Bespoke cakes. Under “Cake gallery”, choose or upload a photo. A preview appears.'
+				'Open the Marketing menu at the top and choose Bespoke cakes. Under “Cake gallery”, choose or upload a photo. Your whole photo appears with a pink frame on it.'
 			),
 			s(
-				'Use the “Zoom” slider. Slide left to shrink the photo back so more of it shows. Slide right to zoom in closer.',
+				'Drag the pink frame over the part of the photo you want people to see. You can also click on the photo to move the frame there. The “How it will look” picture on the right shows the result.',
 				'adjust-photo-2'
 			),
-			s('Use the nine “Position” squares to choose which part of the photo stays in view.'),
+			s(
+				'Use the “Zoom” slider to get closer (slide right) or to show more of the photo (slide left). The frame gets smaller or bigger to match.'
+			),
 			s('Add a caption if you like, then press “Add to gallery”.'),
 			s(
-				'For a photo that’s already there, press “Adjust” under it, make the same changes and press “Save”.'
+				'For a photo that’s already there, press “Adjust” under it, change the frame and zoom the same way, and press “Save”.'
 			)
 		],
-		tip: 'The preview shows exactly how it will look, so keep adjusting until you’re happy.',
+		tip: 'The “How it will look” picture is the same shape as the real thing, so what you see there is what visitors get. Press “Reset” to start again. On a keyboard, click the frame and use the arrow keys.',
 		goTo: { href: '/admin/bespoke-cakes', label: 'Go to Bespoke cakes' },
 		section: 'bespoke-cakes'
 	},
