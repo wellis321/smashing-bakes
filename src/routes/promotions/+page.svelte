@@ -17,7 +17,12 @@
 	<div class="flex items-center gap-2">
 		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Promotions &amp; giveaways</h1>
 		{#if data.staff}
-			<HelpLink section="promotions" title="Staff only: how to manage promotions" />
+			<HelpLink
+				section="promotions"
+				title="Staff only: how to manage promotions"
+				label="Staff help"
+				staff
+			/>
 		{/if}
 	</div>
 	<p class="mt-4 leading-relaxed text-ink-soft">

@@ -65,7 +65,12 @@
 	<div class="flex items-center gap-2">
 		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Weekly menus</h1>
 		{#if data.staff}
-			<HelpLink section="weekly-menus" title="Staff only: how to manage weekly menus" />
+			<HelpLink
+				section="weekly-menus"
+				title="Staff only: how to manage weekly menus"
+				label="Staff help"
+				staff
+			/>
 		{/if}
 	</div>
 	<p class="mt-4 leading-relaxed text-ink-soft">

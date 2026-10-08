@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { goto } from '$app/navigation';
 	import { formatPence } from '$lib/utils/money';
 	import { cart } from '$lib/stores/cart.svelte';
@@ -145,7 +146,17 @@
 		</div>
 
 		<div class="lg:pt-4">
-			<h1 class="font-display text-4xl text-ink sm:text-5xl">{product.name}</h1>
+			<div class="flex flex-wrap items-center gap-3">
+				<h1 class="font-display text-4xl text-ink sm:text-5xl">{product.name}</h1>
+				{#if data.staff}
+					<HelpLink
+						section="products"
+						title="Staff only: how to edit this product"
+						label="Staff help"
+						staff
+					/>
+				{/if}
+			</div>
 
 			<p class="mt-4 flex items-baseline gap-3">
 				{#if selectedVariant?.priceOverridePence != null}

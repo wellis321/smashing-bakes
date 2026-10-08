@@ -78,7 +78,12 @@
 	<div class="flex items-center gap-2">
 		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
 		{#if data.staff}
-			<HelpLink section="bespoke-cakes" title="Staff only: how to edit this page" />
+			<HelpLink
+				section="bespoke-cakes"
+				title="Staff only: how to edit this page"
+				label="Staff help"
+				staff
+			/>
 		{/if}
 	</div>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>

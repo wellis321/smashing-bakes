@@ -54,6 +54,16 @@
 		</div>
 
 		<div class="relative mx-auto aspect-square w-full max-w-md lg:max-w-none">
+			{#if data.staff}
+				<div class="absolute top-0 right-0 z-10">
+					<HelpLink
+						section="settings"
+						title="Staff only: how to change these three photos"
+						label="Staff help"
+						staff
+					/>
+				</div>
+			{/if}
 			<img
 				src={data.heroImages[0]}
 				alt=""
@@ -78,7 +88,12 @@
 		<PosterBanner poster={data.poster} />
 		{#if data.staff}
 			<div class="absolute top-2 right-2 z-10 rounded-full bg-cream/90 p-1">
-				<HelpLink section="posters" title="Staff only: how to edit this banner" />
+				<HelpLink
+					section="posters"
+					title="Staff only: how to edit this banner"
+					label="Staff help"
+					staff
+				/>
 			</div>
 		{/if}
 	</div>
@@ -181,7 +196,12 @@
 			<div class="mt-2 flex items-center gap-2">
 				<h2 class="font-display text-3xl text-ink sm:text-4xl">This week&rsquo;s bakes</h2>
 				{#if data.staff}
-					<HelpLink section="products" title="Staff only: how to choose which bakes appear here" />
+					<HelpLink
+						section="products"
+						title="Staff only: how to choose which bakes appear here"
+						label="Staff help"
+						staff
+					/>
 				{/if}
 			</div>
 		</div>
@@ -200,6 +220,16 @@
 {#if data.promotion}
 	<!-- Current promotion -->
 	<section class="mx-auto max-w-6xl px-5 pt-10 sm:px-8">
+		{#if data.staff}
+			<div class="mb-3 flex justify-end">
+				<HelpLink
+					section="promotions"
+					title="Staff only: how to manage this promotion"
+					label="Staff help"
+					staff
+				/>
+			</div>
+		{/if}
 		<a
 			href={`/promotions/${data.promotion.slug}`}
 			class="group grid overflow-hidden rounded-[2rem] bg-pink-deep text-cream sm:grid-cols-[0.9fr_1.1fr]"
@@ -246,7 +276,17 @@
 
 <!-- Category strip -->
 <section class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-	<h2 class="font-display text-3xl text-ink sm:text-4xl">Browse by bake</h2>
+	<div class="flex flex-wrap items-center gap-3">
+		<h2 class="font-display text-3xl text-ink sm:text-4xl">Browse by bake</h2>
+		{#if data.staff}
+			<HelpLink
+				section="categories"
+				title="Staff only: how to change these category tiles"
+				label="Staff help"
+				staff
+			/>
+		{/if}
+	</div>
 	<div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
 		{#each data.categories as category (category.id)}
 			<a href={`/shop/${category.slug}`} class="group relative block overflow-hidden rounded-2xl">
@@ -281,8 +321,18 @@
 		<div class="flex flex-col gap-1 lg:text-right">
 			<p class="font-display text-xl text-ink">9&ndash;11 Paisley Road</p>
 			<p class="text-ink-soft">Barrhead, G78 1HG</p>
-			<p class="mt-3 text-xs font-semibold tracking-widest text-ink-soft uppercase">
+			<p
+				class="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold tracking-widest text-ink-soft uppercase lg:justify-end"
+			>
 				Opening hours
+				{#if data.staff}
+					<HelpLink
+						section="settings"
+						title="Staff only: how to change opening hours"
+						label="Staff help"
+						staff
+					/>
+				{/if}
 			</p>
 			{#each data.openingHours as line (line)}
 				<p class="text-ink-soft">{line}</p>
@@ -298,6 +348,16 @@
 		<div class="mx-auto max-w-lg">
 			<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">Join the list</p>
 			<h2 class="mt-2 font-display text-3xl sm:text-4xl">Get the inside scoop</h2>
+			{#if data.staff}
+				<div class="mt-3">
+					<HelpLink
+						section="settings"
+						title="Staff only: how to change the welcome offer"
+						label="Staff help"
+						staff
+					/>
+				</div>
+			{/if}
 			<p class="mt-4 leading-relaxed text-cream/80">
 				First look at new bakes, weekly specials and the odd surprise offer. Sign up now and get
 				<strong class="text-cream">{data.welcomeOffer.description}</strong>.

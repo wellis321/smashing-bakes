@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import FulfilmentBenefits from '$lib/components/FulfilmentBenefits.svelte';
@@ -14,7 +15,17 @@
 
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<a href="/shop" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; All bakes</a>
-	<h1 class="mt-3 font-display text-4xl text-ink sm:text-5xl">{data.category.name}</h1>
+	<div class="flex flex-wrap items-center gap-3">
+		<h1 class="mt-3 font-display text-4xl text-ink sm:text-5xl">{data.category.name}</h1>
+		{#if data.staff}
+			<HelpLink
+				section="categories"
+				title="Staff only: how to manage this category"
+				label="Staff help"
+				staff
+			/>
+		{/if}
+	</div>
 	{#if data.category.description}
 		<p class="mt-4 leading-relaxed text-ink-soft">{data.category.description}</p>
 	{/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import FulfilmentBenefits from '$lib/components/FulfilmentBenefits.svelte';
@@ -14,7 +15,17 @@
 
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-8 sm:px-8">
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">The full menu</p>
-	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Shop all bakes</h1>
+	<div class="flex flex-wrap items-center gap-3">
+		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Shop all bakes</h1>
+		{#if data.staff}
+			<HelpLink
+				section="products"
+				title="Staff only: how to manage products"
+				label="Staff help"
+				staff
+			/>
+		{/if}
+	</div>
 	<p class="mt-4 leading-relaxed text-ink-soft">
 		Everything we&rsquo;re baking this week. Pick your favourites and choose how to get them when
 		you check out.
