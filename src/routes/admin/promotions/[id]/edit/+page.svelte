@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import PromotionFormFields from '$lib/components/admin/PromotionFormFields.svelte';
@@ -19,10 +20,20 @@
 	<title>Edit {data.promotion.title} — Admin</title>
 </svelte:head>
 
-<a href="/admin/promotions" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Promotions</a>
-<h1 class="font-display mt-2 text-3xl text-ink">{data.promotion.title}</h1>
+<a href="/admin/promotions" class="text-sm font-semibold text-ink-soft hover:text-ink"
+	>&larr; Promotions</a
+>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">{data.promotion.title}</h1>
+	<HelpLink section="promotions" />
+</div>
 {#if data.promotion.isPublished}
-	<a href={`/promotions/${data.promotion.slug}`} target="_blank" rel="noreferrer" class="text-pink-deep mt-1 inline-block text-sm hover:underline">
+	<a
+		href={`/promotions/${data.promotion.slug}`}
+		target="_blank"
+		rel="noreferrer"
+		class="mt-1 inline-block text-sm text-pink-deep hover:underline"
+	>
 		View live page &#8599;
 	</a>
 {/if}
@@ -31,7 +42,7 @@
 	method="POST"
 	action="?/update"
 	enctype="multipart/form-data"
-	class="border-ink/10 mt-6 rounded-2xl border bg-white/60 p-6"
+	class="mt-6 rounded-2xl border border-ink/10 bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update, result }) => {
@@ -74,7 +85,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = false)}
-			class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
 		</button>
@@ -82,7 +93,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = true)}
-			class="text-ink rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30 disabled:opacity-60"
+			class="rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 disabled:opacity-60"
 		>
 			Save &amp; close
 		</button>
@@ -90,5 +101,7 @@
 </form>
 
 <form method="POST" action="?/delete" use:enhance onsubmit={confirmDelete} class="mt-4">
-	<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete this promotion</button>
+	<button type="submit" class="text-sm text-red-600/70 hover:text-red-600"
+		>Delete this promotion</button
+	>
 </form>

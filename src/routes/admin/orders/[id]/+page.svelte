@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { formatPence } from '$lib/utils/money';
 	import type { ActionData, PageData } from './$types';
@@ -47,7 +48,10 @@
 </svelte:head>
 
 <a href="/admin/orders" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Orders</a>
-<h1 class="mt-2 font-display text-3xl text-ink">Order #{data.order.id}</h1>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">Order #{data.order.id}</h1>
+	<HelpLink section="orders" />
+</div>
 <p class="mt-1 text-sm text-ink-soft">Placed {formatDate(data.order.createdAt)}</p>
 
 <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">

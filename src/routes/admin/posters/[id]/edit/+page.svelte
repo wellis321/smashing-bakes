@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
@@ -42,12 +43,17 @@
 	<title>Edit {data.poster.heading} — Admin</title>
 </svelte:head>
 
-<a href="/admin/posters" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Posters</a>
-<h1 class="font-display mt-2 text-3xl text-ink">{data.poster.heading}</h1>
+<a href="/admin/posters" class="text-sm font-semibold text-ink-soft hover:text-ink"
+	>&larr; Posters</a
+>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">{data.poster.heading}</h1>
+	<HelpLink section="posters" />
+</div>
 
 <div class="mt-6">
-	<p class="text-ink-soft text-xs font-semibold tracking-widest uppercase">Live preview</p>
-	<div class="border-ink/10 mt-2 rounded-2xl border bg-white/40 p-4">
+	<p class="text-xs font-semibold tracking-widest text-ink-soft uppercase">Live preview</p>
+	<div class="mt-2 rounded-2xl border border-ink/10 bg-white/40 p-4">
 		<PosterBanner poster={previewPoster} />
 	</div>
 </div>
@@ -56,7 +62,7 @@
 	method="POST"
 	action="?/update"
 	enctype="multipart/form-data"
-	class="border-ink/10 mt-6 rounded-2xl border bg-white/60 p-6"
+	class="mt-6 rounded-2xl border border-ink/10 bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update, result }) => {
@@ -76,62 +82,63 @@
 
 	<div class="grid gap-6 sm:grid-cols-2">
 		<div class="sm:col-span-2">
-			<label for="eyebrow" class="text-ink-soft text-sm font-medium">Overline (optional)</label>
+			<label for="eyebrow" class="text-sm font-medium text-ink-soft">Overline (optional)</label>
 			<input
 				id="eyebrow"
 				name="eyebrow"
 				bind:value={eyebrow}
 				placeholder="Like our cakes?"
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
-			<p class="text-ink-soft/70 mt-1.5 text-xs">Small label shown above the heading.</p>
+			<p class="mt-1.5 text-xs text-ink-soft/70">Small label shown above the heading.</p>
 		</div>
 
 		<div class="sm:col-span-2">
-			<label for="heading" class="text-ink-soft text-sm font-medium">Heading</label>
+			<label for="heading" class="text-sm font-medium text-ink-soft">Heading</label>
 			<input
 				id="heading"
 				name="heading"
 				required
 				bind:value={heading}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 
 		<div class="sm:col-span-2">
-			<label for="message" class="text-ink-soft text-sm font-medium">Message</label>
+			<label for="message" class="text-sm font-medium text-ink-soft">Message</label>
 			<textarea
 				id="message"
 				name="message"
 				rows="3"
 				required
 				bind:value={message}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			></textarea>
 		</div>
 
 		<div class="sm:col-span-2">
-			<label for="perks" class="text-ink-soft text-sm font-medium">Perks list (optional)</label>
+			<label for="perks" class="text-sm font-medium text-ink-soft">Perks list (optional)</label>
 			<textarea
 				id="perks"
 				name="perks"
 				rows="4"
 				bind:value={perks}
 				placeholder={'One perk per line, e.g.\nFree standard delivery\nEarly access to new flavours\nExclusive flash offers'}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			></textarea>
-			<p class="text-ink-soft/70 mt-1.5 text-xs">
-				One per line. Shown as a checklist under a divider — leave blank to hide this section entirely.
+			<p class="mt-1.5 text-xs text-ink-soft/70">
+				One per line. Shown as a checklist under a divider — leave blank to hide this section
+				entirely.
 			</p>
 		</div>
 
 		<div>
-			<label for="style" class="text-ink-soft text-sm font-medium">Style</label>
+			<label for="style" class="text-sm font-medium text-ink-soft">Style</label>
 			<select
 				id="style"
 				name="style"
 				bind:value={style}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			>
 				<option value="general">General</option>
 				<option value="announcement">Announcement</option>
@@ -141,10 +148,10 @@
 		</div>
 
 		<div class="sm:col-span-2">
-			<label for="image" class="text-ink-soft text-sm font-medium">Image</label>
+			<label for="image" class="text-sm font-medium text-ink-soft">Image</label>
 			{#if data.poster.imageUrl}
 				<div class="mt-3 flex items-center gap-3">
-					<label for="imageZoom" class="text-ink-soft shrink-0 text-sm">Zoom</label>
+					<label for="imageZoom" class="shrink-0 text-sm text-ink-soft">Zoom</label>
 					<input
 						id="imageZoom"
 						name="imageZoom"
@@ -153,11 +160,13 @@
 						max="200"
 						step="1"
 						bind:value={imageZoom}
-						class="accent-pink w-full"
+						class="w-full accent-pink"
 					/>
-					<span class="text-ink-soft w-12 shrink-0 text-right text-sm">{imageZoom}%</span>
+					<span class="w-12 shrink-0 text-right text-sm text-ink-soft">{imageZoom}%</span>
 				</div>
-				<p class="text-ink-soft/70 mt-1 text-xs">See the live preview above — zoom applies to the current photo.</p>
+				<p class="mt-1 text-xs text-ink-soft/70">
+					See the live preview above — zoom applies to the current photo.
+				</p>
 			{:else}
 				<input type="hidden" name="imageZoom" value={imageZoom} />
 			{/if}
@@ -176,31 +185,39 @@
 		</div>
 
 		<div>
-			<label for="ctaLabel" class="text-ink-soft text-sm font-medium">Button text (optional)</label>
+			<label for="ctaLabel" class="text-sm font-medium text-ink-soft">Button text (optional)</label>
 			<input
 				id="ctaLabel"
 				name="ctaLabel"
 				bind:value={ctaLabel}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 
 		<div>
-			<label for="ctaUrl" class="text-ink-soft text-sm font-medium">Button link (optional)</label>
+			<label for="ctaUrl" class="text-sm font-medium text-ink-soft">Button link (optional)</label>
 			<input
 				id="ctaUrl"
 				name="ctaUrl"
 				bind:value={ctaUrl}
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 
 		<div>
-			<label class="text-ink-soft flex items-center gap-2 text-sm">
-				<input type="checkbox" name="isActive" value="true" checked={data.poster.isActive} class="accent-pink h-4 w-4" />
+			<label class="flex items-center gap-2 text-sm text-ink-soft">
+				<input
+					type="checkbox"
+					name="isActive"
+					value="true"
+					checked={data.poster.isActive}
+					class="h-4 w-4 accent-pink"
+				/>
 				Active (shows on homepage)
 			</label>
-			<p class="text-ink-soft/70 mt-1 text-xs">Activating this will deactivate any other active poster.</p>
+			<p class="mt-1 text-xs text-ink-soft/70">
+				Activating this will deactivate any other active poster.
+			</p>
 		</div>
 	</div>
 
@@ -209,7 +226,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = false)}
-			class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
 		</button>
@@ -217,7 +234,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = true)}
-			class="text-ink rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30 disabled:opacity-60"
+			class="rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 disabled:opacity-60"
 		>
 			Save &amp; close
 		</button>
@@ -225,5 +242,7 @@
 </form>
 
 <form method="POST" action="?/delete" use:enhance onsubmit={confirmDelete} class="mt-4">
-	<button type="submit" class="text-sm text-red-600/70 hover:text-red-600">Delete this poster</button>
+	<button type="submit" class="text-sm text-red-600/70 hover:text-red-600"
+		>Delete this poster</button
+	>
 </form>

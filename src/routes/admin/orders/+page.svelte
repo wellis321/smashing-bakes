@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { formatPence } from '$lib/utils/money';
 	import type { PageData } from './$types';
@@ -50,7 +51,10 @@
 </svelte:head>
 
 <div class="flex items-center justify-between">
-	<h1 class="font-display text-3xl text-ink">Orders</h1>
+	<div class="flex items-center gap-2">
+		<h1 class="font-display text-3xl text-ink">Orders</h1>
+		<HelpLink section="orders" />
+	</div>
 </div>
 <p class="mt-2 max-w-lg text-sm text-ink-soft">
 	Quick-buy orders placed on the site. No online payment yet — these are paid in person at pickup or

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import type { CategorySummary } from '$lib/types';
 	import MediaPicker from './MediaPicker.svelte';
 
@@ -29,54 +30,56 @@
 
 <div class="grid gap-6 sm:grid-cols-2">
 	<div class="sm:col-span-2">
-		<label for="name" class="text-ink-soft text-sm font-medium">Product name</label>
+		<label for="name" class="text-sm font-medium text-ink-soft">Product name</label>
 		<input
 			id="name"
 			name="name"
 			required
 			value={values.name ?? ''}
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		/>
 	</div>
 
 	<div>
-		<label for="slug" class="text-ink-soft text-sm font-medium">URL slug</label>
+		<label for="slug" class="text-sm font-medium text-ink-soft">URL slug</label>
 		<input
 			id="slug"
 			name="slug"
 			placeholder="auto-generated from name if left blank"
 			value={values.slug ?? ''}
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		/>
 	</div>
 
 	<div>
-		<label for="categoryId" class="text-ink-soft text-sm font-medium">Category</label>
+		<label for="categoryId" class="text-sm font-medium text-ink-soft">Category</label>
 		<select
 			id="categoryId"
 			name="categoryId"
 			required
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		>
 			{#each categories as category (category.id)}
-				<option value={category.id} selected={values.categoryId === category.id}>{category.name}</option>
+				<option value={category.id} selected={values.categoryId === category.id}
+					>{category.name}</option
+				>
 			{/each}
 		</select>
 	</div>
 
 	<div class="sm:col-span-2">
-		<label for="description" class="text-ink-soft text-sm font-medium">Description</label>
+		<label for="description" class="text-sm font-medium text-ink-soft">Description</label>
 		<textarea
 			id="description"
 			name="description"
 			rows="3"
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			>{values.description ?? ''}</textarea
 		>
 	</div>
 
 	<div>
-		<label for="basePricePence" class="text-ink-soft text-sm font-medium">Price (£)</label>
+		<label for="basePricePence" class="text-sm font-medium text-ink-soft">Price (£)</label>
 		<input
 			id="basePricePence"
 			name="basePrice"
@@ -85,12 +88,14 @@
 			step="0.01"
 			required
 			value={values.basePricePence != null ? (values.basePricePence / 100).toFixed(2) : ''}
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		/>
 	</div>
 
 	<div>
-		<label for="salePricePence" class="text-ink-soft text-sm font-medium">Sale price (£, optional)</label>
+		<label for="salePricePence" class="text-sm font-medium text-ink-soft"
+			>Sale price (£, optional)</label
+		>
 		<input
 			id="salePricePence"
 			name="salePrice"
@@ -98,16 +103,16 @@
 			min="0"
 			step="0.01"
 			value={values.salePricePence != null ? (values.salePricePence / 100).toFixed(2) : ''}
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		/>
 	</div>
 
 	<div>
-		<label for="badge" class="text-ink-soft text-sm font-medium">Badge</label>
+		<label for="badge" class="text-sm font-medium text-ink-soft">Badge</label>
 		<select
 			id="badge"
 			name="badge"
-			class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+			class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 		>
 			<option value="none" selected={values.badge === 'none' || !values.badge}>None</option>
 			<option value="new" selected={values.badge === 'new'}>New bake</option>
@@ -116,13 +121,26 @@
 	</div>
 
 	<div class="flex items-center gap-6">
-		<label class="text-ink-soft flex items-center gap-2 text-sm">
-			<input type="checkbox" name="isActive" value="true" checked={values.isActive ?? true} class="accent-pink h-4 w-4" />
+		<label class="flex items-center gap-2 text-sm text-ink-soft">
+			<input
+				type="checkbox"
+				name="isActive"
+				value="true"
+				checked={values.isActive ?? true}
+				class="h-4 w-4 accent-pink"
+			/>
 			Visible on site
 		</label>
-		<label class="text-ink-soft flex items-center gap-2 text-sm">
-			<input type="checkbox" name="isFeatured" value="true" checked={values.isFeatured ?? false} class="accent-pink h-4 w-4" />
+		<label class="flex items-center gap-2 text-sm text-ink-soft">
+			<input
+				type="checkbox"
+				name="isFeatured"
+				value="true"
+				checked={values.isFeatured ?? false}
+				class="h-4 w-4 accent-pink"
+			/>
 			Feature on homepage
+			<HelpLink section="products" title="How featuring works" />
 		</label>
 	</div>
 

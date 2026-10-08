@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { formatPence } from '$lib/utils/money';
 	import type { PageData } from './$types';
@@ -190,7 +191,10 @@
 </svelte:head>
 
 <div class="flex items-center justify-between">
-	<h1 class="font-display text-3xl text-ink">Products</h1>
+	<div class="flex items-center gap-2">
+		<h1 class="font-display text-3xl text-ink">Products</h1>
+		<HelpLink section="products" />
+	</div>
 	<div class="flex items-center gap-3">
 		<a href="/admin/categories" class="text-sm font-semibold text-ink-soft hover:text-ink"
 			>Manage categories</a

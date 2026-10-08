@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageData } from './$types';
 
@@ -42,7 +43,10 @@
 
 <div class="flex flex-wrap items-start justify-between gap-4">
 	<div>
-		<h1 class="font-display text-3xl text-ink">Media library</h1>
+		<div class="flex items-center gap-2">
+			<h1 class="font-display text-3xl text-ink">Media library</h1>
+			<HelpLink section="media" />
+		</div>
 		<p class="mt-1 max-w-lg text-sm text-ink-soft">
 			Upload photos here to use anywhere on the site &mdash; copy a URL and paste it wherever an
 			image field asks for one.

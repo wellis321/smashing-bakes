@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -41,7 +42,10 @@
 	<title>Activity log — Admin</title>
 </svelte:head>
 
-<h1 class="font-display text-3xl text-ink">Activity log</h1>
+<div class="flex items-center gap-2">
+	<h1 class="font-display text-3xl text-ink">Activity log</h1>
+	<HelpLink section="activity-log" />
+</div>
 <p class="mt-1 max-w-2xl text-sm text-ink-soft">
 	Staff logins, logouts, and every change made to a staff account — most recent first. Shows the
 	last {data.entries.length} events.

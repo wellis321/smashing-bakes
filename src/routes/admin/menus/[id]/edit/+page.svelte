@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import MenuFormFields from '$lib/components/admin/MenuFormFields.svelte';
@@ -19,10 +20,22 @@
 	<title>Edit weekly menu — Admin</title>
 </svelte:head>
 
-<a href="/admin/menus" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Weekly menus</a>
-<h1 class="font-display mt-2 text-3xl text-ink">{data.menu.title || `Menu for ${data.menu.menuDate}`}</h1>
+<a href="/admin/menus" class="text-sm font-semibold text-ink-soft hover:text-ink"
+	>&larr; Weekly menus</a
+>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">
+		{data.menu.title || `Menu for ${data.menu.menuDate}`}
+	</h1>
+	<HelpLink section="weekly-menus" />
+</div>
 {#if data.menu.isPublished}
-	<a href={`/menus/${data.menu.menuDate}`} target="_blank" rel="noreferrer" class="text-pink-deep mt-1 inline-block text-sm hover:underline">
+	<a
+		href={`/menus/${data.menu.menuDate}`}
+		target="_blank"
+		rel="noreferrer"
+		class="mt-1 inline-block text-sm text-pink-deep hover:underline"
+	>
 		View live page &#8599;
 	</a>
 {/if}
@@ -30,7 +43,7 @@
 <form
 	method="POST"
 	action="?/update"
-	class="border-ink/10 mt-6 rounded-2xl border bg-white/60 p-6"
+	class="mt-6 rounded-2xl border border-ink/10 bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update, result }) => {
@@ -67,7 +80,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = false)}
-			class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
 		</button>
@@ -75,7 +88,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = true)}
-			class="text-ink rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30 disabled:opacity-60"
+			class="rounded-full border border-ink/15 px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 disabled:opacity-60"
 		>
 			Save &amp; close
 		</button>

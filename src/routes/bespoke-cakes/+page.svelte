@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
 	import TestimonialQuote from '$lib/components/TestimonialQuote.svelte';
@@ -74,7 +75,12 @@
 
 <section class="mx-auto max-w-5xl px-5 pt-10 pb-8 sm:px-8">
 	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
-	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
+	<div class="flex items-center gap-2">
+		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
+		{#if data.staff}
+			<HelpLink section="bespoke-cakes" title="Staff only: how to edit this page" />
+		{/if}
+	</div>
 	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
 </section>
 

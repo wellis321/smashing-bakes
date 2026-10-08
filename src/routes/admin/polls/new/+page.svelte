@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import PollOptionsEditor from '$lib/components/admin/PollOptionsEditor.svelte';
 	import type { ActionData } from './$types';
@@ -11,12 +12,15 @@
 	<title>New poll — Admin</title>
 </svelte:head>
 
-<a href="/admin/polls" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Polls</a>
-<h1 class="font-display mt-2 text-3xl text-ink">New flavour poll</h1>
+<a href="/admin/polls" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Polls</a>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">New flavour poll</h1>
+	<HelpLink section="polls" />
+</div>
 
 <form
 	method="POST"
-	class="border-ink/10 mt-6 rounded-2xl border bg-white/60 p-6"
+	class="mt-6 rounded-2xl border border-ink/10 bg-white/60 p-6"
 	use:enhance={() => {
 		submitting = true;
 		return async ({ update }) => {
@@ -31,24 +35,26 @@
 
 	<div class="grid gap-6 sm:grid-cols-2">
 		<div class="sm:col-span-2">
-			<label for="title" class="text-ink-soft text-sm font-medium">Poll title</label>
+			<label for="title" class="text-sm font-medium text-ink-soft">Poll title</label>
 			<input
 				id="title"
 				name="title"
 				required
 				placeholder="Which brownie flavour needs to make a comeback?"
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 
 		<div class="sm:col-span-2">
-			<label for="description" class="text-ink-soft text-sm font-medium">Description (optional)</label>
+			<label for="description" class="text-sm font-medium text-ink-soft"
+				>Description (optional)</label
+			>
 			<textarea
 				id="description"
 				name="description"
 				rows="2"
 				placeholder="We've made all of these before... which one needs to come back this weekend?"
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			></textarea>
 		</div>
 
@@ -57,34 +63,37 @@
 		</div>
 
 		<div>
-			<label for="prizeDescription" class="text-ink-soft text-sm font-medium">Prize (optional)</label>
+			<label for="prizeDescription" class="text-sm font-medium text-ink-soft"
+				>Prize (optional)</label
+			>
 			<input
 				id="prizeDescription"
 				name="prizeDescription"
 				placeholder="A free box of your winning flavour"
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 
 		<div>
-			<label for="deadlineText" class="text-ink-soft text-sm font-medium">Deadline (optional)</label>
+			<label for="deadlineText" class="text-sm font-medium text-ink-soft">Deadline (optional)</label
+			>
 			<input
 				id="deadlineText"
 				name="deadlineText"
 				placeholder="Voting closes Sunday night"
-				class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+				class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
 		</div>
 	</div>
 
-	<p class="text-ink-soft/70 mt-4 text-xs">
+	<p class="mt-4 text-xs text-ink-soft/70">
 		New polls are created inactive — use "Set active" from the poll list once you're ready.
 	</p>
 
 	<button
 		type="submit"
 		disabled={submitting}
-		class="bg-pink hover:bg-pink-deep mt-4 rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+		class="mt-4 rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 	>
 		{submitting ? 'Saving…' : 'Create poll'}
 	</button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
 	import type { ActionData, PageData } from './$types';
@@ -20,7 +21,11 @@
 	);
 
 	function formatDate(iso: string | Date) {
-		return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+		return new Date(iso).toLocaleDateString('en-GB', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric'
+		});
 	}
 
 	function confirmDelete(event: SubmitEvent, name: string) {
@@ -56,35 +61,40 @@
 	<title>Staff accounts — Admin</title>
 </svelte:head>
 
-<h1 class="font-display text-3xl text-ink">Staff accounts</h1>
-<p class="text-ink-soft mt-1 max-w-lg text-sm">
+<div class="flex items-center gap-2">
+	<h1 class="font-display text-3xl text-ink">Staff accounts</h1>
+	<HelpLink section="staff" />
+</div>
+<p class="mt-1 max-w-lg text-sm text-ink-soft">
 	Who can log into this admin area. There's no email sending set up, so a new account's password is
 	generated here and shown once — you'll need to pass it on to them directly.
 </p>
 
 <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-	<div class="border-ink/10 rounded-2xl border bg-white/60 p-6">
-		<h2 class="text-ink text-lg font-semibold">Add a staff account</h2>
+	<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
+		<h2 class="text-lg font-semibold text-ink">Add a staff account</h2>
 
 		{#if !cleared && form?.success && form.tempPassword}
-			<div class="bg-blush mt-4 rounded-xl p-4">
-				<p class="text-ink text-sm font-medium">Account created for {form.createdName} ({form.createdEmail})</p>
-				<p class="text-ink-soft mt-1 text-xs">
-					This password won't be shown again — copy it now and pass it on securely. The form below still
-					shows this account so it's clear which password goes with who.
+			<div class="mt-4 rounded-xl bg-blush p-4">
+				<p class="text-sm font-medium text-ink">
+					Account created for {form.createdName} ({form.createdEmail})
+				</p>
+				<p class="mt-1 text-xs text-ink-soft">
+					This password won't be shown again — copy it now and pass it on securely. The form below
+					still shows this account so it's clear which password goes with who.
 				</p>
 				<div class="mt-3 flex items-center gap-2">
 					<button
 						type="button"
 						onclick={(e) => selectAllText(e.currentTarget)}
-						class="border-pink/30 bg-white text-ink flex-1 truncate rounded-lg border-2 border-dashed px-3 py-2 text-left font-mono text-sm"
+						class="flex-1 truncate rounded-lg border-2 border-dashed border-pink/30 bg-white px-3 py-2 text-left font-mono text-sm text-ink"
 					>
 						{form.tempPassword}
 					</button>
 					<button
 						type="button"
 						onclick={copyPassword}
-						class="bg-pink hover:bg-pink-deep shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-cream transition-colors"
+						class="shrink-0 rounded-full bg-pink px-3 py-2 text-xs font-semibold text-cream transition-colors hover:bg-pink-deep"
 					>
 						{copied ? 'Copied!' : 'Copy'}
 					</button>
@@ -92,7 +102,7 @@
 				<button
 					type="button"
 					onclick={() => (cleared = true)}
-					class="text-ink-soft hover:text-ink mt-3 text-xs font-semibold underline underline-offset-2"
+					class="mt-3 text-xs font-semibold text-ink-soft underline underline-offset-2 hover:text-ink"
 				>
 					Add another account
 				</button>
@@ -113,39 +123,40 @@
 			}}
 		>
 			<div>
-				<label for="name" class="text-ink-soft text-sm font-medium">Name</label>
+				<label for="name" class="text-sm font-medium text-ink-soft">Name</label>
 				<input
 					id="name"
 					name="name"
 					type="text"
 					required
 					value={prefill.name}
-					class="border-ink/15 focus:ring-pink/40 mt-1.5 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
 			<div>
-				<label for="email" class="text-ink-soft text-sm font-medium">Email</label>
+				<label for="email" class="text-sm font-medium text-ink-soft">Email</label>
 				<input
 					id="email"
 					name="email"
 					type="email"
 					required
 					value={prefill.email}
-					class="border-ink/15 focus:ring-pink/40 mt-1.5 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				/>
 			</div>
 			<div>
-				<label for="role" class="text-ink-soft text-sm font-medium">Role</label>
+				<label for="role" class="text-sm font-medium text-ink-soft">Role</label>
 				<select
 					id="role"
 					name="role"
-					class="border-ink/15 focus:ring-pink/40 mt-1.5 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+					class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 				>
 					<option value="staff" selected={prefill.role === 'staff'}>Staff</option>
 					<option value="admin" selected={prefill.role === 'admin'}>Admin</option>
 				</select>
-				<p class="text-ink-soft/70 mt-1.5 text-xs">
-					Admins can manage staff accounts; both roles currently have the same access to everything else.
+				<p class="mt-1.5 text-xs text-ink-soft/70">
+					Admins can manage staff accounts; both roles currently have the same access to everything
+					else.
 				</p>
 			</div>
 
@@ -156,7 +167,7 @@
 			<button
 				type="submit"
 				disabled={creating}
-				class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{creating ? 'Creating…' : 'Create account'}
 			</button>
@@ -164,29 +175,33 @@
 	</div>
 
 	<div>
-		<h2 class="text-ink text-lg font-semibold">Everyone with access</h2>
-		<div class="border-ink/10 mt-4 divide-y divide-ink/10 rounded-2xl border bg-white/60">
+		<h2 class="text-lg font-semibold text-ink">Everyone with access</h2>
+		<div class="mt-4 divide-y divide-ink/10 rounded-2xl border border-ink/10 bg-white/60">
 			{#each data.staffList as member (member.id)}
 				<div class="flex flex-wrap items-center gap-3 px-4 py-3">
 					<a href={`/admin/staff/${member.id}/edit`} class="min-w-0 flex-1">
-						<p class="text-ink truncate text-sm font-medium">
+						<p class="truncate text-sm font-medium text-ink">
 							{member.name}
-							{#if member.id === ownId}<span class="text-ink-soft font-normal">(you)</span>{/if}
+							{#if member.id === ownId}<span class="font-normal text-ink-soft">(you)</span>{/if}
 						</p>
-						<p class="text-ink-soft truncate text-xs">{member.email}</p>
+						<p class="truncate text-xs text-ink-soft">{member.email}</p>
 					</a>
-					<span class="text-ink-soft shrink-0 text-xs">Joined {formatDate(member.createdAt)}</span>
+					<span class="shrink-0 text-xs text-ink-soft">Joined {formatDate(member.createdAt)}</span>
 
 					{#if member.id === ownId}
-						<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
+						<span
+							class="shrink-0 rounded-full bg-ink/5 px-2.5 py-0.5 text-xs font-semibold text-ink-soft"
+						>
 							{member.role}
 						</span>
 					{:else if member.isProtected}
-						<span class="bg-ink/5 text-ink-soft shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold">
+						<span
+							class="shrink-0 rounded-full bg-ink/5 px-2.5 py-0.5 text-xs font-semibold text-ink-soft"
+						>
 							{member.role}
 						</span>
 						<span
-							class="text-ink-soft shrink-0 text-xs italic"
+							class="shrink-0 text-xs text-ink-soft italic"
 							title="Only this account's own owner can change it"
 						>
 							Protected
@@ -194,7 +209,11 @@
 					{:else}
 						<form method="POST" action="?/changeRole" use:enhance>
 							<input type="hidden" name="id" value={member.id} />
-							<input type="hidden" name="nextRole" value={member.role === 'admin' ? 'staff' : 'admin'} />
+							<input
+								type="hidden"
+								name="nextRole"
+								value={member.role === 'admin' ? 'staff' : 'admin'}
+							/>
 							<button
 								type="submit"
 								class={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -216,10 +235,20 @@
 								{member.isActive ? 'Active' : 'Deactivated'}
 							</button>
 						</form>
-						<a href={`/admin/staff/${member.id}/edit`} class="text-ink-soft hover:text-ink shrink-0 text-sm">Edit</a>
-						<form method="POST" action="?/delete" use:enhance onsubmit={(e) => confirmDelete(e, member.name)}>
+						<a
+							href={`/admin/staff/${member.id}/edit`}
+							class="shrink-0 text-sm text-ink-soft hover:text-ink">Edit</a
+						>
+						<form
+							method="POST"
+							action="?/delete"
+							use:enhance
+							onsubmit={(e) => confirmDelete(e, member.name)}
+						>
 							<input type="hidden" name="id" value={member.id} />
-							<button type="submit" class="shrink-0 text-sm text-red-600/70 hover:text-red-600">Delete</button>
+							<button type="submit" class="shrink-0 text-sm text-red-600/70 hover:text-red-600"
+								>Delete</button
+							>
 						</form>
 					{/if}
 				</div>

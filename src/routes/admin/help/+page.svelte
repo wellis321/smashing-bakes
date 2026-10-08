@@ -220,6 +220,18 @@
 					The shop page and admin list always use the main photo only.
 				</li>
 				<li>
+					<strong>Feature on homepage</strong> is what fills the <strong>This week's bakes</strong>
+					photo cards on the homepage — tick it on a product and it appears there, untick it to remove
+					it. Want three photos? Tick it on three products. (This is separate from Weekly menus, which
+					are a text list on the /menus page.)
+				</li>
+				<li>
+					Products with no photo show a placeholder. The cupcake, brownie, cookie, cookie pie,
+					cheesecake and cake-slice illustrations on the homepage "Browse by bake" strip are built
+					into the site and aren't downloadable from the Media library — upload your own photo for a
+					category or product and it takes over from the illustration.
+				</li>
+				<li>
 					A product can have named options (variants) with their own price — a customer picks one
 					before adding it to their cart. None are set up yet, but the field's ready whenever you
 					need it (e.g. cake sizes).
@@ -277,9 +289,14 @@
 				</li>
 				<li>
 					There's no separate "featured" switch — whichever menu has the soonest upcoming date
-					automatically becomes the one shown on the homepage and at the top of <code
-						class="text-xs">/menus</code
-					>. Older ones stay visible further down.
+					automatically becomes the one shown at the top of <code class="text-xs">/menus</code>.
+					Older ones stay visible further down.
+				</li>
+				<li>
+					Weekly menus are text-only and don't have photos. The photo cards in <strong
+						>This week's bakes</strong
+					>
+					on the homepage are a different thing — see <strong>Feature on homepage</strong> under Products.
 				</li>
 			</ul>
 		</section>

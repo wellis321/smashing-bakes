@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import ProductFormFields from '$lib/components/admin/ProductFormFields.svelte';
@@ -35,7 +36,10 @@
 <a href="/admin/products" class="text-sm font-semibold text-ink-soft hover:text-ink"
 	>&larr; Products</a
 >
-<h1 class="mt-2 font-display text-3xl text-ink">{data.product.name}</h1>
+<div class="flex items-center gap-2">
+	<h1 class="mt-2 font-display text-3xl text-ink">{data.product.name}</h1>
+	<HelpLink section="products" />
+</div>
 
 <form
 	method="POST"

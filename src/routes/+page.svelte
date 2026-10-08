@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
@@ -73,7 +74,14 @@
 </section>
 
 {#if data.poster}
-	<PosterBanner poster={data.poster} />
+	<div class="relative">
+		<PosterBanner poster={data.poster} />
+		{#if data.staff}
+			<div class="absolute top-2 right-2 z-10 rounded-full bg-cream/90 p-1">
+				<HelpLink section="posters" title="Staff only: how to edit this banner" />
+			</div>
+		{/if}
+	</div>
 {/if}
 
 <!-- Feature callouts — kept to a single click straight into the flow that
@@ -170,7 +178,12 @@
 	<div class="flex items-end justify-between gap-4">
 		<div>
 			<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Fresh this week</p>
-			<h2 class="mt-2 font-display text-3xl text-ink sm:text-4xl">This week&rsquo;s bakes</h2>
+			<div class="mt-2 flex items-center gap-2">
+				<h2 class="font-display text-3xl text-ink sm:text-4xl">This week&rsquo;s bakes</h2>
+				{#if data.staff}
+					<HelpLink section="products" title="Staff only: how to choose which bakes appear here" />
+				{/if}
+			</div>
 		</div>
 		<a href="/shop" class="hidden text-sm font-semibold text-ink-soft hover:text-ink sm:block"
 			>Shop all &rarr;</a

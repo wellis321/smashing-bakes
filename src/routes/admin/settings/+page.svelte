@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import type { ActionData, PageData } from './$types';
@@ -23,7 +24,10 @@
 	<title>Settings — Admin</title>
 </svelte:head>
 
-<h1 class="font-display text-3xl text-ink">Settings</h1>
+<div class="flex items-center gap-2">
+	<h1 class="font-display text-3xl text-ink">Settings</h1>
+	<HelpLink section="settings" />
+</div>
 <p class="mt-1 max-w-lg text-sm text-ink-soft">
 	Site-wide settings that show up on the public site.
 </p>

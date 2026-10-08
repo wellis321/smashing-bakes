@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -50,7 +51,9 @@
 	const loginHref = `/account/login?redirectTo=${encodeURIComponent(page.url.pathname)}`;
 	const registerHref = `/account/register?redirectTo=${encodeURIComponent(page.url.pathname)}`;
 
-	const maxResultCount = $derived(data.results ? Math.max(1, ...data.results.map((r) => r.count)) : 1);
+	const maxResultCount = $derived(
+		data.results ? Math.max(1, ...data.results.map((r) => r.count)) : 1
+	);
 	function resultCount(optionId: number) {
 		return data.results?.find((r) => r.optionId === optionId)?.count ?? 0;
 	}
@@ -62,24 +65,43 @@
 />
 
 <section class="mx-auto max-w-5xl px-5 pt-14 pb-24 sm:px-8">
-	<p class="text-pink-deep text-sm font-semibold tracking-widest uppercase">Have your say</p>
-	<h1 class="font-display mt-2 text-4xl text-ink sm:text-5xl">Vote for next week&rsquo;s flavours</h1>
+	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Have your say</p>
+	<div class="flex items-center gap-2">
+		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">
+			Vote for next week&rsquo;s flavours
+		</h1>
+		{#if data.staff}
+			<HelpLink section="polls" title="Staff only: how to manage polls" />
+		{/if}
+	</div>
 
 	{#if !data.poll}
-		<p class="text-ink-soft mt-6 leading-relaxed">
+		<p class="mt-6 leading-relaxed text-ink-soft">
 			No poll running right now &mdash; check back soon, or see what&rsquo;s currently on the
-			<a href="/menus" class="text-pink-deep font-semibold hover:underline">weekly menu</a>.
+			<a href="/menus" class="font-semibold text-pink-deep hover:underline">weekly menu</a>.
 		</p>
 	{:else}
-		<div class="bg-blush mt-8 rounded-[2rem] p-6 sm:p-8">
+		<div class="mt-8 rounded-[2rem] bg-blush p-6 sm:p-8">
 			<h2 class="font-display text-2xl text-ink">{data.poll.title}</h2>
 			{#if data.poll.description}
-				<p class="text-ink-soft mt-2 leading-relaxed">{data.poll.description}</p>
+				<p class="mt-2 leading-relaxed text-ink-soft">{data.poll.description}</p>
 			{/if}
 			<div class="mt-3 flex flex-wrap gap-2 text-sm">
 				{#if data.poll.prizeDescription}
-					<span class="bg-white/60 text-ink-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1">
-						<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<span
+						class="inline-flex items-center gap-1.5 rounded-full bg-white/60 px-3 py-1 text-ink-soft"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 20 20"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
 							<rect x="3" y="8" width="14" height="9" rx="1" />
 							<path d="M3 8h14M10 8v9" />
 							<path d="M10 8c-1.5-3-5-3-5-.5C5 8 7 8 10 8zM10 8c1.5-3 5-3 5-.5C15 8 13 8 10 8z" />
@@ -88,8 +110,20 @@
 					</span>
 				{/if}
 				{#if data.poll.deadlineText}
-					<span class="bg-white/60 text-ink-soft inline-flex items-center gap-1.5 rounded-full px-3 py-1">
-						<svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<span
+						class="inline-flex items-center gap-1.5 rounded-full bg-white/60 px-3 py-1 text-ink-soft"
+					>
+						<svg
+							width="14"
+							height="14"
+							viewBox="0 0 20 20"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
 							<circle cx="10" cy="10" r="7.5" />
 							<path d="M10 5.5V10l3 2" />
 						</svg>
@@ -98,8 +132,19 @@
 				{/if}
 			</div>
 
-			<p class="text-ink-soft mt-4 inline-flex items-start gap-1.5 text-xs">
-				<svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0" aria-hidden="true">
+			<p class="mt-4 inline-flex items-start gap-1.5 text-xs text-ink-soft">
+				<svg
+					width="13"
+					height="13"
+					viewBox="0 0 20 20"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="mt-0.5 shrink-0"
+					aria-hidden="true"
+				>
 					<circle cx="10" cy="10" r="7.5" />
 					<path d="M10 6.5v4M10 13.2v.1" />
 				</svg>
@@ -108,13 +153,26 @@
 
 			{#if data.myVote || form?.success}
 				<div class="mt-6 flex items-start gap-3 rounded-2xl bg-white/70 p-5">
-					<svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-pink-deep mt-0.5 shrink-0" aria-hidden="true">
+					<svg
+						width="22"
+						height="22"
+						viewBox="0 0 20 20"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.6"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="mt-0.5 shrink-0 text-pink-deep"
+						aria-hidden="true"
+					>
 						<circle cx="10" cy="10" r="7.5" />
 						<path d="M6.5 10.5l2.5 2.5 4.5-5.5" />
 					</svg>
 					<div>
-						<p class="text-ink font-display text-xl">You&rsquo;re in!</p>
-						<p class="text-ink-soft mt-1 text-sm">Thanks for voting — good luck in the prize draw.</p>
+						<p class="font-display text-xl text-ink">You&rsquo;re in!</p>
+						<p class="mt-1 text-sm text-ink-soft">
+							Thanks for voting — good luck in the prize draw.
+						</p>
 					</div>
 				</div>
 
@@ -123,11 +181,14 @@
 						{#each data.poll.options as option (option.id)}
 							<div>
 								<div class="flex items-center justify-between text-sm">
-									<span class="text-ink font-medium">{option.name}</span>
+									<span class="font-medium text-ink">{option.name}</span>
 									<span class="text-ink-soft">{resultCount(option.id)}</span>
 								</div>
-								<div class="bg-white/60 mt-1 h-2 overflow-hidden rounded-full">
-									<div class="bg-pink h-full rounded-full" style:width={`${(resultCount(option.id) / maxResultCount) * 100}%`}></div>
+								<div class="mt-1 h-2 overflow-hidden rounded-full bg-white/60">
+									<div
+										class="h-full rounded-full bg-pink"
+										style:width={`${(resultCount(option.id) / maxResultCount) * 100}%`}
+									></div>
 								</div>
 							</div>
 						{/each}
@@ -135,7 +196,9 @@
 				{/if}
 			{:else if stage === 'select'}
 				<div class="mt-6">
-					<p class="text-ink-soft text-sm">Pick up to {MAX_SELECTIONS} &mdash; {selected.size}/{MAX_SELECTIONS} selected</p>
+					<p class="text-sm text-ink-soft">
+						Pick up to {MAX_SELECTIONS} &mdash; {selected.size}/{MAX_SELECTIONS} selected
+					</p>
 
 					<div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
 						{#each data.poll.options as option (option.id)}
@@ -144,10 +207,10 @@
 							<label
 								class={`flex cursor-pointer items-center justify-center rounded-xl border px-3 py-3 text-center text-sm font-medium transition-colors ${
 									isChecked
-										? 'bg-pink border-pink text-cream'
+										? 'border-pink bg-pink text-cream'
 										: isDisabled
-											? 'border-ink/10 text-ink-soft/40 cursor-not-allowed bg-white/40'
-											: 'border-ink/10 text-ink bg-white/70 hover:border-pink/40'
+											? 'cursor-not-allowed border-ink/10 bg-white/40 text-ink-soft/40'
+											: 'border-ink/10 bg-white/70 text-ink hover:border-pink/40'
 								}`}
 							>
 								<input
@@ -167,24 +230,32 @@
 							type="button"
 							disabled={selected.size === 0}
 							onclick={() => (stage = 'confirm')}
-							class="bg-pink hover:bg-pink-deep mt-6 w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+							class="mt-6 w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 						>
 							Review my picks
 						</button>
 					{:else}
 						<div class="mt-6 rounded-2xl bg-white/70 p-5">
-							<p class="text-ink text-sm font-medium">
-								{selected.size > 0 ? `Log in to submit your ${selected.size === 1 ? 'pick' : 'picks'}` : 'Log in to vote'}
+							<p class="text-sm font-medium text-ink">
+								{selected.size > 0
+									? `Log in to submit your ${selected.size === 1 ? 'pick' : 'picks'}`
+									: 'Log in to vote'}
 							</p>
-							<p class="text-ink-soft mt-1 text-sm">
+							<p class="mt-1 text-sm text-ink-soft">
 								Voting is open to logged-in customers, so we can enter you into the prize draw
 								{selected.size > 0 ? ' — your picks will still be here when you get back.' : '.'}
 							</p>
 							<div class="mt-4 flex flex-wrap gap-3">
-								<a href={loginHref} class="bg-pink hover:bg-pink-deep rounded-full px-5 py-2.5 text-sm font-semibold text-cream transition-colors">
+								<a
+									href={loginHref}
+									class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+								>
 									Log in
 								</a>
-								<a href={registerHref} class="text-ink rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30">
+								<a
+									href={registerHref}
+									class="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
+								>
 									Create an account
 								</a>
 							</div>
@@ -213,28 +284,32 @@
 					{/if}
 
 					<div class="rounded-2xl bg-white/70 p-5">
-						<p class="text-ink text-sm font-medium">Confirm your vote</p>
-						<p class="text-ink-soft mt-1 text-sm">You&rsquo;re about to vote for:</p>
+						<p class="text-sm font-medium text-ink">Confirm your vote</p>
+						<p class="mt-1 text-sm text-ink-soft">You&rsquo;re about to vote for:</p>
 						<ul class="mt-3 flex flex-wrap gap-2">
 							{#each selectedOptionNames(data.poll) as name (name)}
-								<li class="bg-pink/15 text-pink-deep rounded-full px-3 py-1 text-sm font-medium">{name}</li>
+								<li class="rounded-full bg-pink/15 px-3 py-1 text-sm font-medium text-pink-deep">
+									{name}
+								</li>
 							{/each}
 						</ul>
-						<p class="text-ink-soft/70 mt-3 text-xs">Votes can&rsquo;t be changed once submitted.</p>
+						<p class="mt-3 text-xs text-ink-soft/70">
+							Votes can&rsquo;t be changed once submitted.
+						</p>
 					</div>
 
 					<div class="mt-4 flex gap-3">
 						<button
 							type="button"
 							onclick={() => (stage = 'select')}
-							class="text-ink flex-1 rounded-full border border-ink/15 py-2.5 text-sm font-semibold transition-colors hover:border-ink/30"
+							class="flex-1 rounded-full border border-ink/15 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
 						>
 							&larr; Change my picks
 						</button>
 						<button
 							type="submit"
 							disabled={submitting}
-							class="bg-pink hover:bg-pink-deep flex-1 rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+							class="flex-1 rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 						>
 							{submitting ? 'Submitting…' : 'Confirm & submit'}
 						</button>

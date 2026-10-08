@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
 	import ImagePositionControls from '$lib/components/admin/ImagePositionControls.svelte';
@@ -49,7 +50,10 @@
 </svelte:head>
 
 <div class="flex flex-wrap items-baseline justify-between gap-2">
-	<h1 class="font-display text-3xl text-ink">Bespoke cakes page</h1>
+	<div class="flex items-center gap-2">
+		<h1 class="font-display text-3xl text-ink">Bespoke cakes page</h1>
+		<HelpLink section="bespoke-cakes" />
+	</div>
 	<a
 		href="/bespoke-cakes"
 		target="_blank"
