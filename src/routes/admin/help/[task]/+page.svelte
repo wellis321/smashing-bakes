@@ -52,6 +52,21 @@
 		{task.goTo.label} &rarr;
 	</a>
 
+	{#if data.related.length > 0}
+		<div class="mt-10 border-t border-ink/10 pt-6">
+			<h2 class="text-base font-semibold text-ink">More guides like this</h2>
+			<ul class="mt-3 space-y-2">
+				{#each data.related as other (other.slug)}
+					<li>
+						<a href={`/admin/help/${other.slug}`} class="text-base text-pink-deep hover:underline">
+							{other.title}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
+
 	<p class="mt-8 text-sm text-ink-soft">
 		Want every detail? <a
 			href={`/admin/help#${task.section}`}

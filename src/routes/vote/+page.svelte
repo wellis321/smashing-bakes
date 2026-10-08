@@ -71,7 +71,13 @@
 			Vote for next week&rsquo;s flavours
 		</h1>
 		{#if data.staff}
-			<HelpLink section="polls" title="Staff only: how to manage polls" label="Staff help" staff />
+			<HelpLink
+				section="polls"
+				title="Staff only: how to manage polls"
+				task="flavour-poll"
+				label="Staff help"
+				staff
+			/>
 		{/if}
 	</div>
 

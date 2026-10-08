@@ -152,6 +152,7 @@
 					<HelpLink
 						section="products"
 						title="Staff only: how to edit this product"
+						task="edit-product"
 						label="Staff help"
 						staff
 					/>

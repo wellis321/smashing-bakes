@@ -21,6 +21,7 @@
 			<HelpLink
 				section="categories"
 				title="Staff only: how to manage this category"
+				task="category-photos"
 				label="Staff help"
 				staff
 			/>

@@ -228,6 +228,7 @@
 				<HelpLink
 					section="promotions"
 					title="Staff only: how to manage this promotion"
+					task="edit-promotion"
 					label="Staff help"
 					staff
 				/>

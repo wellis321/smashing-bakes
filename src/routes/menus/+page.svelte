@@ -68,6 +68,7 @@
 			<HelpLink
 				section="weekly-menus"
 				title="Staff only: how to manage weekly menus"
+				task="edit-menu"
 				label="Staff help"
 				staff
 			/>

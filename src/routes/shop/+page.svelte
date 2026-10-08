@@ -21,6 +21,7 @@
 			<HelpLink
 				section="products"
 				title="Staff only: how to manage products"
+				task="edit-product"
 				label="Staff help"
 				staff
 			/>

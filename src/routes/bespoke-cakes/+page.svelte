@@ -81,6 +81,7 @@
 			<HelpLink
 				section="bespoke-cakes"
 				title="Staff only: how to edit this page"
+				task="bespoke-page"
 				label="Staff help"
 				staff
 			/>

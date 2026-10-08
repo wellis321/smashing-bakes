@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { helpTaskGroups } from '$lib/help-tasks';
+	import { helpTaskGroups, helpTasks } from '$lib/help-tasks';
 	type Item = { id: string; label: string };
 	type Group = { label: string; items: Item[] };
 
@@ -71,6 +71,24 @@
 		return () => observer.disconnect();
 	});
 </script>
+
+{#snippet guides(sectionId: string)}
+	{@const list = helpTasks.filter((t) => t.section === sectionId)}
+	{#if list.length > 0}
+		<div class="mt-3 rounded-xl bg-blush px-4 py-3">
+			<p class="text-sm font-semibold text-ink">Quick step-by-step guides</p>
+			<ul class="mt-1.5 space-y-1">
+				{#each list as t (t.slug)}
+					<li>
+						<a href={`/admin/help/${t.slug}`} class="text-base text-pink-deep hover:underline">
+							{t.title}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
+{/snippet}
 
 <svelte:head>
 	<title>Help — Admin</title>
@@ -218,6 +236,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				Everything customers can see and order in the shop.
 			</p>
+			{@render guides('products')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					"Add product" needs a name, category and price at minimum — description, a photo and a
@@ -283,6 +302,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				The groups products live under (Cupcakes, Brownies, Cheesecakes, etc).
 			</p>
+			{@render guides('categories')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Each category can have its own <strong>Homepage tile photo</strong> (on its edit page) for the
@@ -313,6 +333,7 @@
 				</div>
 			</div>
 			<p class="mt-1 text-base text-ink-soft">The specials board for a given week.</p>
+			{@render guides('weekly-menus')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Add a menu with a date, then build it up in sections (e.g. "Brownies", "Cookie Pie") with
@@ -351,6 +372,7 @@
 				Quick-buy orders placed on the site — a customer picks an item (or a few), checks out with
 				their details and a pickup or delivery day, and it lands here.
 			</p>
+			{@render guides('orders')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					The phone number is required at checkout, so every order has a number to reach the
@@ -412,6 +434,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				Giveaways and competitions, like "Supporting Local Businesses".
 			</p>
+			{@render guides('promotions')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Two styles: a plain step-by-step one (you write your own "Like / Comment / Share" style
@@ -454,6 +477,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				Powers the scrolling strip on the "Supporting Local Businesses" promotion.
 			</p>
+			{@render guides('local-businesses')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Bulk-add names one per line — add a category after a <code class="text-xs">|</code> if you
@@ -496,6 +520,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				The flavour vote customers see at <code class="text-xs">/vote</code>.
 			</p>
+			{@render guides('polls')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Add your flavour options, then mark the poll <strong>Active</strong> — only one poll can run
@@ -524,6 +549,7 @@
 				</div>
 			</div>
 			<p class="mt-1 text-base text-ink-soft">The swappable banner at the top of the homepage.</p>
+			{@render guides('posters')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Set a heading, message, image and style, then mark it <strong>Active</strong>. Only one
@@ -571,6 +597,7 @@
 				land in <a href="#enquiries" class="text-pink-deep hover:underline">Enquiries</a>, same as
 				the ones from the Contact page.
 			</p>
+			{@render guides('bespoke-cakes')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					A bold "Already know what you want? Skip straight to the form" button sits above
@@ -632,6 +659,7 @@
 				Compose and send a proper email newsletter to everyone on the subscriber &amp; opted-in
 				customer list.
 			</p>
+			{@render guides('newsletters')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Build it from a subject line, a hero image, a heading/intro, a few "highlight" cards (this
@@ -680,6 +708,7 @@
 				found and reused anywhere else too, rather than getting re-uploaded as a separate copy each
 				time it's needed.
 			</p>
+			{@render guides('media')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Scroll to the bottom for <strong>Built-in pictures</strong> — the images the site uses
@@ -736,6 +765,7 @@
 					class="text-xs">/bespoke-cakes</code
 				> page — both post to the same form and land here identically.
 			</p>
+			{@render guides('enquiries')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>New enquiries are highlighted on the Dashboard as soon as they come in.</li>
 				<li>
@@ -776,6 +806,7 @@
 					class="text-xs">/newsletter</code
 				> page.
 			</p>
+			{@render guides('subscribers')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Everyone who signs up sees the same welcome offer on screen straight away — change what it
@@ -827,6 +858,7 @@
 				Everyone with a full account — created when someone registers to vote, pick a local
 				business, or check out.
 			</p>
+			{@render guides('customers')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Different from <strong>Subscribers</strong>: these are people who created a
@@ -861,6 +893,7 @@
 					>People &rarr; Staff</strong
 				>.
 			</p>
+			{@render guides('staff')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Creating an account generates a password shown once on screen — there's no email sending
@@ -914,6 +947,7 @@
 				Who logged in (or failed to), logged out, and every change made to a staff account —
 				admin-only, under <strong>People &rarr; Activity log</strong>.
 			</p>
+			{@render guides('activity-log')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					Shows the most recent 200 events: successful and failed logins (with a reason — wrong
@@ -945,6 +979,7 @@
 			<p class="mt-1 text-base text-ink-soft">
 				Site-wide settings that show up on the public site.
 			</p>
+			{@render guides('settings')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
 					<strong>Opening hours</strong> — type one line per day or range (e.g. "Friday 10am – 4pm").
