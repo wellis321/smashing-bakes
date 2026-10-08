@@ -55,6 +55,16 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
+	toggleFeatured: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		const nextValue = formData.get('nextValue') === 'true';
+		if (!id) return fail(400, { message: 'Missing product id.' });
+
+		await db.update(products).set({ isFeatured: nextValue }).where(eq(products.id, id));
+		return { success: true };
+	},
+
 	delete: async ({ request }) => {
 		const formData = await request.formData();
 		const id = Number(formData.get('id'));

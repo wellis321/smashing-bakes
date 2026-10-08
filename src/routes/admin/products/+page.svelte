@@ -157,6 +157,31 @@
 			</span>
 		{/if}
 
+		<form method="POST" action="?/toggleFeatured" use:enhance>
+			<input type="hidden" name="id" value={product.id} />
+			<input type="hidden" name="nextValue" value={(!product.isFeatured).toString()} />
+			<button
+				type="submit"
+				aria-pressed={product.isFeatured}
+				title={product.isFeatured
+					? product.isActive
+						? "Showing in This week's bakes on the homepage — click to remove"
+						: "Marked for This week's bakes, but hidden from the shop so it won't show — make it Active too"
+					: "Click to show this in This week's bakes on the homepage"}
+				class={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors ${
+					product.isFeatured
+						? product.isActive
+							? 'border-pink bg-pink text-cream hover:bg-pink-deep'
+							: 'border-pink/40 bg-pink/10 text-pink-deep'
+						: 'border-ink/15 text-ink-soft hover:border-ink/30 hover:text-ink'
+				}`}
+			>
+				<span aria-hidden="true">{product.isFeatured ? '★' : '☆'}</span>
+				<span class="hidden sm:inline">This week&rsquo;s bake</span>
+				<span class="sm:hidden">Bake</span>
+			</button>
+		</form>
+
 		<form method="POST" action="?/toggleActive" use:enhance>
 			<input type="hidden" name="id" value={product.id} />
 			<input type="hidden" name="nextValue" value={(!product.isActive).toString()} />
@@ -287,7 +312,10 @@
 </div>
 
 <p class="mt-3 text-xs text-ink-soft">
-	{filteredProducts.length} of {data.products.length} product{data.products.length === 1 ? '' : 's'}
+	{data.products.filter((p) => p.isFeatured && p.isActive).length} showing in This week&rsquo;s bakes
+	&middot; {filteredProducts.length} of {data.products.length} product{data.products.length === 1
+		? ''
+		: 's'}
 </p>
 
 {#if filteredProducts.length === 0}
