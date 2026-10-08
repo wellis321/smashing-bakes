@@ -15,7 +15,7 @@
 	<h1 class="font-display text-3xl text-ink sm:text-4xl">{task.title}</h1>
 	<p class="mt-2 text-lg text-ink-soft">{task.summary}</p>
 
-	<ol class="mt-8 space-y-5">
+	<ol class="mt-8 space-y-8">
 		{#each task.steps as step, i (i)}
 			<li class="flex gap-4">
 				<span
@@ -23,7 +23,17 @@
 				>
 					{i + 1}
 				</span>
-				<p class="pt-1 text-lg leading-relaxed text-ink">{step}</p>
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg leading-relaxed text-ink">{step.text}</p>
+					{#if step.image}
+						<img
+							src={`/images/help/${step.image}.jpg`}
+							alt={`What to look for in step ${i + 1}: the highlighted part of the screen`}
+							loading="lazy"
+							class="mt-4 w-full rounded-xl border border-ink/10 shadow-soft"
+						/>
+					{/if}
+				</div>
 			</li>
 		{/each}
 	</ol>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { helpTasks } from '$lib/help-tasks';
+	import { helpTaskGroups } from '$lib/help-tasks';
 	type Item = { id: string; label: string };
 	type Group = { label: string; items: Item[] };
 
@@ -83,14 +83,23 @@
 
 <section class="mt-8" aria-labelledby="quick-tasks">
 	<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
-	<div class="mt-4 grid gap-3 sm:grid-cols-2">
-		{#each helpTasks as task (task.slug)}
-			<a
-				href={`/admin/help/${task.slug}`}
-				class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
-			>
-				{task.title} <span aria-hidden="true">&rarr;</span>
-			</a>
+	<div class="mt-4 space-y-6">
+		{#each helpTaskGroups as group (group.group)}
+			<div>
+				<h3 class="text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+					{group.group}
+				</h3>
+				<div class="mt-2 grid gap-3 sm:grid-cols-2">
+					{#each group.tasks as task (task.slug)}
+						<a
+							href={`/admin/help/${task.slug}`}
+							class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+						>
+							{task.title} <span aria-hidden="true">&rarr;</span>
+						</a>
+					{/each}
+				</div>
+			</div>
 		{/each}
 	</div>
 	<p class="mt-5 text-sm text-ink-soft">Looking for something else? The full guide is below.</p>
@@ -673,8 +682,8 @@
 			</p>
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
-					Scroll to the bottom for <strong>Built-in pictures</strong> — the images the site
-					uses when a category has no photo (cupcakes, brownies, cookies, classics and more). Click
+					Scroll to the bottom for <strong>Built-in pictures</strong> — the images the site uses
+					when a category has no photo (cupcakes, brownies, cookies, classics and more). Click
 					<strong>Download</strong> to get one as a PNG you can upload like any other photo.
 				</li>
 				<li>
