@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ZoomImage from '$lib/components/admin/ZoomImage.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -26,12 +27,13 @@
 				<div class="min-w-0 flex-1">
 					<p class="pt-1 text-lg leading-relaxed text-ink">{step.text}</p>
 					{#if step.image}
-						<img
-							src={`/images/help/${step.image}.jpg`}
-							alt={`What to look for in step ${i + 1}: the highlighted part of the screen`}
-							loading="lazy"
-							class="mt-4 w-full rounded-xl border border-ink/10 shadow-soft"
-						/>
+						<div class="mt-4">
+							<ZoomImage
+								src={`/images/help/${step.image}.jpg`}
+								alt={`What to look for in step ${i + 1}: the highlighted part of the screen`}
+								class="w-full rounded-xl border border-ink/10 shadow-soft"
+							/>
+						</div>
 					{/if}
 				</div>
 			</li>
