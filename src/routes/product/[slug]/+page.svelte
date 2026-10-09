@@ -112,13 +112,17 @@
 	</a>
 
 	<div class="mt-6 grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-		<div>
-			<div class="relative overflow-hidden rounded-[2rem]">
+		<div class="flex flex-col">
+			<!-- The square spacer sets the minimum height; on wide screens the photo
+			     then grows to match whichever column is taller, so the two columns
+			     line up at the top and bottom. -->
+			<div class="relative flex-auto overflow-hidden rounded-[2rem] bg-cream-dim">
+				<div class="aspect-square w-full"></div>
 				{#if image}
 					<img
 						src={image.url}
 						alt={image.altText ?? product.name}
-						class="aspect-square w-full object-cover"
+						class="absolute inset-0 h-full w-full object-cover"
 					/>
 				{/if}
 				{#if product.badge !== 'none'}
@@ -143,24 +147,9 @@
 					{/each}
 				</div>
 			{/if}
-
-			{#if data.staff}
-				<div
-					class="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-dashed border-pink/40 px-4 py-3"
-				>
-					<p class="text-sm text-ink-soft">Staff only: add or remove photos on this page</p>
-					<HelpLink
-						section="products"
-						task="product-photos"
-						title="Staff only: how to add extra photos to this product"
-						label="Staff help"
-						staff
-					/>
-				</div>
-			{/if}
 		</div>
 
-		<div class="lg:pt-4">
+		<div class="flex flex-col">
 			<div class="flex flex-wrap items-center gap-3">
 				<h1 class="font-display text-4xl text-ink sm:text-5xl">{product.name}</h1>
 				{#if data.staff}
@@ -195,75 +184,92 @@
 				<p class="mt-6 max-w-md leading-relaxed text-ink-soft">{product.description}</p>
 			{/if}
 
-			<div class="mt-8 max-w-md rounded-2xl bg-blush p-6">
-				{#if activeVariants.length > 0}
-					<p class="text-sm font-semibold text-ink">Choose an option</p>
-					<div class="mt-2.5 flex flex-wrap gap-2">
-						{#each activeVariants as variant (variant.id)}
+			<div class="mt-auto pt-8">
+				<div class="max-w-md rounded-2xl bg-blush p-6">
+					{#if activeVariants.length > 0}
+						<p class="text-sm font-semibold text-ink">Choose an option</p>
+						<div class="mt-2.5 flex flex-wrap gap-2">
+							{#each activeVariants as variant (variant.id)}
+								<button
+									type="button"
+									onclick={() => (selectedVariantId = variant.id)}
+									class={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+										selectedVariantId === variant.id
+											? 'border-pink bg-pink text-cream'
+											: 'border-ink/15 bg-white text-ink hover:border-ink/30'
+									}`}
+								>
+									{variant.name}
+								</button>
+							{/each}
+						</div>
+					{/if}
+
+					<div class="mt-4 flex items-center gap-3">
+						<p class="text-sm font-semibold text-ink">Quantity</p>
+						<div class="flex items-center rounded-full border border-ink/15 bg-white">
 							<button
 								type="button"
-								onclick={() => (selectedVariantId = variant.id)}
-								class={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-									selectedVariantId === variant.id
-										? 'border-pink bg-pink text-cream'
-										: 'border-ink/15 bg-white text-ink hover:border-ink/30'
-								}`}
+								onclick={() => (quantity = Math.max(1, quantity - 1))}
+								class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
+								aria-label="Decrease quantity"
 							>
-								{variant.name}
+								&minus;
 							</button>
-						{/each}
+							<span class="w-6 text-center text-sm font-semibold text-ink">{quantity}</span>
+							<button
+								type="button"
+								onclick={() => (quantity = Math.min(20, quantity + 1))}
+								class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
+								aria-label="Increase quantity"
+							>
+								+
+							</button>
+						</div>
 					</div>
-				{/if}
 
-				<div class="mt-4 flex items-center gap-3">
-					<p class="text-sm font-semibold text-ink">Quantity</p>
-					<div class="flex items-center rounded-full border border-ink/15 bg-white">
+					<div class="mt-5 flex flex-wrap gap-3">
 						<button
 							type="button"
-							onclick={() => (quantity = Math.max(1, quantity - 1))}
-							class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
-							aria-label="Decrease quantity"
+							onclick={buyNow}
+							class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
 						>
-							&minus;
+							Buy now &mdash; {formatPence(unitPricePence * quantity)}
 						</button>
-						<span class="w-6 text-center text-sm font-semibold text-ink">{quantity}</span>
 						<button
 							type="button"
-							onclick={() => (quantity = Math.min(20, quantity + 1))}
-							class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
-							aria-label="Increase quantity"
+							onclick={addToCart}
+							class="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
 						>
-							+
+							{justAdded ? 'Added ✓' : 'Add to cart'}
 						</button>
 					</div>
-				</div>
-
-				<div class="mt-5 flex flex-wrap gap-3">
-					<button
-						type="button"
-						onclick={buyNow}
-						class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
-					>
-						Buy now &mdash; {formatPence(unitPricePence * quantity)}
-					</button>
-					<button
-						type="button"
-						onclick={addToCart}
-						class="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
-					>
-						{justAdded ? 'Added ✓' : 'Add to cart'}
-					</button>
-				</div>
-				<p class="mt-3 text-xs text-ink-soft/70">
-					Pay in person when you collect or it&rsquo;s delivered &mdash; online payment is coming
-					soon.
-				</p>
-				<div class="mt-4">
-					<FulfilmentBenefits variant="compact" />
+					<p class="mt-3 text-xs text-ink-soft/70">
+						Pay in person when you collect or it&rsquo;s delivered &mdash; online payment is coming
+						soon.
+					</p>
+					<div class="mt-4">
+						<FulfilmentBenefits variant="compact" />
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	{#if data.staff}
+		<div
+			class="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-dashed border-pink/40 px-4 py-3"
+		>
+			<p class="text-sm text-ink-soft">Staff only: add or remove photos on this page</p>
+			<HelpLink
+				section="products"
+				task="product-photos"
+				title="Staff only: how to add extra photos to this product"
+				label="Staff help"
+				staff
+			/>
+		</div>
+	{/if}
 </section>
 
 {#if data.related.length > 0}
