@@ -72,7 +72,7 @@
 <div class="flex flex-wrap items-baseline justify-between gap-2">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Bespoke cakes page</h1>
-		<HelpLink section="bespoke-cakes" />
+		<HelpLink section="bespoke-cakes" task="bespoke-page" />
 	</div>
 	<a
 		href="/bespoke-cakes"

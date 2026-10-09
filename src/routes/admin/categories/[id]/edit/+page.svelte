@@ -25,7 +25,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.category.name}</h1>
-	<HelpLink section="categories" />
+	<HelpLink section="categories" task="category-photos" />
 </div>
 
 <form

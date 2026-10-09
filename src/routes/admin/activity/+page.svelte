@@ -44,7 +44,7 @@
 
 <div class="flex items-center gap-2">
 	<h1 class="font-display text-3xl text-ink">Activity log</h1>
-	<HelpLink section="activity-log" />
+	<HelpLink section="activity-log" task="activity-log" />
 </div>
 <p class="mt-1 max-w-2xl text-sm text-ink-soft">
 	Staff logins, logouts, and every change made to a staff account — most recent first. Shows the

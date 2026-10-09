@@ -37,7 +37,7 @@
 	<div>
 		<div class="flex items-center gap-2">
 			<h1 class="font-display text-3xl text-ink">Subscribers</h1>
-			<HelpLink section="subscribers" />
+			<HelpLink section="subscribers" task="subscribers" />
 		</div>
 		<p class="mt-1 text-sm text-ink-soft">
 			Everyone who's signed up for specials and offers. Welcome offer: <strong

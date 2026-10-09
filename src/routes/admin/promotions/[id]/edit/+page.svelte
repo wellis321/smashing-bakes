@@ -25,7 +25,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.promotion.title}</h1>
-	<HelpLink section="promotions" />
+	<HelpLink section="promotions" task="edit-promotion" />
 </div>
 {#if data.promotion.isPublished}
 	<a

@@ -69,7 +69,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.newsletter.subject}</h1>
-	<HelpLink section="newsletters" />
+	<HelpLink section="newsletters" task="send-newsletter" />
 </div>
 
 {#if isSent}

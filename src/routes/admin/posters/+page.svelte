@@ -26,14 +26,22 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Posters</h1>
-		<HelpLink section="posters" />
+		<HelpLink section="posters" task="banner" />
 	</div>
-	<a
-		href="/admin/posters/new"
-		class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
-	>
-		+ New poster
-	</a>
+	<div class="flex items-center gap-3">
+		<HelpLink
+			section="posters"
+			task="new-banner"
+			label="Add a banner"
+			title="How to add a new homepage banner"
+		/>
+		<a
+			href="/admin/posters/new"
+			class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+		>
+			+ New poster
+		</a>
+	</div>
 </div>
 <p class="mt-2 max-w-lg text-sm text-ink-soft">
 	Swappable heading + image + message blocks, like your Instagram announcement posts. Only one can

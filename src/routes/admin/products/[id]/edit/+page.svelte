@@ -38,7 +38,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.product.name}</h1>
-	<HelpLink section="products" />
+	<HelpLink section="products" task="edit-product" />
 </div>
 
 <form
@@ -101,7 +101,14 @@
 </form>
 
 <div class="mt-4 rounded-2xl border border-ink/10 bg-white/60 p-6">
-	<h2 class="text-lg font-semibold text-ink">Additional photos</h2>
+	<div class="flex flex-wrap items-center gap-3">
+		<h2 class="text-lg font-semibold text-ink">Additional photos</h2>
+		<HelpLink
+			section="products"
+			task="product-photos"
+			title="How to add extra photos to a product"
+		/>
+	</div>
 	<p class="mt-1 text-sm text-ink-soft">
 		Shown as smaller thumbnails under the main photo on the product page — optional, and only shown
 		at all once there's at least one. Up to {MAX_EXTRA_IMAGES}.

@@ -19,7 +19,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Promotions</h1>
-		<HelpLink section="promotions" />
+		<HelpLink section="promotions" task="edit-promotion" />
 	</div>
 	<a
 		href="/admin/promotions/new"

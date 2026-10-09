@@ -63,7 +63,7 @@
 
 <div class="flex items-center gap-2">
 	<h1 class="font-display text-3xl text-ink">Staff accounts</h1>
-	<HelpLink section="staff" />
+	<HelpLink section="staff" task="add-staff" />
 </div>
 <p class="mt-1 max-w-lg text-sm text-ink-soft">
 	Who can log into this admin area. There's no email sending set up, so a new account's password is

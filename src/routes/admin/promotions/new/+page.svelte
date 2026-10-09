@@ -17,7 +17,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">New promotion</h1>
-	<HelpLink section="promotions" />
+	<HelpLink section="promotions" task="add-promotion" />
 </div>
 
 <form

@@ -45,7 +45,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">New newsletter</h1>
-	<HelpLink section="newsletters" />
+	<HelpLink section="newsletters" task="send-newsletter" />
 </div>
 
 <div class="mt-6 rounded-2xl border border-pink/20 bg-blush/40 p-5">

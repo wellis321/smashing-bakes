@@ -19,7 +19,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Categories</h1>
-		<HelpLink section="categories" />
+		<HelpLink section="categories" task="add-category" />
 	</div>
 	<a
 		href="/admin/categories/new"
@@ -31,6 +31,14 @@
 <p class="mt-2 max-w-lg text-sm text-ink-soft">
 	Organise the shop into categories — used for browsing, filtering and reporting.
 </p>
+<div class="mt-3">
+	<HelpLink
+		section="categories"
+		task="hide-category"
+		label="Hide a category"
+		title="How to hide a category"
+	/>
+</div>
 
 {#if form?.message}
 	<p class="mt-4 max-w-lg rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>

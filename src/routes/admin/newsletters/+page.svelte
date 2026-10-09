@@ -35,7 +35,7 @@
 	<div>
 		<div class="flex items-center gap-2">
 			<h1 class="font-display text-3xl text-ink">Newsletters</h1>
-			<HelpLink section="newsletters" />
+			<HelpLink section="newsletters" task="send-newsletter" />
 		</div>
 		<p class="mt-1 max-w-lg text-sm text-ink-soft">
 			Compose and send a newsletter to your <strong>{data.audienceCount}</strong>

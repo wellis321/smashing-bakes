@@ -96,6 +96,14 @@
 		<label for="salePricePence" class="text-sm font-medium text-ink-soft"
 			>Sale price (£, optional)</label
 		>
+		<span class="ml-2 align-middle"
+			><HelpLink
+				section="products"
+				task="put-on-sale"
+				label="How to put on sale"
+				title="How to put a product on sale"
+			/></span
+		>
 		<input
 			id="salePricePence"
 			name="salePrice"
@@ -130,6 +138,12 @@
 				class="h-4 w-4 accent-pink"
 			/>
 			Visible on site
+			<HelpLink
+				section="products"
+				task="hide-product"
+				label="How to hide"
+				title="How to hide a product without deleting it"
+			/>
 		</label>
 		<label class="flex items-center gap-2 text-sm text-ink-soft">
 			<input
@@ -140,7 +154,12 @@
 				class="h-4 w-4 accent-pink"
 			/>
 			Feature on homepage
-			<HelpLink section="products" task="this-weeks-bakes" title="How featuring works" />
+			<HelpLink
+				section="products"
+				task="this-weeks-bakes"
+				label="How it works"
+				title="How featuring works"
+			/>
 		</label>
 	</div>
 

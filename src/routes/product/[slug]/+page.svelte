@@ -143,6 +143,21 @@
 					{/each}
 				</div>
 			{/if}
+
+			{#if data.staff}
+				<div
+					class="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-dashed border-pink/40 px-4 py-3"
+				>
+					<p class="text-sm text-ink-soft">Staff only: add or remove photos on this page</p>
+					<HelpLink
+						section="products"
+						task="product-photos"
+						title="Staff only: how to add extra photos to this product"
+						label="Staff help"
+						staff
+					/>
+				</div>
+			{/if}
 		</div>
 
 		<div class="lg:pt-4">

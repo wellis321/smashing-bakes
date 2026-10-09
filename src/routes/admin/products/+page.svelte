@@ -218,7 +218,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Products</h1>
-		<HelpLink section="products" />
+		<HelpLink section="products" task="edit-product" />
 	</div>
 	<div class="flex items-center gap-3">
 		<a href="/admin/categories" class="text-sm font-semibold text-ink-soft hover:text-ink"
@@ -311,6 +311,20 @@
 	{/if}
 </div>
 
+<div class="mt-3 flex flex-wrap gap-2">
+	<HelpLink
+		section="products"
+		task="find-product"
+		label="Find a product"
+		title="How to search and filter products"
+	/>
+	<HelpLink
+		section="products"
+		task="hide-product"
+		label="Hide a product"
+		title="How to hide a product without deleting it"
+	/>
+</div>
 <p class="mt-3 text-xs text-ink-soft">
 	{data.products.filter((p) => p.isFeatured && p.isActive).length} showing in This week&rsquo;s bakes
 	&middot; {filteredProducts.length} of {data.products.length} product{data.products.length === 1

@@ -56,7 +56,7 @@
 	<div>
 		<div class="flex items-center gap-2">
 			<h1 class="font-display text-3xl text-ink">Media library</h1>
-			<HelpLink section="media" />
+			<HelpLink section="media" task="media-library" />
 		</div>
 		<p class="mt-1 max-w-lg text-sm text-ink-soft">
 			Upload photos here to use anywhere on the site &mdash; copy a URL and paste it wherever an
@@ -189,7 +189,15 @@
 {/if}
 
 <section id="illustrations" class="mt-12 scroll-mt-6">
-	<h2 class="text-lg font-semibold text-ink">Built-in pictures</h2>
+	<div class="flex flex-wrap items-center gap-3">
+		<h2 class="text-lg font-semibold text-ink">Built-in pictures</h2>
+		<HelpLink
+			section="media"
+			task="placeholder-images"
+			label="Help"
+			title="How to download the built-in pictures"
+		/>
+	</div>
 	<p class="mt-1 max-w-xl text-sm text-ink-soft">
 		The pictures the site uses when a category has no photo. Download one as a PNG, then upload it
 		above to use it on a product or category.

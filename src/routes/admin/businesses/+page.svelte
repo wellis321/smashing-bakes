@@ -23,7 +23,7 @@
 
 <div class="flex items-center gap-2">
 	<h1 class="font-display text-3xl text-ink">Local businesses</h1>
-	<HelpLink section="local-businesses" />
+	<HelpLink section="local-businesses" task="add-business" />
 </div>
 <p class="mt-1 text-sm text-ink-soft">
 	Powers the "choose a local business" strip on the Supporting Local Businesses promotion.
@@ -131,7 +131,15 @@
 
 	<div>
 		<div class="rounded-2xl border border-ink/10 bg-white/60 p-6">
-			<h2 class="text-lg font-semibold text-ink">This week's entries</h2>
+			<div class="flex flex-wrap items-center gap-3">
+				<h2 class="text-lg font-semibold text-ink">This week's entries</h2>
+				<HelpLink
+					section="local-businesses"
+					task="pick-winner"
+					label="Pick a winner"
+					title="How to pick a random winner"
+				/>
+			</div>
 			<p class="mt-1 text-sm text-ink-soft">
 				Week starting {data.weekStart} &mdash; resets every Monday.
 			</p>

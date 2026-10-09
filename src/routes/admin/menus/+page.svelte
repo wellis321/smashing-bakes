@@ -31,7 +31,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Weekly menus</h1>
-		<HelpLink section="weekly-menus" />
+		<HelpLink section="weekly-menus" task="weekly-menu" />
 	</div>
 	<a
 		href="/admin/menus/new"

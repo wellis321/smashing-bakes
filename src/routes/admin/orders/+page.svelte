@@ -53,7 +53,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Orders</h1>
-		<HelpLink section="orders" />
+		<HelpLink section="orders" task="manage-orders" />
 	</div>
 </div>
 <p class="mt-2 max-w-lg text-sm text-ink-soft">

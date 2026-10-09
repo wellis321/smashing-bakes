@@ -15,7 +15,7 @@
 <a href="/admin/polls" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Polls</a>
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">New flavour poll</h1>
-	<HelpLink section="polls" />
+	<HelpLink section="polls" task="flavour-poll" />
 </div>
 
 <form

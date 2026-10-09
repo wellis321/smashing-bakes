@@ -31,7 +31,7 @@
 <div class="flex items-center justify-between">
 	<div class="flex items-center gap-2">
 		<h1 class="font-display text-3xl text-ink">Bespoke order enquiries</h1>
-		<HelpLink section="enquiries" />
+		<HelpLink section="enquiries" task="bespoke-enquiries" />
 	</div>
 	<a href="/admin/subscribers" class="text-sm text-ink-soft hover:text-ink">
 		{data.subscriberCount} newsletter subscriber{data.subscriberCount === 1 ? '' : 's'} &rarr;

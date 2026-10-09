@@ -48,7 +48,7 @@
 
 <div class="flex items-center gap-2">
 	<h1 class="font-display text-3xl text-ink">Settings</h1>
-	<HelpLink section="settings" />
+	<HelpLink section="settings" task="hero-photos" />
 </div>
 <p class="mt-1 max-w-lg text-sm text-ink-soft">Choose a box below to change it.</p>
 
@@ -65,6 +65,14 @@
 			or <strong>Browse…</strong> to upload a new one. Then press <strong>Save changes</strong>. A
 			photo you leave alone stays as it is.
 		</p>
+		<div class="mt-3">
+			<HelpLink
+				section="settings"
+				task="hero-photos"
+				label="Show me how"
+				title="Step-by-step guide"
+			/>
+		</div>
 		<form
 			method="POST"
 			action="?/updateHeroImages"
@@ -131,6 +139,14 @@
 			Type each day or range on its own line, just as you'd like it to read. Then press
 			<strong>Save changes</strong>.
 		</p>
+		<div class="mt-3">
+			<HelpLink
+				section="settings"
+				task="opening-hours"
+				label="Show me how"
+				title="Step-by-step guide"
+			/>
+		</div>
 		<form
 			method="POST"
 			action="?/updateOpeningHours"
@@ -177,6 +193,14 @@
 		<p class="text-sm leading-relaxed text-ink-soft">
 			Shown straight after someone signs up (footer, homepage and the newsletter page).
 		</p>
+		<div class="mt-3">
+			<HelpLink
+				section="settings"
+				task="welcome-offer"
+				label="Show me how"
+				title="Step-by-step guide"
+			/>
+		</div>
 		<form
 			method="POST"
 			action="?/updateOffer"
@@ -254,6 +278,14 @@
 			Untick a page to hide it. Visitors who find it get "page not found". Shop, cart and account
 			pages always stay on.
 		</p>
+		<div class="mt-3">
+			<HelpLink
+				section="settings"
+				task="hide-page"
+				label="Show me how"
+				title="Step-by-step guide"
+			/>
+		</div>
 		<form
 			method="POST"
 			action="?/updateNavVisibility"

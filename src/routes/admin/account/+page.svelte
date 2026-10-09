@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageData } from './$types';
 
@@ -11,7 +12,15 @@
 	<title>My account — Admin</title>
 </svelte:head>
 
-<h1 class="font-display text-3xl text-ink">My account</h1>
+<div class="flex items-center gap-2">
+	<h1 class="font-display text-3xl text-ink">My account</h1>
+	<HelpLink
+		section="security"
+		task="change-password"
+		label="Help"
+		title="How to change your password"
+	/>
+</div>
 <p class="mt-1 text-sm text-ink-soft">{data.staff?.name} &middot; {data.staff?.email}</p>
 
 <div class="mt-8 max-w-md rounded-2xl border border-ink/10 bg-white/60 p-6">

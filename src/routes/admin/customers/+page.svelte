@@ -23,7 +23,7 @@
 	<div>
 		<div class="flex items-center gap-2">
 			<h1 class="font-display text-3xl text-ink">Customers</h1>
-			<HelpLink section="customers" />
+			<HelpLink section="customers" task="customers" />
 		</div>
 		<p class="mt-1 text-sm text-ink-soft">
 			Everyone with a full account (from voting or the local business picker) &mdash; separate from

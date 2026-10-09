@@ -50,7 +50,7 @@
 <a href="/admin/orders" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Orders</a>
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">Order #{data.order.id}</h1>
-	<HelpLink section="orders" />
+	<HelpLink section="orders" task="manage-orders" />
 </div>
 <p class="mt-1 text-sm text-ink-soft">Placed {formatDate(data.order.createdAt)}</p>
 
@@ -122,7 +122,15 @@
 				};
 			}}
 		>
-			<h2 class="text-lg font-semibold text-ink">Status</h2>
+			<div class="flex flex-wrap items-center gap-3">
+				<h2 class="text-lg font-semibold text-ink">Status</h2>
+				<HelpLink
+					section="orders"
+					task="cancel-order"
+					label="Cancel an order"
+					title="How to cancel an order"
+				/>
+			</div>
 
 			{#if form?.message}
 				<p class="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.message}</p>

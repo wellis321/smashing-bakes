@@ -27,7 +27,7 @@
 	<h1 class="mt-2 font-display text-3xl text-ink">
 		{data.menu.title || `Menu for ${data.menu.menuDate}`}
 	</h1>
-	<HelpLink section="weekly-menus" />
+	<HelpLink section="weekly-menus" task="edit-menu" />
 </div>
 {#if data.menu.isPublished}
 	<a

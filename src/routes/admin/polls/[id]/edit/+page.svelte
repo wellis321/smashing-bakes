@@ -27,7 +27,7 @@
 <a href="/admin/polls" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Polls</a>
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.poll.title}</h1>
-	<HelpLink section="polls" />
+	<HelpLink section="polls" task="flavour-poll" />
 </div>
 
 <form
@@ -153,6 +153,14 @@
 	<h2 class="text-lg font-semibold text-ink">
 		Results &mdash; {data.poll.votes.length} vote{data.poll.votes.length === 1 ? '' : 's'}
 	</h2>
+	<div class="mt-2">
+		<HelpLink
+			section="polls"
+			task="pick-winner"
+			label="Pick a winner"
+			title="How to pick a random winner"
+		/>
+	</div>
 
 	{#if data.results.length === 0 || data.poll.votes.length === 0}
 		<p class="mt-3 text-sm text-ink-soft">No votes yet.</p>

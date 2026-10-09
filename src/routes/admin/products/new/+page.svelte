@@ -17,7 +17,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">Add product</h1>
-	<HelpLink section="products" />
+	<HelpLink section="products" task="add-product" />
 </div>
 
 <form

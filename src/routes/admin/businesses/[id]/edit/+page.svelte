@@ -24,7 +24,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.business.name}</h1>
-	<HelpLink section="local-businesses" />
+	<HelpLink section="local-businesses" task="add-business" />
 </div>
 
 <form

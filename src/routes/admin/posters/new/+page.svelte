@@ -39,7 +39,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">New poster</h1>
-	<HelpLink section="posters" />
+	<HelpLink section="posters" task="new-banner" />
 </div>
 
 <div class="mt-6">

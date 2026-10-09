@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	// Lets staff choose exactly which part of a photo shows inside a fixed-shape
 	// box: drag a frame over the full photo, and zoom in or out. The frame is the
@@ -150,9 +151,17 @@
 
 {#if previewUrl}
 	<div class="mt-3">
-		<p class="text-sm font-medium text-ink">
-			Drag the pink frame over the part of the photo you want to show
-		</p>
+		<div class="flex flex-wrap items-center gap-3">
+			<p class="text-sm font-medium text-ink">
+				Drag the pink frame over the part of the photo you want to show
+			</p>
+			<HelpLink
+				section="bespoke-cakes"
+				task="adjust-photo"
+				label="Help"
+				title="How to choose which part of a photo shows"
+			/>
+		</div>
 
 		<div class="mt-2 grid items-start gap-4 sm:grid-cols-2">
 			<div>

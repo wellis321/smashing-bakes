@@ -64,7 +64,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">{data.member.name}</h1>
-	<HelpLink section="staff" />
+	<HelpLink section="staff" task="add-staff" />
 </div>
 
 <form

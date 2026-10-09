@@ -17,7 +17,7 @@
 >
 <div class="flex items-center gap-2">
 	<h1 class="mt-2 font-display text-3xl text-ink">New weekly menu</h1>
-	<HelpLink section="weekly-menus" />
+	<HelpLink section="weekly-menus" task="weekly-menu" />
 </div>
 
 <form
