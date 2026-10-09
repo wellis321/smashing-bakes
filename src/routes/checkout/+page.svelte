@@ -36,8 +36,13 @@
 			<h2 class="text-lg font-semibold text-ink">Your order</h2>
 			<ul class="mt-4 divide-y divide-ink/10">
 				{#each cart.items as item (`${item.productId}-${item.variantId}`)}
-					<li class="flex items-center justify-between gap-4 py-3 text-sm">
-						<span class="text-ink">
+					<li class="flex items-center gap-3 py-3 text-sm">
+						<div class="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-cream-dim">
+							{#if item.imageUrl}
+								<img src={item.imageUrl} alt="" class="h-full w-full object-cover" />
+							{/if}
+						</div>
+						<span class="min-w-0 flex-1 text-ink">
 							{item.quantity}&times; {item.name}{item.variantName ? ` (${item.variantName})` : ''}
 						</span>
 						<span class="shrink-0 text-ink-soft"
