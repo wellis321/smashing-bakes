@@ -5,7 +5,7 @@
 	// the funnel, where it can still influence whether someone buys at all.
 	// Styled as bold badge-style callouts rather than plain text — a benefit
 	// that reads like a stray sentence gets skipped over entirely.
-	let { variant = 'full' }: { variant?: 'full' | 'compact' } = $props();
+	let { variant = 'full' }: { variant?: 'full' | 'compact' | 'roomy' } = $props();
 
 	const items = [
 		{
@@ -45,7 +45,22 @@
 	{/if}
 {/snippet}
 
-{#if variant === 'compact'}
+{#if variant === 'roomy'}
+	<!-- Larger, stacked badges for the product page's buy box, where there's
+	     room and the text needs to be easy to read at a glance. -->
+	<div class="flex flex-col gap-2">
+		{#each items as item (item.icon)}
+			<div
+				class="flex items-center gap-3 rounded-2xl bg-white/60 px-3.5 py-2.5 text-sm leading-snug font-bold text-pink-deep"
+			>
+				<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-pink text-cream">
+					{@render icon(item.icon)}
+				</span>
+				{item.text}
+			</div>
+		{/each}
+	</div>
+{:else if variant === 'compact'}
 	<div class="flex flex-wrap items-center gap-2">
 		{#each items as item (item.icon)}
 			<span

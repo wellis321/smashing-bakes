@@ -185,15 +185,15 @@
 			{/if}
 
 			<div class="mt-auto pt-8">
-				<div class="max-w-md rounded-2xl bg-blush p-6">
+				<div class="rounded-3xl bg-blush p-6">
 					{#if activeVariants.length > 0}
-						<p class="text-sm font-semibold text-ink">Choose an option</p>
-						<div class="mt-2.5 flex flex-wrap gap-2">
+						<p class="text-base font-semibold text-ink">Choose an option</p>
+						<div class="mt-3 flex flex-wrap gap-2.5">
 							{#each activeVariants as variant (variant.id)}
 								<button
 									type="button"
 									onclick={() => (selectedVariantId = variant.id)}
-									class={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+									class={`rounded-full border px-5 py-2.5 text-base font-semibold transition-colors ${
 										selectedVariantId === variant.id
 											? 'border-pink bg-pink text-cream'
 											: 'border-ink/15 bg-white text-ink hover:border-ink/30'
@@ -205,22 +205,22 @@
 						</div>
 					{/if}
 
-					<div class="mt-4 flex items-center gap-3">
-						<p class="text-sm font-semibold text-ink">Quantity</p>
+					<div class="mt-4 flex items-center gap-4">
+						<p class="text-base font-semibold text-ink">Quantity</p>
 						<div class="flex items-center rounded-full border border-ink/15 bg-white">
 							<button
 								type="button"
 								onclick={() => (quantity = Math.max(1, quantity - 1))}
-								class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
+								class="grid h-11 w-11 place-items-center text-xl font-semibold text-ink hover:text-pink-deep"
 								aria-label="Decrease quantity"
 							>
 								&minus;
 							</button>
-							<span class="w-6 text-center text-sm font-semibold text-ink">{quantity}</span>
+							<span class="w-8 text-center text-base font-semibold text-ink">{quantity}</span>
 							<button
 								type="button"
 								onclick={() => (quantity = Math.min(20, quantity + 1))}
-								class="grid h-9 w-9 place-items-center text-lg font-semibold text-ink hover:text-pink-deep"
+								class="grid h-11 w-11 place-items-center text-xl font-semibold text-ink hover:text-pink-deep"
 								aria-label="Increase quantity"
 							>
 								+
@@ -228,28 +228,28 @@
 						</div>
 					</div>
 
-					<div class="mt-5 flex flex-wrap gap-3">
+					<div class="mt-4 flex flex-wrap gap-3">
 						<button
 							type="button"
 							onclick={buyNow}
-							class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+							class="rounded-full bg-pink px-8 py-3.5 text-base font-semibold text-cream transition-colors hover:bg-pink-deep"
 						>
 							Buy now &mdash; {formatPence(unitPricePence * quantity)}
 						</button>
 						<button
 							type="button"
 							onclick={addToCart}
-							class="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30"
+							class="rounded-full border border-ink/15 bg-white/60 px-7 py-3.5 text-base font-semibold text-ink transition-colors hover:border-ink/30"
 						>
 							{justAdded ? 'Added ✓' : 'Add to cart'}
 						</button>
 					</div>
-					<p class="mt-3 text-xs text-ink-soft/70">
+					<p class="mt-3 text-sm leading-snug text-ink-soft">
 						Pay in person when you collect or it&rsquo;s delivered &mdash; online payment is coming
 						soon.
 					</p>
 					<div class="mt-4">
-						<FulfilmentBenefits variant="compact" />
+						<FulfilmentBenefits variant="roomy" />
 					</div>
 				</div>
 			</div>
