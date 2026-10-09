@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
 import {
-	getActiveCategories,
+	getVisibleCategories,
 	getNavVisibility,
 	getOpeningHours,
 	getWelcomeOffer
@@ -8,7 +8,7 @@ import {
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	const [categories, welcomeOffer, navVisibility, openingHours] = await Promise.all([
-		getActiveCategories(),
+		getVisibleCategories(),
 		getWelcomeOffer(),
 		getNavVisibility(),
 		getOpeningHours()

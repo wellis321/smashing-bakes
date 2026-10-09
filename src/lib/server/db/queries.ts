@@ -156,6 +156,22 @@ export async function getActiveCategories() {
 	});
 }
 
+// Categories customers should see: switched on AND holding at least one visible
+// product. An empty category is hidden everywhere public (shop, menu, footer,
+// homepage tiles) and returns as soon as a product is added. Admin forms use
+// getActiveCategories instead, so a product can still be added to an empty one.
+export async function getVisibleCategories() {
+	const [activeCategories, used] = await Promise.all([
+		getActiveCategories(),
+		db
+			.selectDistinct({ categoryId: products.categoryId })
+			.from(products)
+			.where(eq(products.isActive, true))
+	]);
+	const withProducts = new Set(used.map((row) => row.categoryId));
+	return activeCategories.filter((category) => withProducts.has(category.id));
+}
+
 export async function getCategoryBySlug(slug: string) {
 	return db.query.categories.findFirst({
 		where: and(eq(categories.slug, slug), eq(categories.isActive, true))

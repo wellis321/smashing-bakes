@@ -305,6 +305,11 @@
 			{@render guides('categories')}
 			<ul class="mt-3 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
 				<li>
+					A category with no visible products is hidden from the shop, the menus and the homepage
+					automatically, and reappears as soon as it has one. In the list it shows "Hidden from the
+					shop until it has a visible product".
+				</li>
+				<li>
 					Each category can have its own <strong>Homepage tile photo</strong> (on its edit page) for the
 					"Browse by bake" strip on the homepage. Leave it blank to use the built-in illustration, or
 					tick "Remove my photo" to switch back.

@@ -1,9 +1,9 @@
 import type { PageServerLoad } from './$types';
-import { getActiveCategories, getAllActiveProductsWithCategory } from '$lib/server/db/queries';
+import { getVisibleCategories, getAllActiveProductsWithCategory } from '$lib/server/db/queries';
 
 export const load: PageServerLoad = async () => {
 	return {
-		categories: await getActiveCategories(),
+		categories: await getVisibleCategories(),
 		products: await getAllActiveProductsWithCategory()
 	};
 };

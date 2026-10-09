@@ -52,6 +52,11 @@
 				<p class="text-xs text-ink-soft">
 					{category.productCount} product{category.productCount === 1 ? '' : 's'} &middot; /shop/{category.slug}
 				</p>
+				{#if category.isActive && category.visibleProductCount === 0}
+					<p class="mt-0.5 text-xs font-semibold text-pink-deep">
+						Hidden from the shop until it has a visible product
+					</p>
+				{/if}
 			</a>
 
 			<form method="POST" action="?/toggleActive" use:enhance>

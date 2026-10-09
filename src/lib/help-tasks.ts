@@ -598,7 +598,7 @@ export const helpTasks: HelpTask[] = [
 			),
 			s('Press it again whenever you want it back.')
 		],
-		tip: 'A hidden category disappears from the menus and the homepage tiles. A category can’t be deleted while it still has products in it.',
+		tip: 'A hidden category disappears from the menus and the homepage tiles. A category with no visible products hides itself automatically and comes back once it has one. A category can’t be deleted while it still has products in it.',
 		goTo: { href: '/admin/categories', label: 'Go to Categories' },
 		section: 'categories'
 	},

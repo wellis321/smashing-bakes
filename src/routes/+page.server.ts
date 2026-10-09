@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import {
-	getActiveCategories,
+	getVisibleCategories,
 	getActivePoster,
 	getFeaturedProducts,
 	getFeaturedPromotion,
@@ -9,7 +9,7 @@ import {
 
 export const load: PageServerLoad = async () => {
 	return {
-		categories: await getActiveCategories(),
+		categories: await getVisibleCategories(),
 		featured: await getFeaturedProducts(),
 		promotion: await getFeaturedPromotion(),
 		poster: await getActivePoster(),

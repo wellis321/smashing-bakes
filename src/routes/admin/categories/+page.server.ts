@@ -13,11 +13,18 @@ export const load: PageServerLoad = async () => {
 		.from(products)
 		.groupBy(products.categoryId);
 	const countsByCategory = new Map(productCounts.map((row) => [row.categoryId, row.value]));
+	const visibleCounts = await db
+		.select({ categoryId: products.categoryId, value: count() })
+		.from(products)
+		.where(eq(products.isActive, true))
+		.groupBy(products.categoryId);
+	const visibleByCategory = new Map(visibleCounts.map((row) => [row.categoryId, row.value]));
 
 	return {
 		categories: allCategories.map((category) => ({
 			...category,
-			productCount: countsByCategory.get(category.id) ?? 0
+			productCount: countsByCategory.get(category.id) ?? 0,
+			visibleProductCount: visibleByCategory.get(category.id) ?? 0
 		}))
 	};
 };

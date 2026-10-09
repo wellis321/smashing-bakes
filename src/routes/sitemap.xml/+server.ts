@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { getActiveCategories, getAllActiveProductsWithCategory, getPublishedMenus, getPublishedPromotions } from '$lib/server/db/queries';
+import { getVisibleCategories, getAllActiveProductsWithCategory, getPublishedMenus, getPublishedPromotions } from '$lib/server/db/queries';
 
 const STATIC_PATHS = ['/', '/shop', '/menus', '/promotions', '/about', '/contact', '/vote', '/newsletter'];
 
@@ -11,7 +11,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const origin = url.origin;
 
 	const [categories, products, menus, promotions] = await Promise.all([
-		getActiveCategories(),
+		getVisibleCategories(),
 		getAllActiveProductsWithCategory(),
 		getPublishedMenus(),
 		getPublishedPromotions()
