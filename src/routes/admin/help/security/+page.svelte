@@ -202,7 +202,12 @@
 		</p>
 		<ol class="mt-3 list-decimal space-y-2 pl-5">
 			<li>Change your password straight away (My account), and any account that shared it.</li>
-			<li>Tell William. Use the Feedback button, or phone him if it&rsquo;s urgent.</li>
+			<li>
+				Tell William. Use the Feedback button, or phone him on <a
+					href="tel:+447566257092"
+					class="font-semibold text-pink-deep underline hover:text-pink">07566 257092</a
+				> if it&rsquo;s urgent.
+			</li>
 			<li>
 				If a SumUp key was shared by mistake, delete it in SumUp and make a new one. Nothing is
 				lost.

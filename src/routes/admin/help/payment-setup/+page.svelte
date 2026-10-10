@@ -244,8 +244,11 @@
 		<li class="flex gap-4">
 			{@render tick('pass-4', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				<strong>Phone William</strong> and tell him the Send password. Don&rsquo;t put the password in
-				the same message as the link. That way, anyone who finds the link can&rsquo;t open it.
+				<strong>Phone William</strong> on
+				<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
+					>07566 257092</a
+				> and tell him the Send password. Don&rsquo;t put the password in the same message as the link.
+				That way, anyone who finds the link can&rsquo;t open it.
 			</p>
 		</li>
 	</ol>
