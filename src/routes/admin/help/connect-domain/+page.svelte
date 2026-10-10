@@ -1,15 +1,15 @@
 <script lang="ts">
 	// A one-off, step-by-step guide for pointing smashinbakes.com (registered at
 	// GoDaddy, currently showing a Wix site) at this website on Hostinger.
-	// Hostinger's own values (the IP address etc.) are shown in hPanel when the
-	// domain is added, so they're described here rather than written in.
+	// The domain has already been added on the Hostinger side; 77.37.35.98 is
+	// that hosting server's IP address.
 	type Row = { type: string; name: string; value: string; note?: string };
 
 	const before: Row[] = [
 		{ type: 'A', name: '@', value: '185.230.63.107', note: 'Wix' },
 		{ type: 'CNAME', name: 'www', value: 'pointing.wixdns.net', note: 'Wix' }
 	];
-	const TOTAL = 12;
+	const TOTAL = 9;
 	let done = $state<Record<string, boolean>>({});
 	const doneCount = $derived(Object.values(done).filter(Boolean).length);
 
@@ -42,8 +42,8 @@
 	}
 
 	const after: Row[] = [
-		{ type: 'A', name: '@', value: 'the IP address Hostinger shows you', note: 'New website' },
-		{ type: 'CNAME', name: 'www', value: 'the value Hostinger shows you', note: 'New website' }
+		{ type: 'A', name: '@', value: '77.37.35.98', note: 'New website' },
+		{ type: 'CNAME', name: 'www', value: 'smashinbakes.com', note: 'New website' }
 	];
 </script>
 
@@ -58,7 +58,7 @@
 		Point smashinbakes.com at the new website
 	</h1>
 	<p class="mt-2 text-lg text-ink-soft">
-		Two short jobs: one in Hostinger, one in GoDaddy. About 15 minutes, then a wait.
+		One short job in GoDaddy &mdash; two lines to change. About 10 minutes, then a wait.
 	</p>
 
 	<p class="mt-4 text-base text-ink-soft">
@@ -112,7 +112,6 @@
 		<p class="font-semibold">Before you start</p>
 		<ul class="mt-2 list-disc space-y-1 pl-5">
 			<li>You need the <strong>GoDaddy login</strong> for smashinbakes.com.</li>
-			<li>You need the <strong>Hostinger login</strong> for this website.</li>
 			<li>
 				Nothing is deleted from Wix. The old site simply stops showing on this address. If it
 				isn&rsquo;t needed any more, the Wix plan can be cancelled separately, later.
@@ -125,51 +124,17 @@
 	</section>
 
 	<!-- Part 1 -->
-	<h2 class="mt-12 font-display text-2xl text-ink">
-		Part 1 &middot; In Hostinger <span class="text-base font-normal text-ink-soft"
-			>(about 5 minutes)</span
-		>
-	</h2>
-
-	<ol class="mt-6 space-y-7">
-		<li class="flex gap-4">
-			{@render tick('hostinger-1', 1)}
-			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Go to <strong>hpanel.hostinger.com</strong> and sign in. Open the website, then the
-				<strong>Node.js</strong> app.
-			</p>
-		</li>
-		<li class="flex gap-4">
-			{@render tick('hostinger-2', 2)}
-			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Find <strong>Domains</strong> (or &ldquo;Connect domain&rdquo;) and add
-				<strong>smashinbakes.com</strong>. Add <strong>www.smashinbakes.com</strong> too if it asks for
-				it.
-			</p>
-		</li>
-		<li class="flex gap-4">
-			{@render tick('hostinger-3', 3)}
-			<div class="min-w-0 flex-1">
-				<p class="pt-1 text-lg leading-relaxed text-ink">
-					Hostinger now shows the <strong>records you need to add</strong>. Write down (or keep this
-					page open next to it):
-				</p>
-				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
-					<li>the <strong>IP address</strong> for the A record (numbers like 123.45.67.89)</li>
-					<li>the value for the <strong>www</strong> record, if it gives one</li>
-				</ul>
-				<p class="mt-3 text-base text-ink-soft">
-					Use exactly what Hostinger shows. Those are the values for Part 2.
-				</p>
-			</div>
-		</li>
-	</ol>
+	<section class="mt-12 rounded-2xl border border-green-600/30 bg-green-50 p-5">
+		<h2 class="text-base font-semibold text-green-900">Hostinger &mdash; already done &#10003;</h2>
+		<p class="mt-1 text-base leading-relaxed text-green-900">
+			smashinbakes.com has already been added to this website on Hostinger, so there&rsquo;s nothing
+			to do there. The values to use in GoDaddy are below.
+		</p>
+	</section>
 
 	<!-- Part 2 -->
 	<h2 class="mt-12 font-display text-2xl text-ink">
-		Part 2 &middot; In GoDaddy <span class="text-base font-normal text-ink-soft"
-			>(about 10 minutes)</span
-		>
+		In GoDaddy <span class="text-base font-normal text-ink-soft">(about 10 minutes)</span>
 	</h2>
 
 	<ol class="mt-6 space-y-8">
@@ -201,7 +166,7 @@
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					Press the <strong>pencil</strong> next to the <strong>A</strong> line. Replace the Wix
-					number with the <strong>IP address from Hostinger</strong>, then press
+					number with <strong>77.37.35.98</strong>, then press
 					<strong>Save</strong>.
 				</p>
 			</div>
@@ -211,7 +176,7 @@
 			{@render tick('godaddy-4', 4)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Press the <strong>pencil</strong> next to the <strong>CNAME www</strong> line. Replace
-				<em>pointing.wixdns.net</em> with the <strong>value from Hostinger</strong>, then press
+				<em>pointing.wixdns.net</em> with <strong>smashinbakes.com</strong>, then press
 				<strong>Save</strong>.
 			</p>
 		</li>
@@ -252,21 +217,21 @@
 	<h2 class="mt-12 font-display text-2xl text-ink">Then wait, and check</h2>
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
-			{@render tick('check-1', 1)}
+			{@render tick('check-1', 7)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				It usually takes a few minutes, sometimes a few hours, and rarely up to a day. You
 				don&rsquo;t need to do anything while you wait.
 			</p>
 		</li>
 		<li class="flex gap-4">
-			{@render tick('check-2', 2)}
+			{@render tick('check-2', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				In Hostinger, the domain changes to <strong>Connected</strong> and a security certificate (the
-				padlock) is added by itself.
+				The security certificate (the padlock) is added by Hostinger by itself once the address
+				points here. Give it up to an hour.
 			</p>
 		</li>
 		<li class="flex gap-4">
-			{@render tick('check-3', 3)}
+			{@render tick('check-3', 9)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Open <strong>https://smashinbakes.com</strong> in a private or incognito window. You should see
 				this website with the awning at the top.
