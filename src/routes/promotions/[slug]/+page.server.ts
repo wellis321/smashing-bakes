@@ -78,7 +78,9 @@ export const actions: Actions = {
 			where: and(eq(localBusinesses.id, businessId), eq(localBusinesses.isActive, true))
 		});
 		if (!business) {
-			return fail(400, { message: 'That business isn’t available right now — please pick another.' });
+			return fail(400, {
+				message: 'That business isn’t available right now — please pick another.'
+			});
 		}
 
 		const existing = await db.query.businessChoices.findFirst({

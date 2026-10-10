@@ -286,6 +286,7 @@
 			labelId="related"
 			showCount={false}
 			products={data.related}
+			fit={data.related.length}
 		/>
 	{/if}
 </ShopWindow>

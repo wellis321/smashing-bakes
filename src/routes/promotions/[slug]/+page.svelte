@@ -3,6 +3,10 @@
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import SignBoard from '$lib/components/shop/SignBoard.svelte';
+	import Framed from '$lib/components/shop/Framed.svelte';
+	import ChalkCard from '$lib/components/shop/ChalkCard.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -80,27 +84,28 @@
 
 <svelte:window onclick={handleOutsideClick} />
 
-<section class="mx-auto max-w-4xl px-5 pt-10 sm:px-8">
+<ShopWindow openingHours={data.openingHours}>
 	<a href="/promotions" class="text-sm font-semibold text-ink-soft hover:text-ink"
 		>&larr; Promotions</a
 	>
 
 	{#if promo.mechanic === 'business_picker'}
 		<div class="mx-auto mt-8 max-w-2xl text-center">
-			<div class="flex flex-wrap items-center gap-3">
-				<h1 class="font-display text-4xl text-ink sm:text-5xl">{promo.title}</h1>
-				{#if data.staff}
-					<HelpLink
-						section="promotions"
-						title="Staff only: how to manage promotions"
-						task="edit-promotion"
-						label="Staff help"
-						staff
-					/>
-				{/if}
-			</div>
+			<SignBoard eyebrow="Happening now" title={promo.title}>
+				{#snippet help()}
+					{#if data.staff}
+						<HelpLink
+							section="promotions"
+							title="Staff only: how to manage promotions"
+							task="edit-promotion"
+							label="Staff help"
+							staff
+						/>
+					{/if}
+				{/snippet}
+			</SignBoard>
 			{#if promo.tagline}
-				<p class="mt-3 font-display text-2xl text-pink italic">{promo.tagline}</p>
+				<p class="mt-5 font-display text-2xl text-pink italic">{promo.tagline}</p>
 			{/if}
 		</div>
 
@@ -450,26 +455,27 @@
 		</div>
 	{:else}
 		{#if promo.heroImageUrl}
-			<div class="mt-6 overflow-hidden rounded-[2rem]">
+			<Framed class="mx-auto mt-2 max-w-3xl">
 				<img src={promo.heroImageUrl} alt={promo.title} class="aspect-[16/9] w-full object-cover" />
-			</div>
+			</Framed>
 		{/if}
 
 		<div class="mx-auto mt-10 max-w-2xl text-center">
-			<div class="flex flex-wrap items-center gap-3">
-				<h1 class="font-display text-4xl text-ink sm:text-5xl">{promo.title}</h1>
-				{#if data.staff}
-					<HelpLink
-						section="promotions"
-						title="Staff only: how to manage promotions"
-						task="edit-promotion"
-						label="Staff help"
-						staff
-					/>
-				{/if}
-			</div>
+			<SignBoard eyebrow="Happening now" title={promo.title}>
+				{#snippet help()}
+					{#if data.staff}
+						<HelpLink
+							section="promotions"
+							title="Staff only: how to manage promotions"
+							task="edit-promotion"
+							label="Staff help"
+							staff
+						/>
+					{/if}
+				{/snippet}
+			</SignBoard>
 			{#if promo.tagline}
-				<p class="mt-3 font-display text-2xl text-pink italic">{promo.tagline}</p>
+				<p class="mt-5 font-display text-2xl text-pink italic">{promo.tagline}</p>
 			{/if}
 			{#if promo.introText}
 				<p class="mt-6 leading-relaxed text-ink-soft">{promo.introText}</p>
@@ -485,15 +491,9 @@
 		{#if promo.steps.length > 0}
 			<div class="mt-14 grid gap-8 sm:grid-cols-3">
 				{#each promo.steps as step, index (step.id)}
-					<div class="text-center">
-						<div
-							class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-pink/10 font-display text-xl text-pink-deep italic"
-						>
-							{index + 1}
-						</div>
-						<p class="mt-3 text-sm font-semibold tracking-wide text-ink uppercase">{step.label}</p>
-						<p class="mt-1 text-sm text-ink-soft">{step.description}</p>
-					</div>
+					<ChalkCard title={`${index + 1}. ${step.label}`} tilt={index % 2 === 0 ? -0.8 : 0.7}>
+						{step.description}
+					</ChalkCard>
 				{/each}
 			</div>
 		{/if}
@@ -511,7 +511,7 @@
 			</a>
 		</div>
 	{/if}
-</section>
+</ShopWindow>
 
 {#if promo.areaText || promo.deadlineText}
 	<section class="mt-16 bg-ink py-8 text-cream">
