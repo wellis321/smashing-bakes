@@ -14,6 +14,7 @@
 		showCount = true,
 		dense = false,
 		fit = 0,
+		maxAcross = 5,
 		products = [],
 		fallbackSrc = null,
 		help,
@@ -29,6 +30,8 @@
 		// 4 a quarter each, and so on (6 become two rows of 3, more wrap in fours).
 		// Leave out for the standard 2 / 3 / 4-across grid.
 		fit?: number;
+		// Most plates allowed in one row when fitting (default 5; categories use 6).
+		maxAcross?: number;
 		products?: ProductCardData[];
 		fallbackSrc?: string | null;
 		help?: Snippet;
@@ -36,7 +39,9 @@
 		children?: Snippet;
 	} = $props();
 
-	const lgCols = $derived(fit > 0 ? (fit <= 5 ? fit : fit === 6 ? 3 : 4) : dense ? 6 : 4);
+	const lgCols = $derived(
+		fit > 0 ? (fit <= maxAcross ? fit : fit % 3 === 0 ? 3 : 4) : dense ? 6 : 4
+	);
 	const mdCols = $derived(fit > 0 ? Math.min(fit, 3) : 3);
 	const smCols = $derived(fit > 0 ? Math.min(fit, 2) : 2);
 </script>

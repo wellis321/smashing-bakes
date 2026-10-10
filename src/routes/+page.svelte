@@ -15,10 +15,12 @@
 	// A category shown as a plate on a shelf reuses the product plate, minus the
 	// price tag and stickers.
 	function categoryPlate(category: {
+		id: number;
 		slug: string;
 		name: string;
 		imageUrl: string | null;
 	}): ProductCardData {
+		const photo = category.imageUrl ?? data.categoryPhotos[category.id] ?? null;
 		return {
 			slug: category.slug,
 			name: category.name,
@@ -26,7 +28,7 @@
 			basePricePence: 0,
 			salePricePence: null,
 			badge: 'none',
-			images: category.imageUrl ? [{ url: category.imageUrl, altText: null }] : []
+			images: photo ? [{ url: photo, altText: null }] : []
 		};
 	}
 </script>
@@ -310,7 +312,7 @@
 
 <!-- Browse by bake: category plates along the wall -->
 <section class="mx-auto max-w-6xl px-5 pt-14 pb-16 sm:px-8">
-	<Shelf label="Browse by bake" labelId="browse-by-bake" dense>
+	<Shelf label="Browse by bake" labelId="browse-by-bake" fit={data.categories.length} maxAcross={6}>
 		{#snippet help()}
 			{#if data.staff}
 				<HelpLink
