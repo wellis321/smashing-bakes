@@ -79,6 +79,7 @@
 		<PhotoFrame
 			src={item.imageUrl}
 			alt={item.caption ?? "A bespoke Smashin' Bakes cake design"}
+			sizes="(min-width: 640px) 420px, 78vw"
 			zoom={item.imageZoom}
 			focal={item.focalPoint}
 			class="aspect-[4/5] w-full rounded-[1.75rem]"
@@ -126,6 +127,9 @@
 					<PhotoFrame
 						src={data.imageUrl}
 						alt="A bespoke Smashin' Bakes cake"
+						sizes="(min-width: 768px) 50vw, 24rem"
+						widths={[480, 640, 960, 1280]}
+						eager
 						zoom={data.imageZoom}
 						focal={data.imageFocalPoint}
 						class="aspect-[4/5] w-full"
@@ -144,6 +148,9 @@
 					<PhotoFrame
 						src={data.imageUrl}
 						alt="A bespoke Smashin' Bakes cake"
+						sizes="(min-width: 1024px) 1024px, 100vw"
+						widths={[640, 960, 1280, 1600]}
+						eager
 						zoom={data.imageZoom}
 						focal={data.imageFocalPoint}
 						class="aspect-[16/9] w-full sm:aspect-[21/9]"

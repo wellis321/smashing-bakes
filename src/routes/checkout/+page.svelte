@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
@@ -39,7 +40,7 @@
 					<li class="flex items-center gap-3 py-3 text-sm">
 						<div class="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-cream-dim">
 							{#if item.imageUrl}
-								<img src={item.imageUrl} alt="" class="h-full w-full object-cover" />
+								<ResponsiveImg src={item.imageUrl} sizes="64px" widths={[160, 320]} class="h-full w-full object-cover" />
 							{/if}
 						</div>
 						<span class="min-w-0 flex-1 text-ink">

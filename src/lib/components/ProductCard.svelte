@@ -16,6 +16,7 @@
 			<PhotoFrame
 				src={image.url}
 				alt=""
+				sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
 				zoom={image.zoom ?? 100}
 				focal={image.focalPoint ?? 'center'}
 				class="aspect-square w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
@@ -33,9 +34,7 @@
 	<p class="mt-1 flex items-baseline gap-2">
 		{#if onSale}
 			<span class="font-semibold text-pink-deep">{formatPence(product.salePricePence!)}</span>
-			<span class="text-sm text-ink-soft line-through"
-				>{formatPence(product.basePricePence)}</span
-			>
+			<span class="text-sm text-ink-soft line-through">{formatPence(product.basePricePence)}</span>
 		{:else}
 			<span class="font-medium text-ink-soft">{formatPence(product.basePricePence)}</span>
 		{/if}

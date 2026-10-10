@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import Logo from '$lib/components/Logo.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -45,9 +46,10 @@
 					<a href={`/promotions/${promo.slug}`} class="group block">
 						<div class="relative overflow-hidden rounded-[1.75rem] bg-cream-dim">
 							{#if promo.heroImageUrl}
-								<img
+								<ResponsiveImg
 									src={promo.heroImageUrl}
 									alt={promo.title}
+									sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
 									class="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
 								/>
 							{:else}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	type Poster = {
 		eyebrow?: string | null;
 		heading: string;
@@ -60,7 +61,6 @@
 		celebration: 'border-ink/30 text-ink'
 	};
 
-
 	const perkList = $derived(
 		(poster.perks ?? '')
 			.split('\n')
@@ -79,14 +79,14 @@
 		>
 			{#if poster.style === 'sold-out'}
 				<div
-					class="bg-pink-deep text-cream absolute -left-14 top-6 z-20 w-52 -rotate-45 py-1.5 text-center text-xs font-bold tracking-[0.2em] uppercase shadow-lg"
+					class="absolute top-6 -left-14 z-20 w-52 -rotate-45 bg-pink-deep py-1.5 text-center text-xs font-bold tracking-[0.2em] text-cream uppercase shadow-lg"
 				>
 					Sold out
 				</div>
 			{/if}
 
 			<div
-				class={`pointer-events-none absolute right-6 top-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] uppercase ${badgeClasses[poster.style]}`}
+				class={`pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] uppercase ${badgeClasses[poster.style]}`}
 				aria-hidden="true"
 			>
 				Smashin<br />Bakes
@@ -94,13 +94,13 @@
 
 			{#if !poster.imageUrl}
 				<span
-					class="pointer-events-none absolute -right-4 -bottom-10 hidden text-[9rem] rotate-[10deg] opacity-15 select-none sm:block"
+					class="pointer-events-none absolute -right-4 -bottom-10 hidden rotate-[10deg] text-[9rem] opacity-15 select-none sm:block"
 					aria-hidden="true"
 				>
 					🧁
 				</span>
 				<span
-					class="pointer-events-none absolute right-28 bottom-8 hidden text-6xl -rotate-12 opacity-15 select-none sm:block"
+					class="pointer-events-none absolute right-28 bottom-8 hidden -rotate-12 text-6xl opacity-15 select-none sm:block"
 					aria-hidden="true"
 				>
 					🎂
@@ -109,14 +109,20 @@
 
 			<div class="max-w-md pr-16">
 				{#if poster.eyebrow}
-					<p class="text-sm font-semibold tracking-[0.2em] uppercase opacity-80">{poster.eyebrow}</p>
+					<p class="text-sm font-semibold tracking-[0.2em] uppercase opacity-80">
+						{poster.eyebrow}
+					</p>
 				{/if}
-				<h2 class="font-display mt-1.5 text-3xl sm:text-4xl">{poster.heading}</h2>
-				<p class={`mt-3 text-lg leading-relaxed ${softTextClasses[poster.style]}`}>{poster.message}</p>
+				<h2 class="mt-1.5 font-display text-3xl sm:text-4xl">{poster.heading}</h2>
+				<p class={`mt-3 text-lg leading-relaxed ${softTextClasses[poster.style]}`}>
+					{poster.message}
+				</p>
 
 				{#if perkList.length > 0}
 					<div class={`mt-5 border-t border-dashed pt-4 ${dividerClasses[poster.style]}`}>
-						<p class="text-xs font-semibold tracking-[0.2em] uppercase opacity-70">Exclusive perks</p>
+						<p class="text-xs font-semibold tracking-[0.2em] uppercase opacity-70">
+							Exclusive perks
+						</p>
 						<ul class="mt-3 grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
 							{#each perkList as perk (perk)}
 								<li class="flex items-start gap-2 text-sm">
@@ -157,23 +163,25 @@
 		{#if poster.imageUrl}
 			<div class="relative hidden shrink-0 sm:block sm:w-[38%]">
 				<div
-					class="absolute -top-6 -bottom-6 left-4 right-0 overflow-hidden rounded-[1.75rem] rotate-2 shadow-xl"
+					class="absolute -top-6 right-0 -bottom-6 left-4 rotate-2 overflow-hidden rounded-[1.75rem] shadow-xl"
 				>
-					<img
+					<ResponsiveImg
 						src={poster.imageUrl}
-						alt=""
+						sizes="(min-width: 640px) 38vw, 100vw"
+						widths={[480, 640, 960, 1280]}
 						class="h-full w-full object-cover"
-						style:transform={`scale(${(poster.imageZoom ?? 100) / 100})`}
+						style={`transform: scale(${(poster.imageZoom ?? 100) / 100})`}
 					/>
 				</div>
 			</div>
 			<div class="relative -mt-4 sm:hidden">
 				<div class="mx-8 mb-8 aspect-[16/9] overflow-hidden rounded-2xl shadow-lg">
-					<img
+					<ResponsiveImg
 						src={poster.imageUrl}
-						alt=""
+						sizes="(min-width: 640px) 38vw, 100vw"
+						widths={[480, 640, 960, 1280]}
 						class="h-full w-full object-cover"
-						style:transform={`scale(${(poster.imageZoom ?? 100) / 100})`}
+						style={`transform: scale(${(poster.imageZoom ?? 100) / 100})`}
 					/>
 				</div>
 			</div>

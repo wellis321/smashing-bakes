@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { page } from '$app/state';
 	import { enhance } from '$app/forms';
@@ -361,9 +362,11 @@
 			<div>
 				{#if promo.heroImageUrl}
 					<div class="overflow-hidden rounded-[2rem] shadow-soft">
-						<img
+						<ResponsiveImg
 							src={promo.heroImageUrl}
 							alt={promo.title}
+							sizes="(min-width: 1024px) 50vw, 100vw"
+							eager
 							class="aspect-[16/10] w-full object-cover"
 						/>
 					</div>
@@ -456,7 +459,13 @@
 	{:else}
 		{#if promo.heroImageUrl}
 			<Framed class="mx-auto mt-2 max-w-3xl">
-				<img src={promo.heroImageUrl} alt={promo.title} class="aspect-[16/9] w-full object-cover" />
+				<ResponsiveImg
+					src={promo.heroImageUrl}
+					alt={promo.title}
+					sizes="(min-width: 768px) 768px, 100vw"
+					eager
+					class="aspect-[16/9] w-full object-cover"
+				/>
 			</Framed>
 		{/if}
 

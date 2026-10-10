@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import { formatPence } from '$lib/utils/money';
 	import { cart } from '$lib/stores/cart.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -24,7 +25,7 @@
 				<li class="flex items-center gap-4 p-4 sm:p-5">
 					<div class="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-cream-dim">
 						{#if item.imageUrl}
-							<img src={item.imageUrl} alt="" class="h-full w-full object-cover" />
+							<ResponsiveImg src={item.imageUrl} sizes="64px" widths={[160, 320]} class="h-full w-full object-cover" />
 						{/if}
 					</div>
 					<div class="min-w-0 flex-1">

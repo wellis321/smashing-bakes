@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
+	import { srcFor } from '$lib/utils/img';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { goto } from '$app/navigation';
 	import { formatPence } from '$lib/utils/money';
@@ -137,16 +139,19 @@
 				{#if image}
 					{#if stretched}
 						<img
-							src={image.url}
+							src={srcFor(image.url, 160)}
 							alt=""
 							aria-hidden="true"
 							class="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl"
 						/>
 					{/if}
 					{#if stretched}
-						<img
+						<ResponsiveImg
 							src={image.url}
 							alt={image.altText ?? product.name}
+							sizes="(min-width: 1024px) 560px, 100vw"
+							widths={[480, 640, 960, 1280]}
+							eager
 							class="absolute inset-0 h-full w-full object-contain"
 						/>
 					{:else}
@@ -154,6 +159,9 @@
 							<PhotoFrame
 								src={image.url}
 								alt={image.altText ?? product.name}
+								sizes="(min-width: 1024px) 560px, 100vw"
+								widths={[480, 640, 960, 1280]}
+								eager
 								zoom={image.zoom ?? 100}
 								focal={image.focalPoint ?? 'center'}
 								class="h-full w-full"
@@ -174,9 +182,11 @@
 								extraImages.length === 1 ? 'aspect-[16/9]' : 'aspect-square'
 							}`}
 						>
-							<img
+							<ResponsiveImg
 								src={extra.url}
 								alt={extra.altText ?? product.name}
+								sizes="(min-width: 1024px) 200px, 33vw"
+								widths={[320, 480, 640]}
 								class="h-full w-full object-cover"
 							/>
 						</div>

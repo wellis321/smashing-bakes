@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { srcFor, srcsetFor } from '$lib/utils/img';
 	import { formatPence } from '$lib/utils/money';
 	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import type { ProductCardData } from '$lib/types';
@@ -31,11 +32,7 @@
 	wooden ledge. The ledge's width is set by the shelf grid (see the shop page)
 	so neighbouring ledges join up into one long board.
 -->
-<a
-	href={href ?? `/product/${product.slug}`}
-	class="shelf-tile group"
-	style:--i={index}
->
+<a href={href ?? `/product/${product.slug}`} class="shelf-tile group" style:--i={index}>
 	<div class="plate-wrap">
 		{#if plain}
 			<!-- no stickers on a category plate -->
@@ -51,15 +48,19 @@
 				<PhotoFrame
 					src={image.url}
 					alt=""
+					sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 46vw"
 					zoom={image.zoom ?? 100}
 					focal={image.focalPoint ?? 'center'}
 					class="h-full w-full rounded-full"
 				/>
 			{:else if shownSrc}
 				<img
-					src={shownSrc}
+					src={srcFor(shownSrc, 480)}
+					srcset={srcsetFor(shownSrc, [320, 480, 640, 960])}
+					sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 46vw"
 					alt=""
 					loading="lazy"
+					decoding="async"
 					class="h-full w-full rounded-full object-cover"
 					onerror={(event) => ((event.currentTarget as HTMLImageElement).style.display = 'none')}
 				/>

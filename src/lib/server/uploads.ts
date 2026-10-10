@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { uploadedFiles, mediaLibraryItems } from '$lib/server/db/schema';
+import { limitOriginalSize } from '$lib/server/image-variants';
 
 const ALLOWED_TYPES: Record<string, string> = {
 	'image/jpeg': 'jpg',
@@ -37,11 +38,13 @@ export async function saveUploadedImage(
 
 	const filename = `${randomUUID()}.${extension}`;
 	const relativePath = `${folder}/${filename}`;
-	const buffer = Buffer.from(await file.arrayBuffer());
+	// Huge camera originals are scaled down to 2000px wide before storing.
+	const { data: buffer, contentType } = await limitOriginalSize(
+		Buffer.from(await file.arrayBuffer()),
+		file.type
+	);
 
-	await db
-		.insert(uploadedFiles)
-		.values({ path: relativePath, contentType: file.type, data: buffer });
+	await db.insert(uploadedFiles).values({ path: relativePath, contentType, data: buffer });
 	const url = `/uploads/${relativePath}`;
 	await db.insert(mediaLibraryItems).values({ url, filename: file.name || filename });
 

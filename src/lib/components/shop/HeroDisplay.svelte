@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import type { Snippet } from 'svelte';
 
 	// The home page hero's three editable photos, standing as plates on a wooden
@@ -14,7 +15,14 @@
 	<div class="row">
 		<div class="slot slot-1">
 			<span class="contact-shadow" aria-hidden="true"></span>
-			<div class="plate"><img src={images[0]} alt="" /></div>
+			<div class="plate">
+				<ResponsiveImg
+					src={images[0]}
+					sizes="(min-width: 1024px) 24vw, 42vw"
+					widths={[320, 480, 640, 960]}
+					eager={false}
+				/>
+			</div>
 		</div>
 
 		<div class="slot slot-2">
@@ -22,12 +30,26 @@
 				<span class="stand-stem"></span>
 				<span class="stand-foot"></span>
 			</div>
-			<div class="plate"><img src={images[1]} alt="" /></div>
+			<div class="plate">
+				<ResponsiveImg
+					src={images[1]}
+					sizes="(min-width: 1024px) 24vw, 42vw"
+					widths={[320, 480, 640, 960]}
+					eager={true}
+				/>
+			</div>
 		</div>
 
 		<div class="slot slot-3">
 			<span class="contact-shadow" aria-hidden="true"></span>
-			<div class="plate"><img src={images[2]} alt="" /></div>
+			<div class="plate">
+				<ResponsiveImg
+					src={images[2]}
+					sizes="(min-width: 1024px) 24vw, 42vw"
+					widths={[320, 480, 640, 960]}
+					eager={false}
+				/>
+			</div>
 		</div>
 	</div>
 

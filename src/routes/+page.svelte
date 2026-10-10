@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
@@ -271,9 +272,9 @@
 			class="group grid overflow-hidden rounded-[2rem] bg-pink-deep text-cream sm:grid-cols-[0.9fr_1.1fr]"
 		>
 			{#if data.promotion.heroImageUrl}
-				<img
+				<ResponsiveImg
 					src={data.promotion.heroImageUrl}
-					alt=""
+					sizes="(min-width: 640px) 45vw, 100vw"
 					class="aspect-[16/9] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] sm:aspect-auto sm:h-full"
 				/>
 			{/if}

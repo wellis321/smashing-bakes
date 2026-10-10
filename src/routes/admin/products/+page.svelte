@@ -105,6 +105,8 @@
 		{#if product.images[0]?.url}
 			<PhotoFrame
 				src={product.images[0].url}
+				sizes="64px"
+				widths={[160, 320]}
 				zoom={product.images[0].zoom ?? 100}
 				focal={product.images[0].focalPoint ?? 'center'}
 				class="h-12 w-12 shrink-0 rounded-lg"
