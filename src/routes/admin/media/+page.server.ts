@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { mediaLibraryItems } from '$lib/server/db/schema';
 import { saveUploadedImage, deleteUploadedImage } from '$lib/server/uploads';
+import { photoUsage } from '$lib/server/photo-usage';
 
 export const load: PageServerLoad = async () => {
 	const items = await db.query.mediaLibraryItems.findMany({
@@ -85,6 +86,13 @@ export const actions: Actions = {
 			where: eq(mediaLibraryItems.id, id)
 		});
 		if (item) {
+			// Never delete a photo that something on the site still shows.
+			const usedBy = await photoUsage(item.url);
+			if (usedBy.length > 0) {
+				return fail(400, {
+					message: `This photo is still used by ${usedBy.join(', ')}. Change that first, then you can delete it.`
+				});
+			}
 			await deleteUploadedImage(item.url);
 			await db.delete(mediaLibraryItems).where(eq(mediaLibraryItems.id, id));
 		}

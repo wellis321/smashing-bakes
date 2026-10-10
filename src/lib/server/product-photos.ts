@@ -1,18 +1,7 @@
 import { and, asc, desc, eq, ne, sql } from 'drizzle-orm';
 import { db } from '$lib/server/db';
-import {
-	bespokeCakeGalleryItems,
-	categories,
-	mediaLibraryItems,
-	newsletterHighlights,
-	newsletters,
-	posters,
-	productImages,
-	products,
-	promotions,
-	siteSettings,
-	uploadedFiles
-} from '$lib/server/db/schema';
+import { mediaLibraryItems, productImages, products, uploadedFiles } from '$lib/server/db/schema';
+import { photoUsage, repointPhoto } from '$lib/server/photo-usage';
 
 // Every product photo gets a file name and alt text taken from the product's
 // own name, so staff never have to type either:
@@ -32,24 +21,6 @@ const EXTENSIONS: Record<string, string> = {
 };
 
 const PREFIX = '/uploads/';
-
-// How many places (other than the media library list) still use this address.
-async function referenceCount(url: string): Promise<number> {
-	const counts = await Promise.all([
-		db.$count(categories, eq(categories.imageUrl, url)),
-		db.$count(productImages, eq(productImages.url, url)),
-		db.$count(promotions, eq(promotions.heroImageUrl, url)),
-		db.$count(newsletters, eq(newsletters.heroImageUrl, url)),
-		db.$count(newsletterHighlights, eq(newsletterHighlights.imageUrl, url)),
-		db.$count(bespokeCakeGalleryItems, eq(bespokeCakeGalleryItems.imageUrl, url)),
-		db.$count(posters, eq(posters.imageUrl, url)),
-		db.$count(
-			siteSettings,
-			sql`${siteSettings.heroImage1Url} = ${url} or ${siteSettings.heroImage2Url} = ${url} or ${siteSettings.heroImage3Url} = ${url} or ${siteSettings.bespokeCakesImageUrl} = ${url}`
-		)
-	]);
-	return counts.reduce((a, b) => a + b, 0);
-}
 
 async function pathIsFree(path: string): Promise<boolean> {
 	return (await db.$count(uploadedFiles, eq(uploadedFiles.path, path))) === 0;
@@ -137,8 +108,13 @@ export async function tidyProductPhotos(productId: number): Promise<number> {
 			.set({ url: newUrl, altText: alt })
 			.where(eq(productImages.id, image.id));
 
-		// Is the old file still used anywhere else? If not, move it; if so, keep it.
-		const stillUsed = await referenceCount(image.url);
+		// Everything else that used the old photo (poster, gallery, categories...)
+		// moves to the new name too, so nothing is left pointing at the old one.
+		await repointPhoto(image.url, newUrl);
+
+		// The old file is only removed once nothing at all still uses it.
+		// (Newsletters already sent keep it.)
+		const stillUsed = (await photoUsage(image.url)).length;
 		const libraryRows = await db.query.mediaLibraryItems.findMany({
 			where: eq(mediaLibraryItems.url, image.url)
 		});

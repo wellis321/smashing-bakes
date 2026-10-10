@@ -9,6 +9,7 @@ import { getAllActiveProductsWithCategory, getVisibleCategories } from '$lib/ser
 import { auditPage, auditSite } from '$lib/server/health/audit';
 import { getSalesReport } from '$lib/server/health/sales';
 import { publicBase } from '$lib/site';
+import { findBrokenPhotos } from '$lib/server/photo-usage';
 
 const KINDS = ['quick', 'lighthouse-mobile', 'lighthouse-desktop'] as const;
 type Kind = (typeof KINDS)[number];
@@ -157,6 +158,24 @@ export const actions: Actions = {
 				}
 			}
 			const site = await auditSite(base);
+			// Every photo the site points at should actually exist.
+			try {
+				const broken = await findBrokenPhotos();
+				site.checks.push({
+					id: 'photos',
+					area: 'practice',
+					label: 'Every photo on the site still exists',
+					pass: broken.length === 0,
+					detail: broken.length
+						? broken.map((b) => `${b.place}: ${b.url.split('/').pop()}`).join('; ')
+						: undefined
+				});
+				site.score = Math.round(
+					(site.checks.filter((c) => c.pass).length / site.checks.length) * 100
+				);
+			} catch (err) {
+				console.error('[health] photo check failed', err);
+			}
 			await db.insert(healthRuns).values({
 				runId,
 				kind: 'quick',
