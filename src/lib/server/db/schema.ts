@@ -373,6 +373,23 @@ export const healthTasks = mysqlTable(
 	(table) => [uniqueIndex('health_tasks_task_key_unique').on(table.taskKey)]
 );
 
+// --- Visitor counts: anonymous daily totals only (no cookies, no IP addresses, no personal data) ---
+
+export const siteVisits = mysqlTable(
+	'site_visits',
+	{
+		id: int('id').autoincrement().primaryKey(),
+		day: date('day', { mode: 'string' }).notNull(),
+		// 'all' (whole site), 'page', 'source' (where visitors came from),
+		// 'device' (phone / computer) or 'step' (shop > product > cart > checkout > order).
+		kind: varchar('kind', { length: 10 }).notNull(),
+		name: varchar('name', { length: 200 }).notNull(),
+		views: int('views').notNull().default(0),
+		visitors: int('visitors').notNull().default(0)
+	},
+	(table) => [uniqueIndex('site_visits_day_kind_name_unique').on(table.day, table.kind, table.name)]
+);
+
 // --- Feedback from staff, sent from the button on every admin page ---
 
 export const FEEDBACK_STATUSES = ['new', 'working', 'resolved', 'parked'] as const;

@@ -2,7 +2,20 @@ import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { validateStaffSession } from '$lib/server/auth/staff-auth';
 import { isCanonicalHost, requestedHost } from '$lib/site';
 import { ensureHealthScheduler } from '$lib/server/health/scheduler';
+import { recordVisit } from '$lib/server/analytics';
 import { validateCustomerSession } from '$lib/server/auth/customer-auth';
+
+// The visitor's address as far as it can be known, used only to tell visitors apart
+// for the day (never stored).
+function forwardedIp(event: Parameters<Handle>[0]['event']): string {
+	const forwarded = (event.request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim();
+	if (forwarded) return forwarded;
+	try {
+		return event.getClientAddress();
+	} catch {
+		return '';
+	}
+}
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// Starts the once-a-day automatic site checks (only ever starts once).
@@ -27,6 +40,30 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.customer = customerSession?.user ?? null;
 
 	const response = await resolve(event);
+
+	// Anonymous visitor counting: real public page views only (not staff, bots,
+	// error pages or the free hostingersite.com address).
+	try {
+		const type = response.headers.get('content-type') ?? '';
+		if (
+			event.request.method === 'GET' &&
+			response.status === 200 &&
+			type.includes('text/html') &&
+			!event.locals.staff &&
+			(isCanonicalHost(host) || event.url.hostname === 'localhost')
+		) {
+			recordVisit({
+				path: event.url.pathname,
+				search: event.url.search,
+				ip: forwardedIp(event),
+				userAgent: event.request.headers.get('user-agent') ?? '',
+				referer: event.request.headers.get('referer'),
+				host
+			});
+		}
+	} catch {
+		/* never let counting affect a page */
+	}
 
 	// Browser-side protections that cost nothing: HTTPS only, no content-type
 	// guessing, no framing by other sites, and a tighter referrer.

@@ -6,6 +6,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { healthRuns, healthTasks } from '$lib/server/db/schema';
 import { getSalesReport } from '$lib/server/health/sales';
+import { getVisitorReport } from '$lib/server/analytics';
 import {
 	buildReport,
 	logReport,
@@ -142,6 +143,14 @@ export const load: PageServerLoad = async () => {
 		console.error('[health] sales report failed', err);
 	}
 
+	let visitors = null;
+	let visitorsMissing = false;
+	try {
+		visitors = await getVisitorReport();
+	} catch {
+		visitorsMissing = true;
+	}
+
 	let report = '';
 	try {
 		report = tableMissing ? '' : await buildReport();
@@ -153,6 +162,8 @@ export const load: PageServerLoad = async () => {
 		history,
 		latest,
 		sales,
+		visitors,
+		visitorsMissing,
 		tasks,
 		tasksMissing,
 		report,
