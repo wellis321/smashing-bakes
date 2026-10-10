@@ -2,7 +2,7 @@
 	// A one-off guide for getting the SumUp details the website needs to take card
 	// payments online. SumUp's screens change from time to time, so the wording
 	// here describes where things usually are.
-	const TOTAL = 6;
+	const TOTAL = 8;
 	let done = $state<Record<string, boolean>>({});
 	const doneCount = $derived(Object.values(done).filter(Boolean).length);
 
@@ -82,8 +82,8 @@
 		<ul class="mt-2 list-disc space-y-1 pl-5">
 			<li>Anyone with the key can act on the SumUp account, so treat it like a bank password.</li>
 			<li>
-				Don&rsquo;t send it by email, text or chat. Hand it over in person, or share it from a
-				password manager.
+				Don&rsquo;t send it by email, text or chat. Hand it over in person, or use the Bitwarden
+				Send steps in Part 3.
 			</li>
 			<li>
 				If it ever gets shared by mistake, delete it in SumUp (same screen as step 2) and make a new
@@ -151,22 +151,52 @@
 		</li>
 	</ol>
 
-	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Pass the API key on safely</h2>
+	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send the API key safely</h2>
+	<p class="mt-2 text-base text-ink-soft">
+		Easiest if William is with you: just tell him or show him. If he isn&rsquo;t, use a free
+		<strong>Bitwarden Send</strong>. It makes a private link that works once and then deletes
+		itself. Nobody needs an account to open it.
+	</p>
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
 			{@render tick('pass-1', 5)}
-			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Save the <strong>API key</strong> somewhere safe, such as a
-				<strong>password manager</strong>. Don&rsquo;t leave it in an email or a note on the
-				desktop.
-			</p>
+			<div class="min-w-0 flex-1">
+				<p class="pt-1 text-lg leading-relaxed text-ink">
+					Go to <strong>vault.bitwarden.com</strong> and sign in. If you don&rsquo;t have an
+					account, press <strong>Create account</strong> (the free one is fine).
+				</p>
+			</div>
 		</li>
 		<li class="flex gap-4">
 			{@render tick('pass-2', 6)}
+			<div class="min-w-0 flex-1">
+				<p class="pt-1 text-lg leading-relaxed text-ink">
+					Open <strong>Send</strong> in the menu and press <strong>New Send</strong>. Choose the
+					type <strong>Text</strong>, give it a name such as &ldquo;SumUp key&rdquo;, and paste the
+					API key into the text box.
+				</p>
+			</div>
+		</li>
+		<li class="flex gap-4">
+			{@render tick('pass-3', 7)}
+			<div class="min-w-0 flex-1">
+				<p class="pt-1 text-lg leading-relaxed text-ink">Open <strong>Options</strong> and set:</p>
+				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
+					<li><strong>Deletion date:</strong> tomorrow</li>
+					<li><strong>Maximum access count:</strong> 1</li>
+					<li><strong>Password:</strong> make one up (you&rsquo;ll tell William in step 8)</li>
+				</ul>
+				<p class="mt-2 text-lg leading-relaxed text-ink">
+					Press <strong>Save</strong>, then <strong>Copy Send link</strong> and send that link to William
+					by email or text.
+				</p>
+			</div>
+		</li>
+		<li class="flex gap-4">
+			{@render tick('pass-4', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Give the <strong>API key</strong> to William in person, or share it from the password manager.
-				He will add it to the website&rsquo;s hosting settings &mdash; the API key is never typed into
-				the website itself.
+				<strong>Phone William</strong> and tell him the Send password. Don&rsquo;t put the password in
+				the same message as the link. That way, anyone who finds the link can&rsquo;t open it.
 			</p>
 		</li>
 	</ol>
