@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import ShelfItem from './ShelfItem.svelte';
 	import type { ProductCardData } from '$lib/types';
 
@@ -10,43 +11,72 @@
 		labelId = 'shelf',
 		alt = false,
 		showCount = true,
-		products,
-		fallbackSrc = null
+		dense = false,
+		products = [],
+		fallbackSrc = null,
+		help,
+		children
 	}: {
 		label?: string | null;
 		labelId?: string;
 		alt?: boolean;
 		showCount?: boolean;
-		products: ProductCardData[];
+		// Up to six plates across on wide screens (for short rows like categories).
+		dense?: boolean;
+		products?: ProductCardData[];
 		fallbackSrc?: string | null;
+		help?: Snippet;
+		// Custom plates (e.g. categories) instead of products.
+		children?: Snippet;
 	} = $props();
 </script>
 
 <section class="shelf-block" aria-labelledby={label ? labelId : undefined}>
 	{#if label}
-		<div class="chalk" class:chalk-alt={alt}>
-			<h2 id={labelId}>{label}</h2>
-			{#if showCount}
-				<span>{products.length} {products.length === 1 ? 'bake' : 'bakes'}</span>
-			{/if}
+		<div class="chalk-row">
+			<div class="chalk" class:chalk-alt={alt}>
+				<h2 id={labelId}>{label}</h2>
+				{#if showCount && !children}
+					<span>{products.length} {products.length === 1 ? 'bake' : 'bakes'}</span>
+				{/if}
+			</div>
+			{@render help?.()}
 		</div>
 	{/if}
 
-	<div class="shelf-grid">
-		{#each products as product, i (product.slug)}
-			<ShelfItem {product} index={i} {fallbackSrc} />
-		{/each}
+	<div class="shelf-grid" class:dense>
+		{#if children}
+			{@render children()}
+		{:else}
+			{#each products as product, i (product.slug)}
+				<ShelfItem {product} index={i} {fallbackSrc} />
+			{/each}
+		{/if}
 	</div>
 </section>
 
 <style>
 	/* ---- Shelves ---- */
 	.shelf-block {
+		--gap: 1rem;
 		margin-top: 2.75rem;
+	}
+
+	.shelf-block:first-child {
+		margin-top: 0;
+	}
+
+	.chalk-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.9rem;
+		margin-bottom: 2.4rem;
 	}
 
 	@media (min-width: 640px) {
 		.shelf-block {
+			--gap: 1.5rem;
 			margin-top: 3.75rem;
 		}
 	}
@@ -55,7 +85,6 @@
 		display: inline-flex;
 		align-items: baseline;
 		gap: 0.85rem;
-		margin-bottom: 2.4rem;
 		padding: 0.6rem 1.3rem 0.65rem;
 		border-radius: 0.5rem;
 		border: 4px solid oklch(54% 0.08 60);
@@ -93,8 +122,8 @@
 		column-gap: var(--gap);
 		row-gap: 2.75rem;
 		/* Boards (ledges) may run out to the edge of the glass, no further. */
-		margin-inline: calc(var(--glass-pad) * -1);
-		padding-inline: var(--glass-pad);
+		margin-inline: calc(var(--glass-pad, 0px) * -1);
+		padding-inline: var(--glass-pad, 0px);
 		overflow-x: clip;
 	}
 
@@ -108,6 +137,9 @@
 		.shelf-grid {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
+		.shelf-grid.dense {
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+		}
 	}
 
 	/* Make each row's board reach the glass edge on both sides: the first and last
@@ -119,28 +151,36 @@
 
 	@media (max-width: 639px) {
 		.shelf-grid :global(.shelf-tile:nth-child(2n + 1) .ledge) {
-			margin-left: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 		.shelf-grid :global(.shelf-tile:nth-child(2n) .ledge) {
-			margin-right: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 	}
 
 	@media (min-width: 640px) and (max-width: 1023px) {
 		.shelf-grid :global(.shelf-tile:nth-child(3n + 1) .ledge) {
-			margin-left: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 		.shelf-grid :global(.shelf-tile:nth-child(3n) .ledge) {
-			margin-right: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 	}
 
 	@media (min-width: 1024px) {
-		.shelf-grid :global(.shelf-tile:nth-child(4n + 1) .ledge) {
-			margin-left: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+		.shelf-grid:not(.dense) :global(.shelf-tile:nth-child(4n + 1) .ledge) {
+			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
-		.shelf-grid :global(.shelf-tile:nth-child(4n) .ledge) {
-			margin-right: calc((var(--glass-pad) + var(--gap) / 2) * -1);
+		.shelf-grid:not(.dense) :global(.shelf-tile:nth-child(4n) .ledge) {
+			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
+		}
+	}
+	@media (min-width: 1024px) {
+		.shelf-grid.dense :global(.shelf-tile:nth-child(6n + 1) .ledge) {
+			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
+		}
+		.shelf-grid.dense :global(.shelf-tile:nth-child(6n) .ledge) {
+			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 	}
 </style>

@@ -4,26 +4,38 @@
 
 	// The shopfront every shop page sits inside: awning, hanging OPEN sign,
 	// window frame and glass, and the sill. Pages put their content in the glass.
-	let { openingHours, children }: { openingHours: string[]; children: Snippet } = $props();
+	// `awning={false}` gives just the framed glass display case (used lower down the
+	// home page), without the awning and hanging sign.
+	let {
+		openingHours,
+		awning = true,
+		id,
+		children
+	}: { openingHours: string[]; awning?: boolean; id?: string; children: Snippet } = $props();
 </script>
 
-<section class="mx-auto max-w-6xl px-5 pt-10 pb-16 sm:px-8 sm:pt-14">
+<section
+	{id}
+	class={`mx-auto max-w-6xl scroll-mt-24 px-5 sm:px-8 ${awning ? 'pt-10 pb-16 sm:pt-14' : 'py-10 sm:py-14'}`}
+>
 	<div class="scene">
-		<div class="awning-wrap">
-			<ShopAwning />
-		</div>
+		{#if awning}
+			<div class="awning-wrap">
+				<ShopAwning />
+			</div>
 
-		<!-- Hanging sign: big screens only, where there's room beside the title board -->
-		<div class="open-sign" aria-hidden="true">
-			<span class="open-string open-string-l"></span>
-			<span class="open-string open-string-r"></span>
-			<p class="open-word">Open</p>
-			{#each openingHours as line (line)}
-				<p class="open-line">{line}</p>
-			{/each}
-		</div>
+			<!-- Hanging sign: big screens only, where there's room beside the title board -->
+			<div class="open-sign" aria-hidden="true">
+				<span class="open-string open-string-l"></span>
+				<span class="open-string open-string-r"></span>
+				<p class="open-word">Open</p>
+				{#each openingHours as line (line)}
+					<p class="open-line">{line}</p>
+				{/each}
+			</div>
+		{/if}
 
-		<div class="window">
+		<div class="window" class:no-awning={!awning}>
 			<div class="glass">
 				<div class="relative z-[1]">
 					{@render children()}
@@ -51,6 +63,16 @@
 		padding: clamp(0.55rem, 1.6vw, 0.9rem);
 		background: linear-gradient(180deg, oklch(30% 0.04 50), var(--color-ink));
 		box-shadow: inset 0 0 0 1px oklch(40% 0.04 52);
+	}
+
+	.window.no-awning {
+		margin-top: 0;
+		border-radius: 1.1rem 1.1rem 0 0;
+	}
+
+	.window.no-awning .glass {
+		padding-top: 2.25rem;
+		border-radius: 0.7rem 0.7rem 0 0;
 	}
 
 	.glass {

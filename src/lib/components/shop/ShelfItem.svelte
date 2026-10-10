@@ -2,11 +2,21 @@
 	import { formatPence } from '$lib/utils/money';
 	import type { ProductCardData } from '$lib/types';
 
+	// `plain` drops the price tag and stickers and links to `href` instead, so the
+	// same plate-on-a-shelf look can show categories as well as bakes.
 	let {
 		product,
 		index = 0,
-		fallbackSrc = null
-	}: { product: ProductCardData; index?: number; fallbackSrc?: string | null } = $props();
+		fallbackSrc = null,
+		plain = false,
+		href = undefined
+	}: {
+		product: ProductCardData;
+		index?: number;
+		fallbackSrc?: string | null;
+		plain?: boolean;
+		href?: string;
+	} = $props();
 
 	const image = $derived(product.images[0]);
 	// No photo yet: show the category's own picture rather than an empty plate.
@@ -21,13 +31,17 @@
 	so neighbouring ledges join up into one long board.
 -->
 <a
-	href={`/product/${product.slug}`}
+	href={href ?? `/product/${product.slug}`}
 	class="shelf-tile group"
 	style:--i={index}
-	aria-label={`${product.name}, ${formatPence(price)}${onSale ? ' (on sale)' : ''}`}
+	aria-label={plain
+		? product.name
+		: `${product.name}, ${formatPence(price)}${onSale ? ' (on sale)' : ''}`}
 >
 	<div class="plate-wrap">
-		{#if product.badge === 'new'}
+		{#if plain}
+			<!-- no stickers on a category plate -->
+		{:else if product.badge === 'new'}
 			<span class="sticker sticker-new" aria-hidden="true">New</span>
 		{:else if onSale}
 			<span class="sticker sticker-sale" aria-hidden="true">Sale</span>
@@ -46,12 +60,14 @@
 			{/if}
 		</div>
 
-		<span class="tag" class:tag-sale={onSale} aria-hidden="true">
-			<span class="tag-price">{formatPence(price)}</span>
-			{#if onSale}
-				<span class="tag-was">{formatPence(product.basePricePence)}</span>
-			{/if}
-		</span>
+		{#if !plain}
+			<span class="tag" class:tag-sale={onSale} aria-hidden="true">
+				<span class="tag-price">{formatPence(price)}</span>
+				{#if onSale}
+					<span class="tag-was">{formatPence(product.basePricePence)}</span>
+				{/if}
+			</span>
+		{/if}
 	</div>
 
 	<span class="ledge" aria-hidden="true"></span>

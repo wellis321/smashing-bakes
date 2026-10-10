@@ -1,12 +1,34 @@
 <script lang="ts">
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
-	import ProductCard from '$lib/components/ProductCard.svelte';
 	import PosterBanner from '$lib/components/PosterBanner.svelte';
 	import NewsletterSignup from '$lib/components/NewsletterSignup.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import HeroDisplay from '$lib/components/shop/HeroDisplay.svelte';
+	import Shelf from '$lib/components/shop/Shelf.svelte';
+	import ShelfItem from '$lib/components/shop/ShelfItem.svelte';
+	import type { ProductCardData } from '$lib/types';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	// A category shown as a plate on a shelf reuses the product plate, minus the
+	// price tag and stickers.
+	function categoryPlate(category: {
+		slug: string;
+		name: string;
+		imageUrl: string | null;
+	}): ProductCardData {
+		return {
+			slug: category.slug,
+			name: category.name,
+			description: null,
+			basePricePence: 0,
+			salePricePence: null,
+			badge: 'none',
+			images: category.imageUrl ? [{ url: category.imageUrl, altText: null }] : []
+		};
+	}
 </script>
 
 <SeoHead
@@ -14,9 +36,9 @@
 	description="Independent bakery in Barrhead. Pre-order cupcakes, brownies, cookies, pies and cakes for weekend pickup."
 />
 
-<!-- Hero -->
-<section class="mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-8 sm:pt-16 lg:pt-20">
-	<div class="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+<!-- Hero: the shopfront -->
+<ShopWindow openingHours={data.openingHours}>
+	<div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
 		<div class="max-w-xl">
 			<p
 				class="hero-in text-sm font-semibold tracking-widest text-pink-deep uppercase"
@@ -53,9 +75,9 @@
 			</div>
 		</div>
 
-		<div class="relative mx-auto aspect-square w-full max-w-md lg:max-w-none">
-			{#if data.staff}
-				<div class="absolute top-0 right-0 z-10">
+		<HeroDisplay images={data.heroImages}>
+			{#snippet help()}
+				{#if data.staff}
 					<HelpLink
 						section="settings"
 						title="Staff only: how to change these three photos"
@@ -63,26 +85,11 @@
 						label="Staff help"
 						staff
 					/>
-				</div>
-			{/if}
-			<img
-				src={data.heroImages[0]}
-				alt=""
-				class="hero-card-1 absolute top-[6%] left-[8%] aspect-square w-[58%] rounded-[2rem] object-cover shadow-soft"
-			/>
-			<img
-				src={data.heroImages[1]}
-				alt=""
-				class="hero-card-2 absolute top-[2%] right-[4%] aspect-square w-[46%] rounded-[2rem] object-cover shadow-soft"
-			/>
-			<img
-				src={data.heroImages[2]}
-				alt=""
-				class="hero-card-3 absolute bottom-[4%] left-[18%] aspect-square w-[50%] rounded-[2rem] object-cover shadow-soft"
-			/>
-		</div>
+				{/if}
+			{/snippet}
+		</HeroDisplay>
 	</div>
-</section>
+</ShopWindow>
 
 {#if data.poster}
 	<div class="relative">
@@ -190,13 +197,16 @@
 	</div>
 </section>
 
-<!-- This week's bakes -->
-<section id="this-weeks-bakes" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8">
-	<div class="flex items-end justify-between gap-4">
-		<div>
-			<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Fresh this week</p>
-			<div class="mt-2 flex items-center gap-2">
-				<h2 class="font-display text-3xl text-ink sm:text-4xl">This week&rsquo;s bakes</h2>
+<!-- This week's bakes: the display case -->
+{#if data.featured.length > 0}
+	<ShopWindow openingHours={data.openingHours} awning={false} id="this-weeks-bakes">
+		<Shelf
+			label="This week’s bakes"
+			labelId="this-weeks-bakes-title"
+			showCount={false}
+			products={data.featured}
+		>
+			{#snippet help()}
 				{#if data.staff}
 					<HelpLink
 						section="products"
@@ -206,19 +216,36 @@
 						staff
 					/>
 				{/if}
+			{/snippet}
+		</Shelf>
+		<div class="mt-12 flex justify-center">
+			<a
+				href="/shop"
+				class="inline-flex rounded-full bg-ink px-7 py-3 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+			>
+				Shop all bakes &rarr;
+			</a>
+		</div>
+	</ShopWindow>
+{:else if data.staff}
+	<section id="this-weeks-bakes" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-10 sm:px-8">
+		<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
+			<p class="text-sm text-ink-soft">
+				Staff only: no bakes are marked as This week&rsquo;s bake yet, so this section is hidden
+				from visitors.
+			</p>
+			<div class="mt-3 flex justify-center">
+				<HelpLink
+					section="products"
+					title="Staff only: how to choose which bakes appear here"
+					task="this-weeks-bakes"
+					label="Staff help"
+					staff
+				/>
 			</div>
 		</div>
-		<a href="/shop" class="hidden text-sm font-semibold text-ink-soft hover:text-ink sm:block"
-			>Shop all &rarr;</a
-		>
-	</div>
-
-	<div class="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3">
-		{#each data.featured as product (product.id)}
-			<ProductCard {product} />
-		{/each}
-	</div>
-</section>
+	</section>
+{/if}
 
 {#if data.promotion}
 	<!-- Current promotion -->
@@ -278,37 +305,30 @@
 	</section>
 {/if}
 
-<!-- Category strip -->
-<section class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-	<div class="flex flex-wrap items-center gap-3">
-		<h2 class="font-display text-3xl text-ink sm:text-4xl">Browse by bake</h2>
-		{#if data.staff}
-			<HelpLink
-				section="categories"
-				title="Staff only: how to change these category tiles"
-				task="category-photos"
-				label="Staff help"
-				staff
-			/>
-		{/if}
-	</div>
-	<div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-		{#each data.categories as category (category.id)}
-			<a href={`/shop/${category.slug}`} class="group relative block overflow-hidden rounded-2xl">
-				<img
-					src={category.imageUrl ?? `/images/placeholder/${category.slug}.svg`}
-					alt=""
-					class="aspect-[4/5] w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+<!-- Browse by bake: category plates along the wall -->
+<section class="mx-auto max-w-6xl px-5 pt-14 pb-16 sm:px-8">
+	<Shelf label="Browse by bake" labelId="browse-by-bake" dense>
+		{#snippet help()}
+			{#if data.staff}
+				<HelpLink
+					section="categories"
+					title="Staff only: how to change these category tiles"
+					task="category-photos"
+					label="Staff help"
+					staff
 				/>
-				<div
-					class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"
-				></div>
-				<span class="absolute bottom-3 left-3 text-sm font-semibold text-cream"
-					>{category.name}</span
-				>
-			</a>
+			{/if}
+		{/snippet}
+		{#each data.categories as category, i (category.id)}
+			<ShelfItem
+				product={categoryPlate(category)}
+				index={i}
+				plain
+				href={`/shop/${category.slug}`}
+				fallbackSrc={`/images/placeholder/${category.slug}.svg`}
+			/>
 		{/each}
-	</div>
+	</Shelf>
 </section>
 
 <!-- Community strip -->
@@ -377,32 +397,10 @@
 </section>
 
 <style>
-	/* Resting transforms (always applied, independent of the entrance animation below —
-	   this is what reduced-motion users and no-JS requests see immediately). */
-	.hero-card-1 {
-		transform: rotate(-6deg);
-	}
-	.hero-card-2 {
-		transform: rotate(7deg);
-	}
-	.hero-card-3 {
-		transform: rotate(4deg);
-	}
-
 	@media (prefers-reduced-motion: no-preference) {
 		.hero-in {
 			animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 			animation-delay: var(--hero-delay, 0ms);
-		}
-
-		.hero-card-1 {
-			animation: hero-card-in-1 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
-		}
-		.hero-card-2 {
-			animation: hero-card-in-2 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
-		}
-		.hero-card-3 {
-			animation: hero-card-in-3 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 		}
 	}
 
@@ -414,37 +412,6 @@
 		to {
 			opacity: 1;
 			transform: translateY(0);
-		}
-	}
-
-	@keyframes hero-card-in-1 {
-		from {
-			opacity: 0;
-			transform: translate(-8%, -10%) rotate(-18deg) scale(0.88);
-		}
-		to {
-			opacity: 1;
-			transform: rotate(-6deg);
-		}
-	}
-	@keyframes hero-card-in-2 {
-		from {
-			opacity: 0;
-			transform: translate(9%, -9%) rotate(20deg) scale(0.88);
-		}
-		to {
-			opacity: 1;
-			transform: rotate(7deg);
-		}
-	}
-	@keyframes hero-card-in-3 {
-		from {
-			opacity: 0;
-			transform: translate(-6%, 10%) rotate(-8deg) scale(0.88);
-		}
-		to {
-			opacity: 1;
-			transform: rotate(4deg);
 		}
 	}
 </style>
