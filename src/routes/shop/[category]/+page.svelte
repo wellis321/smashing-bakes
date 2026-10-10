@@ -42,7 +42,6 @@
 	{:else}
 		<Shelf
 			products={data.products}
-			fit={data.products.length <= 3 ? data.products.length : 0}
 			fallbackSrc={data.category.imageUrl ?? `/images/placeholder/${data.category.slug}.svg`}
 		/>
 	{/if}

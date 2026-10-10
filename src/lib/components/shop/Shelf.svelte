@@ -39,11 +39,34 @@
 		children?: Snippet;
 	} = $props();
 
+	// How many plates are being laid out (0 = unknown, e.g. custom children).
+	const count = $derived(fit > 0 ? fit : children ? 0 : products.length);
+
+	// Up to `max` plates share a row. Beyond that, pick the row length (in order of
+	// preference) whose last row is fullest, so 6 become 3 + 3 rather than 4 + 2.
+	function balanced(n: number, max: number, prefer: number[]) {
+		if (n <= max) return n;
+		let best = prefer[0];
+		let bestFill = 0;
+		for (const cols of prefer) {
+			const fill = (n % cols === 0 ? cols : n % cols) / cols;
+			if (fill > bestFill) {
+				best = cols;
+				bestFill = fill;
+			}
+		}
+		return best;
+	}
+
 	const lgCols = $derived(
-		fit > 0 ? (fit <= maxAcross ? fit : fit % 3 === 0 ? 3 : 4) : dense ? 6 : 4
+		count > 0
+			? balanced(count, maxAcross, maxAcross >= 6 ? [4, 3, 5, 6] : [4, 3, 5])
+			: dense
+				? 6
+				: 4
 	);
-	const mdCols = $derived(fit > 0 ? Math.min(fit, 3) : 3);
-	const smCols = $derived(fit > 0 ? Math.min(fit, 2) : 2);
+	const mdCols = $derived(count > 0 ? Math.min(count, 3) : 3);
+	const smCols = $derived(count > 0 ? Math.min(count, 2) : 2);
 </script>
 
 <section
