@@ -129,7 +129,7 @@
 					{/if}
 				</p>
 
-				<p class="mt-2 text-center text-xs text-ink-soft/70">
+				<p class="mt-2 text-center text-xs text-ink-soft">
 					Tap the highlighted business again to let it scroll on.
 				</p>
 
@@ -144,7 +144,7 @@
 								onclick={() => (selectedId = selectedId === business.id ? null : business.id)}
 								class={`shrink-0 rounded-full border px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors ${
 									selectedId === business.id
-										? 'border-pink bg-pink text-cream'
+										? 'border-pink bg-pink-deep text-cream'
 										: 'border-ink/10 bg-white text-ink hover:border-pink/40'
 								}`}
 							>
@@ -269,7 +269,7 @@
 							<div class="mt-4 flex flex-wrap gap-3">
 								<a
 									href={loginHref}
-									class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+									class="rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 								>
 									Log in
 								</a>
@@ -298,7 +298,7 @@
 								<button
 									type="submit"
 									disabled={submitting}
-									class="w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+									class="w-full rounded-full bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 								>
 									{submitting ? 'Choosing…' : `Choose ${selectedBusiness.name}`}
 								</button>
@@ -505,7 +505,7 @@
 				href={promo.ctaUrl}
 				target="_blank"
 				rel="noreferrer"
-				class="inline-flex rounded-full bg-pink px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+				class="inline-flex rounded-full bg-pink-deep px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 			>
 				{promo.ctaLabel}
 			</a>

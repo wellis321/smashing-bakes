@@ -25,7 +25,7 @@
 		{/if}
 		<g font-family="var(--font-brand)" font-size="58" text-anchor="start">
 			{#each depth as d (d)}
-				<text x={2 + d} y={64 + d} fill={colors.shadow}>SMASHIN BAKES</text>
+				<text aria-hidden="true" x={2 + d} y={64 + d} fill={colors.shadow}>SMASHIN BAKES</text>
 			{/each}
 			<text x="2" y="64" fill={colors.front}>SMASHIN BAKES</text>
 		</g>
@@ -37,7 +37,7 @@
 		{/if}
 		<g font-family="var(--font-brand)" text-anchor="middle">
 			{#each depth as d (d)}
-				<text x={180 + d} y={82 + d} font-size="52" fill={colors.shadow}>SMASHIN</text>
+				<text aria-hidden="true" x={180 + d} y={82 + d} font-size="52" fill={colors.shadow}>SMASHIN</text>
 				<text x={180 + d} y={168 + d} font-size="76" fill={colors.shadow}>BAKES</text>
 			{/each}
 			<text x="180" y="82" font-size="52" fill={colors.front}>SMASHIN</text>

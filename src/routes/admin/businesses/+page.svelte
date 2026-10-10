@@ -73,7 +73,7 @@
 				<button
 					type="submit"
 					disabled={bulkAdding}
-					class="mt-3 rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+					class="mt-3 rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 				>
 					{bulkAdding ? 'Adding…' : 'Add businesses'}
 				</button>

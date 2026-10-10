@@ -63,7 +63,7 @@
 						href={directionsUrl}
 						target="_blank"
 						rel="noreferrer"
-						class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+						class="rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 					>
 						Get directions
 					</a>

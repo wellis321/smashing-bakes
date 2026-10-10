@@ -37,7 +37,7 @@
 		/>
 		<a
 			href="/admin/posters/new"
-			class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+			class="rounded-full bg-pink-deep px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 		>
 			+ New poster
 		</a>

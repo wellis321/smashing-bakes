@@ -12,7 +12,7 @@
 
 <div class="flex justify-center bg-cream px-5 pt-10 pb-20 sm:pt-14">
 	<div class="w-full max-w-sm">
-		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
+		<a href="/" class="mx-auto block w-32">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
 		<p class="mt-5 text-center text-xs font-semibold tracking-[0.2em] text-pink-deep uppercase">
@@ -58,7 +58,7 @@
 						required
 						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
-					<p class="mt-1 text-xs text-ink-soft/70">
+					<p class="mt-1 text-xs text-ink-soft">
 						At least 10 characters. A few unrelated words together works well.
 					</p>
 				</div>
@@ -66,7 +66,7 @@
 				<button
 					type="submit"
 					disabled={submitting}
-					class="w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+					class="w-full rounded-full bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 				>
 					{submitting ? 'Saving…' : 'Reset password'}
 				</button>

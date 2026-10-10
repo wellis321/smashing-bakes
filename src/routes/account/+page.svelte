@@ -27,7 +27,7 @@
 	<div class="mt-8 flex flex-wrap items-center gap-4">
 		<a
 			href="/vote"
-			class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors"
+			class="bg-pink-deep hover:bg-pink-darker rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors"
 		>
 			Vote in this week&rsquo;s poll
 		</a>

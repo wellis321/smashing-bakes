@@ -134,7 +134,7 @@
 			type="submit"
 			disabled={submitting}
 			onclick={() => (closeAfterSave = false)}
-			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+			class="rounded-full bg-pink-deep px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
 		</button>
@@ -174,7 +174,7 @@
 					</div>
 					<div class="mt-1 h-2 overflow-hidden rounded-full bg-ink/5">
 						<div
-							class="h-full rounded-full bg-pink"
+							class="h-full rounded-full bg-pink-deep"
 							style:width={`${(result.count / maxCount) * 100}%`}
 						></div>
 					</div>

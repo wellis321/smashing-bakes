@@ -134,7 +134,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+				class="w-full rounded-full bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 			>
 				{submitting ? 'Sending…' : 'Send enquiry'}
 			</button>

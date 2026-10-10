@@ -119,7 +119,7 @@
 						item.id
 					]
 						? 'border-green-600 bg-green-600 text-white'
-						: 'border-pink bg-pink text-cream hover:bg-pink-deep'}"
+						: 'border-pink bg-pink-deep text-cream hover:bg-pink-darker'}"
 				>
 					{#if done[item.id]}
 						<svg

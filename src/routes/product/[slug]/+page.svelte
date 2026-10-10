@@ -10,6 +10,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import FulfilmentBenefits from '$lib/components/FulfilmentBenefits.svelte';
 	import { safeJsonLd } from '$lib/utils/json-ld';
+	import { SITE_URL } from '$lib/site';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -78,9 +79,15 @@
 			'@type': 'Product',
 			name: product.name,
 			description: product.description ?? undefined,
-			image: image ? [image.url] : undefined,
+			url: `${SITE_URL}/product/${product.slug}`,
+			image: image ? [`${SITE_URL}${image.url}`] : undefined,
+			sku: product.slug,
+			category: product.category.name,
+			brand: { '@type': 'Brand', name: "Smashin' Bakes" },
 			offers: {
 				'@type': 'Offer',
+				url: `${SITE_URL}/product/${product.slug}`,
+				seller: { '@id': `${SITE_URL}/#bakery` },
 				priceCurrency: 'GBP',
 				price: ((onSale ? product.salePricePence! : product.basePricePence) / 100).toFixed(2),
 				availability: product.isActive
@@ -96,6 +103,12 @@
 	description={product.description ?? `${product.name}, baked fresh in Barrhead by Smashin' Bakes.`}
 	image={image?.url}
 	type="product"
+	breadcrumbs={[
+		{ name: 'Home', path: '/' },
+		{ name: 'Shop', path: '/shop' },
+		{ name: product.category.name, path: `/shop/${product.category.slug}` },
+		{ name: product.name, path: `/product/${product.slug}` }
+	]}
 />
 
 <svelte:head>
@@ -195,7 +208,7 @@
 					<span class="text-2xl font-semibold text-pink-deep"
 						>{formatPence(product.salePricePence!)}</span
 					>
-					<span class="text-lg text-ink-soft/60 line-through"
+					<span class="text-lg text-ink-soft line-through"
 						>{formatPence(product.basePricePence)}</span
 					>
 				{:else}
@@ -255,7 +268,7 @@
 						<button
 							type="button"
 							onclick={buyNow}
-							class="rounded-full bg-pink px-8 py-3.5 text-base font-semibold text-cream transition-colors hover:bg-pink-deep"
+							class="rounded-full bg-pink-deep px-8 py-3.5 text-base font-semibold text-cream transition-colors hover:bg-pink-darker"
 						>
 							Buy now &mdash; {formatPence(unitPricePence * quantity)}
 						</button>

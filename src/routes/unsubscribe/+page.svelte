@@ -50,7 +50,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="bg-pink-deep hover:bg-pink-darker rounded-full px-6 py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
 			>
 				{submitting ? 'Unsubscribing…' : 'Yes, unsubscribe me'}
 			</button>

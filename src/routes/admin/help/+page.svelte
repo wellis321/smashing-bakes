@@ -58,6 +58,13 @@
 			keywords: 'domain dns godaddy hostinger wix website address smashinbakes.com'
 		},
 		{
+			title: 'Get the bakery found online',
+			summary: 'Google, Bing, maps and AI assistants: what to submit and where',
+			href: '/admin/help/get-found-online',
+			keywords:
+				'seo google search console bing business profile maps apple ai chatgpt llms sitemap found rank reviews directory'
+		},
+		{
 			title: 'Connect the Facebook Page for posting',
 			summary: 'Give me access to post your menus and updates, without sharing your password',
 			href: '/admin/help/facebook-setup',

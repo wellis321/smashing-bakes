@@ -34,8 +34,8 @@
 
 	const softTextClasses: Record<Poster['style'], string> = {
 		announcement: 'text-ink/75',
-		general: 'text-cream/75',
-		'sold-out': 'text-cream/75',
+		general: 'text-cream/90',
+		'sold-out': 'text-cream/90',
 		celebration: 'text-ink/75'
 	};
 
@@ -79,7 +79,7 @@
 		>
 			{#if poster.style === 'sold-out'}
 				<div
-					class="bg-pink text-cream absolute -left-14 top-6 z-20 w-52 -rotate-45 py-1.5 text-center text-xs font-bold tracking-[0.2em] uppercase shadow-lg"
+					class="bg-pink-deep text-cream absolute -left-14 top-6 z-20 w-52 -rotate-45 py-1.5 text-center text-xs font-bold tracking-[0.2em] uppercase shadow-lg"
 				>
 					Sold out
 				</div>

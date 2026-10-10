@@ -35,7 +35,7 @@
 				<button
 					type="button"
 					onclick={() => (open = false)}
-					class="mt-4 rounded-full bg-pink px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-deep"
+					class="mt-4 rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-darker"
 				>
 					Close
 				</button>
@@ -82,7 +82,7 @@
 						<button
 							type="submit"
 							disabled={sending || !message.trim()}
-							class="rounded-full bg-pink px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-deep disabled:opacity-60"
+							class="rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-darker disabled:opacity-60"
 						>
 							{sending ? 'Sending…' : 'Send'}
 						</button>
@@ -103,7 +103,7 @@
 		type="button"
 		onclick={toggle}
 		aria-expanded={open}
-		class="rounded-full bg-pink px-5 py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+		class="rounded-full bg-pink-deep px-5 py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 	>
 		Feedback
 	</button>

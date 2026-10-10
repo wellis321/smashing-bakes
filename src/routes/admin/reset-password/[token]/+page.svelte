@@ -64,7 +64,7 @@
 				<button
 					type="submit"
 					disabled={submitting}
-					class="w-full rounded-lg bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+					class="w-full rounded-lg bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 				>
 					{submitting ? 'Saving…' : 'Reset password'}
 				</button>

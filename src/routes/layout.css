@@ -22,7 +22,8 @@
 	--color-blush: oklch(90% 0.045 8);
 	--color-blush-deep: oklch(80% 0.08 8);
 	--color-pink: oklch(72% 0.13 8);
-	--color-pink-deep: oklch(56% 0.15 8);
+	--color-pink-deep: oklch(50% 0.15 8);
+	--color-pink-darker: oklch(42% 0.14 8);
 	--color-gold: oklch(78% 0.12 72);
 	--color-gold-deep: oklch(62% 0.13 63);
 

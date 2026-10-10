@@ -6,7 +6,7 @@
 </script>
 
 <div class="card" style:--tilt={`${tilt}deg`}>
-	<h3>{title}</h3>
+	<h2>{title}</h2>
 	<div class="body">
 		{@render children()}
 	</div>
@@ -25,7 +25,7 @@
 		color: oklch(92% 0.02 80);
 	}
 
-	h3 {
+	h2 {
 		font-family: var(--font-brand);
 		font-weight: 400;
 		font-size: clamp(1.05rem, 2.6vw, 1.3rem);

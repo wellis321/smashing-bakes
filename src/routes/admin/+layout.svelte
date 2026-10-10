@@ -137,7 +137,7 @@
 						>
 							{entry.label}
 							{#if entry.href === '/admin/feedback' && data.openFeedbackCount > 0}
-								<span class="ml-1 rounded-full bg-pink px-1.5 py-0.5 text-xs font-bold text-cream">
+								<span class="ml-1 rounded-full bg-pink-deep px-1.5 py-0.5 text-xs font-bold text-cream">
 									{data.openFeedbackCount}
 								</span>
 							{/if}

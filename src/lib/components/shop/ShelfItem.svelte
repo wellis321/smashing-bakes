@@ -35,17 +35,14 @@
 	href={href ?? `/product/${product.slug}`}
 	class="shelf-tile group"
 	style:--i={index}
-	aria-label={plain
-		? product.name
-		: `${product.name}, ${formatPence(price)}${onSale ? ' (on sale)' : ''}`}
 >
 	<div class="plate-wrap">
 		{#if plain}
 			<!-- no stickers on a category plate -->
 		{:else if product.badge === 'new'}
-			<span class="sticker sticker-new" aria-hidden="true">New</span>
+			<span class="sticker sticker-new">New</span>
 		{:else if onSale}
-			<span class="sticker sticker-sale" aria-hidden="true">Sale</span>
+			<span class="sticker sticker-sale">Sale</span>
 		{/if}
 
 		<span class="contact-shadow" aria-hidden="true"></span>
@@ -53,7 +50,7 @@
 			{#if image}
 				<PhotoFrame
 					src={image.url}
-					alt={image.altText ?? product.name}
+					alt=""
 					zoom={image.zoom ?? 100}
 					focal={image.focalPoint ?? 'center'}
 					class="h-full w-full rounded-full"
@@ -70,7 +67,7 @@
 		</div>
 
 		{#if !plain}
-			<span class="tag" class:tag-sale={onSale} aria-hidden="true">
+			<span class="tag" class:tag-sale={onSale}>
 				<span class="tag-price">{formatPence(price)}</span>
 				{#if onSale}
 					<span class="tag-was">{formatPence(product.basePricePence)}</span>

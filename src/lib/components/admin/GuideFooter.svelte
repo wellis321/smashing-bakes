@@ -72,7 +72,7 @@
 			<button
 				type="submit"
 				disabled={sending}
-				class="mt-3 rounded-full bg-pink px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-deep disabled:opacity-60"
+				class="mt-3 rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream hover:bg-pink-darker disabled:opacity-60"
 			>
 				{sending ? 'Sending…' : 'Send'}
 			</button>

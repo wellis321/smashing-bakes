@@ -1,20 +1,14 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { validateStaffSession } from '$lib/server/auth/staff-auth';
+import { isCanonicalHost, requestedHost } from '$lib/site';
 import { validateCustomerSession } from '$lib/server/auth/customer-auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// One address for the site: send www.smashinbakes.com to smashinbakes.com so
 	// search engines don't see two copies. Hostinger's proxy may rename the host,
 	// so look at the forwarded header as well.
-	const requestedHost = (
-		event.request.headers.get('x-forwarded-host') ??
-		event.request.headers.get('host') ??
-		''
-	).toLowerCase();
-	if (
-		requestedHost.startsWith('www.smashinbakes.com') &&
-		['GET', 'HEAD'].includes(event.request.method)
-	) {
+	const host = requestedHost(event.request.headers);
+	if (host.startsWith('www.smashinbakes.com') && ['GET', 'HEAD'].includes(event.request.method)) {
 		return new Response(null, {
 			status: 301,
 			headers: { location: `https://smashinbakes.com${event.url.pathname}${event.url.search}` }
@@ -33,6 +27,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Browser-side protections that cost nothing: HTTPS only, no content-type
 	// guessing, no framing by other sites, and a tighter referrer.
 	try {
+		// The free hostingersite.com address must never compete with the real one.
+		if (!isCanonicalHost(host)) response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 		response.headers.set('Strict-Transport-Security', 'max-age=31536000');
 		response.headers.set('X-Content-Type-Options', 'nosniff');
 		response.headers.set('X-Frame-Options', 'SAMEORIGIN');

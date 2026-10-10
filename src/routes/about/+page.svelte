@@ -85,7 +85,7 @@
 	>
 		<div class="max-w-xl">
 			<h2 class="font-display text-3xl sm:text-4xl">Rooted in Barrhead</h2>
-			<p class="mt-4 leading-relaxed text-cream/85">
+			<p class="mt-4 leading-relaxed text-cream/90">
 				We love giving back to the community we bake for &mdash; from school fundraisers to local
 				events and the odd giveaway for businesses doing good work nearby. If you&rsquo;re local,
 				chances are we&rsquo;ve crossed paths already.
@@ -108,7 +108,7 @@
 	<div class="mt-8 flex flex-wrap items-center justify-center gap-4">
 		<a
 			href="/shop"
-			class="inline-flex rounded-full bg-pink px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+			class="inline-flex rounded-full bg-pink-deep px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 		>
 			Shop the menu
 		</a>

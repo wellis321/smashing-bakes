@@ -9,7 +9,7 @@
 </svelte:head>
 
 <section class="mx-auto max-w-lg px-5 py-24 text-center sm:py-32">
-	<p class="font-display text-7xl text-pink sm:text-8xl">{page.status}</p>
+	<p class="font-display text-7xl text-pink-deep sm:text-8xl">{page.status}</p>
 	<h1 class="mt-4 font-display text-3xl text-ink sm:text-4xl">
 		{isNotFound ? "We couldn't find that page" : 'Something went wrong'}
 	</h1>
@@ -22,7 +22,7 @@
 	<div class="mt-8 flex flex-wrap items-center justify-center gap-3">
 		<a
 			href="/"
-			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+			class="rounded-full bg-pink-deep px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 		>
 			Back to home
 		</a>

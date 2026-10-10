@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { customers } from '$lib/server/db/schema';
+import { publicBase } from '$lib/site';
 import { rateLimit } from '$lib/server/rate-limit';
 import { isEmailConfigured, sendTestEmail } from '$lib/server/email/resend';
 import { renderPasswordResetEmail } from '$lib/email/transactional-template';
@@ -43,7 +44,7 @@ export const actions: Actions = {
 				})
 				.where(eq(customers.id, customer.id));
 
-			const resetUrl = `${url.origin}/account/reset-password/${token}`;
+			const resetUrl = `${publicBase(url)}/account/reset-password/${token}`;
 			if (isEmailConfigured()) {
 				try {
 					await sendTestEmail(

@@ -158,7 +158,7 @@
 			type="submit"
 			disabled={submitting || lockedForOthers}
 			onclick={() => (closeAfterSave = false)}
-			class="rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+			class="rounded-full bg-pink-deep px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 		>
 			{submitting ? 'Saving…' : 'Save changes'}
 		</button>
@@ -198,7 +198,7 @@
 					<button
 						type="button"
 						onclick={copyPassword}
-						class="shrink-0 rounded-full bg-pink px-3 py-2 text-xs font-semibold text-cream transition-colors hover:bg-pink-deep"
+						class="shrink-0 rounded-full bg-pink-deep px-3 py-2 text-xs font-semibold text-cream transition-colors hover:bg-pink-darker"
 					>
 						{copied ? 'Copied!' : 'Copy'}
 					</button>

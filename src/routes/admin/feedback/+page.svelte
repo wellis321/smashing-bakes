@@ -5,7 +5,7 @@
 	let { data }: { data: PageData } = $props();
 
 	const statuses = [
-		{ value: 'new', label: 'New', badge: 'bg-pink text-cream' },
+		{ value: 'new', label: 'New', badge: 'bg-pink-deep text-cream' },
 		{ value: 'working', label: 'Working on it', badge: 'bg-gold/40 text-ink' },
 		{ value: 'resolved', label: 'Resolved', badge: 'bg-green-100 text-green-800' },
 		{ value: 'parked', label: 'Not doing', badge: 'bg-ink/10 text-ink-soft' }

@@ -176,7 +176,7 @@
 	<button
 		type="submit"
 		disabled={submitting}
-		class="mt-4 rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+		class="mt-4 rounded-full bg-pink-deep px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 	>
 		{submitting ? 'Saving…' : 'Create poster'}
 	</button>

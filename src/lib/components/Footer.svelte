@@ -34,7 +34,7 @@
 		<div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-5">
 			<div class="lg:col-span-2">
 				<Logo class="h-auto w-full max-w-[445px] sm:max-w-[557px]" />
-				<p class="mt-4 max-w-sm text-base leading-relaxed text-cream/85">
+				<p class="mt-4 max-w-sm text-base leading-relaxed text-cream/90">
 					Small-batch cupcakes, brownies, cookies and cakes, baked fresh in Barrhead. Proudly
 					independent, proudly part of the community.
 				</p>
@@ -111,7 +111,7 @@
 			class="mt-14 flex flex-col-reverse items-start justify-between gap-4 border-t border-cream/10 pt-6 text-sm text-cream/60 sm:flex-row sm:items-center"
 		>
 			<p>&copy; {new Date().getFullYear()} Smashin&rsquo; Bakes. All rights reserved.</p>
-			<a href="/admin/login" class="hover:text-cream/80">Staff login</a>
+			<a href="/admin/login" class="hover:text-cream/90">Staff login</a>
 		</div>
 	</div>
 </footer>

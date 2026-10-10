@@ -6,6 +6,7 @@
 	import NewsletterPopup from '$lib/components/NewsletterPopup.svelte';
 	import { page } from '$app/state';
 	import { safeJsonLd } from '$lib/utils/json-ld';
+	import { SITE_URL } from '$lib/site';
 
 	let { data, children } = $props();
 
@@ -23,8 +24,24 @@
 		'@context': 'https://schema.org',
 		'@type': 'Bakery',
 		name: "Smashin' Bakes",
-		image: `${page.url.origin}/images/shop/exterior.jpg`,
-		url: page.url.origin,
+		'@id': `${SITE_URL}/#bakery`,
+		description:
+			'Independent small-batch bakery in Barrhead, Scotland. Cupcakes, brownies, cookies, pies and cakes, baked fresh and ready for Friday and Saturday pickup, with bespoke celebration cakes made to order.',
+		image: `${SITE_URL}/images/shop/exterior.jpg`,
+		url: SITE_URL,
+		menu: `${SITE_URL}/menus`,
+		hasMap:
+			'https://www.google.com/maps/search/?api=1&query=Smashin+Bakes+9-11+Paisley+Road+Barrhead+G78+1HG',
+		areaServed: { '@type': 'City', name: 'Barrhead' },
+		currenciesAccepted: 'GBP',
+		potentialAction: {
+			'@type': 'OrderAction',
+			target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/shop` },
+			deliveryMethod: [
+				'http://purl.org/goodrelations/v1#DeliveryModePickUp',
+				'http://purl.org/goodrelations/v1#DeliveryModeOwnFleet'
+			]
+		},
 		address: {
 			'@type': 'PostalAddress',
 			streetAddress: '9-11 Paisley Road',
@@ -48,12 +65,22 @@
 			'https://www.tiktok.com/@smashinbakesbarrhead'
 		]
 	});
+
+	const websiteJsonLd = safeJsonLd({
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: "Smashin' Bakes",
+		url: SITE_URL,
+		inLanguage: 'en-GB',
+		publisher: { '@id': `${SITE_URL}/#bakery` }
+	});
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 	{#if !isAdminRoute}
 		{@html `<script type="application/ld+json">${localBusinessJsonLd}<\/script>`}
+		{@html `<script type="application/ld+json">${websiteJsonLd}<\/script>`}
 	{/if}
 </svelte:head>
 

@@ -12,6 +12,11 @@
 <SeoHead
 	title={`${data.category.name} — Smashin' Bakes`}
 	description={`${data.category.name} baked fresh in Barrhead — order online for Friday & Saturday pickup or free delivery.`}
+	breadcrumbs={[
+		{ name: 'Home', path: '/' },
+		{ name: 'Shop', path: '/shop' },
+		{ name: data.category.name, path: `/shop/${data.category.slug}` }
+	]}
 />
 
 <ShopWindow openingHours={data.openingHours}>
@@ -40,6 +45,7 @@
 			Nothing baked in this category just yet — check back soon.
 		</p>
 	{:else}
+		<h2 class="sr-only">{data.category.name}</h2>
 		<Shelf
 			products={data.products}
 			fallbackSrc={data.category.imageUrl ?? `/images/placeholder/${data.category.slug}.svg`}

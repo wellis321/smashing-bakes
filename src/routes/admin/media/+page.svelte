@@ -109,7 +109,7 @@
 		<button
 			type="submit"
 			disabled={uploading || selectedCount === 0}
-			class="mt-4 rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+			class="mt-4 rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 		>
 			{uploading
 				? 'Uploading…'

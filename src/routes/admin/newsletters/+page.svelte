@@ -45,7 +45,7 @@
 	</div>
 	<a
 		href="/admin/newsletters/new"
-		class="shrink-0 rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+		class="shrink-0 rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 	>
 		+ New newsletter
 	</a>

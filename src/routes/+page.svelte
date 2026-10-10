@@ -66,7 +66,7 @@
 			<div class="hero-in mt-8 flex flex-wrap items-center gap-4" style:--hero-delay="270ms">
 				<a
 					href="/shop"
-					class="inline-flex rounded-full bg-pink px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+					class="inline-flex rounded-full bg-pink-deep px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 				>
 					Order for pickup
 				</a>
@@ -169,11 +169,11 @@
 				🎂
 			</span>
 			<div class="relative">
-				<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">
+				<p class="text-sm font-semibold tracking-widest text-cream/90 uppercase">
 					Celebrating something?
 				</p>
 				<h2 class="mt-2 font-display text-2xl sm:text-3xl">Bespoke cakes, made to order</h2>
-				<p class="mt-3 max-w-sm leading-relaxed text-cream/85">
+				<p class="mt-3 max-w-sm leading-relaxed text-cream/90">
 					Birthdays, celebrations, anything worth marking &mdash; tell us what you have in mind and
 					we&rsquo;ll help bring it to life.
 				</p>
@@ -279,7 +279,7 @@
 			{/if}
 			<div class="relative flex flex-col justify-center overflow-hidden px-10 py-12 sm:px-12">
 				<div
-					class="pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 border-gold/60 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] text-gold uppercase"
+					class="pointer-events-none absolute top-6 right-6 flex h-16 w-16 shrink-0 rotate-6 items-center justify-center rounded-full border-2 border-cream/70 px-2 text-center text-[9px] leading-tight font-bold tracking-[0.1em] text-cream uppercase"
 					aria-hidden="true"
 				>
 					Smashin<br />Bakes
@@ -297,7 +297,7 @@
 					🎂
 				</span>
 
-				<p class="text-base font-semibold tracking-widest text-cream/80 uppercase">Happening now</p>
+				<p class="text-base font-semibold tracking-widest text-cream/90 uppercase">Happening now</p>
 				<h2 class="mt-2 font-display text-3xl sm:text-5xl">{data.promotion.title}</h2>
 				{#if data.promotion.tagline}
 					<p class="mt-3 text-xl text-cream/90 italic">{data.promotion.tagline}</p>
@@ -377,7 +377,7 @@
 <section class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
 	<div class="grid gap-8 rounded-[2rem] bg-pink-deep px-6 py-14 text-center text-cream sm:px-12">
 		<div class="mx-auto max-w-lg">
-			<p class="text-sm font-semibold tracking-widest text-cream/70 uppercase">Join the list</p>
+			<p class="text-sm font-semibold tracking-widest text-cream/90 uppercase">Join the list</p>
 			<h2 class="mt-2 font-display text-3xl sm:text-4xl">Get the inside scoop</h2>
 			{#if data.staff}
 				<div class="mt-3">
@@ -390,7 +390,7 @@
 					/>
 				</div>
 			{/if}
-			<p class="mt-4 leading-relaxed text-cream/80">
+			<p class="mt-4 leading-relaxed text-cream/90">
 				First look at new bakes, weekly specials and the odd surprise offer. Sign up now and get
 				<strong class="text-cream">{data.welcomeOffer.description}</strong>.
 			</p>

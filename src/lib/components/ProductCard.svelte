@@ -10,12 +10,12 @@
 	const onSale = $derived(product.badge === 'sale' && product.salePricePence != null);
 </script>
 
-<a href={`/product/${product.slug}`} class="group block" aria-label={`View ${product.name}`}>
+<a href={`/product/${product.slug}`} class="group block">
 	<div class="relative overflow-hidden rounded-[1.75rem] bg-cream-dim">
 		{#if image}
 			<PhotoFrame
 				src={image.url}
-				alt={image.altText ?? product.name}
+				alt=""
 				zoom={image.zoom ?? 100}
 				focal={image.focalPoint ?? 'center'}
 				class="aspect-square w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
@@ -33,7 +33,7 @@
 	<p class="mt-1 flex items-baseline gap-2">
 		{#if onSale}
 			<span class="font-semibold text-pink-deep">{formatPence(product.salePricePence!)}</span>
-			<span class="text-sm text-ink-soft/60 line-through"
+			<span class="text-sm text-ink-soft line-through"
 				>{formatPence(product.basePricePence)}</span
 			>
 		{:else}

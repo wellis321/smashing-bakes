@@ -65,14 +65,14 @@
 	<button
 		type="button"
 		onclick={() => (filter = 'active')}
-		class={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${filter === 'active' ? 'bg-pink text-cream' : 'bg-white/60 text-ink-soft hover:text-ink'}`}
+		class={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${filter === 'active' ? 'bg-pink-deep text-cream' : 'bg-white/60 text-ink-soft hover:text-ink'}`}
 	>
 		Active
 	</button>
 	<button
 		type="button"
 		onclick={() => (filter = 'all')}
-		class={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${filter === 'all' ? 'bg-pink text-cream' : 'bg-white/60 text-ink-soft hover:text-ink'}`}
+		class={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${filter === 'all' ? 'bg-pink-deep text-cream' : 'bg-white/60 text-ink-soft hover:text-ink'}`}
 	>
 		All ({data.orders.length})
 	</button>

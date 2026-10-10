@@ -117,7 +117,7 @@
 					<label
 						class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
 							fulfilmentMethod === 'pickup'
-								? 'border-pink bg-pink text-cream'
+								? 'border-pink bg-pink-deep text-cream'
 								: 'border-ink/15 bg-white text-ink hover:border-ink/30'
 						}`}
 					>
@@ -133,7 +133,7 @@
 					<label
 						class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
 							fulfilmentMethod === 'delivery'
-								? 'border-pink bg-pink text-cream'
+								? 'border-pink bg-pink-deep text-cream'
 								: 'border-ink/15 bg-white text-ink hover:border-ink/30'
 						}`}
 					>
@@ -147,7 +147,7 @@
 						Free delivery
 					</label>
 				</div>
-				<p class="mt-1.5 text-xs text-ink-soft/70">
+				<p class="mt-1.5 text-xs text-ink-soft">
 					Free delivery is only available in Barrhead and Neilston.
 				</p>
 			</fieldset>
@@ -178,7 +178,7 @@
 						<label
 							class={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
 								pickupDate === option.date
-									? 'border-pink bg-pink text-cream'
+									? 'border-pink bg-pink-deep text-cream'
 									: 'border-ink/15 bg-white text-ink hover:border-ink/30'
 							}`}
 						>
@@ -216,7 +216,7 @@
 				<button
 					type="submit"
 					disabled={submitting}
-					class="mt-4 w-full rounded-full bg-pink py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep disabled:opacity-60 sm:w-auto sm:px-8"
+					class="mt-4 w-full rounded-full bg-pink-deep py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker disabled:opacity-60 sm:w-auto sm:px-8"
 				>
 					{submitting ? 'Placing order…' : `Place order — ${formatPence(cart.subtotalPence)}`}
 				</button>

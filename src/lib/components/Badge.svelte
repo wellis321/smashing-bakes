@@ -8,7 +8,7 @@
 -->
 <div
 	class={`absolute -left-9 top-3 w-36 -rotate-45 py-1 text-center text-[0.65rem] font-bold tracking-[0.15em] text-cream uppercase shadow-md ${
-		kind === 'new' ? 'bg-ink' : 'bg-pink'
+		kind === 'new' ? 'bg-ink' : 'bg-pink-deep'
 	}`}
 >
 	{kind === 'new' ? 'New bake' : 'On sale'}

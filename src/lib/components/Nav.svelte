@@ -42,7 +42,7 @@
 	const linkBase =
 		'inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream';
 	const linkInactive = 'text-ink-soft hover:bg-blush hover:text-ink';
-	const linkActive = 'bg-pink text-cream shadow-soft';
+	const linkActive = 'bg-pink-deep text-cream shadow-soft';
 
 	function linkClass(active: boolean) {
 		return `${linkBase} ${active ? linkActive : linkInactive}`;
@@ -69,6 +69,8 @@
 <svelte:window onclick={closeMenusOnOutsideClick} onkeydown={handleKeydown} />
 
 <div
+	role="region"
+	aria-label="Opening hours and address"
 	class="bg-blush-deep px-4 py-2 text-center text-xs font-medium tracking-wide text-ink sm:text-sm"
 >
 	Pre-order now for pickup · {openingHours.join(' · ')} · 9&ndash;11 Paisley Road, Barrhead
@@ -76,7 +78,7 @@
 
 <header class="sticky top-0 z-30 border-b border-ink/[0.06] bg-cream/90 backdrop-blur">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
-		<a href="/" class="shrink-0" aria-label="Smashin' Bakes home">
+		<a href="/" class="shrink-0">
 			<Logo class="h-auto w-[165px] min-[375px]:w-[220px] sm:w-[260px] xl:w-[300px]" />
 		</a>
 
@@ -227,7 +229,7 @@
 				</svg>
 				{#if cart.count > 0}
 					<span
-						class="absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full bg-pink text-[10px] font-bold text-cream"
+						class="absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full bg-pink-deep text-[10px] font-bold text-cream"
 					>
 						{cart.count}
 					</span>
@@ -235,7 +237,7 @@
 			</a>
 			<a
 				href="/shop"
-				class="hidden shrink-0 rounded-full bg-pink px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-cream shadow-soft transition-colors hover:bg-pink-deep focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream focus-visible:outline-none sm:inline-flex"
+				class="hidden shrink-0 rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-cream shadow-soft transition-colors hover:bg-pink-darker focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream focus-visible:outline-none sm:inline-flex"
 			>
 				Order for pickup
 			</a>
@@ -275,12 +277,12 @@
 	>
 		<div class="overflow-hidden">
 			<nav class="flex flex-col gap-1 px-5 pb-5">
-				<p class="mt-1 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+				<p class="mt-1 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft uppercase">
 					Shop
 				</p>
 				<a
 					href="/shop"
-					class={`rounded-lg px-2 py-2.5 text-sm font-semibold transition-colors ${isShopActive ? 'bg-pink text-cream' : 'text-ink hover:bg-blush'}`}
+					class={`rounded-lg px-2 py-2.5 text-sm font-semibold transition-colors ${isShopActive ? 'bg-pink-deep text-cream' : 'text-ink hover:bg-blush'}`}
 					onclick={() => (menuOpen = false)}
 				>
 					Shop all
@@ -321,13 +323,13 @@
 					{/each}
 				{/if}
 
-				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft uppercase">
 					More
 				</p>
 				{#if navVisibility.menus}
 					<a
 						href="/menus"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isMenusActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isMenusActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						Weekly menus
@@ -336,7 +338,7 @@
 				{#if navVisibility.vote}
 					<a
 						href="/vote"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isVoteActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isVoteActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						Vote
@@ -345,7 +347,7 @@
 				{#if navVisibility.about}
 					<a
 						href="/about"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAboutActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAboutActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						About
@@ -354,7 +356,7 @@
 				{#if navVisibility.bespokeCakes}
 					<a
 						href="/bespoke-cakes"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isBespokeActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isBespokeActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						Bespoke cakes
@@ -363,20 +365,20 @@
 				{#if navVisibility.contact}
 					<a
 						href="/contact"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isContactActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isContactActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						Contact
 					</a>
 				{/if}
 
-				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+				<p class="mt-4 mb-1 px-2 text-xs font-semibold tracking-widest text-ink-soft uppercase">
 					Account
 				</p>
 				{#if customer}
 					<a
 						href="/account"
-						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAccountActive ? 'bg-pink text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
+						class={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${isAccountActive ? 'bg-pink-deep text-cream' : 'text-ink-soft hover:bg-blush hover:text-ink'}`}
 						onclick={() => (menuOpen = false)}
 					>
 						My account ({customer.name.split(' ')[0]})
@@ -401,7 +403,7 @@
 
 				<a
 					href="/shop"
-					class="mt-3 rounded-full bg-pink px-5 py-2.5 text-center text-sm font-semibold text-cream"
+					class="mt-3 rounded-full bg-pink-deep px-5 py-2.5 text-center text-sm font-semibold text-cream"
 					onclick={() => (menuOpen = false)}
 				>
 					Order for pickup

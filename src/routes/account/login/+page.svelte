@@ -14,7 +14,7 @@
 
 <div class="bg-cream flex justify-center px-5 pt-10 pb-20 sm:pt-14">
 	<div class="w-full max-w-sm">
-		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
+		<a href="/" class="mx-auto block w-32">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
 		<p class="text-pink-deep mt-5 text-center text-xs font-semibold tracking-[0.2em] uppercase">Account login</p>
@@ -68,7 +68,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-pink hover:bg-pink-deep w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+				class="bg-pink-deep hover:bg-pink-darker w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
 			>
 				{submitting ? 'Signing in…' : 'Log in'}
 			</button>

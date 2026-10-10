@@ -30,7 +30,7 @@
 			{result.alreadySubscribed ? "You're already on the list!" : "You're in!"}
 		</p>
 		<p
-			class={`mt-2 text-[15px] leading-relaxed ${variant === 'compact' ? 'text-cream/85' : 'text-ink-soft'}`}
+			class={`mt-2 text-[15px] leading-relaxed ${variant === 'compact' ? 'text-cream/90' : 'text-ink-soft'}`}
 		>
 			{result.alreadySubscribed
 				? "No need to sign up twice — here's your welcome code again, just in case:"
@@ -46,11 +46,11 @@
 			>
 				{offer.code}
 			</span>
-			<span class={`text-sm ${variant === 'compact' ? 'text-cream/80' : 'text-ink-soft'}`}>
+			<span class={`text-sm ${variant === 'compact' ? 'text-cream/90' : 'text-ink-soft'}`}>
 				{offer.description}
 			</span>
 		</div>
-		<p class={`mt-3 text-sm ${variant === 'compact' ? 'text-cream/60' : 'text-ink-soft/70'}`}>
+		<p class={`mt-3 text-sm ${variant === 'compact' ? 'text-cream/60' : 'text-ink-soft'}`}>
 			Just mention it when you order for pickup.
 		</p>
 	</div>
@@ -111,7 +111,7 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="shrink-0 rounded-full bg-pink px-6 py-3 text-[15px] font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+				class="shrink-0 rounded-full bg-pink-deep px-6 py-3 text-[15px] font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 			>
 				{submitting ? 'Joining…' : 'Get my offer'}
 			</button>

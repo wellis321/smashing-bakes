@@ -135,7 +135,7 @@
 					>
 						<th class="px-4 py-3 sm:px-6">Weekend</th>
 						<th class="hidden px-4 py-3 sm:table-cell">What was on</th>
-						<th class="px-4 py-3 text-right sm:px-6"></th>
+						<th class="px-4 py-3 text-right sm:px-6"><span class="sr-only">View menu</span></th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-ink/10">
@@ -157,12 +157,12 @@
 							<td class="hidden px-4 py-4 align-top text-ink-soft sm:table-cell">
 								{#if names.length > 0}
 									{names.slice(0, 6).join(', ')}{#if names.length > 6}<span
-											class="text-ink-soft/60"
+											class="text-ink-soft"
 										>
 											+{names.length - 6} more</span
 										>{/if}
 								{:else}
-									<span class="text-ink-soft/60">&mdash;</span>
+									<span class="text-ink-soft">&mdash;</span>
 								{/if}
 							</td>
 							<td class="px-4 py-4 text-right align-top sm:px-6">

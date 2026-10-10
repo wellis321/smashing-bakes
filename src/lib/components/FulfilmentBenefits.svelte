@@ -53,7 +53,7 @@
 			<div
 				class="flex items-center gap-3 rounded-2xl bg-white/60 px-3.5 py-2.5 text-sm leading-snug font-bold text-pink-deep"
 			>
-				<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-pink text-cream">
+				<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-pink-deep text-cream">
 					{@render icon(item.icon)}
 				</span>
 				{item.text}
@@ -66,7 +66,7 @@
 			<span
 				class="inline-flex items-center gap-1.5 rounded-full bg-pink/10 py-1.5 pr-3.5 pl-2.5 text-xs font-bold text-pink-deep"
 			>
-				<span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-pink text-cream">
+				<span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-pink-deep text-cream">
 					{@render icon(item.icon)}
 				</span>
 				{item.text}
@@ -79,7 +79,7 @@
 			<div
 				class="flex items-center gap-3 rounded-2xl border-2 border-pink/25 bg-blush px-4 py-3.5 shadow-soft"
 			>
-				<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-cream">
+				<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink-deep text-cream">
 					{@render icon(item.icon)}
 				</span>
 				<p class="text-sm leading-snug font-bold text-ink">{item.text}</p>

@@ -44,7 +44,7 @@
 	<h2 class="text-lg font-semibold text-ink">Recently updated</h2>
 	<a
 		href="/admin/products/new"
-		class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+		class="rounded-full bg-pink-deep px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 	>
 		+ Add product
 	</a>

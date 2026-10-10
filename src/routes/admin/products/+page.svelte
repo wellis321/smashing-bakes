@@ -173,7 +173,7 @@
 				class={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold whitespace-nowrap transition-colors ${
 					product.isFeatured
 						? product.isActive
-							? 'border-pink bg-pink text-cream hover:bg-pink-deep'
+							? 'border-pink bg-pink-deep text-cream hover:bg-pink-darker'
 							: 'border-pink/40 bg-pink/10 text-pink-deep'
 						: 'border-ink/15 text-ink-soft hover:border-ink/30 hover:text-ink'
 				}`}
@@ -228,7 +228,7 @@
 		>
 		<a
 			href="/admin/products/new"
-			class="rounded-full bg-pink px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+			class="rounded-full bg-pink-deep px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 		>
 			+ Add product
 		</a>

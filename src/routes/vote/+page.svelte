@@ -213,9 +213,9 @@
 							<label
 								class={`flex cursor-pointer items-center justify-center rounded-xl border px-3 py-3 text-center text-sm font-medium transition-colors ${
 									isChecked
-										? 'border-pink bg-pink text-cream'
+										? 'border-pink bg-pink-deep text-cream'
 										: isDisabled
-											? 'cursor-not-allowed border-ink/10 bg-white/40 text-ink-soft/40'
+											? 'cursor-not-allowed border-ink/10 bg-white/40 text-ink-soft'
 											: 'border-ink/10 bg-white/70 text-ink hover:border-pink/40'
 								}`}
 							>
@@ -236,7 +236,7 @@
 							type="button"
 							disabled={selected.size === 0}
 							onclick={() => (stage = 'confirm')}
-							class="mt-6 w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+							class="mt-6 w-full rounded-full bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 						>
 							Review my picks
 						</button>
@@ -254,7 +254,7 @@
 							<div class="mt-4 flex flex-wrap gap-3">
 								<a
 									href={loginHref}
-									class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+									class="rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 								>
 									Log in
 								</a>
@@ -299,7 +299,7 @@
 								</li>
 							{/each}
 						</ul>
-						<p class="mt-3 text-xs text-ink-soft/70">
+						<p class="mt-3 text-xs text-ink-soft">
 							Votes can&rsquo;t be changed once submitted.
 						</p>
 					</div>
@@ -315,7 +315,7 @@
 						<button
 							type="submit"
 							disabled={submitting}
-							class="flex-1 rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+							class="flex-1 rounded-full bg-pink-deep py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
 						>
 							{submitting ? 'Submitting…' : 'Confirm & submit'}
 						</button>

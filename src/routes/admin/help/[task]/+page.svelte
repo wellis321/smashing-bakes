@@ -21,7 +21,7 @@
 		{#each task.steps as step, i (i)}
 			<li class="flex gap-4">
 				<span
-					class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
+					class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink-deep text-base font-bold text-cream"
 				>
 					{i + 1}
 				</span>
@@ -50,7 +50,7 @@
 
 	<a
 		href={task.goTo.href}
-		class="mt-8 inline-flex rounded-full bg-pink px-7 py-3.5 text-base font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+		class="mt-8 inline-flex rounded-full bg-pink-deep px-7 py-3.5 text-base font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 	>
 		{task.goTo.label} &rarr;
 	</a>

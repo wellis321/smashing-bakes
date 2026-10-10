@@ -14,7 +14,7 @@
 		<p class="mt-6 text-ink-soft">Your cart is empty.</p>
 		<a
 			href="/shop"
-			class="mt-6 inline-flex rounded-full bg-pink px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep"
+			class="mt-6 inline-flex rounded-full bg-pink-deep px-6 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
 		>
 			Browse the shop
 		</a>
@@ -64,7 +64,7 @@
 					<button
 						type="button"
 						onclick={() => cart.remove(item.productId, item.variantId)}
-						class="shrink-0 text-sm text-ink-soft/60 hover:text-pink-deep"
+						class="shrink-0 text-sm text-ink-soft hover:text-pink-deep"
 						aria-label={`Remove ${item.name} from cart`}
 					>
 						Remove
@@ -85,7 +85,7 @@
 		<div class="mt-6 flex flex-wrap items-center gap-4">
 			<a
 				href="/checkout"
-				class="rounded-full bg-pink px-7 py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-deep"
+				class="rounded-full bg-pink-deep px-7 py-3 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
 			>
 				Continue to checkout
 			</a>

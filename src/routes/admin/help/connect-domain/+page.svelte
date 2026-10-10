@@ -102,7 +102,7 @@
 				<p class="text-2xl" aria-hidden="true">&darr;</p>
 				<p class="text-sm text-ink-soft">GoDaddy address book</p>
 				<p class="text-2xl" aria-hidden="true">&darr;</p>
-				<p class="rounded-lg bg-pink px-3 py-2 text-base font-semibold text-cream">
+				<p class="rounded-lg bg-pink-deep px-3 py-2 text-base font-semibold text-cream">
 					The new website
 				</p>
 			</div>
