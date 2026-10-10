@@ -41,7 +41,7 @@
 <!-- Hero: the shopfront -->
 <ShopWindow openingHours={data.openingHours}>
 	<div
-		class="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-6 xl:grid-cols-[0.82fr_1.18fr]"
+		class="grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-4 xl:grid-cols-[0.62fr_1.38fr]"
 	>
 		<div class="max-w-xl">
 			<p

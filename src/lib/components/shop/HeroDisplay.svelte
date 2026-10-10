@@ -38,9 +38,10 @@
 	.display {
 		position: relative;
 		width: 100%;
-		max-width: 44rem;
+		max-width: 64rem;
 		margin-inline: auto;
-		padding-top: 1.5rem;
+		padding-top: clamp(1.5rem, 5vw, 3.5rem);
+		padding-bottom: clamp(0.5rem, 2vw, 1.5rem);
 	}
 
 	.help {
