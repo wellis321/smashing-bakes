@@ -101,6 +101,13 @@
 
 <section class="mt-8" aria-labelledby="quick-tasks">
 	<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
+	<a
+		href="/admin/help/connect-domain"
+		class="mt-4 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+	>
+		Point smashinbakes.com at the new website (GoDaddy &amp; Hostinger steps)
+		<span aria-hidden="true">&rarr;</span>
+	</a>
 	<div class="mt-4 space-y-6">
 		{#each helpTaskGroups as group (group.group)}
 			<div>
