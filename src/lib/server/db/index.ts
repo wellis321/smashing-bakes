@@ -18,6 +18,14 @@ function createDb() {
 		keepAliveInitialDelay: 10_000,
 		connectTimeout: 10_000
 	});
+	// Record which address the database sees this server connecting from, once per
+	// start-up. It names the user and host only (never a password), and it makes
+	// the database's allowed-address list easy to keep correct.
+	void client
+		.query('SELECT USER() AS u')
+		.then(([rows]) => console.log('[db connected as]', (rows as { u: string }[])[0]?.u))
+		.catch(() => {});
+
 	return drizzle(client, { schema, mode: 'default' });
 }
 
