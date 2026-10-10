@@ -38,7 +38,7 @@
 	.display {
 		position: relative;
 		width: 100%;
-		max-width: 38rem;
+		max-width: 44rem;
 		margin-inline: auto;
 		padding-top: 1.5rem;
 	}
@@ -56,7 +56,7 @@
 		display: flex;
 		align-items: flex-end;
 		justify-content: center;
-		gap: 1%;
+		gap: 0.5%;
 		margin-bottom: -0.55rem;
 	}
 
@@ -65,13 +65,13 @@
 	}
 
 	.slot-1 {
-		width: 32%;
+		width: 31%;
 	}
 	.slot-2 {
-		width: 41%;
+		width: 43%;
 	}
 	.slot-3 {
-		width: 28%;
+		width: 26%;
 	}
 
 	.plate {
@@ -163,6 +163,22 @@
 		box-shadow:
 			0 12px 14px -8px oklch(25% 0.05 45 / 0.45),
 			inset 0 -2px 0 oklch(35% 0.06 48 / 0.6);
+	}
+
+	@media (max-width: 639px) {
+		.display {
+			width: calc(100% + 1.2rem);
+			margin-inline: -0.6rem;
+		}
+		.slot-1 {
+			width: 32%;
+		}
+		.slot-2 {
+			width: 46%;
+		}
+		.slot-3 {
+			width: 27%;
+		}
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

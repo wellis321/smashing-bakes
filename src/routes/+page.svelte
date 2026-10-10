@@ -38,7 +38,9 @@
 
 <!-- Hero: the shopfront -->
 <ShopWindow openingHours={data.openingHours}>
-	<div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+	<div
+		class="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-6 xl:grid-cols-[0.82fr_1.18fr]"
+	>
 		<div class="max-w-xl">
 			<p
 				class="hero-in text-sm font-semibold tracking-widest text-pink-deep uppercase"
@@ -47,7 +49,7 @@
 				Independent bakery &middot; Barrhead
 			</p>
 			<h1
-				class="hero-in mt-4 font-display text-5xl text-ink sm:text-6xl lg:text-[4.25rem] lg:leading-[0.98]"
+				class="hero-in mt-4 font-display text-5xl text-ink sm:text-6xl lg:text-[3.6rem] lg:leading-[0.98] xl:text-[3.9rem]"
 				style:--hero-delay="90ms"
 			>
 				Cakes worth <span class="text-pink italic">queuing</span> for.
