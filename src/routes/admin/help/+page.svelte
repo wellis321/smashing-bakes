@@ -43,6 +43,118 @@
 
 	const allIds = groups.flatMap((g) => g.items.map((i) => i.id));
 
+	// Pages that aren't part of the task list but should still show up in search.
+	const pinned = [
+		{
+			title: 'Keeping the site safe',
+			summary: 'A checklist for your accounts, and what already protects the site',
+			href: '/admin/help/security',
+			keywords: 'security safe password two-step 2fa backup hack login protect account'
+		},
+		{
+			title: 'Point smashinbakes.com at the new website',
+			summary: 'GoDaddy & Hostinger steps',
+			href: '/admin/help/connect-domain',
+			keywords: 'domain dns godaddy hostinger wix website address smashinbakes.com'
+		},
+		{
+			title: 'Get the SumUp details for online payments',
+			summary: 'API key & merchant code',
+			href: '/admin/help/payment-setup',
+			keywords: 'payment sumup api key merchant code card pay proton bitwarden share'
+		}
+	];
+
+	// ---- Search ----
+	let query = $state('');
+	let searchInput: HTMLInputElement | undefined = $state();
+
+	// "photos" should find "photo": ignore a trailing "s" on longer words.
+	const tokens = $derived(
+		query
+			.toLowerCase()
+			.split(/[^a-z0-9£@.]+/)
+			.filter(Boolean)
+			.map((t) => (t.length > 3 && t.endsWith('s') ? t.slice(0, -1) : t))
+	);
+	const searching = $derived(tokens.length > 0 && query.trim().length >= 2);
+
+	const matchesAll = (text: string) => tokens.every((t) => text.includes(t));
+
+	const guideResults = $derived.by(() => {
+		if (!searching) return [];
+		const scored: { title: string; summary: string; href: string; score: number }[] = [];
+		for (const t of helpTasks) {
+			const title = t.title.toLowerCase();
+			const hay = [t.title, t.summary, t.group, t.tip ?? '', ...t.steps.map((st) => st.text)]
+				.join(' ')
+				.toLowerCase();
+			if (!matchesAll(hay)) continue;
+			scored.push({
+				title: t.title,
+				summary: t.summary,
+				href: `/admin/help/${t.slug}`,
+				score: matchesAll(title) ? 0 : 1
+			});
+		}
+		for (const pg of pinned) {
+			const hay = `${pg.title} ${pg.summary} ${pg.keywords}`.toLowerCase();
+			if (!matchesAll(hay)) continue;
+			scored.push({
+				title: pg.title,
+				summary: pg.summary,
+				href: pg.href,
+				score: matchesAll(pg.title.toLowerCase()) ? 0 : 1
+			});
+		}
+		return scored.sort((a, b) => a.score - b.score);
+	});
+
+	type Part = { text: string; hit: boolean };
+	const sectionResults = $derived.by(() => {
+		if (!searching) return [];
+		const labelFor = new Map(groups.flatMap((g) => g.items.map((i) => [i.id, i.label] as const)));
+		const splitter = new RegExp(
+			`(${tokens.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+			'gi'
+		);
+		const out: { id: string; label: string; parts: Part[] }[] = [];
+		for (const id of allIds) {
+			const text = (sections[id]?.textContent ?? '').replace(/\s+/g, ' ');
+			const lower = text.toLowerCase();
+			if (!text || !matchesAll(lower)) continue;
+			const at = Math.min(...tokens.map((t) => lower.indexOf(t)).filter((i) => i >= 0));
+			const start = Math.max(0, at - 60);
+			const snippet =
+				(start > 0 ? '… ' : '') +
+				text.slice(start, start + 170) +
+				(start + 170 < text.length ? ' …' : '');
+			out.push({
+				id,
+				label: labelFor.get(id) ?? id,
+				parts: snippet
+					.split(splitter)
+					.filter(Boolean)
+					.map((part) => ({ text: part, hit: tokens.some((t) => part.toLowerCase() === t) }))
+			});
+		}
+		return out;
+	});
+
+	function onWindowKeydown(event: KeyboardEvent) {
+		const el = event.target as HTMLElement | null;
+		const typing =
+			el &&
+			(el.tagName === 'INPUT' ||
+				el.tagName === 'TEXTAREA' ||
+				el.tagName === 'SELECT' ||
+				el.isContentEditable);
+		if (event.key === '/' && !typing && !event.metaKey && !event.ctrlKey) {
+			event.preventDefault();
+			searchInput?.focus();
+		}
+	}
+
 	let activeId = $state(allIds[0]);
 	let sections: Record<string, HTMLElement> = {};
 
@@ -90,6 +202,8 @@
 	{/if}
 {/snippet}
 
+<svelte:window onkeydown={onWindowKeydown} />
+
 <svelte:head>
 	<title>Help — Admin</title>
 </svelte:head>
@@ -99,50 +213,154 @@
 	Pick a job below for a quick step-by-step, or scroll down for the full guide to every feature.
 </p>
 
-<section class="mt-8" aria-labelledby="quick-tasks">
-	<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
-	<a
-		href="/admin/help/security"
-		class="mt-4 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
-	>
-		Keeping the site safe &mdash; a checklist for your accounts, and what already protects the site
-		<span aria-hidden="true">&rarr;</span>
-	</a>
-	<a
-		href="/admin/help/connect-domain"
-		class="mt-4 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
-	>
-		Point smashinbakes.com at the new website (GoDaddy &amp; Hostinger steps)
-		<span aria-hidden="true">&rarr;</span>
-	</a>
-	<a
-		href="/admin/help/payment-setup"
-		class="mt-3 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
-	>
-		Get the SumUp details for online payments (API key &amp; merchant code)
-		<span aria-hidden="true">&rarr;</span>
-	</a>
-	<div class="mt-4 space-y-6">
-		{#each helpTaskGroups as group (group.group)}
-			<div>
-				<h3 class="text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
-					{group.group}
-				</h3>
-				<div class="mt-2 grid gap-3 sm:grid-cols-2">
-					{#each group.tasks as task (task.slug)}
+<div class="mt-5">
+	<label for="help-search" class="sr-only">Search help</label>
+	<div class="relative max-w-xl">
+		<svg
+			class="pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-ink-soft/70"
+			viewBox="0 0 20 20"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.8"
+			aria-hidden="true"
+		>
+			<circle cx="9" cy="9" r="6" />
+			<path d="M14 14l4 4" stroke-linecap="round" />
+		</svg>
+		<input
+			id="help-search"
+			bind:this={searchInput}
+			bind:value={query}
+			type="text"
+			enterkeyhint="search"
+			autocomplete="off"
+			placeholder="Search help… e.g. photo, price, opening hours"
+			onkeydown={(e) => e.key === 'Escape' && (query = '')}
+			class="w-full rounded-full border border-ink/15 bg-white py-3.5 pr-12 pl-12 text-base outline-none focus:ring-2 focus:ring-pink/40"
+		/>
+		{#if query}
+			<button
+				type="button"
+				onclick={() => {
+					query = '';
+					searchInput?.focus();
+				}}
+				aria-label="Clear search"
+				class="absolute top-1/2 right-3 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-ink-soft hover:bg-blush hover:text-ink"
+			>
+				&times;
+			</button>
+		{/if}
+	</div>
+	<p class="mt-2 text-sm text-ink-soft/80">
+		Tip: press <kbd class="rounded border border-ink/20 bg-white px-1.5 py-0.5 text-xs">/</kbd> to start
+		searching from anywhere on this page.
+	</p>
+</div>
+
+{#if searching}
+	<section class="mt-8" aria-live="polite" aria-label="Search results">
+		{#if guideResults.length === 0 && sectionResults.length === 0}
+			<div class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-6">
+				<p class="text-lg font-semibold text-ink">Nothing found for &ldquo;{query.trim()}&rdquo;</p>
+				<p class="mt-1 text-base text-ink-soft">
+					Try a simpler word (for example &ldquo;photo&rdquo; rather than &ldquo;picture
+					upload&rdquo;), or use the <strong>Feedback</strong> button at the bottom right and tell me
+					what you couldn&rsquo;t find.
+				</p>
+			</div>
+		{:else}
+			{#if guideResults.length > 0}
+				<h2 class="font-display text-2xl text-ink">
+					Step-by-step guides <span class="text-base font-normal text-ink-soft"
+						>({guideResults.length})</span
+					>
+				</h2>
+				<div class="mt-3 grid gap-3 sm:grid-cols-2">
+					{#each guideResults as r (r.href)}
 						<a
-							href={`/admin/help/${task.slug}`}
-							class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+							href={r.href}
+							class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 transition-colors hover:border-pink"
 						>
-							{task.title} <span aria-hidden="true">&rarr;</span>
+							<span class="block text-base font-semibold text-ink">{r.title} &rarr;</span>
+							<span class="mt-0.5 block text-sm text-ink-soft">{r.summary}</span>
 						</a>
 					{/each}
 				</div>
+			{/if}
+
+			{#if sectionResults.length > 0}
+				<h2 class="mt-8 font-display text-2xl text-ink">
+					In the full guide <span class="text-base font-normal text-ink-soft"
+						>({sectionResults.length})</span
+					>
+				</h2>
+				<ul class="mt-3 space-y-3">
+					{#each sectionResults as r (r.id)}
+						<li>
+							<a
+								href={`#${r.id}`}
+								onclick={() => (query = '')}
+								class="block rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 transition-colors hover:border-pink"
+							>
+								<span class="block text-base font-semibold text-pink-deep">{r.label} &darr;</span>
+								<span class="mt-1 block text-sm leading-relaxed text-ink-soft">
+									{#each r.parts as part, i (i)}{#if part.hit}<mark
+												class="rounded bg-gold/40 px-0.5 text-ink">{part.text}</mark
+											>{:else}{part.text}{/if}{/each}
+								</span>
+							</a>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		{/if}
+	</section>
+{/if}
+
+{#if !searching}
+	<section class="mt-8" aria-labelledby="quick-tasks">
+		<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
+		<div class="mt-4">
+			<h3 class="text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+				Setup &amp; safety
+			</h3>
+			<div class="mt-2 grid gap-3 sm:grid-cols-2">
+				{#each pinned as pg (pg.href)}
+					<a
+						href={pg.href}
+						class="rounded-2xl border border-pink/40 bg-blush px-5 py-4 transition-colors hover:border-pink"
+					>
+						<span class="block text-base font-semibold text-ink">{pg.title} &rarr;</span>
+						<span class="mt-0.5 block text-sm text-ink-soft">{pg.summary}</span>
+					</a>
+				{/each}
 			</div>
-		{/each}
-	</div>
-	<p class="mt-5 text-sm text-ink-soft">Looking for something else? The full guide is below.</p>
-</section>
+		</div>
+		<div class="mt-6 space-y-6">
+			{#each helpTaskGroups as group (group.group)}
+				<div>
+					<h3 class="text-xs font-semibold tracking-widest text-ink-soft/70 uppercase">
+						{group.group}
+					</h3>
+					<div class="mt-2 grid gap-3 sm:grid-cols-2">
+						{#each group.tasks as task (task.slug)}
+							<a
+								href={`/admin/help/${task.slug}`}
+								class="rounded-2xl border border-ink/10 bg-white/60 px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+							>
+								{task.title} <span aria-hidden="true">&rarr;</span>
+							</a>
+						{/each}
+					</div>
+				</div>
+			{/each}
+		</div>
+		<p class="mt-5 text-sm text-ink-soft">
+			Looking for something else? Search above, or use the full guide below.
+		</p>
+	</section>
+{/if}
 
 <div class="mt-8 lg:hidden">
 	<label for="help-jump" class="text-base font-medium text-ink-soft">Jump to a section</label>
