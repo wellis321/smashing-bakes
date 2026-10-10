@@ -48,6 +48,7 @@
 		<h2 class="sr-only">{data.category.name}</h2>
 		<Shelf
 			products={data.products}
+			eagerCount={4}
 			fallbackSrc={data.category.imageUrl ?? `/images/placeholder/${data.category.slug}.svg`}
 		/>
 	{/if}

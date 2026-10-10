@@ -12,7 +12,8 @@
 		fallbackSrc = null,
 		plain = false,
 		href = undefined,
-		sizes = '(min-width: 1024px) 15rem, (min-width: 640px) 26vw, 44vw'
+		sizes = '(min-width: 1024px) 15rem, (min-width: 640px) 26vw, 44vw',
+		eager = false
 	}: {
 		product: ProductCardData;
 		index?: number;
@@ -21,6 +22,8 @@
 		href?: string;
 		// How wide the plate is shown, so the browser fetches a picture that fits.
 		sizes?: string;
+		// The first plates on a page load straight away rather than waiting to scroll into view.
+		eager?: boolean;
 	} = $props();
 
 	const image = $derived(product.images[0]);
@@ -52,6 +55,7 @@
 					src={image.url}
 					alt=""
 					{sizes}
+					{eager}
 					widths={[160, 320, 480, 640, 960]}
 					defaultWidth={320}
 					zoom={image.zoom ?? 100}
@@ -64,7 +68,7 @@
 					srcset={srcsetFor(shownSrc, [320, 480, 640, 960])}
 					{sizes}
 					alt=""
-					loading="lazy"
+					loading={eager ? 'eager' : 'lazy'}
 					decoding="async"
 					class="h-full w-full rounded-full object-cover"
 					onerror={(event) => ((event.currentTarget as HTMLImageElement).style.display = 'none')}

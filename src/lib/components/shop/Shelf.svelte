@@ -15,6 +15,7 @@
 		dense = false,
 		fit = 0,
 		maxAcross = 5,
+		eagerCount = 0,
 		products = [],
 		fallbackSrc = null,
 		help,
@@ -32,6 +33,8 @@
 		fit?: number;
 		// Most plates allowed in one row when fitting (default 5; categories use 6).
 		maxAcross?: number;
+		// How many of the first plates to load straight away (the ones visible without scrolling).
+		eagerCount?: number;
 		products?: ProductCardData[];
 		fallbackSrc?: string | null;
 		help?: Snippet;
@@ -99,7 +102,7 @@
 			{@render children()}
 		{:else}
 			{#each products as product, i (product.slug)}
-				<ShelfItem {product} index={i} {fallbackSrc} sizes={plateSizes} />
+				<ShelfItem {product} index={i} {fallbackSrc} sizes={plateSizes} eager={i < eagerCount} />
 			{/each}
 		{/if}
 	</div>
