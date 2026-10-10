@@ -198,6 +198,36 @@
 			steps below.
 		</p>
 	</section>
+	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
+		<p class="font-semibold">Or use Proton Pass (free)</p>
+		<p class="mt-1">
+			Works on any phone or computer. You both need a free Proton account, because the free plan can
+			only share with other Proton Pass users.
+		</p>
+		<ol class="mt-2 list-decimal space-y-1 pl-5">
+			<li>
+				Go to <a
+					href="https://proton.me/pass"
+					target="_blank"
+					rel="noreferrer"
+					class="font-semibold text-pink-deep underline hover:text-pink">proton.me/pass &#8599;</a
+				> and create a free account.
+			</li>
+			<li>
+				Add a new <strong>Login</strong> called &ldquo;SumUp API key&rdquo; with the key as the password.
+				Save it.
+			</li>
+			<li>
+				Open your vault, press <strong>Share</strong>, enter William&rsquo;s Proton email address
+				and send the invitation. William accepts it and can then see it.
+			</li>
+		</ol>
+		<p class="mt-2">
+			Proton&rsquo;s one-time &ldquo;secure link&rdquo; feature is paid, so don&rsquo;t worry if you
+			can&rsquo;t find it. Sharing the vault is the free way. If you do this, you can skip the
+			Bitwarden steps below.
+		</p>
+	</section>
 
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">

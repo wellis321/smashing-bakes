@@ -43,7 +43,7 @@
 			id: 'manager',
 			text: 'Use a password manager, with a different password for each account',
 			detail:
-				'Bitwarden is free. A password used on more than one site is the most common way accounts get taken over.'
+				'Bitwarden and Proton Pass both have free plans. A password used on more than one site is the most common way accounts get taken over.'
 		},
 		{
 			id: 'staff',
