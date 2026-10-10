@@ -13,6 +13,9 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 			adapter: adapter(),
+			// Put the (small) stylesheets straight into each page instead of making the browser
+			// fetch them first: on a phone connection that wait was about a second.
+			inlineStyleThreshold: 120000,
 			// Hostinger's proxy tells the app it is being served from the free
 			// *.hostingersite.com address, so the browser's real address has to be
 			// listed here or every form post is refused as "cross-site".

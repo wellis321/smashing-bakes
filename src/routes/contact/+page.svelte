@@ -8,6 +8,9 @@
 
 	let { data }: { data: PageData } = $props();
 
+	// The live Google map is heavy (over 200 KB of Google code), so it only loads when asked for.
+	let showMap = $state(false);
+
 	const address = '9-11 Paisley Road, Barrhead, G78 1HG';
 	const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 	const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
@@ -86,13 +89,39 @@
 			</div>
 
 			<Framed>
-				<iframe
-					title="Map showing Smashin' Bakes, 9–11 Paisley Road, Barrhead"
-					src={mapEmbedUrl}
-					loading="lazy"
-					referrerpolicy="no-referrer-when-downgrade"
-					class="h-72 w-full border-0"
-				></iframe>
+				{#if showMap}
+					<iframe
+						title="Map showing Smashin' Bakes, 9–11 Paisley Road, Barrhead"
+						src={mapEmbedUrl}
+						referrerpolicy="no-referrer-when-downgrade"
+						class="h-72 w-full border-0"
+					></iframe>
+				{:else}
+					<div
+						class="flex h-72 w-full flex-col items-center justify-center gap-3 bg-cream-dim p-6 text-center"
+					>
+						<p class="font-display text-xl text-ink">Find us on the map</p>
+						<p class="text-sm text-ink-soft">{address}</p>
+						<div class="flex flex-wrap justify-center gap-3">
+							<button
+								type="button"
+								onclick={() => (showMap = true)}
+								class="rounded-full bg-pink-deep px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker"
+							>
+								Show the map
+							</button>
+							<a
+								href={directionsUrl}
+								target="_blank"
+								rel="noreferrer"
+								class="rounded-full border border-ink/20 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-pink"
+							>
+								Get directions
+							</a>
+						</div>
+						<p class="text-xs text-ink-soft">Showing the map loads it from Google.</p>
+					</div>
+				{/if}
 			</Framed>
 		</div>
 	</div>
