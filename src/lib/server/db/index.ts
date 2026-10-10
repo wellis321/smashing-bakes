@@ -5,7 +5,19 @@ import { env } from '$env/dynamic/private';
 
 function createDb() {
 	if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
-	const client = mysql.createPool(env.DATABASE_URL);
+	// The hosting plan allows only 500 NEW connections per hour for this database
+	// user. A small pool that keeps its connections open and reuses them (rather
+	// than closing idle ones after a minute and reopening them for the next
+	// burst of visitors) keeps well under that, even with crawlers and restarts.
+	const client = mysql.createPool({
+		uri: env.DATABASE_URL,
+		connectionLimit: 6,
+		maxIdle: 6,
+		idleTimeout: 30 * 60 * 1000,
+		enableKeepAlive: true,
+		keepAliveInitialDelay: 10_000,
+		connectTimeout: 10_000
+	});
 	return drizzle(client, { schema, mode: 'default' });
 }
 
