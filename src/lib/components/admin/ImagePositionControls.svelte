@@ -17,7 +17,10 @@
 		zoomFieldName,
 		focalFieldName,
 		aspectClass = 'aspect-[16/9]',
-		photoRatio = $bindable(0)
+		photoRatio = $bindable(0),
+		showZoom = true,
+		helpSection = 'bespoke-cakes',
+		helpTask = 'adjust-photo'
 	}: {
 		previewUrl: string | null;
 		zoom?: number;
@@ -28,6 +31,10 @@
 		// Width ÷ height of the chosen photo (0 until it has loaded), so the page can
 		// suggest a better shape for upright photos.
 		photoRatio?: number;
+		// Products keep their shape and size, so they only slide the photo about.
+		showZoom?: boolean;
+		helpSection?: string;
+		helpTask?: string;
 	} = $props();
 
 	const clamp = (n: number, min = 0, max = 100) => Math.min(max, Math.max(min, n));
@@ -156,8 +163,8 @@
 				Drag the pink frame over the part of the photo you want to show
 			</p>
 			<HelpLink
-				section="bespoke-cakes"
-				task="adjust-photo"
+				section={helpSection}
+				task={helpTask}
 				label="Help"
 				title="How to choose which part of a photo shows"
 			/>
@@ -216,40 +223,46 @@
 		</div>
 
 		<div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
-			<div class="flex items-center gap-3">
-				<label for={zoomFieldName} class="shrink-0 text-sm text-ink-soft">Zoom</label>
-				<input
-					id={zoomFieldName}
-					type="range"
-					min="30"
-					max="200"
-					step="1"
-					bind:value={zoom}
-					class="w-full max-w-[200px] accent-pink"
-				/>
-				<span class="w-12 shrink-0 text-right text-sm text-ink-soft">{zoom}%</span>
-			</div>
-			<button
-				type="button"
-				onclick={fitWholePhoto}
-				class="text-sm font-semibold text-pink-deep hover:underline"
-			>
-				Fit whole photo
-			</button>
+			{#if showZoom}
+				<div class="flex items-center gap-3">
+					<label for={zoomFieldName} class="shrink-0 text-sm text-ink-soft">Zoom</label>
+					<input
+						id={zoomFieldName}
+						type="range"
+						min="30"
+						max="200"
+						step="1"
+						bind:value={zoom}
+						class="w-full max-w-[200px] accent-pink"
+					/>
+					<span class="w-12 shrink-0 text-right text-sm text-ink-soft">{zoom}%</span>
+				</div>
+				<button
+					type="button"
+					onclick={fitWholePhoto}
+					class="text-sm font-semibold text-pink-deep hover:underline"
+				>
+					Fit whole photo
+				</button>
+			{/if}
 			<button
 				type="button"
 				onclick={reset}
 				class="text-sm font-semibold text-pink-deep hover:underline"
 			>
-				Reset
+				{showZoom ? 'Reset' : 'Centre the photo'}
 			</button>
 		</div>
-		<p class="mt-1 text-xs text-ink-soft/70">
-			Slide the zoom right to get closer, or left to show more of the photo (the space around it
-			fills with a soft blur of the photo).
-		</p>
+		{#if showZoom}
+			<p class="mt-1 text-xs text-ink-soft/70">
+				Slide the zoom right to get closer, or left to show more of the photo (the space around it
+				fills with a soft blur of the photo).
+			</p>
+		{/if}
 	</div>
 {/if}
 
-<input type="hidden" name={zoomFieldName} value={zoom} />
+{#if showZoom}
+	<input type="hidden" name={zoomFieldName} value={zoom} />
+{/if}
 <input type="hidden" name={focalFieldName} value={focalPoint} />

@@ -132,6 +132,7 @@
 					<img
 						src={image.url}
 						alt={image.altText ?? product.name}
+						style:object-position={stretched ? undefined : image.focalPoint}
 						class={`absolute inset-0 h-full w-full ${stretched ? 'object-contain' : 'object-cover'}`}
 					/>
 				{/if}

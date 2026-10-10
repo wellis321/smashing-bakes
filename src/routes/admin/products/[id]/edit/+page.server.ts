@@ -11,6 +11,16 @@ import { saveProductImage } from '$lib/server/uploads';
 // only ever has room to show these as a row of thumbnails, not a full grid.
 const MAX_EXTRA_IMAGES = 3;
 
+// Accepts the drag-to-position value ("37% 62%"); anything else is centred.
+function parseFocalPoint(raw: FormDataEntryValue | null): string {
+	const pct = String(raw ?? '')
+		.trim()
+		.match(/^(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%$/);
+	if (!pct) return 'center';
+	const clamp = (n: number) => Math.round(Math.min(100, Math.max(0, n)));
+	return `${clamp(Number(pct[1]))}% ${clamp(Number(pct[2]))}%`;
+}
+
 async function loadProduct(id: number) {
 	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — two
 	// flat queries instead (see src/lib/server/db/queries.ts for more).
@@ -60,6 +70,7 @@ export const actions: Actions = {
 		const isActive = formData.get('isActive') === 'true';
 		const isFeatured = formData.get('isFeatured') === 'true';
 		const slug = slugify(String(formData.get('slug') || name));
+		const focalPoint = parseFocalPoint(formData.get('focalPoint'));
 		const imageFile = formData.get('image');
 		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 
@@ -101,6 +112,15 @@ export const actions: Actions = {
 			});
 		}
 
+		// Moving the photo within its frame applies to the primary image whether or
+		// not a new file was chosen.
+		if (!imageUrl) {
+			await db
+				.update(productImages)
+				.set({ focalPoint })
+				.where(and(eq(productImages.productId, id), eq(productImages.isPrimary, true)));
+		}
+
 		if (imageUrl) {
 			// Specifically the primary row, not just "any" image row — with
 			// additional (non-primary) photos now possible, findFirst with no
@@ -111,12 +131,17 @@ export const actions: Actions = {
 			if (existingPrimary) {
 				await db
 					.update(productImages)
-					.set({ url: imageUrl, altText: name })
+					.set({ url: imageUrl, altText: name, focalPoint })
 					.where(eq(productImages.id, existingPrimary.id));
 			} else {
-				await db
-					.insert(productImages)
-					.values({ productId: id, url: imageUrl, altText: name, isPrimary: true, sortOrder: 0 });
+				await db.insert(productImages).values({
+					productId: id,
+					url: imageUrl,
+					altText: name,
+					isPrimary: true,
+					sortOrder: 0,
+					focalPoint
+				});
 			}
 		}
 

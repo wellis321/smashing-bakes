@@ -1,0 +1,1 @@
+ALTER TABLE `product_images` ADD `focal_point` varchar(20) DEFAULT 'center' NOT NULL;

@@ -4,12 +4,14 @@
 	import { goto } from '$app/navigation';
 	import ProductFormFields from '$lib/components/admin/ProductFormFields.svelte';
 	import MediaPicker from '$lib/components/admin/MediaPicker.svelte';
+	import ImagePositionControls from '$lib/components/admin/ImagePositionControls.svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let submitting = $state(false);
 	let closeAfterSave = $state(false);
 	let addingImage = $state(false);
+	let focalPoint = $state(data.product.images[0]?.focalPoint ?? 'center');
 
 	const MAX_EXTRA_IMAGES = 3;
 	// images[0] is always the primary photo (sortOrder 0) — see the load
@@ -78,7 +80,20 @@
 		}}
 		currentImageUrl={data.product.images[0]?.url}
 		mediaItems={data.mediaItems}
-	/>
+	>
+		{#snippet photoExtras()}
+			<ImagePositionControls
+				previewUrl={data.product.images[0]?.url ?? null}
+				bind:focalPoint
+				zoomFieldName="focalZoomUnused"
+				focalFieldName="focalPoint"
+				aspectClass="aspect-square"
+				showZoom={false}
+				helpSection="products"
+				helpTask="position-product-photo"
+			/>
+		{/snippet}
+	</ProductFormFields>
 
 	<div class="mt-6 flex gap-3">
 		<button

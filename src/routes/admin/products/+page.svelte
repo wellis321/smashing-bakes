@@ -105,6 +105,7 @@
 			<img
 				src={product.images[0].url}
 				alt=""
+				style:object-position={product.images[0].focalPoint}
 				class="h-12 w-12 shrink-0 rounded-lg bg-cream-dim object-cover"
 			/>
 		{:else}

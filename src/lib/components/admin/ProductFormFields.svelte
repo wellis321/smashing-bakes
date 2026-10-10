@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
+	import type { Snippet } from 'svelte';
 	import type { CategorySummary } from '$lib/types';
 	import MediaPicker from './MediaPicker.svelte';
 
@@ -19,12 +20,15 @@
 		categories,
 		values = {},
 		currentImageUrl,
-		mediaItems = []
+		mediaItems = [],
+		photoExtras
 	}: {
 		categories: CategorySummary[];
 		values?: Values;
 		currentImageUrl?: string | null;
 		mediaItems?: { id: number; url: string; filename: string; altText: string | null }[];
+		// Extra controls shown straight under the photo picker (e.g. drag-to-position).
+		photoExtras?: Snippet;
 	} = $props();
 </script>
 
@@ -172,5 +176,6 @@
 			label="Product photo"
 			hint="JPG, PNG or WEBP, up to 5MB. Recommended: square, at least 1000×1000px. Leave blank to keep the current photo."
 		/>
+		{@render photoExtras?.()}
 	</div>
 </div>

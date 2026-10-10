@@ -54,6 +54,7 @@
 					src={shownSrc}
 					alt={image ? (image.altText ?? product.name) : ''}
 					loading="lazy"
+					style:object-position={image?.focalPoint}
 					class="h-full w-full rounded-full object-cover"
 					onerror={(event) => ((event.currentTarget as HTMLImageElement).style.display = 'none')}
 				/>

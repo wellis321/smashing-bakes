@@ -1,6 +1,7 @@
 export interface ProductImage {
 	url: string;
 	altText: string | null;
+	focalPoint?: string;
 }
 
 export interface ProductCardData {
