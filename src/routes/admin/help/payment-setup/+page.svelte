@@ -3,7 +3,7 @@
 	// payments online. SumUp's screens change from time to time, so the wording
 	// here describes where things usually are.
 	import GuideFooter from '$lib/components/admin/GuideFooter.svelte';
-	const TOTAL = 8;
+	const TOTAL = 11;
 	let done = $state<Record<string, boolean>>({});
 	const doneCount = $derived(Object.values(done).filter(Boolean).length);
 
@@ -165,73 +165,137 @@
 		</li>
 	</ol>
 
-	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send the API key safely</h2>
+	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send me the API key safely</h2>
 	<p class="mt-2 text-base text-ink-soft">
-		Easiest if I&rsquo;m with you &mdash; you can simply tell me or show me. If I&rsquo;m not, a
-		free <strong>Bitwarden Send</strong> is a safe way to do it (<a
-			href="https://bitwarden.com/help/about-send/"
-			target="_blank"
-			rel="noreferrer"
-			class="font-semibold text-pink-deep underline hover:text-pink">what is that? &#8599;</a
-		>). It makes a private link that works once and then deletes itself, and nobody needs an account
-		to open it.
+		Please use <strong>Proton Pass</strong>. It&rsquo;s free, and the key never has to be emailed or
+		texted. I&rsquo;ve already shared a private vault called <strong>SmashinBakes</strong> with you, and
+		I can only see what you save inside that vault.
 	</p>
-	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
-		<p class="font-semibold">Got an iPhone or a Mac? There&rsquo;s an even easier way.</p>
-		<p class="mt-1">
-			Apple&rsquo;s <strong>Passwords</strong> app can share one saved item with me, and nothing has to
-			be sent by email or text.
+
+	<section
+		class="mt-5 rounded-2xl border-2 border-pink-deep bg-white px-5 py-6 sm:px-7"
+		aria-labelledby="proton-steps"
+	>
+		<p class="text-xs font-bold tracking-widest text-pink-deep uppercase">Recommended</p>
+		<h3 id="proton-steps" class="mt-1 font-display text-2xl text-ink">
+			Add the SumUp key in Proton Pass
+		</h3>
+		<p class="mt-1 text-base text-ink-soft">
+			Have the key from Part 1 ready to paste. If Proton&rsquo;s screens look a little different
+			from what&rsquo;s described, please let me know.
 		</p>
-		<ol class="mt-2 list-decimal space-y-1 pl-5">
-			<li>
-				Open the <strong>Passwords</strong> app and press <strong>+</strong> to add a new one.
+		<ol class="mt-6 space-y-7">
+			<li class="flex gap-4">
+				{@render tick('proton-1', 5)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Sign in to Proton Pass</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						Go to <a
+							href="https://pass.proton.me"
+							target="_blank"
+							rel="noreferrer"
+							class="font-semibold text-pink-deep underline hover:text-pink"
+							>pass.proton.me &#8599;</a
+						>
+						and sign in with the Proton account you made with
+						<strong>alanah@smashinbakes.co.uk</strong>.
+					</p>
+					<p class="mt-2 text-base leading-relaxed text-ink-soft">
+						First time only: open the invitation email from <strong
+							>williamjamesellis@outlook.com</strong
+						>
+						and press the button to accept it. If it asks you to create a free Proton account, use
+						<strong>alanah@smashinbakes.co.uk</strong>.
+					</p>
+				</div>
 			</li>
-			<li>
-				Website: <strong>SumUp API key</strong>. Password: paste the API key. Press
-				<strong>Save</strong>.
+			<li class="flex gap-4">
+				{@render tick('proton-2', 6)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Open the SmashinBakes vault</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						On the left, under <strong>Vaults</strong>, click <strong>SmashinBakes</strong>. It has
+						a small icon of two people with a number beside it.
+					</p>
+					<p class="mt-2 text-base leading-relaxed text-ink-soft">
+						Check the search box at the top says <strong
+							>&ldquo;Search in SmashinBakes&rdquo;</strong
+						>. That tells you you&rsquo;re in the right place.
+						<strong>Please don&rsquo;t use &ldquo;Personal&rdquo;</strong>, because I can&rsquo;t
+						see anything saved there.
+					</p>
+				</div>
 			</li>
-			<li>
-				Press <strong>Share</strong> on that item (or add it to a <strong>Shared Group</strong>) and
-				choose me. Ask me for the email I use for my Apple Account.
+			<li class="flex gap-4">
+				{@render tick('proton-3', 7)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Start a new item</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						In the middle of the screen, press <strong>Create a custom item</strong>. It&rsquo;s the
+						grey button with a small spanner icon.
+					</p>
+					<p class="mt-2 text-base leading-relaxed text-ink-soft">
+						Or press the purple <strong>Create item</strong> button at the top right and choose a custom
+						item from the list.
+					</p>
+				</div>
+			</li>
+			<li class="flex gap-4">
+				{@render tick('proton-4', 8)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Choose API credential</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						If it asks what kind of custom item, choose <strong>API credential</strong>.
+					</p>
+					<p class="mt-2 text-base leading-relaxed text-ink-soft">
+						Can&rsquo;t see that choice? Pick the plain custom item and add a field called <strong
+							>API key</strong
+						> instead. Either works.
+					</p>
+				</div>
+			</li>
+			<li class="flex gap-4">
+				{@render tick('proton-5', 9)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Fill it in</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						Give it the name <strong>SumUp API key</strong>. Then
+						<strong>paste the key you copied from SumUp</strong> into the box for the key (it may be called
+						&ldquo;API key&rdquo;, &ldquo;Key&rdquo; or &ldquo;Secret&rdquo;).
+					</p>
+					<p class="mt-2 text-base leading-relaxed text-ink-soft">
+						Leave everything else empty. The merchant code doesn&rsquo;t go here. It goes in the
+						website&rsquo;s Settings (step 4 above).
+					</p>
+				</div>
+			</li>
+			<li class="flex gap-4">
+				{@render tick('proton-6', 10)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Save it</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						Press <strong>Save</strong> (or <strong>Create</strong>). You should now see
+						<strong>SumUp API key</strong> listed in the SmashinBakes vault, which no longer says it&rsquo;s
+						empty.
+					</p>
+				</div>
+			</li>
+			<li class="flex gap-4">
+				{@render tick('proton-7', 11)}
+				<div class="min-w-0 flex-1">
+					<p class="pt-1 text-lg font-semibold text-ink">Let me know</p>
+					<p class="mt-1 text-lg leading-relaxed text-ink">
+						Please tell me you&rsquo;ve added it, by phone on <a
+							href="tel:+447566257092"
+							class="font-semibold text-pink-deep underline hover:text-pink">07566 257092</a
+						>
+						or with the <strong>Feedback</strong> button in the corner. I can see it straight away, and
+						I&rsquo;ll take it from there.
+					</p>
+				</div>
 			</li>
 		</ol>
-		<p class="mt-2">
-			I&rsquo;ll accept the invitation and can then see it. If you do this, you can skip the
-			Bitwarden steps below.
-		</p>
-	</section>
-	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
-		<p class="font-semibold">Easiest: use the shared Proton Pass vault (free)</p>
-		<p class="mt-1">
-			I&rsquo;ve already shared a vault called <strong>SmashinBakes</strong> with
-			<strong>alanah@smashinbakes.co.uk</strong>. Anything saved in it, I can see straight away.
-		</p>
-		<ol class="mt-2 list-decimal space-y-1 pl-5">
-			<li>
-				Open the invitation email in that inbox (it comes from me, <strong
-					>williamjamesellis@outlook.com</strong
-				>) and press the button to accept it. If it asks you to make a free Proton account, use
-				<strong>alanah@smashinbakes.co.uk</strong>.
-			</li>
-			<li>
-				Go to <a
-					href="https://proton.me/pass"
-					target="_blank"
-					rel="noreferrer"
-					class="font-semibold text-pink-deep underline hover:text-pink">proton.me/pass &#8599;</a
-				>
-				and open the <strong>SmashinBakes</strong> vault.
-			</li>
-			<li>
-				Add a new <strong>Login</strong> called &ldquo;SumUp API key&rdquo;, and paste the key into
-				the <strong>password</strong> box. Save it.
-			</li>
-			<li>
-				Please let me know it&rsquo;s there (or I&rsquo;ll spot it myself). You can skip the
-				Bitwarden steps below.
-			</li>
-		</ol>
-		<p class="mt-2">
+		<p class="mt-6 text-base text-ink-soft">
 			Can&rsquo;t find the invitation? Please check your spam folder, and if it isn&rsquo;t there,
 			give me a ring on
 			<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
@@ -240,61 +304,53 @@
 		</p>
 	</section>
 
-	<ol class="mt-6 space-y-7">
-		<li class="flex gap-4">
-			{@render tick('pass-1', 5)}
-			<div class="min-w-0 flex-1">
-				<p class="pt-1 text-lg leading-relaxed text-ink">
-					Go to <a
-						href="https://vault.bitwarden.com"
-						target="_blank"
-						rel="noreferrer"
-						class="font-semibold text-pink-deep underline hover:text-pink"
-						>vault.bitwarden.com &#8599;</a
-					>
-					and sign in. If you don&rsquo;t have an account, press <strong>Create account</strong> (the
-					free one is fine).
-				</p>
-			</div>
-		</li>
-		<li class="flex gap-4">
-			{@render tick('pass-2', 6)}
-			<div class="min-w-0 flex-1">
-				<p class="pt-1 text-lg leading-relaxed text-ink">
-					Open <strong>Send</strong> in the menu and press <strong>New Send</strong>. Choose the
-					type <strong>Text</strong>, give it a name such as &ldquo;SumUp key&rdquo;, and paste the
-					API key into the text box.
-				</p>
-			</div>
-		</li>
-		<li class="flex gap-4">
-			{@render tick('pass-3', 7)}
-			<div class="min-w-0 flex-1">
-				<p class="pt-1 text-lg leading-relaxed text-ink">Open <strong>Options</strong> and set:</p>
-				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
-					<li><strong>Deletion date:</strong> tomorrow</li>
-					<li><strong>Maximum access count:</strong> 1</li>
-					<li>
-						<strong>Password:</strong> please make one up (you&rsquo;ll let me know it in step 8)
-					</li>
-				</ul>
-				<p class="mt-2 text-lg leading-relaxed text-ink">
-					Please press <strong>Save</strong>, then <strong>Copy Send link</strong>, and send that
-					link to me by email or text.
-				</p>
-			</div>
-		</li>
-		<li class="flex gap-4">
-			{@render tick('pass-4', 8)}
-			<p class="pt-1 text-lg leading-relaxed text-ink">
-				<strong>Please phone me</strong> on
-				<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
-					>07566 257092</a
-				> and let me know the Send password. It&rsquo;s safest not to put the password in the same message
-				as the link, so that anyone who finds the link can&rsquo;t open it.
-			</p>
-		</li>
-	</ol>
+	<h3 class="mt-10 font-display text-xl text-ink">
+		Other ways (only if Proton Pass doesn&rsquo;t suit)
+	</h3>
+	<section class="mt-3 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
+		<p class="font-semibold">An iPhone or a Mac</p>
+		<p class="mt-1">
+			Apple&rsquo;s <strong>Passwords</strong> app can share one saved item with me. Open it and
+			press
+			<strong>+</strong>, set the website to <strong>SumUp API key</strong> and paste the key as the
+			password, then press <strong>Share</strong> and choose me. Ask me for the email I use for my Apple
+			Account.
+		</p>
+	</section>
+	<section class="mt-3 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
+		<p class="font-semibold">A one-time private link (Bitwarden Send)</p>
+		<ol class="mt-1 list-decimal space-y-1 pl-5">
+			<li>
+				Go to <a
+					href="https://vault.bitwarden.com"
+					target="_blank"
+					rel="noreferrer"
+					class="font-semibold text-pink-deep underline hover:text-pink"
+					>vault.bitwarden.com &#8599;</a
+				> and sign in (a free account is fine).
+			</li>
+			<li>
+				Open <strong>Send</strong>, press <strong>New Send</strong>, choose <strong>Text</strong>,
+				and paste the key.
+			</li>
+			<li>
+				Under <strong>Options</strong> set the deletion date to tomorrow, the maximum access count to
+				1, and add a password.
+			</li>
+			<li>
+				Send me the link by email or text, and <strong>phone me</strong> on 07566 257092 with the password.
+				Please don&rsquo;t put the password in the same message as the link.
+			</li>
+		</ol>
+		<p class="mt-1 text-sm text-ink-soft">
+			<a
+				href="https://bitwarden.com/help/about-send/"
+				target="_blank"
+				rel="noreferrer"
+				class="font-semibold text-pink-deep underline hover:text-pink">What is a Send? &#8599;</a
+			>
+		</p>
+	</section>
 
 	<section class="mt-10 rounded-2xl border border-ink/10 bg-white/60 p-5">
 		<h2 class="text-base font-semibold text-ink">What happens next</h2>
