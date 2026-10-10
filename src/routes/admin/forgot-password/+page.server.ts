@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffUsers } from '$lib/server/db/schema';
+import { rateLimit } from '$lib/server/rate-limit';
 import { isEmailConfigured, sendTestEmail } from '$lib/server/email/resend';
 import { renderPasswordResetEmail } from '$lib/email/transactional-template';
 import { logStaffActivity } from '$lib/server/auth/activity-log';
@@ -30,7 +31,9 @@ export const actions: Actions = {
 		// Always the same response whether or not the email matches an account,
 		// or whether that account is active — confirming/denying either here
 		// would let anyone enumerate staff accounts or probe who's deactivated.
-		if (user && user.isActive) {
+		// At most 3 reset emails per address per hour; the response looks the same.
+		const allowed = rateLimit(`staff-reset:${email}`, 3, 60 * 60 * 1000).ok;
+		if (user && user.isActive && allowed) {
 			const token = randomBytes(32).toString('base64url');
 			const tokenHash = createHash('sha256').update(token).digest('hex');
 			await db

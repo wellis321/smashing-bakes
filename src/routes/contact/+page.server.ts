@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { bespokeOrderEnquiries, newsletterSubscribers } from '$lib/server/db/schema';
+import { rateLimit } from '$lib/server/rate-limit';
 import { notifyOwnerOfEnquiry } from '$lib/server/email/owner-notifications';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,6 +34,14 @@ export const actions: Actions = {
 		const wantsNewsletter = formData.get('wantsNewsletter') === 'true';
 
 		const values = { name, email, phone: phone ?? '', details };
+
+		// A flood guard across the whole form (it also protects the owner's inbox).
+		if (!rateLimit('contact-form', 15, 10 * 60 * 1000).ok) {
+			return fail(429, {
+				message: 'We’re getting a lot of messages right now — please try again in a few minutes.',
+				values
+			});
+		}
 
 		if (!name || !email || !details) {
 			return fail(400, {

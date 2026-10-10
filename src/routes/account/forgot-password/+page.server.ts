@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { customers } from '$lib/server/db/schema';
+import { rateLimit } from '$lib/server/rate-limit';
 import { isEmailConfigured, sendTestEmail } from '$lib/server/email/resend';
 import { renderPasswordResetEmail } from '$lib/email/transactional-template';
 
@@ -29,25 +30,36 @@ export const actions: Actions = {
 		// Always the same response whether or not the email matches an account —
 		// confirming/denying an email exists here would let anyone enumerate
 		// registered customers.
-		if (customer) {
+		// At most 3 reset emails per address per hour; the response looks the same.
+		const allowed = rateLimit(`customer-reset:${email}`, 3, 60 * 60 * 1000).ok;
+		if (customer && allowed) {
 			const token = randomBytes(32).toString('base64url');
 			const tokenHash = createHash('sha256').update(token).digest('hex');
 			await db
 				.update(customers)
-				.set({ passwordResetTokenHash: tokenHash, passwordResetExpiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS) })
+				.set({
+					passwordResetTokenHash: tokenHash,
+					passwordResetExpiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS)
+				})
 				.where(eq(customers.id, customer.id));
 
 			const resetUrl = `${url.origin}/account/reset-password/${token}`;
 			if (isEmailConfigured()) {
 				try {
-					await sendTestEmail(customer.email, "Reset your password — Smashin' Bakes", renderPasswordResetEmail(resetUrl));
+					await sendTestEmail(
+						customer.email,
+						"Reset your password — Smashin' Bakes",
+						renderPasswordResetEmail(resetUrl)
+					);
 				} catch (err) {
 					console.error('Failed to send password reset email:', err);
 				}
 			} else {
 				// No sender configured yet (pre-launch) — log so this is still
 				// testable locally without a real inbox to check.
-				console.log(`[password reset] email not configured; link for ${customer.email}: ${resetUrl}`);
+				console.log(
+					`[password reset] email not configured; link for ${customer.email}: ${resetUrl}`
+				);
 			}
 		}
 

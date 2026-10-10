@@ -10,7 +10,24 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.staff = staffSession?.user ?? null;
 	event.locals.customer = customerSession?.user ?? null;
 
-	return resolve(event);
+	const response = await resolve(event);
+
+	// Browser-side protections that cost nothing: HTTPS only, no content-type
+	// guessing, no framing by other sites, and a tighter referrer.
+	try {
+		response.headers.set('Strict-Transport-Security', 'max-age=31536000');
+		response.headers.set('X-Content-Type-Options', 'nosniff');
+		response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+		response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+		response.headers.set(
+			'Permissions-Policy',
+			'camera=(), microphone=(), geolocation=(), payment=(self)'
+		);
+	} catch {
+		// Some responses (e.g. redirects built elsewhere) have read-only headers.
+	}
+
+	return response;
 };
 
 // This deploy target (Hostinger's git-triggered Node.js build) never runs

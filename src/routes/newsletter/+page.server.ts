@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
 import { newsletterSubscribers } from '$lib/server/db/schema';
+import { rateLimit } from '$lib/server/rate-limit';
 import { notifyOwnerOfSubscriber } from '$lib/server/email/owner-notifications';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,6 +17,12 @@ export const actions: Actions = {
 		// pretend success rather than tipping off whatever's submitting it.
 		if (String(formData.get('company') ?? '').trim() !== '') {
 			return { success: true, alreadySubscribed: false };
+		}
+
+		if (!rateLimit('newsletter-form', 40, 10 * 60 * 1000).ok) {
+			return fail(429, {
+				message: 'Lots of sign-ups right now — please try again in a few minutes.'
+			});
 		}
 
 		const email = String(formData.get('email') ?? '')

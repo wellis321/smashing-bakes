@@ -1,3 +1,4 @@
+import { rateLimit } from '$lib/server/rate-limit';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { randomBytes } from 'node:crypto';
@@ -11,7 +12,8 @@ import { safeRedirectTarget } from '$lib/utils/safe-redirect';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const load: PageServerLoad = async ({ locals, url }) => {
-	if (locals.customer) throw redirect(303, safeRedirectTarget(url.searchParams.get('redirectTo'), '/account'));
+	if (locals.customer)
+		throw redirect(303, safeRedirectTarget(url.searchParams.get('redirectTo'), '/account'));
 	return { redirectTo: url.searchParams.get('redirectTo') ?? '' };
 };
 
@@ -28,6 +30,13 @@ export const actions: Actions = {
 
 		const values = { name, email };
 
+		if (!rateLimit('register-form', 30, 10 * 60 * 1000).ok) {
+			return fail(429, {
+				message: 'Lots of sign-ups right now — please try again in a few minutes.',
+				values
+			});
+		}
+
 		if (!name || !email || !password) {
 			return fail(400, { message: 'Please fill in your name, email and a password.', values });
 		}
@@ -40,13 +49,22 @@ export const actions: Actions = {
 
 		const existing = await db.query.customers.findFirst({ where: eq(customers.email, email) });
 		if (existing) {
-			return fail(400, { message: 'An account already exists with that email — try logging in instead.', values });
+			return fail(400, {
+				message: 'An account already exists with that email — try logging in instead.',
+				values
+			});
 		}
 
 		const passwordHash = await hashPassword(password);
 		const [result] = await db
 			.insert(customers)
-			.values({ name, email, passwordHash, marketingOptIn, unsubscribeToken: randomBytes(24).toString('hex') });
+			.values({
+				name,
+				email,
+				passwordHash,
+				marketingOptIn,
+				unsubscribeToken: randomBytes(24).toString('hex')
+			});
 
 		await createCustomerSession(result.insertId, event);
 
