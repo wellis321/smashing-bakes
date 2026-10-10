@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
@@ -134,7 +135,13 @@
 		<div class="mt-4 grid grid-cols-3 gap-3 sm:w-fit">
 			{#each extraImages as image (image.id)}
 				<div class="overflow-hidden rounded-xl border border-ink/10 bg-white">
-					<img src={image.url} alt={image.altText ?? ''} class="aspect-square w-28 object-cover" />
+					<ResponsiveImg
+						src={image.url}
+						alt={image.altText ?? ''}
+						sizes="112px"
+						widths={[160, 320]}
+						class="aspect-square w-28 object-cover"
+					/>
 					<form
 						method="POST"
 						action="?/deleteImage"

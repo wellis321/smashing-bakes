@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	type MediaItem = { id: number; url: string; filename: string; altText: string | null };
 
 	let {
@@ -70,25 +71,32 @@
 <svelte:window onclick={closeOnOutsideClick} onkeydown={handleKeydown} />
 
 <div>
-	<label for={fileFieldName ?? urlFieldName} class="text-ink-soft text-sm font-medium">{label}</label>
+	<label for={fileFieldName ?? urlFieldName} class="text-sm font-medium text-ink-soft"
+		>{label}</label
+	>
 
 	<div class="mt-2 flex items-start gap-4">
 		{#if showPreview && previewUrl}
-			<img src={previewUrl} alt="" class="bg-cream-dim h-24 w-24 shrink-0 rounded-lg object-cover" />
+			<ResponsiveImg
+				src={previewUrl}
+				sizes="96px"
+				widths={[160, 320]}
+				class="h-24 w-24 shrink-0 rounded-lg bg-cream-dim object-cover"
+			/>
 		{/if}
 
 		<div class="min-w-0 flex-1">
 			<div class="flex flex-wrap items-start gap-4">
 				{#if allowUpload}
 					<div>
-						<span class="text-ink-soft mb-1 block text-xs font-medium">Upload new photo</span>
+						<span class="mb-1 block text-xs font-medium text-ink-soft">Upload new photo</span>
 						<input
 							id={fileFieldName}
 							name={fileFieldName}
 							type="file"
 							accept="image/jpeg,image/png,image/webp"
 							onchange={handleFileChange}
-							class="text-ink-soft block text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
+							class="block text-sm text-ink-soft file:mr-3 file:rounded-lg file:border-0 file:bg-ink/5 file:px-3 file:py-2 file:text-sm file:font-medium file:text-ink"
 						/>
 					</div>
 				{/if}
@@ -99,7 +107,7 @@
 						aria-haspopup="menu"
 						aria-expanded={open}
 						onclick={() => (open = !open)}
-						class="text-pink-deep hover:underline shrink-0 text-sm font-semibold"
+						class="shrink-0 text-sm font-semibold text-pink-deep hover:underline"
 					>
 						Choose from library
 					</button>
@@ -107,12 +115,14 @@
 					{#if open}
 						<div
 							role="menu"
-							class="border-ink/10 shadow-soft absolute top-full left-0 z-20 mt-2 max-h-80 w-72 overflow-y-auto rounded-2xl border bg-cream p-3"
+							class="absolute top-full left-0 z-20 mt-2 max-h-80 w-72 overflow-y-auto rounded-2xl border border-ink/10 bg-cream p-3 shadow-soft"
 						>
 							{#if items.length === 0}
-								<p class="text-ink-soft p-2 text-center text-xs">
+								<p class="p-2 text-center text-xs text-ink-soft">
 									No images yet —
-									<a href="/admin/media" target="_blank" rel="noreferrer" class="underline">upload some</a>
+									<a href="/admin/media" target="_blank" rel="noreferrer" class="underline"
+										>upload some</a
+									>
 									first.
 								</p>
 							{:else}
@@ -122,9 +132,15 @@
 											type="button"
 											onclick={() => pick(item.url)}
 											title={item.filename}
-											class="border-ink/10 hover:ring-pink aspect-square overflow-hidden rounded-lg border transition-shadow hover:ring-2"
+											class="aspect-square overflow-hidden rounded-lg border border-ink/10 transition-shadow hover:ring-2 hover:ring-pink"
 										>
-											<img src={item.url} alt={item.altText ?? ''} class="h-full w-full object-cover" />
+											<ResponsiveImg
+												src={item.url}
+												alt={item.altText ?? ''}
+												sizes="120px"
+												widths={[160, 320]}
+												class="h-full w-full object-cover"
+											/>
 										</button>
 									{/each}
 								</div>
@@ -134,14 +150,18 @@
 				</div>
 
 				{#if selectedUrl}
-					<button type="button" onclick={clearLibrarySelection} class="text-ink-soft hover:text-ink shrink-0 pt-5 text-xs underline">
+					<button
+						type="button"
+						onclick={clearLibrarySelection}
+						class="shrink-0 pt-5 text-xs text-ink-soft underline hover:text-ink"
+					>
 						Undo library pick
 					</button>
 				{/if}
 			</div>
 
 			{#if hint}
-				<p class="text-ink-soft/70 mt-2 text-xs">{hint}</p>
+				<p class="mt-2 text-xs text-ink-soft/70">{hint}</p>
 			{/if}
 		</div>
 	</div>

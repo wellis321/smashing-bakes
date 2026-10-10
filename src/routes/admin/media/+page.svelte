@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageData } from './$types';
@@ -126,7 +127,13 @@
 	<div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
 		{#each data.items as item (item.id)}
 			<div class="overflow-hidden rounded-2xl border border-ink/10 bg-white/60">
-				<img src={item.url} alt={item.altText ?? ''} class="aspect-square w-full object-cover" />
+				<ResponsiveImg
+					src={item.url}
+					alt={item.altText ?? ''}
+					sizes="(min-width: 1024px) 220px, (min-width: 640px) 30vw, 46vw"
+					widths={[160, 320, 480]}
+					class="aspect-square w-full object-cover"
+				/>
 				<div class="space-y-2 p-3">
 					<form
 						method="POST"
