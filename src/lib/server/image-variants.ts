@@ -47,7 +47,7 @@ export async function resizedWebp(
 				const out = await sharp(original, { failOn: 'none' })
 					.rotate() // respect the camera's orientation
 					.resize({ width, withoutEnlargement: true })
-					.webp({ quality: 78, effort: 4 })
+					.webp({ quality: 74, effort: 4, smartSubsample: true })
 					.toBuffer();
 				remember(cacheKey, out);
 				return out;

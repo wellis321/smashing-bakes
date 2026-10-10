@@ -85,6 +85,7 @@
 		<MenuDisplay
 			menu={data.featuredMenu}
 			eyebrow={featuredEyebrow}
+			headingLevel="h2"
 			viewHref={`/menus/${data.featuredMenu.menuDate}`}
 		/>
 	</section>

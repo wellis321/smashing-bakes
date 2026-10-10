@@ -46,9 +46,10 @@ function tag(html: string, re: RegExp): string | undefined {
 }
 
 function metaContent(html: string, attr: string, name: string): string | undefined {
-	const re1 = new RegExp(`<meta[^>]*${attr}=["']${name}["'][^>]*content=["']([^"']*)["']`, 'i');
-	const re2 = new RegExp(`<meta[^>]*content=["']([^"']*)["'][^>]*${attr}=["']${name}["']`, 'i');
-	return html.match(re1)?.[1] ?? html.match(re2)?.[1];
+	// The value may contain apostrophes (Smashin' Bakes), so match the same quote that opened it.
+	const re1 = new RegExp(`<meta[^>]*${attr}=["']${name}["'][^>]*content=(["'])(.*?)\\1`, 'i');
+	const re2 = new RegExp(`<meta[^>]*content=(["'])(.*?)\\1[^>]*${attr}=["']${name}["']`, 'i');
+	return html.match(re1)?.[2] ?? html.match(re2)?.[2];
 }
 
 export async function auditPage(base: string, path: string): Promise<PageAudit> {

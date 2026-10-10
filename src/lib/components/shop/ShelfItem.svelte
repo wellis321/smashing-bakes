@@ -11,13 +11,16 @@
 		index = 0,
 		fallbackSrc = null,
 		plain = false,
-		href = undefined
+		href = undefined,
+		sizes = '(min-width: 1024px) 15rem, (min-width: 640px) 26vw, 44vw'
 	}: {
 		product: ProductCardData;
 		index?: number;
 		fallbackSrc?: string | null;
 		plain?: boolean;
 		href?: string;
+		// How wide the plate is shown, so the browser fetches a picture that fits.
+		sizes?: string;
 	} = $props();
 
 	const image = $derived(product.images[0]);
@@ -48,16 +51,18 @@
 				<PhotoFrame
 					src={image.url}
 					alt=""
-					sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 46vw"
+					{sizes}
+					widths={[160, 320, 480, 640, 960]}
+					defaultWidth={320}
 					zoom={image.zoom ?? 100}
 					focal={image.focalPoint ?? 'center'}
 					class="h-full w-full rounded-full"
 				/>
 			{:else if shownSrc}
 				<img
-					src={srcFor(shownSrc, 480)}
+					src={srcFor(shownSrc, 320)}
 					srcset={srcsetFor(shownSrc, [320, 480, 640, 960])}
-					sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 46vw"
+					{sizes}
 					alt=""
 					loading="lazy"
 					decoding="async"

@@ -18,6 +18,7 @@
 		class: className = '',
 		sizes = '50vw',
 		widths = [320, 480, 640, 960, 1280],
+		defaultWidth = 640,
 		eager = false
 	}: {
 		src: string;
@@ -27,6 +28,8 @@
 		class?: string;
 		sizes?: string;
 		widths?: number[];
+		// The size used by browsers that ignore srcset, and by simple checkers.
+		defaultWidth?: number;
 		eager?: boolean;
 	} = $props();
 </script>
@@ -44,7 +47,7 @@
 		/>
 	{/if}
 	<img
-		src={srcFor(src, widths[Math.min(2, widths.length - 1)])}
+		src={srcFor(src, defaultWidth)}
 		srcset={srcsetFor(src, widths)}
 		{sizes}
 		{alt}

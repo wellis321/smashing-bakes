@@ -330,6 +330,7 @@
 				product={categoryPlate(category)}
 				index={i}
 				plain
+				sizes="(min-width: 1024px) 24rem, (min-width: 640px) 33vw, 46vw"
 				href={`/shop/${category.slug}`}
 				fallbackSrc={`/images/placeholder/${category.slug}.svg`}
 			/>

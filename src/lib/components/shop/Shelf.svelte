@@ -65,6 +65,12 @@
 				? 6
 				: 4
 	);
+	// Plates are shown larger when only a few sit across the shelf.
+	const plateSizes = $derived(
+		fit > 0
+			? '(min-width: 1024px) 24rem, (min-width: 640px) 33vw, 46vw'
+			: '(min-width: 1024px) 15rem, (min-width: 640px) 26vw, 44vw'
+	);
 	const mdCols = $derived(count > 0 ? Math.min(count, 3) : 3);
 	const smCols = $derived(count > 0 ? Math.min(count, 2) : 2);
 </script>
@@ -93,7 +99,7 @@
 			{@render children()}
 		{:else}
 			{#each products as product, i (product.slug)}
-				<ShelfItem {product} index={i} {fallbackSrc} />
+				<ShelfItem {product} index={i} {fallbackSrc} sizes={plateSizes} />
 			{/each}
 		{/if}
 	</div>

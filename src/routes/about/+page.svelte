@@ -4,6 +4,11 @@
 	import SignBoard from '$lib/components/shop/SignBoard.svelte';
 	import Framed from '$lib/components/shop/Framed.svelte';
 	import ChalkCard from '$lib/components/shop/ChalkCard.svelte';
+	import exterior640 from '$lib/assets/exterior-640.webp';
+	import exterior960 from '$lib/assets/exterior-960.webp';
+	import exterior1280 from '$lib/assets/exterior-1280.webp';
+	import counter480 from '$lib/assets/counter-480.webp';
+	import counter960 from '$lib/assets/counter-960.webp';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -29,7 +34,14 @@
 
 	<Framed class="mx-auto mt-10 max-w-3xl">
 		<img
-			src="/images/shop/exterior.jpg"
+			src={exterior960}
+			srcset={`${exterior640} 640w, ${exterior960} 960w, ${exterior1280} 1280w`}
+			sizes="(min-width: 768px) 768px, 100vw"
+			width="1280"
+			height="720"
+			loading="eager"
+			fetchpriority="high"
+			decoding="async"
 			alt="The Smashin' Bakes shopfront on Paisley Road, Barrhead, with customers queuing outside"
 			class="aspect-[16/9] w-full object-cover"
 		/>
@@ -71,7 +83,11 @@
 		</div>
 		<Framed class="order-1 sm:order-2">
 			<img
-				src="/images/shop/counter.jpg"
+				src={counter960}
+				srcset={`${counter480} 480w, ${counter960} 960w`}
+				sizes="(min-width: 640px) 50vw, 100vw"
+				loading="lazy"
+				decoding="async"
 				alt="The bakery counter at Smashin' Bakes, with cookies, brownies and cakes on display"
 				class="aspect-[4/3] w-full object-cover"
 			/>
