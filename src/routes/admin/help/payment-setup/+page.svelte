@@ -97,8 +97,13 @@
 		<li class="flex gap-4">
 			{@render tick('key-1', 1)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Go to <strong>sumup.com</strong> and sign in to the business&rsquo;s SumUp account. Check that
-				the account is fully set up (SumUp may ask for business details or ID if it isn&rsquo;t).
+				Go to <a
+					href="https://me.sumup.com"
+					target="_blank"
+					rel="noreferrer"
+					class="font-semibold text-pink-deep underline hover:text-pink">me.sumup.com &#8599;</a
+				> and sign in to the business&rsquo;s SumUp account. Check that the account is fully set up (SumUp
+				may ask for business details or ID if it isn&rsquo;t).
 			</p>
 		</li>
 		<li class="flex gap-4">
@@ -120,6 +125,13 @@
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					Press <strong>API Keys</strong>, then <strong>Create</strong>. Call it
 					<strong>Smashin&rsquo; Bakes website</strong>.
+					<a
+						href="https://developer.sumup.com/tools/authorization/api-keys"
+						target="_blank"
+						rel="noreferrer"
+						class="text-base font-semibold text-pink-deep underline hover:text-pink"
+						>SumUp&rsquo;s own instructions &#8599;</a
+					>
 				</p>
 				<p class="mt-3 text-lg leading-relaxed text-ink">
 					<strong>Copy the key straight away.</strong> SumUp can&rsquo;t show it again later. If SumUp
@@ -154,8 +166,13 @@
 	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send the API key safely</h2>
 	<p class="mt-2 text-base text-ink-soft">
 		Easiest if William is with you: just tell him or show him. If he isn&rsquo;t, use a free
-		<strong>Bitwarden Send</strong>. It makes a private link that works once and then deletes
-		itself. Nobody needs an account to open it.
+		<strong>Bitwarden Send</strong> (<a
+			href="https://bitwarden.com/help/about-send/"
+			target="_blank"
+			rel="noreferrer"
+			class="font-semibold text-pink-deep underline hover:text-pink">what is that? &#8599;</a
+		>). It makes a private link that works once and then deletes itself. Nobody needs an account to
+		open it.
 	</p>
 	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
 		<p class="font-semibold">Got an iPhone or a Mac? There&rsquo;s an even easier way.</p>
@@ -187,8 +204,15 @@
 			{@render tick('pass-1', 5)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
-					Go to <strong>vault.bitwarden.com</strong> and sign in. If you don&rsquo;t have an
-					account, press <strong>Create account</strong> (the free one is fine).
+					Go to <a
+						href="https://vault.bitwarden.com"
+						target="_blank"
+						rel="noreferrer"
+						class="font-semibold text-pink-deep underline hover:text-pink"
+						>vault.bitwarden.com &#8599;</a
+					>
+					and sign in. If you don&rsquo;t have an account, press <strong>Create account</strong> (the
+					free one is fine).
 				</p>
 			</div>
 		</li>
