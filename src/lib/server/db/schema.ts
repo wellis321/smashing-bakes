@@ -326,6 +326,28 @@ export const menuItemsRelations = relations(menuItems, ({ one }) => ({
 	section: one(menuSections, { fields: [menuItems.sectionId], references: [menuSections.id] })
 }));
 
+// --- Site health: every speed / accessibility / SEO test run, kept so progress shows over time ---
+
+export const healthRuns = mysqlTable('health_runs', {
+	id: int('id').autoincrement().primaryKey(),
+	// Groups the pages tested together in one go.
+	runId: varchar('run_id', { length: 36 }).notNull(),
+	// 'quick' (our own instant checks), 'lighthouse-mobile' or 'lighthouse-desktop' (Google).
+	kind: varchar('kind', { length: 30 }).notNull(),
+	// The page tested, e.g. '/shop', or '(whole site)' for site-wide checks.
+	url: varchar('url', { length: 500 }).notNull(),
+	performance: int('performance'),
+	accessibility: int('accessibility'),
+	bestPractices: int('best_practices'),
+	seo: int('seo'),
+	// JSON text: timings and sizes (load time, image weight, LCP, ...).
+	metrics: text('metrics'),
+	// JSON text: what failed, so it can be fixed.
+	details: text('details'),
+	error: text('error'),
+	createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
 // --- Feedback from staff, sent from the button on every admin page ---
 
 export const FEEDBACK_STATUSES = ['new', 'working', 'resolved', 'parked'] as const;

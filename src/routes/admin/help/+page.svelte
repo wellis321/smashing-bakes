@@ -58,6 +58,13 @@
 			keywords: 'domain dns godaddy hostinger wix website address smashinbakes.com'
 		},
 		{
+			title: 'Check how the site is doing',
+			summary: 'Speed, accessibility and search scores over time, plus sales and growth',
+			href: '/admin/health',
+			keywords:
+				'health speed performance lighthouse accessibility seo score sales revenue orders growth test pagespeed'
+		},
+		{
 			title: 'Get the bakery found online',
 			summary: 'Google, Bing, maps and AI assistants: what to submit and where',
 			href: '/admin/help/get-found-online',
