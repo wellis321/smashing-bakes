@@ -157,6 +157,31 @@
 		<strong>Bitwarden Send</strong>. It makes a private link that works once and then deletes
 		itself. Nobody needs an account to open it.
 	</p>
+	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
+		<p class="font-semibold">Got an iPhone or a Mac? There&rsquo;s an even easier way.</p>
+		<p class="mt-1">
+			Apple&rsquo;s <strong>Passwords</strong> app can share one saved item with William, and nothing
+			has to be sent by email or text.
+		</p>
+		<ol class="mt-2 list-decimal space-y-1 pl-5">
+			<li>
+				Open the <strong>Passwords</strong> app and press <strong>+</strong> to add a new one.
+			</li>
+			<li>
+				Website: <strong>SumUp API key</strong>. Password: paste the API key. Press
+				<strong>Save</strong>.
+			</li>
+			<li>
+				Press <strong>Share</strong> on that item (or add it to a <strong>Shared Group</strong>) and
+				choose William. Ask him for the email he uses for his Apple Account.
+			</li>
+		</ol>
+		<p class="mt-2">
+			William accepts the invitation and can then see it. If you do this, you can skip the Bitwarden
+			steps below.
+		</p>
+	</section>
+
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
 			{@render tick('pass-1', 5)}
