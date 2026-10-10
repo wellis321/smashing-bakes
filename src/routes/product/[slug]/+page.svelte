@@ -4,7 +4,8 @@
 	import { formatPence } from '$lib/utils/money';
 	import { cart } from '$lib/stores/cart.svelte';
 	import Badge from '$lib/components/Badge.svelte';
-	import ProductCard from '$lib/components/ProductCard.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import Shelf from '$lib/components/shop/Shelf.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import FulfilmentBenefits from '$lib/components/FulfilmentBenefits.svelte';
 	import { safeJsonLd } from '$lib/utils/json-ld';
@@ -24,6 +25,13 @@
 	let selectedVariantId = $state<number | null>(null);
 	let quantity = $state(1);
 	let justAdded = $state(false);
+
+	// The photo stretches to match the details column. A little stretch is fine
+	// (the photo just crops a touch more); a lot would chop the sides off, so
+	// past this point the whole photo is shown over a soft blurred copy of itself.
+	let frameWidth = $state(0);
+	let frameHeight = $state(0);
+	const stretched = $derived(frameWidth > 0 && frameHeight / frameWidth > 1.18);
 
 	$effect(() => {
 		// Reset per-product state when navigating between products (e.g. via
@@ -63,16 +71,6 @@
 		goto('/checkout');
 	}
 
-	// Match the column count to how many related products there actually are, so a
-	// short row never leaves a gap of empty columns on the right.
-	const relatedColsClass = $derived(
-		data.related.length === 2
-			? 'sm:grid-cols-2'
-			: data.related.length === 1
-				? 'sm:grid-cols-1'
-				: 'sm:grid-cols-3'
-	);
-
 	const productJsonLd = $derived(
 		safeJsonLd({
 			'@context': 'https://schema.org',
@@ -103,7 +101,7 @@
 	{@html `<script type="application/ld+json">${productJsonLd}<\/script>`}
 </svelte:head>
 
-<section class="mx-auto max-w-6xl px-5 pt-10 pb-20 sm:px-8">
+<ShopWindow openingHours={data.openingHours}>
 	<a
 		href={`/shop/${product.category.slug}`}
 		class="text-sm font-semibold text-ink-soft hover:text-ink"
@@ -111,18 +109,30 @@
 		&larr; {product.category.name}
 	</a>
 
-	<div class="mt-6 grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+	<div class="mt-6 grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-12">
 		<div class="flex flex-col">
 			<!-- The square spacer sets the minimum height; on wide screens the photo
 			     then grows to match whichever column is taller, so the two columns
 			     line up at the top and bottom. -->
-			<div class="relative flex-auto overflow-hidden rounded-[2rem] bg-cream-dim">
+			<div
+				class="relative flex-auto overflow-hidden rounded-[2rem] bg-cream-dim"
+				bind:clientWidth={frameWidth}
+				bind:clientHeight={frameHeight}
+			>
 				<div class="aspect-square w-full"></div>
 				{#if image}
+					{#if stretched}
+						<img
+							src={image.url}
+							alt=""
+							aria-hidden="true"
+							class="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl"
+						/>
+					{/if}
 					<img
 						src={image.url}
 						alt={image.altText ?? product.name}
-						class="absolute inset-0 h-full w-full object-cover"
+						class={`absolute inset-0 h-full w-full ${stretched ? 'object-contain' : 'object-cover'}`}
 					/>
 				{/if}
 				{#if product.badge !== 'none'}
@@ -270,15 +280,12 @@
 			/>
 		</div>
 	{/if}
-</section>
-
-{#if data.related.length > 0}
-	<section class="mx-auto max-w-6xl px-5 pb-24 sm:px-8">
-		<h2 class="font-display text-3xl text-ink">You might also like</h2>
-		<div class={`mt-8 grid grid-cols-2 gap-x-6 gap-y-10 ${relatedColsClass}`}>
-			{#each data.related as related (related.id)}
-				<ProductCard product={related} />
-			{/each}
-		</div>
-	</section>
-{/if}
+	{#if data.related.length > 0}
+		<Shelf
+			label="You might also like"
+			labelId="related"
+			showCount={false}
+			products={data.related}
+		/>
+	{/if}
+</ShopWindow>
