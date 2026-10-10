@@ -9,6 +9,38 @@
 		{ type: 'A', name: '@', value: '185.230.63.107', note: 'Wix' },
 		{ type: 'CNAME', name: 'www', value: 'pointing.wixdns.net', note: 'Wix' }
 	];
+	const TOTAL = 12;
+	let done = $state<Record<string, boolean>>({});
+	const doneCount = $derived(Object.values(done).filter(Boolean).length);
+
+	// Ticks are remembered in this browser only, so a half-finished job is still
+	// half-finished when the page is reopened.
+	$effect(() => {
+		try {
+			done = JSON.parse(localStorage.getItem('connect-domain-ticks') ?? '{}');
+		} catch {
+			/* storage unavailable — start with nothing ticked */
+		}
+	});
+
+	function toggle(id: string) {
+		done[id] = !done[id];
+		try {
+			localStorage.setItem('connect-domain-ticks', JSON.stringify(done));
+		} catch {
+			/* ticking still works for this visit */
+		}
+	}
+
+	function clearAll() {
+		done = {};
+		try {
+			localStorage.removeItem('connect-domain-ticks');
+		} catch {
+			/* nothing to clear */
+		}
+	}
+
 	const after: Row[] = [
 		{ type: 'A', name: '@', value: 'the IP address Hostinger shows you', note: 'New website' },
 		{ type: 'CNAME', name: 'www', value: 'the value Hostinger shows you', note: 'New website' }
@@ -28,6 +60,20 @@
 	<p class="mt-2 text-lg text-ink-soft">
 		Two short jobs: one in Hostinger, one in GoDaddy. About 15 minutes, then a wait.
 	</p>
+
+	<p class="mt-4 text-base text-ink-soft">
+		Press the circle next to each step when it&rsquo;s done to tick it off.
+	</p>
+	<div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-base">
+		<p class="font-semibold text-ink" aria-live="polite">
+			{doneCount} of {TOTAL} steps done{doneCount === TOTAL ? ' — all finished!' : ''}
+		</p>
+		{#if doneCount > 0}
+			<button type="button" onclick={clearAll} class="text-pink-deep hover:underline">
+				Clear ticks
+			</button>
+		{/if}
+	</div>
 
 	<!-- The idea, as a picture -->
 	<section class="mt-8 rounded-2xl border border-ink/10 bg-white/60 p-5" aria-label="What changes">
@@ -87,20 +133,14 @@
 
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>1</span
-			>
+			{@render tick('hostinger-1', 1)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Go to <strong>hpanel.hostinger.com</strong> and sign in. Open the website, then the
 				<strong>Node.js</strong> app.
 			</p>
 		</li>
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>2</span
-			>
+			{@render tick('hostinger-2', 2)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Find <strong>Domains</strong> (or &ldquo;Connect domain&rdquo;) and add
 				<strong>smashinbakes.com</strong>. Add <strong>www.smashinbakes.com</strong> too if it asks for
@@ -108,10 +148,7 @@
 			</p>
 		</li>
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>3</span
-			>
+			{@render tick('hostinger-3', 3)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					Hostinger now shows the <strong>records you need to add</strong>. Write down (or keep this
@@ -137,10 +174,7 @@
 
 	<ol class="mt-6 space-y-8">
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>1</span
-			>
+			{@render tick('godaddy-1', 1)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Go to <strong>godaddy.com</strong> and sign in. Open <strong>My Products</strong>, find
 				<strong>smashinbakes.com</strong> and press <strong>DNS</strong> (it may say &ldquo;Manage DNS&rdquo;).
@@ -148,10 +182,7 @@
 		</li>
 
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>2</span
-			>
+			{@render tick('godaddy-2', 2)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					You&rsquo;ll see a list of records. Find the <strong>two Wix lines</strong>. They look
@@ -166,10 +197,7 @@
 		</li>
 
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>3</span
-			>
+			{@render tick('godaddy-3', 3)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					Press the <strong>pencil</strong> next to the <strong>A</strong> line. Replace the Wix
@@ -180,10 +208,7 @@
 		</li>
 
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>4</span
-			>
+			{@render tick('godaddy-4', 4)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Press the <strong>pencil</strong> next to the <strong>CNAME www</strong> line. Replace
 				<em>pointing.wixdns.net</em> with the <strong>value from Hostinger</strong>, then press
@@ -192,10 +217,7 @@
 		</li>
 
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>5</span
-			>
+			{@render tick('godaddy-5', 5)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					The two lines should now look like this:
@@ -205,10 +227,7 @@
 		</li>
 
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>6</span
-			>
+			{@render tick('godaddy-6', 6)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
 					<strong>Leave everything else alone.</strong>
@@ -233,30 +252,21 @@
 	<h2 class="mt-12 font-display text-2xl text-ink">Then wait, and check</h2>
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>1</span
-			>
+			{@render tick('check-1', 1)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				It usually takes a few minutes, sometimes a few hours, and rarely up to a day. You
 				don&rsquo;t need to do anything while you wait.
 			</p>
 		</li>
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>2</span
-			>
+			{@render tick('check-2', 2)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				In Hostinger, the domain changes to <strong>Connected</strong> and a security certificate (the
 				padlock) is added by itself.
 			</p>
 		</li>
 		<li class="flex gap-4">
-			<span
-				class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pink text-base font-bold text-cream"
-				>3</span
-			>
+			{@render tick('check-3', 3)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				Open <strong>https://smashinbakes.com</strong> in a private or incognito window. You should see
 				this website with the awning at the top.
@@ -291,6 +301,35 @@
 		</dl>
 	</section>
 </div>
+
+{#snippet tick(id: string, n: number)}
+	<button
+		type="button"
+		onclick={() => toggle(id)}
+		aria-pressed={!!done[id]}
+		aria-label={`Step ${n}: ${done[id] ? 'done, press to untick' : 'press when done'}`}
+		class="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 text-base font-bold transition-colors {done[
+			id
+		]
+			? 'border-green-600 bg-green-600 text-white'
+			: 'border-pink bg-pink text-cream hover:bg-pink-deep'}"
+	>
+		{#if done[id]}
+			<svg
+				viewBox="0 0 20 20"
+				class="h-5 w-5"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="3"
+				aria-hidden="true"
+			>
+				<path d="M4 10.5l4 4 8-9" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		{:else}
+			{n}
+		{/if}
+	</button>
+{/snippet}
 
 {#snippet table(rows: Row[], rowClass: string)}
 	<div class="mt-4 overflow-x-auto rounded-xl border border-ink/10 bg-white">
