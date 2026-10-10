@@ -57,7 +57,7 @@
 		display: flex;
 		align-items: flex-end;
 		justify-content: center;
-		gap: 0.5%;
+		gap: 0;
 		margin-bottom: -0.55rem;
 	}
 
@@ -66,13 +66,16 @@
 	}
 
 	.slot-1 {
-		width: 31%;
+		width: 33%;
+		margin-right: -3%;
 	}
 	.slot-2 {
-		width: 43%;
+		width: 46%;
+		z-index: 3;
 	}
 	.slot-3 {
-		width: 26%;
+		width: 28%;
+		margin-left: -3%;
 	}
 
 	.plate {
