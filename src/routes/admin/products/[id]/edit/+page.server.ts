@@ -71,6 +71,7 @@ export const actions: Actions = {
 		const isFeatured = formData.get('isFeatured') === 'true';
 		const slug = slugify(String(formData.get('slug') || name));
 		const focalPoint = parseFocalPoint(formData.get('focalPoint'));
+		const zoom = Math.min(200, Math.max(30, Math.round(Number(formData.get('zoom'))) || 100));
 		const imageFile = formData.get('image');
 		const libraryImageUrl = String(formData.get('imageUrl') ?? '').trim();
 
@@ -117,7 +118,7 @@ export const actions: Actions = {
 		if (!imageUrl) {
 			await db
 				.update(productImages)
-				.set({ focalPoint })
+				.set({ focalPoint, zoom })
 				.where(and(eq(productImages.productId, id), eq(productImages.isPrimary, true)));
 		}
 
@@ -131,7 +132,7 @@ export const actions: Actions = {
 			if (existingPrimary) {
 				await db
 					.update(productImages)
-					.set({ url: imageUrl, altText: name, focalPoint })
+					.set({ url: imageUrl, altText: name, focalPoint, zoom })
 					.where(eq(productImages.id, existingPrimary.id));
 			} else {
 				await db.insert(productImages).values({
@@ -140,7 +141,8 @@ export const actions: Actions = {
 					altText: name,
 					isPrimary: true,
 					sortOrder: 0,
-					focalPoint
+					focalPoint,
+					zoom
 				});
 			}
 		}

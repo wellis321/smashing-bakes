@@ -4,6 +4,7 @@
 	import { formatPence } from '$lib/utils/money';
 	import { cart } from '$lib/stores/cart.svelte';
 	import Badge from '$lib/components/Badge.svelte';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
 	import Shelf from '$lib/components/shop/Shelf.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -129,12 +130,21 @@
 							class="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl"
 						/>
 					{/if}
-					<img
-						src={image.url}
-						alt={image.altText ?? product.name}
-						style:object-position={stretched ? undefined : image.focalPoint}
-						class={`absolute inset-0 h-full w-full ${stretched ? 'object-contain' : 'object-cover'}`}
-					/>
+					{#if stretched}
+						<img
+							src={image.url}
+							alt={image.altText ?? product.name}
+							class="absolute inset-0 h-full w-full object-contain"
+						/>
+					{:else}
+						<PhotoFrame
+							src={image.url}
+							alt={image.altText ?? product.name}
+							zoom={image.zoom ?? 100}
+							focal={image.focalPoint ?? 'center'}
+							class="absolute inset-0 h-full w-full"
+						/>
+					{/if}
 				{/if}
 				{#if product.badge !== 'none'}
 					<Badge kind={product.badge} />

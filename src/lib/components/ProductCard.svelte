@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatPence } from '$lib/utils/money';
 	import Badge from './Badge.svelte';
+	import PhotoFrame from './PhotoFrame.svelte';
 	import type { ProductCardData } from '$lib/types';
 
 	let { product }: { product: ProductCardData } = $props();
@@ -12,13 +13,12 @@
 <a href={`/product/${product.slug}`} class="group block" aria-label={`View ${product.name}`}>
 	<div class="relative overflow-hidden rounded-[1.75rem] bg-cream-dim">
 		{#if image}
-			<img
+			<PhotoFrame
 				src={image.url}
 				alt={image.altText ?? product.name}
-				loading="lazy"
-				style:object-position={image.focalPoint}
-				style:transform-origin={image.focalPoint}
-				class="aspect-square w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+				zoom={image.zoom ?? 100}
+				focal={image.focalPoint ?? 'center'}
+				class="aspect-square w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
 			/>
 		{/if}
 		{#if product.badge !== 'none'}

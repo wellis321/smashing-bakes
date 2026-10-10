@@ -75,7 +75,9 @@ export const productImages = mysqlTable('product_images', {
 	sortOrder: int('sort_order').notNull().default(0),
 	isPrimary: boolean('is_primary').notNull().default(false),
 	// Which part of the photo stays centred when it's cropped to a square ("X% Y%").
-	focalPoint: varchar('focal_point', { length: 20 }).notNull().default('center')
+	focalPoint: varchar('focal_point', { length: 20 }).notNull().default('center'),
+	// Zoom percentage (100 = the photo fills the square).
+	zoom: int('zoom').notNull().default(100)
 });
 
 export const productVariants = mysqlTable('product_variants', {

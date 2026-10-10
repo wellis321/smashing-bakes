@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { formatPence } from '$lib/utils/money';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import type { ProductCardData } from '$lib/types';
 
 	// `plain` drops the price tag and stickers and links to `href` instead, so the
@@ -49,12 +50,19 @@
 
 		<span class="contact-shadow" aria-hidden="true"></span>
 		<div class="plate">
-			{#if shownSrc}
+			{#if image}
+				<PhotoFrame
+					src={image.url}
+					alt={image.altText ?? product.name}
+					zoom={image.zoom ?? 100}
+					focal={image.focalPoint ?? 'center'}
+					class="h-full w-full rounded-full"
+				/>
+			{:else if shownSrc}
 				<img
 					src={shownSrc}
-					alt={image ? (image.altText ?? product.name) : ''}
+					alt=""
 					loading="lazy"
-					style:object-position={image?.focalPoint}
 					class="h-full w-full rounded-full object-cover"
 					onerror={(event) => ((event.currentTarget as HTMLImageElement).style.display = 'none')}
 				/>

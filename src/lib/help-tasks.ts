@@ -280,13 +280,14 @@ export const helpTasks: HelpTask[] = [
 		slug: 'position-product-photo',
 		group: 'Products and the shop',
 		title: 'Choose which part of a product photo shows',
-		summary: 'Drag the photo so the best part sits in the middle of the square.',
+		summary: 'Drag the photo and zoom in or out so the best part shows in the square.',
 		steps: [
 			s('Open the Shop menu, choose Products, then press the product to edit it.'),
 			s('Under the main photo, drag the pink frame over the part you want visitors to see.'),
+			s('Use the Zoom slider to get closer, or slide left to show more of the photo.'),
 			s('Check “How it will look” beside it, then press “Save changes”.')
 		],
-		tip: 'The square stays the same size everywhere. Press “Centre the photo” to undo any change.',
+		tip: 'The square stays the same size everywhere. Press “Reset” to undo any change.',
 		goTo: { href: '/admin/products', label: 'Go to Products' },
 		section: 'products'
 	},

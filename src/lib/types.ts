@@ -2,6 +2,7 @@ export interface ProductImage {
 	url: string;
 	altText: string | null;
 	focalPoint?: string;
+	zoom?: number;
 }
 
 export interface ProductCardData {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import { enhance } from '$app/forms';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import { formatPence } from '$lib/utils/money';
 	import type { PageData } from './$types';
 
@@ -102,11 +103,11 @@
 {#snippet productRow(product: (typeof filteredProducts)[number])}
 	<div class="flex items-center gap-4 px-4 py-3">
 		{#if product.images[0]?.url}
-			<img
+			<PhotoFrame
 				src={product.images[0].url}
-				alt=""
-				style:object-position={product.images[0].focalPoint}
-				class="h-12 w-12 shrink-0 rounded-lg bg-cream-dim object-cover"
+				zoom={product.images[0].zoom ?? 100}
+				focal={product.images[0].focalPoint ?? 'center'}
+				class="h-12 w-12 shrink-0 rounded-lg"
 			/>
 		{:else}
 			<div

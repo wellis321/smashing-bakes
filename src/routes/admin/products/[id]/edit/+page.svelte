@@ -12,6 +12,7 @@
 	let closeAfterSave = $state(false);
 	let addingImage = $state(false);
 	let focalPoint = $state(data.product.images[0]?.focalPoint ?? 'center');
+	let zoom = $state(data.product.images[0]?.zoom ?? 100);
 
 	const MAX_EXTRA_IMAGES = 3;
 	// images[0] is always the primary photo (sortOrder 0) — see the load
@@ -85,10 +86,10 @@
 			<ImagePositionControls
 				previewUrl={data.product.images[0]?.url ?? null}
 				bind:focalPoint
-				zoomFieldName="focalZoomUnused"
+				bind:zoom
+				zoomFieldName="zoom"
 				focalFieldName="focalPoint"
 				aspectClass="aspect-square"
-				showZoom={false}
 				helpSection="products"
 				helpTask="position-product-photo"
 			/>

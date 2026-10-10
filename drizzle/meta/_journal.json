@@ -211,6 +211,13 @@
       "when": 1791593782631,
       "tag": "0029_classy_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1791594253641,
+      "tag": "0030_free_annihilus",
+      "breakpoints": true
     }
   ]
 }
