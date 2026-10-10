@@ -1,30 +1,23 @@
 import { fail } from '@sveltejs/kit';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { randomUUID } from 'node:crypto';
 import { env } from '$env/dynamic/private';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { healthRuns } from '$lib/server/db/schema';
-import { getAllActiveProductsWithCategory, getVisibleCategories } from '$lib/server/db/queries';
-import { auditPage, auditSite } from '$lib/server/health/audit';
+import { healthRuns, healthTasks } from '$lib/server/db/schema';
 import { getSalesReport } from '$lib/server/health/sales';
+import {
+	buildReport,
+	logReport,
+	pagesToTest,
+	runQuickChecks,
+	syncTasks,
+	taskSlug
+} from '$lib/server/health/run';
 import { publicBase } from '$lib/site';
-import { findBrokenPhotos } from '$lib/server/photo-usage';
 
 const KINDS = ['quick', 'lighthouse-mobile', 'lighthouse-desktop'] as const;
 type Kind = (typeof KINDS)[number];
-
-// The pages that matter most, plus one real category and one real product.
-async function pagesToTest(): Promise<string[]> {
-	const [categories, products] = await Promise.all([
-		getVisibleCategories(),
-		getAllActiveProductsWithCategory()
-	]);
-	const pages = ['/', '/shop', '/about', '/contact', '/bespoke-cakes', '/menus'];
-	if (categories[0]) pages.splice(2, 0, `/shop/${categories[0].slug}`);
-	if (products[0]) pages.splice(3, 0, `/product/${products[0].slug}`);
-	return pages;
-}
 
 type Row = typeof healthRuns.$inferSelect;
 const average = (rows: Row[], key: 'performance' | 'accessibility' | 'bestPractices' | 'seo') => {
@@ -74,7 +67,7 @@ export const load: PageServerLoad = async () => {
 		const ofKind = rows.filter((r) => r.kind === kind);
 		const runIds = [...new Set(ofKind.map((r) => r.runId))]; // newest first
 		history[kind] = runIds
-			.slice(0, 24)
+			.slice(0, 30)
 			.map((runId) => {
 				const group = ofKind.filter((r) => r.runId === runId);
 				return {
@@ -109,6 +102,39 @@ export const load: PageServerLoad = async () => {
 			: null;
 	}
 
+	let tasks: {
+		id: number;
+		page: string;
+		title: string;
+		detail: string | null;
+		who: string;
+		howToFix: string | null;
+		status: string;
+		note: string | null;
+		kind: string;
+		firstSeen: string;
+		resolvedAt: string | null;
+	}[] = [];
+	let tasksMissing = false;
+	try {
+		const all = await db.query.healthTasks.findMany({ orderBy: [desc(healthTasks.lastSeen)] });
+		tasks = all.map((t) => ({
+			id: t.id,
+			page: t.page,
+			title: t.title,
+			detail: t.detail,
+			who: t.who,
+			howToFix: t.howToFix,
+			status: t.status,
+			note: t.note,
+			kind: t.kind,
+			firstSeen: t.firstSeen.toISOString(),
+			resolvedAt: t.resolvedAt?.toISOString() ?? null
+		}));
+	} catch {
+		tasksMissing = true;
+	}
+
 	let sales = null;
 	try {
 		sales = await getSalesReport();
@@ -116,10 +142,20 @@ export const load: PageServerLoad = async () => {
 		console.error('[health] sales report failed', err);
 	}
 
+	let report = '';
+	try {
+		report = tableMissing ? '' : await buildReport();
+	} catch {
+		report = '';
+	}
+
 	return {
 		history,
 		latest,
 		sales,
+		tasks,
+		tasksMissing,
+		report,
 		tableMissing,
 		hasPageSpeedKey: Boolean(env.PAGESPEED_API_KEY),
 		pages: await pagesToTest()
@@ -129,62 +165,8 @@ export const load: PageServerLoad = async () => {
 export const actions: Actions = {
 	// Our own instant checks: every key page, plus the whole site.
 	quick: async ({ url }) => {
-		const base = publicBase(url);
-		const runId = randomUUID();
 		try {
-			const pages = await pagesToTest();
-			for (const path of pages) {
-				try {
-					const audit = await auditPage(base, path);
-					await db.insert(healthRuns).values({
-						runId,
-						kind: 'quick',
-						url: path,
-						performance: audit.scores.performance,
-						accessibility: audit.scores.accessibility,
-						seo: audit.scores.seo,
-						metrics: JSON.stringify(audit.metrics),
-						details: JSON.stringify(
-							audit.checks.filter((c) => !c.pass).map((c) => ({ label: c.label, detail: c.detail }))
-						)
-					});
-				} catch (err) {
-					await db.insert(healthRuns).values({
-						runId,
-						kind: 'quick',
-						url: path,
-						error: err instanceof Error ? err.message : 'Could not be tested'
-					});
-				}
-			}
-			const site = await auditSite(base);
-			// Every photo the site points at should actually exist.
-			try {
-				const broken = await findBrokenPhotos();
-				site.checks.push({
-					id: 'photos',
-					area: 'practice',
-					label: 'Every photo on the site still exists',
-					pass: broken.length === 0,
-					detail: broken.length
-						? broken.map((b) => `${b.place}: ${b.url.split('/').pop()}`).join('; ')
-						: undefined
-				});
-				site.score = Math.round(
-					(site.checks.filter((c) => c.pass).length / site.checks.length) * 100
-				);
-			} catch (err) {
-				console.error('[health] photo check failed', err);
-			}
-			await db.insert(healthRuns).values({
-				runId,
-				kind: 'quick',
-				url: '(whole site)',
-				bestPractices: site.score,
-				details: JSON.stringify(
-					site.checks.filter((c) => !c.pass).map((c) => ({ label: c.label, detail: c.detail }))
-				)
-			});
+			await runQuickChecks(publicBase(url));
 		} catch (err) {
 			console.error('[health] quick run failed', err);
 			return fail(500, { message: 'The checks could not finish. Please try again.' });
@@ -201,6 +183,7 @@ export const actions: Actions = {
 		const path = String(formData.get('path') ?? '/');
 		const strategy = formData.get('strategy') === 'desktop' ? 'desktop' : 'mobile';
 		const runId = String(formData.get('runId') ?? randomUUID()).slice(0, 36);
+		const last = formData.get('last') === 'true';
 		const kind: Kind = strategy === 'desktop' ? 'lighthouse-desktop' : 'lighthouse-mobile';
 		if (!path.startsWith('/')) return fail(400, { message: 'Invalid page.' });
 
@@ -237,6 +220,7 @@ export const actions: Actions = {
 				.sort((a, b) => a.score - b.score)
 				.slice(0, 10)
 				.map((a) => ({
+					id: taskSlug(String(a.id ?? a.title)),
 					label: String(a.title),
 					detail: a.displayValue ? String(a.displayValue) : undefined
 				}));
@@ -258,11 +242,35 @@ export const actions: Actions = {
 				}),
 				details: JSON.stringify(problems)
 			});
+			await syncTasks(kind, [path], { [path]: problems });
+			if (last) await logReport(runId);
 			return { lighthouseDone: true, runId, path };
 		} catch (err) {
 			const message = err instanceof Error ? err.message : 'The test did not finish';
 			await db.insert(healthRuns).values({ runId, kind, url: path, error: message.slice(0, 500) });
 			return fail(504, { message: message.slice(0, 200), runId });
 		}
+	},
+
+	// Moves a to-do between open / working on it / ignore, with an optional note.
+	setTask: async ({ request }) => {
+		const formData = await request.formData();
+		const id = Number(formData.get('id'));
+		const status = String(formData.get('status') ?? '');
+		const note = String(formData.get('note') ?? '')
+			.trim()
+			.slice(0, 1000);
+		if (!id || !['open', 'working', 'ignored', 'fixed'].includes(status)) {
+			return fail(400, { message: 'Invalid request.' });
+		}
+		await db
+			.update(healthTasks)
+			.set({
+				status: status as 'open' | 'working' | 'ignored' | 'fixed',
+				note: note || null,
+				resolvedAt: status === 'fixed' ? new Date() : null
+			})
+			.where(eq(healthTasks.id, id));
+		return { taskSaved: true };
 	}
 };

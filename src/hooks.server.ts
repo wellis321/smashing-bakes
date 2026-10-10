@@ -1,9 +1,13 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { validateStaffSession } from '$lib/server/auth/staff-auth';
 import { isCanonicalHost, requestedHost } from '$lib/site';
+import { ensureHealthScheduler } from '$lib/server/health/scheduler';
 import { validateCustomerSession } from '$lib/server/auth/customer-auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
+	// Starts the once-a-day automatic site checks (only ever starts once).
+	ensureHealthScheduler();
+
 	// One address for the site: send www.smashinbakes.com to smashinbakes.com so
 	// search engines don't see two copies. Hostinger's proxy may rename the host,
 	// so look at the forwarded header as well.

@@ -348,6 +348,31 @@ export const healthRuns = mysqlTable('health_runs', {
 	createdAt: timestamp('created_at').notNull().defaultNow()
 });
 
+// --- Site health improvement plan: each failing check becomes a to-do that closes itself when fixed ---
+
+export const healthTasks = mysqlTable(
+	'health_tasks',
+	{
+		id: int('id').autoincrement().primaryKey(),
+		// kind + page + check, so the same problem is never added twice.
+		taskKey: varchar('task_key', { length: 255 }).notNull(),
+		kind: varchar('kind', { length: 30 }).notNull(),
+		page: varchar('page', { length: 500 }).notNull(),
+		title: varchar('title', { length: 300 }).notNull(),
+		detail: text('detail'),
+		// Who can sort it out: 'staff' (in the admin) or 'developer' (needs code changes).
+		who: varchar('who', { length: 20 }).notNull().default('developer'),
+		howToFix: text('how_to_fix'),
+		status: mysqlEnum('status', ['open', 'working', 'fixed', 'ignored']).notNull().default('open'),
+		note: text('note'),
+		firstSeen: timestamp('first_seen').notNull().defaultNow(),
+		lastSeen: timestamp('last_seen').notNull().defaultNow(),
+		resolvedAt: timestamp('resolved_at'),
+		updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
+	},
+	(table) => [uniqueIndex('health_tasks_task_key_unique').on(table.taskKey)]
+);
+
 // --- Feedback from staff, sent from the button on every admin page ---
 
 export const FEEDBACK_STATUSES = ['new', 'working', 'resolved', 'parked'] as const;

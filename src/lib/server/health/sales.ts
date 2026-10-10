@@ -118,10 +118,10 @@ export async function getSalesReport(): Promise<SalesReport> {
 
 	return {
 		periods: [
-			{ label: 'Sales', now: cur.revenue, before: prev.revenue, money: true },
+			{ label: 'Value of orders placed', now: cur.revenue, before: prev.revenue, money: true },
 			{ label: 'Orders', now: cur.n, before: prev.n },
 			{
-				label: 'Average order',
+				label: 'Average order value',
 				now: cur.n ? Math.round(cur.revenue / cur.n) : 0,
 				before: prev.n ? Math.round(prev.revenue / prev.n) : 0,
 				money: true
