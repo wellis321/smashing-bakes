@@ -13,6 +13,16 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 			adapter: adapter(),
+			// Hostinger's proxy tells the app it is being served from the free
+			// *.hostingersite.com address, so the browser's real address has to be
+			// listed here or every form post is refused as "cross-site".
+			csrf: {
+				trustedOrigins: [
+					'https://smashinbakes.com',
+					'https://www.smashinbakes.com',
+					'https://plum-fox-139692.hostingersite.com'
+				]
+			},
 			typescript: {
 				config: (config) => {
 					config.include.push('../drizzle.config.ts');
