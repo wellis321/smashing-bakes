@@ -137,13 +137,15 @@
 							class="absolute inset-0 h-full w-full object-contain"
 						/>
 					{:else}
-						<PhotoFrame
-							src={image.url}
-							alt={image.altText ?? product.name}
-							zoom={image.zoom ?? 100}
-							focal={image.focalPoint ?? 'center'}
-							class="absolute inset-0 h-full w-full"
-						/>
+						<div class="absolute inset-0">
+							<PhotoFrame
+								src={image.url}
+								alt={image.altText ?? product.name}
+								zoom={image.zoom ?? 100}
+								focal={image.focalPoint ?? 'center'}
+								class="h-full w-full"
+							/>
+						</div>
 					{/if}
 				{/if}
 				{#if product.badge !== 'none'}
