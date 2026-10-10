@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import ShelfItem from './ShelfItem.svelte';
+	import ChalkSign from './ChalkSign.svelte';
 	import type { ProductCardData } from '$lib/types';
 
 	// One wooden shelf of bakes, with an optional chalkboard sign. Boards run edge
@@ -47,12 +48,14 @@
 >
 	{#if label}
 		<div class="chalk-row">
-			<div class="chalk" class:chalk-alt={alt}>
-				<h2 id={labelId}>{label}</h2>
-				{#if showCount && !children}
-					<span>{products.length} {products.length === 1 ? 'bake' : 'bakes'}</span>
-				{/if}
-			</div>
+			<ChalkSign
+				title={label}
+				id={labelId}
+				{alt}
+				count={showCount && !children
+					? `${products.length} ${products.length === 1 ? 'bake' : 'bakes'}`
+					: null}
+			/>
 			{@render help?.()}
 		</div>
 	{/if}
@@ -92,41 +95,6 @@
 			--gap: 1.5rem;
 			margin-top: 3.75rem;
 		}
-	}
-
-	.chalk {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.85rem;
-		padding: 0.6rem 1.3rem 0.65rem;
-		border-radius: 0.5rem;
-		border: 4px solid oklch(54% 0.08 60);
-		background: linear-gradient(150deg, oklch(30% 0.04 50), oklch(24% 0.035 50));
-		box-shadow:
-			0 12px 16px -10px oklch(24% 0.035 50 / 0.55),
-			inset 0 0 0 1px oklch(40% 0.04 52);
-		transform: rotate(-1.2deg);
-	}
-
-	.chalk-alt {
-		transform: rotate(0.9deg);
-	}
-
-	.chalk h2 {
-		font-family: var(--font-brand);
-		font-weight: 400;
-		font-size: clamp(1.15rem, 3.4vw, 1.6rem);
-		letter-spacing: 0.06em;
-		line-height: 1;
-		text-transform: uppercase;
-		color: oklch(97.5% 0.014 80);
-	}
-
-	.chalk span {
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.04em;
-		color: var(--color-gold);
 	}
 
 	.shelf-grid {

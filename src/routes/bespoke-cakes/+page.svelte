@@ -4,6 +4,10 @@
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
 	import TestimonialQuote from '$lib/components/TestimonialQuote.svelte';
 	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import SignBoard from '$lib/components/shop/SignBoard.svelte';
+	import Framed from '$lib/components/shop/Framed.svelte';
+	import ChalkSign from '$lib/components/shop/ChalkSign.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -97,142 +101,147 @@
 </div>
 
 {#snippet heroText()}
-	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Bespoke cakes</p>
-	<div class="flex items-center gap-2">
-		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">{data.heading}</h1>
-		{#if data.staff}
-			<HelpLink
-				section="bespoke-cakes"
-				title="Staff only: how to edit this page"
-				task="bespoke-page"
-				label="Staff help"
-				staff
-			/>
-		{/if}
-	</div>
-	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
+	<SignBoard eyebrow="Bespoke cakes" title={data.heading}>
+		{#snippet help()}
+			{#if data.staff}
+				<HelpLink
+					section="bespoke-cakes"
+					title="Staff only: how to edit this page"
+					task="bespoke-page"
+					label="Staff help"
+					staff
+				/>
+			{/if}
+		{/snippet}
+	</SignBoard>
+	<p class="mt-6 max-w-xl leading-relaxed text-ink-soft">{data.intro}</p>
 {/snippet}
 
-{#if data.imageUrl && data.imageShape === 'tall'}
-	<section class="mx-auto max-w-5xl px-5 pt-10 pb-10 sm:px-8">
-		<div class="grid items-center gap-8 md:grid-cols-[1fr_minmax(0,22rem)] md:gap-12">
-			<div>{@render heroText()}</div>
-			<PhotoFrame
-				src={data.imageUrl}
-				alt="A bespoke Smashin' Bakes cake"
-				zoom={data.imageZoom}
-				focal={data.imageFocalPoint}
-				class="mx-auto aspect-[4/5] w-full max-w-sm rounded-[2rem] shadow-soft md:max-w-none"
-			/>
+<ShopWindow openingHours={data.openingHours}>
+	{#if data.imageUrl && data.imageShape === 'tall'}
+		<div class="pt-10 pb-10">
+			<div class="grid items-center gap-8 md:grid-cols-[1fr_minmax(0,22rem)] md:gap-12">
+				<div>{@render heroText()}</div>
+				<Framed class="mx-auto w-full max-w-sm md:max-w-none">
+					<PhotoFrame
+						src={data.imageUrl}
+						alt="A bespoke Smashin' Bakes cake"
+						zoom={data.imageZoom}
+						focal={data.imageFocalPoint}
+						class="aspect-[4/5] w-full"
+					/>
+				</Framed>
+			</div>
 		</div>
-	</section>
-{:else}
-	<section class="mx-auto max-w-5xl px-5 pt-10 pb-8 sm:px-8">
-		{@render heroText()}
-	</section>
+	{:else}
+		<div class="mx-auto max-w-2xl pb-8 text-center [&>p]:mx-auto">
+			{@render heroText()}
+		</div>
 
-	{#if data.imageUrl}
-		<section class="mx-auto max-w-5xl px-5 pb-8 sm:px-8">
-			<PhotoFrame
-				src={data.imageUrl}
-				alt="A bespoke Smashin' Bakes cake"
-				zoom={data.imageZoom}
-				focal={data.imageFocalPoint}
-				class="aspect-[16/9] w-full rounded-[2rem] sm:aspect-[21/9]"
-			/>
-		</section>
+		{#if data.imageUrl}
+			<div class="pb-8">
+				<Framed>
+					<PhotoFrame
+						src={data.imageUrl}
+						alt="A bespoke Smashin' Bakes cake"
+						zoom={data.imageZoom}
+						focal={data.imageFocalPoint}
+						class="aspect-[16/9] w-full sm:aspect-[21/9]"
+					/>
+				</Framed>
+			</div>
+		{/if}
 	{/if}
-{/if}
 
-{#if data.staff && data.testimonials.length === 0}
-	<section class="mx-auto max-w-5xl px-5 pb-14 sm:px-8">
-		<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
-			<p class="text-sm text-ink-soft">
-				Staff only: there are no customer quotes yet, so quotes aren't shown to visitors.
-			</p>
-			<div class="mt-3 flex justify-center">{@render quotesHelp()}</div>
+	{#if data.staff && data.testimonials.length === 0}
+		<div class="pb-14">
+			<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
+				<p class="text-sm text-ink-soft">
+					Staff only: there are no customer quotes yet, so quotes aren't shown to visitors.
+				</p>
+				<div class="mt-3 flex justify-center">{@render quotesHelp()}</div>
+			</div>
 		</div>
-	</section>
-{/if}
+	{/if}
 
-{#if firstQuote}
-	<section class="mx-auto max-w-5xl px-5 pb-14 sm:px-8">
-		<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
-		<TestimonialQuote quote={firstQuote.quote} authorName={firstQuote.authorName} />
-	</section>
-{/if}
-
-{#if data.staff && data.galleryItems.length === 0}
-	<section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
-		<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
-			<p class="text-sm text-ink-soft">
-				Staff only: there are no cake photos in “Past designs” yet, so the gallery isn't shown to
-				visitors.
-			</p>
-			<div class="mt-3 flex justify-center">{@render galleryHelp()}</div>
+	{#if firstQuote}
+		<div class="pb-14">
+			<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
+			<TestimonialQuote quote={firstQuote.quote} authorName={firstQuote.authorName} />
 		</div>
-	</section>
-{/if}
+	{/if}
 
-{#if data.galleryItems.length > 0}
-	<section class="pb-16">
-		<div class="mx-auto max-w-5xl px-5 sm:px-8">
-			<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Some of our work</p>
-			<div class="mt-2 flex flex-wrap items-center gap-3">
-				<h2 class="font-display text-3xl text-ink sm:text-4xl">Past designs</h2>
+	{#if data.staff && data.galleryItems.length === 0}
+		<div class="pb-16">
+			<div class="rounded-2xl border-2 border-dashed border-pink/40 p-6 text-center">
+				<p class="text-sm text-ink-soft">
+					Staff only: there are no cake photos in “Past designs” yet, so the gallery isn't shown to
+					visitors.
+				</p>
+				<div class="mt-3 flex justify-center">{@render galleryHelp()}</div>
+			</div>
+		</div>
+	{/if}
+
+	{#if data.galleryItems.length > 0}
+		<div class="pb-16">
+			<div class="flex flex-wrap items-center gap-3">
+				<ChalkSign title="Past designs" id="past-designs" />
 				{@render galleryHelp()}
 			</div>
-		</div>
 
-		<div
-			class="gallery-track-wrap mt-8 px-5 pb-4 sm:px-8"
-			style:--gallery-duration={`${galleryDurationSeconds}s`}
-		>
-			<div class="gallery-track">
-				{#each data.galleryItems as item (item.id)}
-					{@render galleryFigure(item)}
-				{/each}
-				<div class="gallery-duplicate" aria-hidden="true">
-					{#each data.galleryItems as item (`dup-${item.id}`)}
+			<div
+				class="gallery-track-wrap mt-10 pb-4"
+				style:margin-inline="calc(var(--glass-pad, 1.25rem) * -1)"
+				style:padding-inline="var(--glass-pad, 1.25rem)"
+				style:--gallery-duration={`${galleryDurationSeconds}s`}
+			>
+				<div class="gallery-track">
+					{#each data.galleryItems as item (item.id)}
 						{@render galleryFigure(item)}
 					{/each}
+					<div class="gallery-duplicate" aria-hidden="true">
+						{#each data.galleryItems as item (`dup-${item.id}`)}
+							{@render galleryFigure(item)}
+						{/each}
+					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-{/if}
+	{/if}
 
-{#if secondQuote}
-	<section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
-		<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
-		<TestimonialQuote quote={secondQuote.quote} authorName={secondQuote.authorName} />
-	</section>
-{/if}
-
-<section id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-24 px-5 pb-16 sm:px-8">
-	<BespokeOrderForm action="/contact" />
-</section>
-
-{#if moreQuotes.length > 0}
-	<section class="mx-auto max-w-5xl px-5 pb-20 sm:px-8">
-		<div class="flex flex-wrap items-center justify-center gap-3">
-			<h2 class="font-display text-2xl text-ink">More kind words</h2>
-			{@render quotesHelp()}
+	{#if secondQuote}
+		<div class="pb-16">
+			<div class="mb-3 flex justify-end">{@render quotesHelp()}</div>
+			<TestimonialQuote quote={secondQuote.quote} authorName={secondQuote.authorName} />
 		</div>
-		<div class="mt-8 grid gap-5 sm:grid-cols-2">
-			{#each moreQuotes as item (item.id)}
-				<div class="rounded-2xl bg-blush p-6">
-					<p class="text-sm leading-relaxed text-ink italic">&ldquo;{item.quote}&rdquo;</p>
-					{#if item.authorName}
-						<p class="mt-3 text-xs font-semibold tracking-wide text-pink-deep uppercase">
-							{item.authorName}
-						</p>
-					{/if}
-				</div>
-			{/each}
+	{/if}
+
+	<div id="enquiry-form" class="mx-auto max-w-3xl scroll-mt-24 pb-16">
+		<BespokeOrderForm action="/contact" />
+	</div>
+
+	{#if moreQuotes.length > 0}
+		<div class="pb-20">
+			<div class="flex flex-wrap items-center justify-center gap-3">
+				<h2 class="font-display text-2xl text-ink">More kind words</h2>
+				{@render quotesHelp()}
+			</div>
+			<div class="mt-8 grid gap-5 sm:grid-cols-2">
+				{#each moreQuotes as item (item.id)}
+					<div class="rounded-2xl bg-blush p-6">
+						<p class="text-sm leading-relaxed text-ink italic">&ldquo;{item.quote}&rdquo;</p>
+						{#if item.authorName}
+							<p class="mt-3 text-xs font-semibold tracking-wide text-pink-deep uppercase">
+								{item.authorName}
+							</p>
+						{/if}
+					</div>
+				{/each}
+			</div>
 		</div>
-	</section>
-{/if}
+	{/if}
+</ShopWindow>
 
 <style>
 	/* Base (and prefers-reduced-motion: reduce) state: the original manual

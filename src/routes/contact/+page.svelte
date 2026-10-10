@@ -1,6 +1,9 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import BespokeOrderForm from '$lib/components/BespokeOrderForm.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import SignBoard from '$lib/components/shop/SignBoard.svelte';
+	import Framed from '$lib/components/shop/Framed.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -15,17 +18,16 @@
 	description="Get in touch with Smashin' Bakes in Barrhead — bespoke cake enquiries, address, opening hours and how to pre-order."
 />
 
-<section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
-	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">Get in touch</p>
-	<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Looking for something different?</h1>
-	<p class="mt-4 max-w-xl leading-relaxed text-ink-soft">
-		Our Smashin&rsquo; baker Alanah can come up with something amazing for your extra special
-		occasion. Just get in touch and we&rsquo;ll see what we can do for you.
-	</p>
-</section>
+<ShopWindow openingHours={data.openingHours}>
+	<header class="mx-auto max-w-2xl text-center">
+		<SignBoard eyebrow="Get in touch" title="Looking for something different?" />
+		<p class="mx-auto mt-6 max-w-md leading-relaxed text-ink-soft">
+			Our Smashin&rsquo; baker Alanah can come up with something amazing for your extra special
+			occasion. Just get in touch and we&rsquo;ll see what we can do for you.
+		</p>
+	</header>
 
-<section class="mx-auto max-w-5xl px-5 pb-16 sm:px-8">
-	<div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+	<div class="mt-10 grid gap-8 lg:grid-cols-2 lg:items-start">
 		<BespokeOrderForm />
 
 		<!-- Contact details + map -->
@@ -83,7 +85,7 @@
 				</ul>
 			</div>
 
-			<div class="overflow-hidden rounded-[2rem]">
+			<Framed>
 				<iframe
 					title="Map showing Smashin' Bakes, 9–11 Paisley Road, Barrhead"
 					src={mapEmbedUrl}
@@ -91,7 +93,7 @@
 					referrerpolicy="no-referrer-when-downgrade"
 					class="h-72 w-full border-0"
 				></iframe>
-			</div>
+			</Framed>
 		</div>
 	</div>
-</section>
+</ShopWindow>
