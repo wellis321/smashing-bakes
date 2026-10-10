@@ -102,6 +102,13 @@
 <section class="mt-8" aria-labelledby="quick-tasks">
 	<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
 	<a
+		href="/admin/help/security"
+		class="mt-4 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+	>
+		Keeping the site safe &mdash; a checklist for your accounts, and what already protects the site
+		<span aria-hidden="true">&rarr;</span>
+	</a>
+	<a
 		href="/admin/help/connect-domain"
 		class="mt-4 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
 	>
@@ -1082,9 +1089,20 @@
 							the right balance for how this admin area is actually used, or should it be tightened?
 						</li>
 						<li>
-							<strong>Staff lockout.</strong> 5 wrong password attempts locks a staff account for 15 minutes,
-							stopping unlimited automated guessing. Customer accounts don't have this yet — see What's
-							next.
+							<strong>Login lockout.</strong> 5 wrong password attempts locks a staff account for 15 minutes
+							(kept in the database). Customer logins have the same limit per email address (kept in the
+							running site, so it resets if the site restarts), stopping unlimited automated guessing.
+						</li>
+						<li>
+							<strong>Password rules.</strong> Staff passwords need at least 12 characters and customer
+							passwords at least 10. Very common passwords (like "password123") and passwords containing
+							the person's email name are refused.
+						</li>
+						<li>
+							<strong>Limits on public forms.</strong> Password-reset requests are capped at 3 per address
+							per hour, and the contact, newsletter and sign-up forms have a flood limit, so they can't
+							be used to fill an inbox or use up the email quota. These limits are kept in the running
+							site and reset on a restart.
 						</li>
 						<li>
 							<strong>Staff and customer auth are fully separate systems</strong> — independent logins,
@@ -1103,6 +1121,31 @@
 							button in the UI — so it can't be granted or revoked by anyone through the admin area itself)
 							so that every one of those actions is refused for everyone except the account's own owner,
 							logged in as themselves.
+						</li>
+					</ul>
+				</div>
+
+				<div>
+					<h3 class="font-semibold text-ink">Hosting, database &amp; browser protections</h3>
+					<ul class="mt-2 list-disc space-y-1.5 pl-5 text-base leading-relaxed text-ink-soft">
+						<li>
+							<strong>Database access list.</strong> The database only accepts connections from the website's
+							own server address (plus two named home connections). It is not open to "any address". If
+							the hosting company ever moves the site to a new server, the new address has to be added
+							here or the site will show database errors.
+						</li>
+						<li>
+							<strong>Browser security headers.</strong> Every page tells the browser to use HTTPS only,
+							not to guess file types, not to be shown inside other websites, to send less referrer information,
+							and to block camera, microphone and location access.
+						</li>
+						<li>
+							<strong>Card payments.</strong> Card details are entered on SumUp's own page and never reach
+							this site or its database.
+						</li>
+						<li>
+							<strong>Not done yet:</strong> a content security policy (a stricter browser rule about
+							what scripts may run) and encrypting personal fields inside the database.
 						</li>
 					</ul>
 				</div>

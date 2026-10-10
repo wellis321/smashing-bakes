@@ -59,6 +59,9 @@
 				autocomplete="new-password"
 				class="mt-1.5 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 			/>
+			<p class="mt-1 text-xs text-ink-soft/70">
+				At least 12 characters. A few unrelated words together works well.
+			</p>
 		</div>
 		<div>
 			<label for="confirmPassword" class="text-sm font-medium text-ink-soft"

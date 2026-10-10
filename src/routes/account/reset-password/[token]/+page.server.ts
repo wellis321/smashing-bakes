@@ -5,12 +5,16 @@ import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { customers, customerSessions } from '$lib/server/db/schema';
 import { hashPassword } from '$lib/server/auth/password';
+import { checkPassword, CUSTOMER_MIN_LENGTH } from '$lib/server/auth/password-policy';
 import { createCustomerSession } from '$lib/server/auth/customer-auth';
 
 async function findByToken(token: string) {
 	const tokenHash = createHash('sha256').update(token).digest('hex');
 	return db.query.customers.findFirst({
-		where: and(eq(customers.passwordResetTokenHash, tokenHash), gt(customers.passwordResetExpiresAt, new Date()))
+		where: and(
+			eq(customers.passwordResetTokenHash, tokenHash),
+			gt(customers.passwordResetExpiresAt, new Date())
+		)
 	});
 }
 
@@ -29,8 +33,9 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const password = String(formData.get('password') ?? '');
 
-		if (password.length < 8) {
-			return fail(400, { message: 'Password must be at least 8 characters.' });
+		const passwordProblem = checkPassword(password, CUSTOMER_MIN_LENGTH, customer.email);
+		if (passwordProblem) {
+			return fail(400, { message: passwordProblem });
 		}
 
 		const passwordHash = await hashPassword(password);

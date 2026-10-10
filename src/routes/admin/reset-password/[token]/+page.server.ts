@@ -4,6 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffUsers, staffSessions } from '$lib/server/db/schema';
+import { checkPassword, STAFF_MIN_LENGTH } from '$lib/server/auth/password-policy';
 import { hashPassword } from '$lib/server/auth/password';
 import { createStaffSession } from '$lib/server/auth/staff-auth';
 import { logStaffActivity } from '$lib/server/auth/activity-log';
@@ -33,8 +34,9 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const password = String(formData.get('password') ?? '');
 
-		if (password.length < 8) {
-			return fail(400, { message: 'Password must be at least 8 characters.' });
+		const passwordProblem = checkPassword(password, STAFF_MIN_LENGTH, user.email);
+		if (passwordProblem) {
+			return fail(400, { message: passwordProblem });
 		}
 
 		const passwordHash = await hashPassword(password);

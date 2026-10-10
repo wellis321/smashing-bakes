@@ -10,22 +10,24 @@
 
 <SeoHead title="Reset your password — Smashin' Bakes" noindex={true} />
 
-<div class="bg-cream flex justify-center px-5 pt-10 pb-20 sm:pt-14">
+<div class="flex justify-center bg-cream px-5 pt-10 pb-20 sm:pt-14">
 	<div class="w-full max-w-sm">
 		<a href="/" class="mx-auto block w-32" aria-label="Smashin' Bakes home">
 			<Logo variant="stacked" theme="badge" class="w-full" />
 		</a>
-		<p class="text-pink-deep mt-5 text-center text-xs font-semibold tracking-[0.2em] uppercase">Account login</p>
-		<h1 class="font-display text-ink mt-1 text-center text-2xl">Choose a new password</h1>
+		<p class="mt-5 text-center text-xs font-semibold tracking-[0.2em] text-pink-deep uppercase">
+			Account login
+		</p>
+		<h1 class="mt-1 text-center font-display text-2xl text-ink">Choose a new password</h1>
 
 		{#if !data.valid}
-			<div class="border-ink/10 mt-8 rounded-2xl border bg-white/60 p-6 text-center">
-				<p class="text-ink text-sm leading-relaxed">
+			<div class="mt-8 rounded-2xl border border-ink/10 bg-white/60 p-6 text-center">
+				<p class="text-sm leading-relaxed text-ink">
 					This reset link is invalid or has expired — reset links only last an hour.
 				</p>
 				<a
 					href="/account/forgot-password"
-					class="text-pink-deep mt-4 inline-block text-sm font-semibold hover:underline"
+					class="mt-4 inline-block text-sm font-semibold text-pink-deep hover:underline"
 				>
 					Request a new link
 				</a>
@@ -33,7 +35,7 @@
 		{:else}
 			<form
 				method="POST"
-				class="border-ink/10 mt-8 space-y-4 rounded-2xl border bg-white/60 p-6"
+				class="mt-8 space-y-4 rounded-2xl border border-ink/10 bg-white/60 p-6"
 				use:enhance={() => {
 					submitting = true;
 					return async ({ update }) => {
@@ -47,22 +49,24 @@
 				{/if}
 
 				<div>
-					<label for="password" class="text-ink-soft text-sm font-medium">New password</label>
+					<label for="password" class="text-sm font-medium text-ink-soft">New password</label>
 					<input
 						id="password"
 						name="password"
 						type="password"
 						autocomplete="new-password"
 						required
-						class="border-ink/15 focus:ring-pink/40 mt-1 w-full rounded-lg border bg-white px-3 py-2.5 text-sm outline-none focus:ring-2"
+						class="mt-1 w-full rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
 					/>
-					<p class="text-ink-soft/70 mt-1 text-xs">At least 8 characters.</p>
+					<p class="mt-1 text-xs text-ink-soft/70">
+						At least 10 characters. A few unrelated words together works well.
+					</p>
 				</div>
 
 				<button
 					type="submit"
 					disabled={submitting}
-					class="bg-pink hover:bg-pink-deep w-full rounded-full py-2.5 text-sm font-semibold text-cream transition-colors disabled:opacity-60"
+					class="w-full rounded-full bg-pink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 				>
 					{submitting ? 'Saving…' : 'Reset password'}
 				</button>

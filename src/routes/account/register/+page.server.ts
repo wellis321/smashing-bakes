@@ -1,3 +1,4 @@
+import { checkPassword, CUSTOMER_MIN_LENGTH } from '$lib/server/auth/password-policy';
 import { rateLimit } from '$lib/server/rate-limit';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -43,8 +44,9 @@ export const actions: Actions = {
 		if (!EMAIL_PATTERN.test(email)) {
 			return fail(400, { message: 'That email address doesn’t look quite right.', values });
 		}
-		if (password.length < 8) {
-			return fail(400, { message: 'Your password needs to be at least 8 characters.', values });
+		const passwordProblem = checkPassword(password, CUSTOMER_MIN_LENGTH, email);
+		if (passwordProblem) {
+			return fail(400, { message: passwordProblem, values });
 		}
 
 		const existing = await db.query.customers.findFirst({ where: eq(customers.email, email) });
@@ -56,15 +58,13 @@ export const actions: Actions = {
 		}
 
 		const passwordHash = await hashPassword(password);
-		const [result] = await db
-			.insert(customers)
-			.values({
-				name,
-				email,
-				passwordHash,
-				marketingOptIn,
-				unsubscribeToken: randomBytes(24).toString('hex')
-			});
+		const [result] = await db.insert(customers).values({
+			name,
+			email,
+			passwordHash,
+			marketingOptIn,
+			unsubscribeToken: randomBytes(24).toString('hex')
+		});
 
 		await createCustomerSession(result.insertId, event);
 

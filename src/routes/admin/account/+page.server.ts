@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { staffUsers } from '$lib/server/db/schema';
+import { checkPassword, STAFF_MIN_LENGTH } from '$lib/server/auth/password-policy';
 import { hashPassword, verifyPassword } from '$lib/server/auth/password';
 import { logStaffActivity } from '$lib/server/auth/activity-log';
 
@@ -24,8 +25,9 @@ export const actions: Actions = {
 		if (!currentPassword || !newPassword || !confirmPassword) {
 			return fail(400, { message: 'Fill in all three fields.' });
 		}
-		if (newPassword.length < 8) {
-			return fail(400, { message: 'Your new password needs to be at least 8 characters.' });
+		const passwordProblem = checkPassword(newPassword, STAFF_MIN_LENGTH, locals.staff.email);
+		if (passwordProblem) {
+			return fail(400, { message: passwordProblem });
 		}
 		if (newPassword !== confirmPassword) {
 			return fail(400, { message: "New password and confirmation don't match." });
