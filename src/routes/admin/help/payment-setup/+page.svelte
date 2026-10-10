@@ -139,28 +139,34 @@
 					the <strong>merchant code</strong>. It&rsquo;s a short mix of letters and numbers.
 				</p>
 				<p class="mt-2 text-base text-ink-soft">
-					Can&rsquo;t find it? That&rsquo;s fine &mdash; tell William and we&rsquo;ll look for it
-					together.
+					Then type it into <a
+						href="/admin/settings#online-payments"
+						class="font-semibold text-pink-deep hover:underline"
+						>Settings &rarr; Online payments (SumUp)</a
+					>
+					and press <strong>Save changes</strong>. Can&rsquo;t find it? Tell William and we&rsquo;ll
+					look for it together.
 				</p>
 			</div>
 		</li>
 	</ol>
 
-	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Pass them on safely</h2>
+	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Pass the API key on safely</h2>
 	<ol class="mt-6 space-y-7">
 		<li class="flex gap-4">
 			{@render tick('pass-1', 5)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Save both somewhere safe, such as a <strong>password manager</strong>. Don&rsquo;t leave
-				them in an email or a note on the desktop.
+				Save the <strong>API key</strong> somewhere safe, such as a
+				<strong>password manager</strong>. Don&rsquo;t leave it in an email or a note on the
+				desktop.
 			</p>
 		</li>
 		<li class="flex gap-4">
 			{@render tick('pass-2', 6)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				Give the <strong>API key</strong> and <strong>merchant code</strong> to William in person, or
-				share them from the password manager. He will add them to the website&rsquo;s hosting settings
-				&mdash; they are never typed into the website itself.
+				Give the <strong>API key</strong> to William in person, or share it from the password manager.
+				He will add it to the website&rsquo;s hosting settings &mdash; the API key is never typed into
+				the website itself.
 			</p>
 		</li>
 	</ol>

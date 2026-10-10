@@ -12,6 +12,7 @@
 	let heroSubmitting = $state(false);
 	let navSubmitting = $state(false);
 	let hoursSubmitting = $state(false);
+	let merchantSubmitting = $state(false);
 
 	// One box open at a time keeps the page calm. A link like
 	// /admin/settings#opening-hours opens that box and scrolls to it.
@@ -263,6 +264,72 @@
 				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
 			>
 				{submitting ? 'Saving…' : 'Save changes'}
+			</button>
+		</form>
+	</SettingsCard>
+
+	<SettingsCard
+		id="online-payments"
+		title="Online payments (SumUp)"
+		summary="The merchant code that tells SumUp which account to pay into."
+		open={openId === 'online-payments'}
+		ontoggle={() => toggle('online-payments')}
+	>
+		<p class="text-sm leading-relaxed text-ink-soft">
+			Paste your SumUp <strong>merchant code</strong> here, then press
+			<strong>Save changes</strong>. It&rsquo;s a short mix of letters and numbers in your SumUp
+			account.
+		</p>
+		<p class="mt-2 rounded-lg bg-blush px-3 py-2 text-sm leading-relaxed text-ink">
+			Don&rsquo;t put your SumUp <strong>API key</strong> here &mdash; that&rsquo;s secret and goes straight
+			to William instead.
+		</p>
+		<div class="mt-3">
+			<HelpLink
+				section="settings"
+				task="payment-setup"
+				label="Show me how to find it"
+				title="Step-by-step guide"
+			/>
+		</div>
+		<form
+			method="POST"
+			action="?/updateSumupMerchantCode"
+			class="mt-4 space-y-4"
+			use:enhance={() => {
+				merchantSubmitting = true;
+				return async ({ update }) => {
+					await update({ reset: false });
+					merchantSubmitting = false;
+				};
+			}}
+		>
+			<label class="block text-sm text-ink-soft">
+				Merchant code
+				<input
+					name="sumupMerchantCode"
+					type="text"
+					autocomplete="off"
+					spellcheck="false"
+					maxlength="50"
+					value={data.settings?.sumupMerchantCode ?? ''}
+					class="mt-1 w-full max-w-xs rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-pink/40"
+				/>
+			</label>
+
+			{#if form?.merchantError}
+				<p class="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{form.merchantError}</p>
+			{/if}
+			{#if form?.merchantSuccess}
+				<p class="rounded-lg bg-blush px-3 py-2 text-sm text-ink">Saved.</p>
+			{/if}
+
+			<button
+				type="submit"
+				disabled={merchantSubmitting}
+				class="rounded-full bg-pink px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-pink-deep disabled:opacity-60"
+			>
+				{merchantSubmitting ? 'Saving…' : 'Save changes'}
 			</button>
 		</form>
 	</SettingsCard>

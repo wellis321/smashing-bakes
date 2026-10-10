@@ -475,6 +475,9 @@ export const siteSettings = mysqlTable('site_settings', {
 	// Free text, one line per day/range, shown in the footer and homepage. Null
 	// falls back to the shop's usual Friday & Saturday hours.
 	openingHoursText: text('opening_hours_text'),
+	// Identifies the SumUp account payments go into. Not a secret (unlike the API
+	// key, which only ever lives in the hosting environment settings).
+	sumupMerchantCode: varchar('sumup_merchant_code', { length: 50 }),
 	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
 });
 

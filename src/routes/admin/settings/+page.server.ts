@@ -87,6 +87,20 @@ export const actions: Actions = {
 		return { hoursSuccess: true };
 	},
 
+	updateSumupMerchantCode: async ({ request }) => {
+		const formData = await request.formData();
+		const code = String(formData.get('sumupMerchantCode') ?? '').trim();
+		if (code && !/^[A-Za-z0-9_-]{3,50}$/.test(code)) {
+			return fail(400, {
+				merchantError:
+					'That doesn’t look right. It should be letters and numbers only, with no spaces.'
+			});
+		}
+
+		await upsertSettings({ sumupMerchantCode: code || null });
+		return { merchantSuccess: true };
+	},
+
 	updateNavVisibility: async ({ request }) => {
 		const formData = await request.formData();
 

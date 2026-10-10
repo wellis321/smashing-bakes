@@ -225,6 +225,13 @@
       "when": 1791658134874,
       "tag": "0031_flippant_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1791659285016,
+      "tag": "0032_known_spirit",
+      "breakpoints": true
     }
   ]
 }

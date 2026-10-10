@@ -1,0 +1,1 @@
+ALTER TABLE `site_settings` ADD `sumup_merchant_code` varchar(50);
