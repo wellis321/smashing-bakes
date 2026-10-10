@@ -52,12 +52,6 @@
 			keywords: 'security safe password two-step 2fa backup hack login protect account'
 		},
 		{
-			title: 'Point smashinbakes.com at the new website',
-			summary: 'GoDaddy & Hostinger steps',
-			href: '/admin/help/connect-domain',
-			keywords: 'domain dns godaddy hostinger wix website address smashinbakes.com'
-		},
-		{
 			title: 'Check how the site is doing',
 			summary: 'Speed, accessibility and search scores over time, plus sales and growth',
 			href: '/admin/health',
@@ -96,7 +90,9 @@
 	let scrolled = $state(false);
 	$effect(() => {
 		try {
-			recent = JSON.parse(localStorage.getItem('help-recent') ?? '[]');
+			recent = (
+				JSON.parse(localStorage.getItem('help-recent') ?? '[]') as { href: string; title: string }[]
+			).filter((r) => r.href !== '/admin/help/connect-domain');
 		} catch {
 			recent = [];
 		}
