@@ -58,6 +58,18 @@
 			keywords: 'domain dns godaddy hostinger wix website address smashinbakes.com'
 		},
 		{
+			title: 'Connect the Facebook Page for posting',
+			summary: 'Give me access to post your menus and updates, without sharing your password',
+			href: '/admin/help/facebook-setup',
+			keywords: 'facebook page post share social media meta business suite menu'
+		},
+		{
+			title: 'Connect Instagram for posting',
+			summary: 'Link Instagram to your Page so I can post your menus and updates',
+			href: '/admin/help/instagram-setup',
+			keywords: 'instagram insta post share social media meta professional business account'
+		},
+		{
 			title: 'Get the SumUp details for online payments',
 			summary: 'API key & merchant code',
 			href: '/admin/help/payment-setup',
