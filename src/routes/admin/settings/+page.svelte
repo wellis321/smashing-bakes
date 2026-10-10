@@ -281,8 +281,8 @@
 			account.
 		</p>
 		<p class="mt-2 rounded-lg bg-blush px-3 py-2 text-sm leading-relaxed text-ink">
-			Don&rsquo;t put your SumUp <strong>API key</strong> here &mdash; that&rsquo;s secret and goes straight
-			to me instead.
+			Please don&rsquo;t put your SumUp <strong>API key</strong> here &mdash; it&rsquo;s secret, so please
+			pass it straight to me instead (the guide shows how).
 		</p>
 		<div class="mt-3">
 			<HelpLink

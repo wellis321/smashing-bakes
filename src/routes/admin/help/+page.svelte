@@ -276,8 +276,8 @@
 				<p class="text-lg font-semibold text-ink">Nothing found for &ldquo;{query.trim()}&rdquo;</p>
 				<p class="mt-1 text-base text-ink-soft">
 					Try a simpler word (for example &ldquo;photo&rdquo; rather than &ldquo;picture
-					upload&rdquo;), or use the <strong>Feedback</strong> button at the bottom right and tell me
-					what you couldn&rsquo;t find.
+					upload&rdquo;), or use the <strong>Feedback</strong> button at the bottom right and please tell
+					me what you couldn&rsquo;t find.
 				</p>
 			</div>
 		{:else}

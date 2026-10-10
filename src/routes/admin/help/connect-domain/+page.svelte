@@ -63,7 +63,7 @@
 	</p>
 
 	<p class="mt-4 text-base text-ink-soft">
-		Press the circle next to each step when it&rsquo;s done to tick it off.
+		When you&rsquo;ve finished a step, please press the circle beside it to tick it off.
 	</p>
 	<div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-base">
 		<p class="font-semibold text-ink" aria-live="polite">
@@ -196,18 +196,19 @@
 			{@render tick('godaddy-6', 6)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
-					<strong>Leave everything else alone.</strong>
+					<strong>Please leave everything else as it is.</strong>
 				</p>
 				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
 					<li>
-						Don&rsquo;t touch lines of type <strong>NS</strong> or <strong>SOA</strong>, or the one
-						called <strong>_domainconnect</strong>. GoDaddy needs those.
+						Please don&rsquo;t change the lines of type <strong>NS</strong> or <strong>SOA</strong>,
+						or the one called <strong>_domainconnect</strong>, as GoDaddy needs those.
 					</li>
 					<li>
-						If there is any other line that mentions <strong>wix</strong>, delete it.
+						If there&rsquo;s any other line that mentions <strong>wix</strong>, it&rsquo;s fine to
+						delete it.
 					</li>
 					<li>
-						If GoDaddy shows <strong>Forwarding</strong> set up for the domain, remove it.
+						If GoDaddy shows <strong>Forwarding</strong> set up for the domain, please remove it.
 					</li>
 				</ul>
 			</div>
@@ -228,7 +229,7 @@
 			{@render tick('check-2', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
 				The security certificate (the padlock) is added by Hostinger by itself once the address
-				points here. Give it up to an hour.
+				points here. It can take up to an hour.
 			</p>
 		</li>
 		<li class="flex gap-4">
@@ -246,22 +247,23 @@
 			<div>
 				<dt class="font-semibold text-ink">I still see the old Wix site</dt>
 				<dd class="text-ink-soft">
-					Give it longer, then try a private window. Your own computer remembers old addresses for a
-					while.
+					Please give it a little longer, then try a private window. Your own computer remembers old
+					addresses for a while.
 				</dd>
 			</div>
 			<div>
 				<dt class="font-semibold text-ink">The browser says &ldquo;Not secure&rdquo;</dt>
 				<dd class="text-ink-soft">
-					The certificate hasn&rsquo;t arrived yet. Wait an hour, then check Hostinger&rsquo;s SSL
-					page and press the button to install it if it hasn&rsquo;t been done.
+					The certificate hasn&rsquo;t arrived yet. Please wait an hour, then check
+					Hostinger&rsquo;s SSL page and press the button to install it if it hasn&rsquo;t been
+					done.
 				</dd>
 			</div>
 			<div>
 				<dt class="font-semibold text-ink">I want to go back</dt>
 				<dd class="text-ink-soft">
-					Put the two Wix values from step 2 back in GoDaddy. The old site comes back as soon as it
-					has updated.
+					Please put the two Wix values from step 2 back in GoDaddy. The old site comes back as soon
+					as it has updated.
 				</dd>
 			</div>
 		</dl>

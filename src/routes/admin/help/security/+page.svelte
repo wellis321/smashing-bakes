@@ -100,7 +100,7 @@
 
 	<h2 class="mt-10 font-display text-2xl text-ink">1 &middot; Things to do on your accounts</h2>
 	<p class="mt-1 text-base text-ink-soft" aria-live="polite">
-		{doneCount} of {items.length} done. Press the circle when you&rsquo;ve done each one.
+		{doneCount} of {items.length} done. Please press the circle when you&rsquo;ve done each one.
 	</p>
 	<p class="mt-2 text-base leading-relaxed text-ink-soft">
 		&ldquo;Two-step login&rdquo; means that even if someone learns a password, they also need your
@@ -202,16 +202,19 @@
 			password shared by mistake.
 		</p>
 		<ol class="mt-3 list-decimal space-y-2 pl-5">
-			<li>Change your password straight away (My account), and any account that shared it.</li>
 			<li>
-				Tell me. Use the Feedback button, or phone me on <a
+				Please change your password straight away (My account), and the password on any account that
+				shared it.
+			</li>
+			<li>
+				Please let me know &mdash; use the Feedback button, or phone me on <a
 					href="tel:+447566257092"
 					class="font-semibold text-pink-deep underline hover:text-pink">07566 257092</a
 				> if it&rsquo;s urgent.
 			</li>
 			<li>
-				If a SumUp key was shared by mistake, delete it in SumUp and make a new one. Nothing is
-				lost.
+				If a SumUp key was shared by mistake, please delete it in SumUp and make a new one. Nothing
+				is lost.
 			</li>
 			<li>
 				Staff admins can see who did what in the <a

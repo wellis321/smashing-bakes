@@ -51,7 +51,7 @@
 	</p>
 
 	<p class="mt-4 text-base text-ink-soft">
-		Press the circle next to each step when it&rsquo;s done to tick it off.
+		When you&rsquo;ve finished a step, please press the circle beside it to tick it off.
 	</p>
 	<div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-base">
 		<p class="font-semibold text-ink" aria-live="polite">
@@ -83,12 +83,12 @@
 		<ul class="mt-2 list-disc space-y-1 pl-5">
 			<li>Anyone with the key can act on the SumUp account, so treat it like a bank password.</li>
 			<li>
-				Don&rsquo;t send it by email, text or chat. Hand it over in person, or use the Bitwarden
-				Send steps in Part 3.
+				Please don&rsquo;t send it by email, text or chat. You can hand it over in person, or use
+				the steps in Part 3.
 			</li>
 			<li>
-				If it ever gets shared by mistake, delete it in SumUp (same screen as step 2) and make a new
-				one. Nothing is lost.
+				If it ever gets shared by mistake, please delete it in SumUp (same screen as step 2) and
+				make a new one. Nothing is lost.
 			</li>
 		</ul>
 	</section>
@@ -103,8 +103,8 @@
 					target="_blank"
 					rel="noreferrer"
 					class="font-semibold text-pink-deep underline hover:text-pink">me.sumup.com &#8599;</a
-				> and sign in to the business&rsquo;s SumUp account. Check that the account is fully set up (SumUp
-				may ask for business details or ID if it isn&rsquo;t).
+				> and sign in to the business&rsquo;s SumUp account. Please check that the account is fully set
+				up (SumUp may ask for business details or ID if it isn&rsquo;t).
 			</p>
 		</li>
 		<li class="flex gap-4">
@@ -116,7 +116,7 @@
 				</p>
 				<p class="mt-2 text-base text-ink-soft">
 					If you can&rsquo;t see &ldquo;For Developers&rdquo;, the account may not have online
-					payments switched on yet. Tell me.
+					payments switched on yet. Please let me know and we&rsquo;ll get it sorted.
 				</p>
 			</div>
 		</li>
@@ -124,7 +124,7 @@
 			{@render tick('key-3', 3)}
 			<div class="min-w-0 flex-1">
 				<p class="pt-1 text-lg leading-relaxed text-ink">
-					Press <strong>API Keys</strong>, then <strong>Create</strong>. Call it
+					Please press <strong>API Keys</strong>, then <strong>Create</strong>, and call it
 					<strong>Smashin&rsquo; Bakes website</strong>.
 					<a
 						href="https://developer.sumup.com/tools/authorization/api-keys"
@@ -135,8 +135,9 @@
 					>
 				</p>
 				<p class="mt-3 text-lg leading-relaxed text-ink">
-					<strong>Copy the key straight away.</strong> SumUp can&rsquo;t show it again later. If SumUp
-					shows a &ldquo;public key&rdquo; too, ignore that one &mdash; we need the secret API key.
+					<strong>Please copy the key straight away</strong>, as SumUp can&rsquo;t show it again
+					later. If SumUp shows a &ldquo;public key&rdquo; too, please leave that one alone &mdash;
+					we need the secret API key.
 				</p>
 			</div>
 		</li>
@@ -157,8 +158,8 @@
 						class="font-semibold text-pink-deep hover:underline"
 						>Settings &rarr; Online payments (SumUp)</a
 					>
-					and press <strong>Save changes</strong>. Can&rsquo;t find it? Tell me and we&rsquo;ll look
-					for it together.
+					and press <strong>Save changes</strong>. Can&rsquo;t find it? Please let me know and
+					we&rsquo;ll look for it together.
 				</p>
 			</div>
 		</li>
@@ -166,14 +167,14 @@
 
 	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send the API key safely</h2>
 	<p class="mt-2 text-base text-ink-soft">
-		Easiest if I&rsquo;m with you: just tell me or show me. If I&rsquo;m not, use a free
-		<strong>Bitwarden Send</strong> (<a
+		Easiest if I&rsquo;m with you &mdash; you can simply tell me or show me. If I&rsquo;m not, a
+		free <strong>Bitwarden Send</strong> is a safe way to do it (<a
 			href="https://bitwarden.com/help/about-send/"
 			target="_blank"
 			rel="noreferrer"
 			class="font-semibold text-pink-deep underline hover:text-pink">what is that? &#8599;</a
-		>). It makes a private link that works once and then deletes itself. Nobody needs an account to
-		open it.
+		>). It makes a private link that works once and then deletes itself, and nobody needs an account
+		to open it.
 	</p>
 	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
 		<p class="font-semibold">Got an iPhone or a Mac? There&rsquo;s an even easier way.</p>
@@ -226,11 +227,13 @@
 				the <strong>password</strong> box. Save it.
 			</li>
 			<li>
-				Tell me it&rsquo;s there (or I&rsquo;ll see it). You can skip the Bitwarden steps below.
+				Please let me know it&rsquo;s there (or I&rsquo;ll spot it myself). You can skip the
+				Bitwarden steps below.
 			</li>
 		</ol>
 		<p class="mt-2">
-			Can&rsquo;t find the invitation? Check spam, then ring me on
+			Can&rsquo;t find the invitation? Please check your spam folder, and if it isn&rsquo;t there,
+			give me a ring on
 			<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
 				>07566 257092</a
 			>.
@@ -271,22 +274,24 @@
 				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
 					<li><strong>Deletion date:</strong> tomorrow</li>
 					<li><strong>Maximum access count:</strong> 1</li>
-					<li><strong>Password:</strong> make one up (you&rsquo;ll tell me in step 8)</li>
+					<li>
+						<strong>Password:</strong> please make one up (you&rsquo;ll let me know it in step 8)
+					</li>
 				</ul>
 				<p class="mt-2 text-lg leading-relaxed text-ink">
-					Press <strong>Save</strong>, then <strong>Copy Send link</strong> and send that link to me by
-					email or text.
+					Please press <strong>Save</strong>, then <strong>Copy Send link</strong>, and send that
+					link to me by email or text.
 				</p>
 			</div>
 		</li>
 		<li class="flex gap-4">
 			{@render tick('pass-4', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				<strong>Phone me</strong> on
+				<strong>Please phone me</strong> on
 				<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
 					>07566 257092</a
-				> and tell me the Send password. Don&rsquo;t put the password in the same message as the link.
-				That way, anyone who finds the link can&rsquo;t open it.
+				> and let me know the Send password. It&rsquo;s safest not to put the password in the same message
+				as the link, so that anyone who finds the link can&rsquo;t open it.
 			</p>
 		</li>
 	</ol>
