@@ -130,6 +130,10 @@
 		Shown as smaller thumbnails under the main photo on the product page — optional, and only shown
 		at all once there's at least one. Up to {MAX_EXTRA_IMAGES}.
 	</p>
+	<p class="mt-1 text-sm text-ink-soft">
+		Photo file names and alt text are set automatically from the product name, so there's nothing to
+		type.
+	</p>
 
 	{#if extraImages.length > 0}
 		<div class="mt-4 grid grid-cols-3 gap-3 sm:w-fit">

@@ -5,6 +5,7 @@ import { productImages, products } from '$lib/server/db/schema';
 import { getActiveCategories, getMediaLibraryItems } from '$lib/server/db/queries';
 import { slugify } from '$lib/utils/slugify';
 import { saveProductImage } from '$lib/server/uploads';
+import { tidyProductPhotos } from '$lib/server/product-photos';
 
 export const load: PageServerLoad = async () => {
 	const [categories, mediaItems] = await Promise.all([getActiveCategories(), getMediaLibraryItems()]);
@@ -83,6 +84,7 @@ export const actions: Actions = {
 				altText: name,
 				isPrimary: true
 			});
+			await tidyProductPhotos(insertedId);
 		}
 
 		throw redirect(303, '/admin/products');

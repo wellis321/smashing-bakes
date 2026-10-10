@@ -6,6 +6,7 @@ import { productImages, productVariants, products } from '$lib/server/db/schema'
 import { getActiveCategories, getMediaLibraryItems } from '$lib/server/db/queries';
 import { slugify } from '$lib/utils/slugify';
 import { saveProductImage } from '$lib/server/uploads';
+import { tidyProductPhotos } from '$lib/server/product-photos';
 
 // Beyond the one main (primary) photo — kept small since the product page
 // only ever has room to show these as a row of thumbnails, not a full grid.
@@ -147,6 +148,9 @@ export const actions: Actions = {
 			}
 		}
 
+		// Photo file names and alt text follow the product's name.
+		await tidyProductPhotos(id);
+
 		return { success: true };
 	},
 
@@ -197,6 +201,7 @@ export const actions: Actions = {
 			isPrimary: false,
 			sortOrder: nextSortOrder
 		});
+		await tidyProductPhotos(id);
 
 		return { imagesSuccess: true };
 	},
@@ -218,6 +223,7 @@ export const actions: Actions = {
 					eq(productImages.isPrimary, false)
 				)
 			);
+		await tidyProductPhotos(id);
 
 		return { imagesSuccess: true };
 	},

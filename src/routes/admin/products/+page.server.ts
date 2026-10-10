@@ -3,6 +3,7 @@ import { asc, eq, inArray } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { categories, productImages, products, productVariants } from '$lib/server/db/schema';
+import { tidyAllProductPhotos } from '$lib/server/product-photos';
 
 export const load: PageServerLoad = async () => {
 	// MariaDB doesn't support the LATERAL JOIN Drizzle's `with:` API needs — flat
@@ -45,6 +46,12 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
+	// Gives every product photo a file name and alt text based on its product's name.
+	tidyPhotos: async () => {
+		const result = await tidyAllProductPhotos();
+		return { tidied: result };
+	},
+
 	toggleActive: async ({ request }) => {
 		const formData = await request.formData();
 		const id = Number(formData.get('id'));

@@ -3,9 +3,10 @@
 	import { enhance } from '$app/forms';
 	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import { formatPence } from '$lib/utils/money';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	let { data }: { data: PageData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
+	let tidying = $state(false);
 
 	let search = $state('');
 	let categoryId = $state<number | 'all'>('all');
@@ -236,6 +237,38 @@
 		</a>
 	</div>
 </div>
+
+<form
+	method="POST"
+	action="?/tidyPhotos"
+	class="mt-4 flex flex-wrap items-center gap-3 rounded-xl bg-blush px-4 py-3"
+	use:enhance={() => {
+		tidying = true;
+		return async ({ update }) => {
+			await update();
+			tidying = false;
+		};
+	}}
+>
+	<p class="min-w-0 flex-1 text-sm text-ink">
+		<strong>Photo names are automatic.</strong> Every product photo is named after its product (for
+		example <em>toffee-crisp-blondie.jpg</em>) and given matching alt text, which helps Google and
+		screen readers.
+	</p>
+	<button
+		type="submit"
+		disabled={tidying}
+		class="rounded-full bg-pink-deep px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-pink-darker disabled:opacity-60"
+	>
+		{tidying ? 'Tidying…' : 'Tidy all photo names now'}
+	</button>
+	{#if form?.tidied}
+		<p class="w-full text-sm font-semibold text-ink" aria-live="polite">
+			Done: checked {form.tidied.products} products and renamed {form.tidied.renamed}
+			{form.tidied.renamed === 1 ? 'photo' : 'photos'}.
+		</p>
+	{/if}
+</form>
 
 <div class="mt-6 flex flex-wrap items-center gap-3">
 	<div class="relative min-w-[220px] flex-1">
