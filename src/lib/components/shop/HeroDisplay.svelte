@@ -112,7 +112,8 @@
 			0 18px 22px -14px oklch(30% 0.05 45 / 0.55);
 	}
 
-	.plate img {
+	/* the picture now lives inside the ResponsiveImg component, so reach it globally */
+	.plate :global(img) {
 		display: block;
 		width: 100%;
 		height: 100%;
