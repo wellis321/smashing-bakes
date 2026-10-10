@@ -206,8 +206,10 @@
 		</p>
 		<ol class="mt-2 list-decimal space-y-1 pl-5">
 			<li>
-				Open the invitation email in that inbox and press the button to accept it. If it asks you to
-				make a free Proton account, use <strong>alanah@smashinbakes.co.uk</strong>.
+				Open the invitation email in that inbox (it comes from <strong
+					>williamjamesellis@outlook.com</strong
+				>) and press the button to accept it. If it asks you to make a free Proton account, use
+				<strong>alanah@smashinbakes.co.uk</strong>.
 			</li>
 			<li>
 				Go to <a
