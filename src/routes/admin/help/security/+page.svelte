@@ -53,11 +53,11 @@
 		},
 		{
 			id: 'dbpass',
-			text: 'Change the database password (William does this in Hostinger)'
+			text: 'Change the database password (I’ll do this in Hostinger)'
 		},
 		{
 			id: 'backups',
-			text: 'Check backups exist, and try restoring one (William)',
+			text: 'Check backups exist, and try restoring one (I’ll check this)',
 			detail: 'A backup that has never been tested might not work when it’s needed.'
 		}
 	];
@@ -203,7 +203,7 @@
 		<ol class="mt-3 list-decimal space-y-2 pl-5">
 			<li>Change your password straight away (My account), and any account that shared it.</li>
 			<li>
-				Tell William. Use the Feedback button, or phone him on <a
+				Tell me. Use the Feedback button, or phone me on <a
 					href="tel:+447566257092"
 					class="font-semibold text-pink-deep underline hover:text-pink">07566 257092</a
 				> if it&rsquo;s urgent.

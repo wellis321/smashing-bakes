@@ -115,7 +115,7 @@
 				</p>
 				<p class="mt-2 text-base text-ink-soft">
 					If you can&rsquo;t see &ldquo;For Developers&rdquo;, the account may not have online
-					payments switched on yet. Tell William.
+					payments switched on yet. Tell me.
 				</p>
 			</div>
 		</li>
@@ -156,8 +156,8 @@
 						class="font-semibold text-pink-deep hover:underline"
 						>Settings &rarr; Online payments (SumUp)</a
 					>
-					and press <strong>Save changes</strong>. Can&rsquo;t find it? Tell William and we&rsquo;ll
-					look for it together.
+					and press <strong>Save changes</strong>. Can&rsquo;t find it? Tell me and we&rsquo;ll look
+					for it together.
 				</p>
 			</div>
 		</li>
@@ -165,7 +165,7 @@
 
 	<h2 class="mt-12 font-display text-2xl text-ink">Part 3 &middot; Send the API key safely</h2>
 	<p class="mt-2 text-base text-ink-soft">
-		Easiest if William is with you: just tell him or show him. If he isn&rsquo;t, use a free
+		Easiest if I&rsquo;m with you: just tell me or show me. If I&rsquo;m not, use a free
 		<strong>Bitwarden Send</strong> (<a
 			href="https://bitwarden.com/help/about-send/"
 			target="_blank"
@@ -177,8 +177,8 @@
 	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
 		<p class="font-semibold">Got an iPhone or a Mac? There&rsquo;s an even easier way.</p>
 		<p class="mt-1">
-			Apple&rsquo;s <strong>Passwords</strong> app can share one saved item with William, and nothing
-			has to be sent by email or text.
+			Apple&rsquo;s <strong>Passwords</strong> app can share one saved item with me, and nothing has to
+			be sent by email or text.
 		</p>
 		<ol class="mt-2 list-decimal space-y-1 pl-5">
 			<li>
@@ -190,23 +190,23 @@
 			</li>
 			<li>
 				Press <strong>Share</strong> on that item (or add it to a <strong>Shared Group</strong>) and
-				choose William. Ask him for the email he uses for his Apple Account.
+				choose me. Ask me for the email I use for my Apple Account.
 			</li>
 		</ol>
 		<p class="mt-2">
-			William accepts the invitation and can then see it. If you do this, you can skip the Bitwarden
-			steps below.
+			I&rsquo;ll accept the invitation and can then see it. If you do this, you can skip the
+			Bitwarden steps below.
 		</p>
 	</section>
 	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
 		<p class="font-semibold">Easiest: use the shared Proton Pass vault (free)</p>
 		<p class="mt-1">
-			William has already shared a vault called <strong>SmashinBakes</strong> with
-			<strong>alanah@smashinbakes.co.uk</strong>. Anything saved in it, he can see straight away.
+			I&rsquo;ve already shared a vault called <strong>SmashinBakes</strong> with
+			<strong>alanah@smashinbakes.co.uk</strong>. Anything saved in it, I can see straight away.
 		</p>
 		<ol class="mt-2 list-decimal space-y-1 pl-5">
 			<li>
-				Open the invitation email in that inbox (it comes from <strong
+				Open the invitation email in that inbox (it comes from me, <strong
 					>williamjamesellis@outlook.com</strong
 				>) and press the button to accept it. If it asks you to make a free Proton account, use
 				<strong>alanah@smashinbakes.co.uk</strong>.
@@ -225,12 +225,11 @@
 				the <strong>password</strong> box. Save it.
 			</li>
 			<li>
-				Tell William it&rsquo;s there (or he&rsquo;ll see it). You can skip the Bitwarden steps
-				below.
+				Tell me it&rsquo;s there (or I&rsquo;ll see it). You can skip the Bitwarden steps below.
 			</li>
 		</ol>
 		<p class="mt-2">
-			Can&rsquo;t find the invitation? Check spam, then ring William on
+			Can&rsquo;t find the invitation? Check spam, then ring me on
 			<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
 				>07566 257092</a
 			>.
@@ -271,21 +270,21 @@
 				<ul class="mt-2 list-disc space-y-1 pl-5 text-lg text-ink">
 					<li><strong>Deletion date:</strong> tomorrow</li>
 					<li><strong>Maximum access count:</strong> 1</li>
-					<li><strong>Password:</strong> make one up (you&rsquo;ll tell William in step 8)</li>
+					<li><strong>Password:</strong> make one up (you&rsquo;ll tell me in step 8)</li>
 				</ul>
 				<p class="mt-2 text-lg leading-relaxed text-ink">
-					Press <strong>Save</strong>, then <strong>Copy Send link</strong> and send that link to William
-					by email or text.
+					Press <strong>Save</strong>, then <strong>Copy Send link</strong> and send that link to me by
+					email or text.
 				</p>
 			</div>
 		</li>
 		<li class="flex gap-4">
 			{@render tick('pass-4', 8)}
 			<p class="pt-1 text-lg leading-relaxed text-ink">
-				<strong>Phone William</strong> on
+				<strong>Phone me</strong> on
 				<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
 					>07566 257092</a
-				> and tell him the Send password. Don&rsquo;t put the password in the same message as the link.
+				> and tell me the Send password. Don&rsquo;t put the password in the same message as the link.
 				That way, anyone who finds the link can&rsquo;t open it.
 			</p>
 		</li>
