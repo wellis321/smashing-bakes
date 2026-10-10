@@ -12,6 +12,7 @@
 		alt = false,
 		showCount = true,
 		dense = false,
+		fit = 0,
 		products = [],
 		fallbackSrc = null,
 		help,
@@ -23,15 +24,27 @@
 		showCount?: boolean;
 		// Up to six plates across on wide screens (for short rows like categories).
 		dense?: boolean;
+		// Number of plates to fit across the full width: 3 bakes take a third each,
+		// 4 a quarter each, and so on (6 become two rows of 3, more wrap in fours).
+		// Leave out for the standard 2 / 3 / 4-across grid.
+		fit?: number;
 		products?: ProductCardData[];
 		fallbackSrc?: string | null;
 		help?: Snippet;
 		// Custom plates (e.g. categories) instead of products.
 		children?: Snippet;
 	} = $props();
+
+	const lgCols = $derived(fit > 0 ? (fit <= 5 ? fit : fit === 6 ? 3 : 4) : dense ? 6 : 4);
+	const mdCols = $derived(fit > 0 ? Math.min(fit, 3) : 3);
+	const smCols = $derived(fit > 0 ? Math.min(fit, 2) : 2);
 </script>
 
-<section class="shelf-block" aria-labelledby={label ? labelId : undefined}>
+<section
+	class="shelf-block"
+	style:--plate-max={fit > 0 ? '24rem' : undefined}
+	aria-labelledby={label ? labelId : undefined}
+>
 	{#if label}
 		<div class="chalk-row">
 			<div class="chalk" class:chalk-alt={alt}>
@@ -44,7 +57,7 @@
 		</div>
 	{/if}
 
-	<div class="shelf-grid" class:dense>
+	<div class={`shelf-grid lg-${lgCols} md-${mdCols} sm-${smCols}`}>
 		{#if children}
 			{@render children()}
 		{:else}
@@ -127,24 +140,51 @@
 		overflow-x: clip;
 	}
 
+	/* ---- Column counts per screen size (phone, tablet, desktop) ---- */
+	.shelf-grid.sm-1 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
 	@media (min-width: 640px) {
 		.shelf-grid {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
+		.shelf-grid.md-1 {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.shelf-grid.md-2 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
 	}
 
 	@media (min-width: 1024px) {
-		.shelf-grid {
+		.shelf-grid.lg-1 {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.shelf-grid.lg-2 {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		.shelf-grid.lg-3 {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+		.shelf-grid.lg-4 {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
-		.shelf-grid.dense {
+		.shelf-grid.lg-5 {
+			grid-template-columns: repeat(5, minmax(0, 1fr));
+		}
+		.shelf-grid.lg-6 {
 			grid-template-columns: repeat(6, minmax(0, 1fr));
 		}
 	}
 
-	/* Make each row's board reach the glass edge on both sides: the first and last
-	   tile in a row, and the very last tile (which may sit in a short final row,
-	   so it reaches as far as the clipped grid edge allows). */
+	/* ---- Boards run to the glass edge on both sides of every row ----
+	   The first/last tile of the shelf, plus the first/last tile of each row for
+	   the column counts that can wrap (phone 2, tablet 3, desktop 3 or 4+). */
+	.shelf-grid :global(.shelf-tile:first-child .ledge) {
+		margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
+	}
+
 	.shelf-grid :global(.shelf-tile:last-child .ledge) {
 		margin-right: -100vw;
 	}
@@ -168,18 +208,16 @@
 	}
 
 	@media (min-width: 1024px) {
-		.shelf-grid:not(.dense) :global(.shelf-tile:nth-child(4n + 1) .ledge) {
+		.shelf-grid.lg-3 :global(.shelf-tile:nth-child(3n + 1) .ledge),
+		.shelf-grid.lg-4 :global(.shelf-tile:nth-child(4n + 1) .ledge),
+		.shelf-grid.lg-5 :global(.shelf-tile:nth-child(5n + 1) .ledge),
+		.shelf-grid.lg-6 :global(.shelf-tile:nth-child(6n + 1) .ledge) {
 			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
-		.shelf-grid:not(.dense) :global(.shelf-tile:nth-child(4n) .ledge) {
-			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
-		}
-	}
-	@media (min-width: 1024px) {
-		.shelf-grid.dense :global(.shelf-tile:nth-child(6n + 1) .ledge) {
-			margin-left: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
-		}
-		.shelf-grid.dense :global(.shelf-tile:nth-child(6n) .ledge) {
+		.shelf-grid.lg-3 :global(.shelf-tile:nth-child(3n) .ledge),
+		.shelf-grid.lg-4 :global(.shelf-tile:nth-child(4n) .ledge),
+		.shelf-grid.lg-5 :global(.shelf-tile:nth-child(5n) .ledge),
+		.shelf-grid.lg-6 :global(.shelf-tile:nth-child(6n) .ledge) {
 			margin-right: calc((var(--glass-pad, 0px) + var(--gap) / 2) * -1);
 		}
 	}

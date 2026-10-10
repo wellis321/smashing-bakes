@@ -207,6 +207,7 @@
 			labelId="this-weeks-bakes-title"
 			showCount={false}
 			products={data.featured}
+			fit={data.featured.length}
 		>
 			{#snippet help()}
 				{#if data.staff}

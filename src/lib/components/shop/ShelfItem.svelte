@@ -85,7 +85,7 @@
 	.plate-wrap {
 		position: relative;
 		z-index: 2;
-		width: min(100%, 15rem);
+		width: min(100%, var(--plate-max, 15rem));
 		margin: 0 auto -0.55rem;
 	}
 
