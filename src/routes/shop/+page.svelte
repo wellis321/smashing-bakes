@@ -49,6 +49,7 @@
 			label={shelf.category.name}
 			labelId={`shelf-${shelf.category.id}`}
 			alt={shelfIndex % 2 === 1}
+			showCount={false}
 			products={shelf.products}
 			fallbackSrc={shelf.category.imageUrl ?? `/images/placeholder/${shelf.category.slug}.svg`}
 		/>
