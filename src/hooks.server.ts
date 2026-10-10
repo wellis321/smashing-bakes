@@ -55,6 +55,16 @@ export const handleError: HandleServerError = ({ error }) => {
 	// just logs the raw error — keep doing that before adding our own line.
 	console.error(error);
 
+	// Drizzle hides the real database error inside `cause` — log its code and
+	// message (these name the host and user but never the password) so a
+	// connection problem can be diagnosed from the runtime log.
+	const cause = (error as { cause?: { code?: string; errno?: number; message?: string } })?.cause;
+	if (cause) {
+		console.error(
+			`[db cause] code=${cause.code ?? '?'} errno=${cause.errno ?? '?'} message=${cause.message ?? '?'}`
+		);
+	}
+
 	// mysql2 sets `.code` on its own error object, but drizzle wraps that as
 	// `DrizzleQueryError#cause` rather than surfacing it directly — check both.
 	const code =
