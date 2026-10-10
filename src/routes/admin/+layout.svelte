@@ -2,6 +2,7 @@
 	import '../layout.css';
 	import { page } from '$app/state';
 	import Logo from '$lib/components/Logo.svelte';
+	import FeedbackWidget from '$lib/components/admin/FeedbackWidget.svelte';
 
 	let { data, children } = $props();
 
@@ -61,6 +62,7 @@
 			]
 		},
 		{ type: 'link', href: '/admin/settings', label: 'Settings' },
+		{ type: 'link', href: '/admin/feedback', label: 'Feedback' },
 		{ type: 'link', href: '/admin/help', label: 'Help' }
 	]);
 
@@ -134,6 +136,11 @@
 							}`}
 						>
 							{entry.label}
+							{#if entry.href === '/admin/feedback' && data.openFeedbackCount > 0}
+								<span class="ml-1 rounded-full bg-pink px-1.5 py-0.5 text-xs font-bold text-cream">
+									{data.openFeedbackCount}
+								</span>
+							{/if}
 						</a>
 					{:else}
 						<div class="relative" bind:this={wrapperEls[entry.label]}>
@@ -204,4 +211,5 @@
 			{@render children()}
 		</main>
 	</div>
+	<FeedbackWidget />
 {/if}

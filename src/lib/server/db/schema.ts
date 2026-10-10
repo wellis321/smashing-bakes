@@ -326,6 +326,23 @@ export const menuItemsRelations = relations(menuItems, ({ one }) => ({
 	section: one(menuSections, { fields: [menuItems.sectionId], references: [menuSections.id] })
 }));
 
+// --- Feedback from staff, sent from the button on every admin page ---
+
+export const FEEDBACK_STATUSES = ['new', 'working', 'resolved', 'parked'] as const;
+
+export const adminFeedback = mysqlTable('admin_feedback', {
+	id: int('id').autoincrement().primaryKey(),
+	staffId: int('staff_id'),
+	staffName: varchar('staff_name', { length: 150 }).notNull(),
+	// The admin page they were looking at when they pressed Feedback.
+	pagePath: varchar('page_path', { length: 500 }).notNull(),
+	message: text('message').notNull(),
+	status: mysqlEnum('status', FEEDBACK_STATUSES).notNull().default('new'),
+	note: text('note'),
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+	updatedAt: timestamp('updated_at').notNull().defaultNow().onUpdateNow()
+});
+
 // --- Bespoke order enquiries + newsletter (from the contact page form) ---
 
 export const bespokeOrderEnquiries = mysqlTable('bespoke_order_enquiries', {

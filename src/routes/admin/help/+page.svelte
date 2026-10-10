@@ -108,6 +108,13 @@
 		Point smashinbakes.com at the new website (GoDaddy &amp; Hostinger steps)
 		<span aria-hidden="true">&rarr;</span>
 	</a>
+	<a
+		href="/admin/help/payment-setup"
+		class="mt-3 block rounded-2xl border border-pink/40 bg-blush px-5 py-4 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+	>
+		Get the SumUp details for online payments (API key &amp; merchant code)
+		<span aria-hidden="true">&rarr;</span>
+	</a>
 	<div class="mt-4 space-y-6">
 		{#each helpTaskGroups as group (group.group)}
 			<div>
