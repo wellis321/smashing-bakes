@@ -199,33 +199,39 @@
 		</p>
 	</section>
 	<section class="mt-5 rounded-xl bg-blush px-5 py-4 text-base leading-relaxed text-ink">
-		<p class="font-semibold">Or use Proton Pass (free)</p>
+		<p class="font-semibold">Easiest: use the shared Proton Pass vault (free)</p>
 		<p class="mt-1">
-			Works on any phone or computer. You both need a free Proton account, because the free plan can
-			only share with other Proton Pass users.
+			William has already shared a vault called <strong>SmashinBakes</strong> with
+			<strong>alanah@smashinbakes.co.uk</strong>. Anything saved in it, he can see straight away.
 		</p>
 		<ol class="mt-2 list-decimal space-y-1 pl-5">
+			<li>
+				Open the invitation email in that inbox and press the button to accept it. If it asks you to
+				make a free Proton account, use <strong>alanah@smashinbakes.co.uk</strong>.
+			</li>
 			<li>
 				Go to <a
 					href="https://proton.me/pass"
 					target="_blank"
 					rel="noreferrer"
 					class="font-semibold text-pink-deep underline hover:text-pink">proton.me/pass &#8599;</a
-				> and create a free account.
+				>
+				and open the <strong>SmashinBakes</strong> vault.
 			</li>
 			<li>
-				Add a new <strong>Login</strong> called &ldquo;SumUp API key&rdquo; with the key as the password.
-				Save it.
+				Add a new <strong>Login</strong> called &ldquo;SumUp API key&rdquo;, and paste the key into
+				the <strong>password</strong> box. Save it.
 			</li>
 			<li>
-				Open your vault, press <strong>Share</strong>, enter William&rsquo;s Proton email address
-				and send the invitation. William accepts it and can then see it.
+				Tell William it&rsquo;s there (or he&rsquo;ll see it). You can skip the Bitwarden steps
+				below.
 			</li>
 		</ol>
 		<p class="mt-2">
-			Proton&rsquo;s one-time &ldquo;secure link&rdquo; feature is paid, so don&rsquo;t worry if you
-			can&rsquo;t find it. Sharing the vault is the free way. If you do this, you can skip the
-			Bitwarden steps below.
+			Can&rsquo;t find the invitation? Check spam, then ring William on
+			<a href="tel:+447566257092" class="font-semibold text-pink-deep underline hover:text-pink"
+				>07566 257092</a
+			>.
 		</p>
 	</section>
 
