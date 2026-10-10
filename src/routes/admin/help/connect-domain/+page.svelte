@@ -3,6 +3,7 @@
 	// GoDaddy, currently showing a Wix site) at this website on Hostinger.
 	// The domain has already been added on the Hostinger side; 77.37.35.98 is
 	// that hosting server's IP address.
+	import GuideFooter from '$lib/components/admin/GuideFooter.svelte';
 	type Row = { type: string; name: string; value: string; note?: string };
 
 	const before: Row[] = [
@@ -265,6 +266,8 @@
 			</div>
 		</dl>
 	</section>
+
+	<GuideFooter title="Point smashinbakes.com at the new website" />
 </div>
 
 {#snippet tick(id: string, n: number)}

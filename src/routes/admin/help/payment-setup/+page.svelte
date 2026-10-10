@@ -2,6 +2,7 @@
 	// A one-off guide for getting the SumUp details the website needs to take card
 	// payments online. SumUp's screens change from time to time, so the wording
 	// here describes where things usually are.
+	import GuideFooter from '$lib/components/admin/GuideFooter.svelte';
 	const TOTAL = 8;
 	let done = $state<Record<string, boolean>>({});
 	const doneCount = $derived(Object.values(done).filter(Boolean).length);
@@ -298,6 +299,8 @@
 			works as it does now &mdash; customers pay when they collect.
 		</p>
 	</section>
+
+	<GuideFooter title="Get the SumUp details for online payments" />
 </div>
 
 {#snippet tick(id: string, n: number)}

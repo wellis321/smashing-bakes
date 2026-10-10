@@ -65,6 +65,17 @@
 		}
 	];
 
+	// Guides this browser opened recently (see GuideFooter), newest first.
+	let recent = $state<{ href: string; title: string }[]>([]);
+	let scrolled = $state(false);
+	$effect(() => {
+		try {
+			recent = JSON.parse(localStorage.getItem('help-recent') ?? '[]');
+		} catch {
+			recent = [];
+		}
+	});
+
 	// ---- Search ----
 	let query = $state('');
 	let searchInput: HTMLInputElement | undefined = $state();
@@ -202,7 +213,7 @@
 	{/if}
 {/snippet}
 
-<svelte:window onkeydown={onWindowKeydown} />
+<svelte:window onkeydown={onWindowKeydown} onscroll={() => (scrolled = window.scrollY > 900)} />
 
 <svelte:head>
 	<title>Help — Admin</title>
@@ -319,6 +330,21 @@
 {/if}
 
 {#if !searching}
+	{#if recent.length > 0}
+		<section class="mt-8" aria-label="Pick up where you left off">
+			<h2 class="font-display text-2xl text-ink">Pick up where you left off</h2>
+			<div class="mt-3 flex flex-wrap gap-3">
+				{#each recent as r (r.href)}
+					<a
+						href={r.href}
+						class="rounded-full border border-ink/15 bg-white px-4 py-2 text-base font-semibold text-ink transition-colors hover:border-pink hover:text-pink-deep"
+					>
+						{r.title}
+					</a>
+				{/each}
+			</div>
+		</section>
+	{/if}
 	<section class="mt-8" aria-labelledby="quick-tasks">
 		<h2 id="quick-tasks" class="font-display text-2xl text-ink">I want to&hellip;</h2>
 		<div class="mt-4">
@@ -1628,3 +1654,13 @@
 		</section>
 	</div>
 </div>
+
+{#if scrolled}
+	<button
+		type="button"
+		onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+		class="fixed bottom-4 left-4 z-30 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-cream shadow-soft hover:bg-ink/85"
+	>
+		&uarr; Back to top
+	</button>
+{/if}

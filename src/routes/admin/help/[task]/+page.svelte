@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GuideFooter from '$lib/components/admin/GuideFooter.svelte';
 	import ZoomImage from '$lib/components/admin/ZoomImage.svelte';
 	import type { PageData } from './$types';
 
@@ -53,6 +54,8 @@
 	>
 		{task.goTo.label} &rarr;
 	</a>
+
+	<GuideFooter title={task.title} />
 
 	{#if data.related.length > 0}
 		<div class="mt-10 border-t border-ink/10 pt-6">

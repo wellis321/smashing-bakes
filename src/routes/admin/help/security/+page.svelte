@@ -2,6 +2,7 @@
 	// A plain-English security page: what to do on the accounts, what already
 	// protects the site, and what to do if something looks wrong. The technical
 	// detail lives in the long Security section of the main Help page.
+	import GuideFooter from '$lib/components/admin/GuideFooter.svelte';
 	type Item = { id: string; text: string; detail?: string; href?: string; label?: string };
 
 	const items: Item[] = [
@@ -220,4 +221,6 @@
 			</li>
 		</ol>
 	</section>
+
+	<GuideFooter title="Keeping the site safe" />
 </div>
