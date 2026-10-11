@@ -2,7 +2,7 @@
 	import ResponsiveImg from '$lib/components/ResponsiveImg.svelte';
 	import { srcFor } from '$lib/utils/img';
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { formatPence } from '$lib/utils/money';
 	import { cart } from '$lib/stores/cart.svelte';
 	import Badge from '$lib/components/Badge.svelte';
@@ -16,6 +16,15 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	// When someone arrives from another page on the site (a related bake, the shop,
+	// a menu), bring the product itself into view instead of landing on the empty
+	// shop-window frame above it. A fresh visit still starts at the top.
+	let productTop: HTMLElement | undefined = $state();
+	afterNavigate((navigation) => {
+		if (navigation.type === 'enter' || navigation.type === 'popstate') return;
+		requestAnimationFrame(() => productTop?.scrollIntoView({ block: 'start' }));
+	});
 
 	const product = $derived(data.product);
 	const image = $derived(product.images[0]);
@@ -119,8 +128,9 @@
 
 <ShopWindow openingHours={data.openingHours}>
 	<a
+		bind:this={productTop}
 		href={`/shop/${product.category.slug}`}
-		class="text-sm font-semibold text-ink-soft hover:text-ink"
+		class="inline-block scroll-mt-24 text-sm font-semibold text-ink-soft hover:text-ink"
 	>
 		&larr; {product.category.name}
 	</a>
