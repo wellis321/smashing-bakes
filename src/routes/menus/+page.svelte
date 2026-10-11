@@ -88,12 +88,7 @@
 
 	{#if data.featuredMenu}
 		<div class="mt-10">
-			<MenuDisplay
-				menu={data.featuredMenu}
-				eyebrow={featuredEyebrow}
-				headingLevel="h2"
-				viewHref={`/menus/${data.featuredMenu.menuDate}`}
-			/>
+			<MenuDisplay menu={data.featuredMenu} eyebrow={featuredEyebrow} headingLevel="h2" />
 		</div>
 	{/if}
 
@@ -163,7 +158,7 @@
 											<PhotoFrame
 												src={t.imageUrl!}
 												alt=""
-												sizes="64px"
+												sizes="128px"
 												widths={[160, 320]}
 												defaultWidth={160}
 												zoom={t.zoom}
@@ -190,3 +185,24 @@
 		{/if}
 	</section>
 </ShopWindow>
+
+<style>
+	/* Each small photo in a menu card grows to a proper size when hovered. */
+	@media (hover: hover) {
+		.thumb {
+			position: relative;
+			transform-origin: left center;
+			transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.thumb:hover {
+			z-index: 20;
+			transform: scale(2.6);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.thumb {
+			transition: none;
+		}
+	}
+</style>

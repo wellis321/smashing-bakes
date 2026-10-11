@@ -1,9 +1,9 @@
 <script lang="ts">
 	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import { formatPence } from '$lib/utils/money';
-	import type { MenuProduct } from '$lib/server/menu-photos';
+	import type { MenuArt, MenuProduct } from '$lib/server/menu-photos';
 
-	type Item = { id: number; name: string; product?: MenuProduct | null };
+	type Item = { id: number; name: string; product?: MenuProduct | null; art?: MenuArt | null };
 	type Section = { id: number; title: string; items: Item[] };
 	type Menu = {
 		menuDate: string;
@@ -11,6 +11,7 @@
 		openingHoursText: string | null;
 		noteText: string | null;
 		sections: Section[];
+		star?: MenuProduct | null;
 	};
 
 	let {
@@ -44,37 +45,70 @@
 </script>
 
 <div class="board rounded-[2rem] p-6 sm:p-10">
-	<div class="flex flex-wrap items-start justify-between gap-3">
-		<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">
-			{eyebrow ?? formatDate(menu.menuDate)}
-		</p>
-		{#if viewHref}
-			<a href={viewHref} class="text-sm font-semibold text-pink-deep hover:underline"
-				>View full page &rarr;</a
-			>
-		{/if}
-	</div>
-	<svelte:element this={headingLevel} class="mt-2 font-display text-4xl text-ink sm:text-5xl"
-		>{menu.title || 'Menu for the weekend'}</svelte:element
-	>
-	{#if eyebrow}
-		<p class="mt-1 text-base font-semibold text-ink-soft">{formatDate(menu.menuDate)}</p>
-	{/if}
-
-	<div class="mt-4 flex flex-wrap items-center gap-3">
-		{#if menu.openingHoursText}
-			<p class="inline-block rounded-full bg-ink px-4 py-1.5 text-sm font-semibold text-cream">
-				{menu.openingHoursText}
-			</p>
-		{/if}
-		{#if showOrder}
+	<div class="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-center">
+		{#if menu.star?.imageUrl}
+			{@const star = menu.star}
 			<a
-				href="/shop"
-				class="inline-flex rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
+				href={`/product/${star.slug}`}
+				class="star group order-first mx-auto sm:order-last sm:mx-0"
 			>
-				Order for pickup
+				<span class="star-plate">
+					<PhotoFrame
+						src={star.imageUrl!}
+						alt=""
+						sizes="(min-width: 640px) 200px, 170px"
+						widths={[320, 480, 640]}
+						defaultWidth={480}
+						zoom={star.zoom}
+						focal={star.focal}
+						class="aspect-square w-full rounded-full"
+					/>
+					<span class="star-sticker" aria-hidden="true">Star<br />bake</span>
+				</span>
+				<span
+					class="mt-3 block text-center font-display text-lg leading-tight text-ink group-hover:text-pink-deep"
+					>{star.name}</span
+				>
+				<span class="mt-1 block text-center text-sm font-semibold text-ink-soft"
+					>{formatPence(star.pricePence)}{star.onSale ? ' · on sale' : ''}</span
+				>
 			</a>
 		{/if}
+
+		<div>
+			<div class="flex flex-wrap items-start justify-between gap-3">
+				<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">
+					{eyebrow ?? formatDate(menu.menuDate)}
+				</p>
+				{#if viewHref}
+					<a href={viewHref} class="text-sm font-semibold text-pink-deep hover:underline"
+						>View full page &rarr;</a
+					>
+				{/if}
+			</div>
+			<svelte:element this={headingLevel} class="mt-2 font-display text-4xl text-ink sm:text-5xl"
+				>{menu.title || 'Menu for the weekend'}</svelte:element
+			>
+			{#if eyebrow}
+				<p class="mt-1 text-base font-semibold text-ink-soft">{formatDate(menu.menuDate)}</p>
+			{/if}
+
+			<div class="mt-4 flex flex-wrap items-center gap-3">
+				{#if menu.openingHoursText}
+					<p class="inline-block rounded-full bg-ink px-4 py-1.5 text-sm font-semibold text-cream">
+						{menu.openingHoursText}
+					</p>
+				{/if}
+				{#if showOrder}
+					<a
+						href="/shop"
+						class="inline-flex rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
+					>
+						Order for pickup
+					</a>
+				{/if}
+			</div>
+		</div>
 	</div>
 
 	{#if menu.noteText}
@@ -101,19 +135,32 @@
 								class="line group"
 							>
 								<span class="thumb" aria-hidden="true">
-									{#if p?.imageUrl}
-										<PhotoFrame
-											src={p.imageUrl}
-											alt=""
-											sizes="56px"
-											widths={[160, 320]}
-											defaultWidth={160}
-											zoom={p.zoom}
-											focal={p.focal}
-											class="h-full w-full rounded-full"
-										/>
-									{:else}
-										<span class="sprinkle" style:--dot={dots[(si + ii) % dots.length]}></span>
+									<span class="thumb-img">
+										{#if p?.imageUrl}
+											<PhotoFrame
+												src={p.imageUrl}
+												alt=""
+												sizes="176px"
+												widths={[320, 480, 640]}
+												defaultWidth={320}
+												zoom={p.zoom}
+												focal={p.focal}
+												class="h-full w-full rounded-full"
+											/>
+										{:else if item.art}
+											<img
+												src={`/images/placeholder/${item.art.file}.svg`}
+												alt=""
+												loading="lazy"
+												decoding="async"
+												class="h-full w-full object-cover"
+											/>
+										{:else}
+											<span class="sprinkle" style:--dot={dots[(si + ii) % dots.length]}></span>
+										{/if}
+									</span>
+									{#if !p?.imageUrl && item.art?.badge}
+										<span class="badge">{item.art.badge}</span>
 									{/if}
 								</span>
 								<span class="name">{item.name}</span>
@@ -215,9 +262,16 @@
 	}
 
 	.thumb {
+		position: relative;
 		flex: none;
 		width: 3.25rem;
 		height: 3.25rem;
+		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.thumb-img {
+		display: block;
+		width: 100%;
+		height: 100%;
 		border-radius: 50%;
 		overflow: hidden;
 		border: 3px solid oklch(99% 0.008 80);
@@ -225,14 +279,103 @@
 		box-shadow:
 			0 0 0 1px oklch(85% 0.025 70),
 			0 6px 8px -5px oklch(30% 0.05 45 / 0.5);
-		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	}
-	a.line:hover .thumb,
-	a.line:focus-visible .thumb {
-		transform: scale(1.18) rotate(-4deg);
+	/* Rows lift slightly when hovered... */
+	a.line:hover .thumb {
+		transform: scale(1.1) rotate(-3deg);
 	}
-	.thumb :global(img) {
+
+	/* ...and a photo grows big enough to see properly when the pointer is on it
+	   (or when its row has keyboard focus), then settles back when it leaves. */
+	@media (hover: hover) {
+		.row:hover {
+			position: relative;
+			z-index: 30;
+		}
+		.thumb {
+			transform-origin: left center;
+		}
+		.thumb:hover,
+		a.line:focus-visible .thumb {
+			z-index: 40;
+			transform: scale(3.4) rotate(0deg);
+			filter: drop-shadow(0 18px 18px oklch(25% 0.05 45 / 0.45));
+		}
+	}
+
+	.thumb-img :global(img) {
 		border-radius: 50%;
+	}
+
+	/* A small ingredient emoji tucked onto illustrated bakes */
+	.badge {
+		position: absolute;
+		right: -0.3rem;
+		bottom: -0.25rem;
+		display: grid;
+		place-items: center;
+		width: 1.35rem;
+		height: 1.35rem;
+		border-radius: 50%;
+		background: oklch(99% 0.01 85);
+		border: 1px solid oklch(85% 0.025 70);
+		font-size: 0.8rem;
+		line-height: 1;
+	}
+
+	/* The star bake shown big at the top of the menu */
+	.star {
+		display: block;
+		width: 10.5rem;
+		text-decoration: none;
+	}
+	@media (min-width: 640px) {
+		.star {
+			width: 12.5rem;
+		}
+	}
+	.star-plate {
+		position: relative;
+		display: block;
+		border-radius: 50%;
+		border: 6px solid oklch(99% 0.008 80);
+		box-shadow:
+			0 0 0 1px oklch(85% 0.025 70),
+			0 18px 24px -14px oklch(30% 0.05 45 / 0.55);
+		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.star-plate :global(img) {
+		border-radius: 50%;
+	}
+	.star:hover .star-plate,
+	.star:focus-visible .star-plate {
+		transform: rotate(-2deg) scale(1.03);
+	}
+	.star:focus-visible {
+		outline: 3px solid var(--color-pink-deep);
+		outline-offset: 4px;
+		border-radius: 1rem;
+	}
+	.star-sticker {
+		position: absolute;
+		top: -0.4rem;
+		left: -0.6rem;
+		display: grid;
+		place-items: center;
+		width: 3.6rem;
+		height: 3.6rem;
+		border-radius: 50%;
+		background: var(--color-gold);
+		color: oklch(28% 0.05 55);
+		font-family: var(--font-brand);
+		font-size: 0.7rem;
+		line-height: 1.1;
+		text-align: center;
+		text-transform: uppercase;
+		transform: rotate(-14deg);
+		box-shadow:
+			0 6px 10px -4px oklch(25% 0.05 45 / 0.45),
+			inset 0 0 0 2px oklch(99% 0.01 85 / 0.7);
 	}
 
 	/* Bakes with no photo get a little sprinkle instead */
@@ -282,10 +425,11 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.thumb {
+		.thumb,
+		.star-plate {
 			transition: none;
 		}
-		a.line:hover .thumb {
+		.star:hover .star-plate {
 			transform: none;
 		}
 		.tilt-left,

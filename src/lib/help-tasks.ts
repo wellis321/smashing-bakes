@@ -618,6 +618,35 @@ export const helpTasks: HelpTask[] = [
 		section: 'categories'
 	},
 	{
+		slug: 'menu-photos-star-bake',
+		group: 'Products and the shop',
+		title: 'Photos and the “star bake” on the weekly menu',
+		summary: 'How the menu finds its photos and prices, and how to choose the big star photo.',
+		steps: [
+			s(
+				'Type each bake on the menu with the same name it has in the shop (for example “Biscoff Cake”). The menu then shows that bake’s photo and price by itself. Small spelling differences are fine.'
+			),
+			s(
+				'Check the bake is in the shop with a photo and “Visible on site” ticked. Open the Shop menu, choose Products and press the bake. A hidden bake is not shown on the menu.'
+			),
+			s(
+				'The big round photo at the top of the menu is the “star bake”, and the website picks it for you. It takes a bake marked “New bake” first, then one that is “On sale”, and otherwise the first bake on the menu that has a photo.'
+			),
+			s(
+				'To choose the star yourself, either put that bake first on the menu, or open the bake in Products and set its Badge to “New bake”. Remember to set the badge back to “None” afterwards, or it stays the star every week.'
+			),
+			s(
+				'A bake that is not in the shop (a one-off special, say) shows a little picture of its type instead, such as a cupcake or a brownie, with an ingredient symbol. To give it a real photo, add it to the shop with the same name.'
+			),
+			s(
+				'Open the Weekly menus page and have a look. Customers can hover over any small photo to see it bigger.'
+			)
+		],
+		tip: 'If a bake is not picking up its photo, the names are probably too different. Make the name on the menu closer to the shop name.',
+		goTo: { href: '/admin/menus', label: 'Go to Weekly menus' },
+		section: 'weekly-menus'
+	},
+	{
 		slug: 'edit-menu',
 		group: 'Products and the shop',
 		title: 'Change or hide a weekly menu',

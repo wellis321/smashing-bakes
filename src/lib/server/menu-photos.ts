@@ -13,7 +13,53 @@ export type MenuProduct = {
 	focal: string;
 	pricePence: number;
 	onSale: boolean;
+	badge: 'none' | 'sale' | 'new';
 };
+
+// Bakes with no photo get the matching built-in illustration for their type
+// (cupcake, brownie, cookie...) and a small emoji for a stand-out ingredient.
+export type MenuArt = { file: string; badge: string | null };
+
+const TYPES: [RegExp, string][] = [
+	[/cupcake/, 'cupcakes'],
+	[/cheesecake/, 'cheesecakes'],
+	[/cookie pie|cookie-pie/, 'pies'],
+	[/crookie|cookie/, 'cookies'],
+	[/brownie|blondie/, 'brownies'],
+	[/empire|biscuit|shortbread/, 'empire-biscuits'],
+	[/classic|favourite|favorite|old school/, 'classics'],
+	[/cake|sponge|slice|drizzle/, 'cake-slices']
+];
+
+const TOPPINGS: [RegExp, string][] = [
+	[/halloween/, '🎃'],
+	[/oreo|biscoff/, '🍪'],
+	[/mini egg|egg/, '🥚'],
+	[/cherry/, '🍒'],
+	[/raspberry|strawberry|jam/, '🍓'],
+	[/lemon/, '🍋'],
+	[/orange/, '🍊'],
+	[/coconut/, '🥥'],
+	[/apple/, '🍎'],
+	[/nutella|hazelnut/, '🌰'],
+	[/peanut/, '🥜'],
+	[/caramel/, '🍯'],
+	[
+		/flake|twix|mars|snickers|wispa|crunchie|kinder|dairy milk|milky|star bar|toffee crisp|malteser|rolo|button|chocolate|bueno/,
+		'🍫'
+	]
+];
+
+function artFor(itemName: string, sectionTitle: string): MenuArt {
+	const name = itemName.toLowerCase();
+	const section = sectionTitle.toLowerCase();
+	const type =
+		TYPES.find(([re]) => re.test(name))?.[1] ??
+		TYPES.find(([re]) => re.test(section))?.[1] ??
+		'classics';
+	const badge = TOPPINGS.find(([re]) => re.test(name))?.[1] ?? null;
+	return { file: type, badge };
+}
 
 const STOP = new Set(['the', 'and', 'a', 'of', 'with', 'mini', 'box', 'boxes']);
 
@@ -65,14 +111,24 @@ export async function attachMenuProducts<
 			zoom: image?.zoom ?? 100,
 			focal: image?.focalPoint ?? 'center',
 			pricePence: onSale ? p.salePricePence! : p.basePricePence,
-			onSale
+			onSale,
+			badge: p.badge
 		};
 	};
 
 	return menus.map((menu) => {
 		const sections = menu.sections.map((section) => ({
 			...section,
-			items: section.items.map((item) => ({ ...(item as I), product: find(item.name) }))
+			items: section.items.map((item) => {
+				const product = find(item.name);
+				return {
+					...(item as I),
+					product,
+					art: product?.imageUrl
+						? null
+						: artFor(item.name, (section as unknown as { title?: string }).title ?? '')
+				};
+			})
 		}));
 		// Up to three different photos for a small preview of the menu.
 		const seen = new Set<string>();
@@ -86,6 +142,15 @@ export async function attachMenuProducts<
 				}
 			}
 		}
-		return { ...menu, sections, thumbs };
+		// The "star bake" shown big at the top: something new or on sale if there is one.
+		const withPhoto = sections
+			.flatMap((section) => section.items)
+			.flatMap((item) => (item.product?.imageUrl ? [item.product] : []));
+		const star =
+			withPhoto.find((x) => x.badge === 'new') ??
+			withPhoto.find((x) => x.onSale) ??
+			withPhoto[0] ??
+			null;
+		return { ...menu, sections, thumbs, star };
 	});
 }
