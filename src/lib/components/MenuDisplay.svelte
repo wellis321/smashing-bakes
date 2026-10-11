@@ -1,5 +1,9 @@
 <script lang="ts">
-	type Item = { id: number; name: string };
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
+	import { formatPence } from '$lib/utils/money';
+	import type { MenuProduct } from '$lib/server/menu-photos';
+
+	type Item = { id: number; name: string; product?: MenuProduct | null };
 	type Section = { id: number; title: string; items: Item[] };
 	type Menu = {
 		menuDate: string;
@@ -13,13 +17,15 @@
 		menu,
 		eyebrow,
 		viewHref,
-		headingLevel = 'h1'
+		headingLevel = 'h1',
+		showOrder = true
 	}: {
 		menu: Menu;
 		eyebrow?: string;
 		viewHref?: string;
 		// The /menus page already has its own main heading, so it uses h2 here.
 		headingLevel?: 'h1' | 'h2';
+		showOrder?: boolean;
 	} = $props();
 
 	function formatDate(dateStr: string) {
@@ -30,9 +36,14 @@
 			year: 'numeric'
 		}).format(new Date(`${dateStr}T00:00:00`));
 	}
+
+	// Each section card gets its own colour ribbon and a slight tilt, so the board
+	// feels hand-made, while the rows inside stay perfectly regular and easy to scan.
+	const ribbons = ['ribbon-pink', 'ribbon-gold', 'ribbon-ink'];
+	const dots = ['#e98095', '#e8a64a', '#8fc7a4', '#7fb2e5', '#c795d8'];
 </script>
 
-<div class="rounded-[2rem] bg-blush p-6 sm:p-10">
+<div class="board rounded-[2rem] p-6 sm:p-10">
 	<div class="flex flex-wrap items-start justify-between gap-3">
 		<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">
 			{eyebrow ?? formatDate(menu.menuDate)}
@@ -46,31 +57,240 @@
 	<svelte:element this={headingLevel} class="mt-2 font-display text-4xl text-ink sm:text-5xl"
 		>{menu.title || 'Menu for the weekend'}</svelte:element
 	>
-
-	{#if menu.openingHoursText}
-		<p class="mt-4 inline-block rounded-full bg-ink px-4 py-1.5 text-sm font-semibold text-cream">
-			{menu.openingHoursText}
-		</p>
+	{#if eyebrow}
+		<p class="mt-1 text-base font-semibold text-ink-soft">{formatDate(menu.menuDate)}</p>
 	{/if}
+
+	<div class="mt-4 flex flex-wrap items-center gap-3">
+		{#if menu.openingHoursText}
+			<p class="inline-block rounded-full bg-ink px-4 py-1.5 text-sm font-semibold text-cream">
+				{menu.openingHoursText}
+			</p>
+		{/if}
+		{#if showOrder}
+			<a
+				href="/shop"
+				class="inline-flex rounded-full bg-pink-deep px-5 py-2 text-sm font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
+			>
+				Order for pickup
+			</a>
+		{/if}
+	</div>
 
 	{#if menu.noteText}
-		<p class="mt-5 leading-relaxed text-ink-soft italic">{menu.noteText}</p>
+		<p class="mt-5 max-w-2xl leading-relaxed text-ink-soft italic">{menu.noteText}</p>
 	{/if}
 
-	{#if menu.sections.length > 0}
-		<div class="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
-			{#each menu.sections as section (section.id)}
-				<div>
-					<h2 class="inline-block border-b-2 border-ink pb-0.5 font-display text-xl text-ink">
-						{section.title}
-					</h2>
-					<ul class="mt-3 space-y-1.5">
-						{#each section.items as item (item.id)}
-							<li class="text-sm text-ink-soft">{item.name}</li>
-						{/each}
-					</ul>
-				</div>
-			{/each}
-		</div>
-	{/if}
+	<div class="mt-10 grid items-start gap-7 md:grid-cols-2">
+		{#each menu.sections as section, si (section.id)}
+			<section class="paper {si % 2 === 0 ? 'tilt-left' : 'tilt-right'}">
+				<svelte:element
+					this={headingLevel === 'h1' ? 'h2' : 'h3'}
+					class="ribbon {ribbons[si % ribbons.length]}"
+				>
+					{section.title}
+				</svelte:element>
+
+				<ul class="rows">
+					{#each section.items as item, ii (item.id)}
+						{@const p = item.product}
+						<li class="row">
+							<svelte:element
+								this={p ? 'a' : 'div'}
+								href={p ? `/product/${p.slug}` : undefined}
+								class="line group"
+							>
+								<span class="thumb" aria-hidden="true">
+									{#if p?.imageUrl}
+										<PhotoFrame
+											src={p.imageUrl}
+											alt=""
+											sizes="56px"
+											widths={[160, 320]}
+											defaultWidth={160}
+											zoom={p.zoom}
+											focal={p.focal}
+											class="h-full w-full rounded-full"
+										/>
+									{:else}
+										<span class="sprinkle" style:--dot={dots[(si + ii) % dots.length]}></span>
+									{/if}
+								</span>
+								<span class="name">{item.name}</span>
+								{#if p}
+									<span class="leader" aria-hidden="true"></span>
+									<span class="price" class:price-sale={p.onSale}>{formatPence(p.pricePence)}</span>
+								{/if}
+							</svelte:element>
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/each}
+	</div>
 </div>
+
+<style>
+	.board {
+		background:
+			radial-gradient(60rem 22rem at 100% -10%, oklch(95% 0.05 85 / 0.7), transparent 60%),
+			var(--color-blush);
+	}
+
+	/* A paper menu card for each section */
+	.paper {
+		position: relative;
+		padding: 2.6rem 1.1rem 0.9rem;
+		border-radius: 1.5rem;
+		background: oklch(99% 0.01 85);
+		border: 1px solid oklch(88% 0.03 70);
+		box-shadow: 0 14px 22px -16px oklch(30% 0.05 45 / 0.5);
+	}
+
+	@media (min-width: 768px) {
+		.tilt-left {
+			transform: rotate(-0.5deg);
+		}
+		.tilt-right {
+			transform: rotate(0.5deg);
+			margin-top: 0.75rem;
+		}
+	}
+
+	/* The title ribbon sitting across the top of the card */
+	.ribbon {
+		position: absolute;
+		top: -0.95rem;
+		left: 1.1rem;
+		padding: 0.4rem 1.1rem;
+		border-radius: 0.55rem;
+		font-family: var(--font-brand);
+		font-size: 1.15rem;
+		line-height: 1.1;
+		letter-spacing: 0.03em;
+		color: var(--color-cream);
+		box-shadow: 0 6px 10px -5px oklch(25% 0.05 45 / 0.5);
+		transform: rotate(-1.5deg);
+	}
+	.ribbon-pink {
+		background: var(--color-pink-deep);
+	}
+	.ribbon-gold {
+		background: oklch(45% 0.1 62);
+	}
+	.ribbon-ink {
+		background: var(--color-ink);
+	}
+
+	.rows {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.row + .row {
+		border-top: 1px dashed oklch(88% 0.03 70);
+	}
+
+	.line {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.6rem 0.25rem;
+		text-decoration: none;
+		color: var(--color-ink);
+		border-radius: 0.75rem;
+	}
+
+	a.line {
+		transition: background 0.2s;
+	}
+	a.line:hover,
+	a.line:focus-visible {
+		background: oklch(96% 0.03 8);
+		outline: none;
+	}
+	a.line:focus-visible {
+		box-shadow: 0 0 0 3px var(--color-pink-deep);
+	}
+
+	.thumb {
+		flex: none;
+		width: 3.25rem;
+		height: 3.25rem;
+		border-radius: 50%;
+		overflow: hidden;
+		border: 3px solid oklch(99% 0.008 80);
+		background: var(--color-cream-dim);
+		box-shadow:
+			0 0 0 1px oklch(85% 0.025 70),
+			0 6px 8px -5px oklch(30% 0.05 45 / 0.5);
+		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	a.line:hover .thumb,
+	a.line:focus-visible .thumb {
+		transform: scale(1.18) rotate(-4deg);
+	}
+	.thumb :global(img) {
+		border-radius: 50%;
+	}
+
+	/* Bakes with no photo get a little sprinkle instead */
+	.sprinkle {
+		display: block;
+		width: 100%;
+		height: 100%;
+		background:
+			radial-gradient(circle at 30% 35%, var(--dot) 0 12%, transparent 13%),
+			radial-gradient(circle at 68% 30%, oklch(78% 0.12 72) 0 10%, transparent 11%),
+			radial-gradient(circle at 55% 70%, var(--dot) 0 11%, transparent 12%),
+			radial-gradient(circle at 25% 72%, oklch(70% 0.1 200) 0 9%, transparent 10%),
+			var(--color-blush);
+		opacity: 0.9;
+	}
+
+	.name {
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 1.05rem;
+		line-height: 1.2;
+	}
+	a.line:hover .name {
+		color: var(--color-pink-deep);
+	}
+
+	.leader {
+		flex: 1;
+		min-width: 0.75rem;
+		align-self: flex-end;
+		margin-bottom: 0.45rem;
+		border-bottom: 2px dotted oklch(75% 0.04 60);
+	}
+
+	.price {
+		flex: none;
+		padding: 0.1rem 0.6rem;
+		border-radius: 999px;
+		background: var(--color-ink);
+		color: var(--color-cream);
+		font-family: var(--font-brand);
+		font-size: 0.85rem;
+		line-height: 1.5;
+	}
+	.price-sale {
+		background: var(--color-pink-deep);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.thumb {
+			transition: none;
+		}
+		a.line:hover .thumb {
+			transform: none;
+		}
+		.tilt-left,
+		.tilt-right {
+			transform: none;
+		}
+	}
+</style>

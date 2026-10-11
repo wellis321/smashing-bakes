@@ -1,15 +1,19 @@
 <script lang="ts">
 	import MenuDisplay from '$lib/components/MenuDisplay.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	const menu = $derived(data.menu);
 
 	function formatDate(dateStr: string) {
-		return new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(
-			new Date(`${dateStr}T00:00:00`)
-		);
+		return new Intl.DateTimeFormat('en-GB', {
+			weekday: 'long',
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		}).format(new Date(`${dateStr}T00:00:00`));
 	}
 
 	const itemSummary = $derived(
@@ -22,21 +26,33 @@
 
 <SeoHead
 	title={`${menu.title || `Menu for ${formatDate(menu.menuDate)}`} — Smashin' Bakes`}
-	description={menu.noteText ?? `What was on at Smashin' Bakes for ${formatDate(menu.menuDate)}: ${itemSummary}.`}
+	description={menu.noteText ??
+		`What was on at Smashin' Bakes for ${formatDate(menu.menuDate)}: ${itemSummary}.`}
 />
 
-<section class="mx-auto max-w-3xl px-5 pt-10 pb-24 sm:px-8">
-	<a href="/menus" class="text-ink-soft hover:text-ink text-sm font-semibold">&larr; Weekly menus</a>
+<ShopWindow openingHours={data.openingHours}>
+	<a href="/menus" class="text-sm font-semibold text-ink-soft hover:text-ink">&larr; Weekly menus</a
+	>
 
 	<div class="mt-6">
 		<MenuDisplay {menu} />
 	</div>
 
-	<p class="text-ink-soft mt-8 text-center text-sm">
+	<p class="mt-8 text-center text-sm text-ink-soft">
 		Fancy something on this menu? Message us on
-		<a href="https://www.instagram.com/smashinbakes" target="_blank" rel="noreferrer" class="text-pink-deep font-semibold hover:underline">Instagram</a>
+		<a
+			href="https://www.instagram.com/smashinbakes"
+			target="_blank"
+			rel="noreferrer"
+			class="font-semibold text-pink-deep hover:underline">Instagram</a
+		>
 		or
-		<a href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB" target="_blank" rel="noreferrer" class="text-pink-deep font-semibold hover:underline">Facebook</a>
+		<a
+			href="https://www.facebook.com/p/Smashin-Bakes-61588572510001/?locale=en_GB"
+			target="_blank"
+			rel="noreferrer"
+			class="font-semibold text-pink-deep hover:underline">Facebook</a
+		>
 		to pre-order.
 	</p>
-</section>
+</ShopWindow>

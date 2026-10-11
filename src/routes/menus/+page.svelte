@@ -1,6 +1,9 @@
 <script lang="ts">
 	import HelpLink from '$lib/components/admin/HelpLink.svelte';
 	import MenuDisplay from '$lib/components/MenuDisplay.svelte';
+	import ShopWindow from '$lib/components/shop/ShopWindow.svelte';
+	import SignBoard from '$lib/components/shop/SignBoard.svelte';
+	import PhotoFrame from '$lib/components/PhotoFrame.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
@@ -22,6 +25,10 @@
 			month: 'short',
 			year: 'numeric'
 		}).format(new Date(`${dateStr}T00:00:00`));
+	}
+
+	function previewNames(menu: (typeof data.menus)[number]) {
+		return menu.sections.flatMap((s) => s.items.map((i) => i.name));
 	}
 
 	function allItemNames(menu: (typeof data.menus)[number]) {
@@ -55,127 +62,131 @@
 
 <SeoHead
 	title="Weekly menus — Smashin' Bakes"
-	description="What's been on the menu each week at Smashin' Bakes — past and upcoming."
+	description="See what's on the menu this weekend at Smashin' Bakes in Barrhead, with photos and prices, plus every past weekend's bakes."
 />
 
-<section class="mx-auto max-w-5xl px-5 pt-14 pb-8 sm:px-8">
-	<p class="text-sm font-semibold tracking-widest text-pink-deep uppercase">
-		Every weekend&rsquo;s bakes
-	</p>
-	<div class="flex items-center gap-2">
-		<h1 class="mt-2 font-display text-4xl text-ink sm:text-5xl">Weekly menus</h1>
-		{#if data.staff}
-			<HelpLink
-				section="weekly-menus"
-				title="Staff only: how to manage weekly menus"
-				task="edit-menu"
-				label="Staff help"
-				staff
-			/>
-		{/if}
-	</div>
-	<p class="mt-4 leading-relaxed text-ink-soft">
-		What we&rsquo;ve had on for pickup, week by week &mdash; search for a favourite or browse
-		what&rsquo;s coming up.
-	</p>
-</section>
-
-{#if data.featuredMenu}
-	<section class="mx-auto max-w-5xl px-5 pb-8 sm:px-8">
-		<MenuDisplay
-			menu={data.featuredMenu}
-			eyebrow={featuredEyebrow}
-			headingLevel="h2"
-			viewHref={`/menus/${data.featuredMenu.menuDate}`}
-		/>
-	</section>
-{/if}
-
-<section class="mx-auto max-w-5xl px-5 pt-4 pb-8 sm:px-8">
-	<h2 class="text-lg font-semibold text-ink">All menus</h2>
-	<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-		<label for="menu-search" class="sr-only">Search past and upcoming menus</label>
-		<input
-			id="menu-search"
-			type="search"
-			bind:value={search}
-			placeholder="Search a bake, e.g. &ldquo;Oreo&rdquo;&hellip;"
-			class="w-full max-w-sm rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
-		/>
-		<div class="flex gap-2">
-			{#each [{ id: 'all', label: 'All' }, { id: 'upcoming', label: 'Upcoming' }, { id: 'past', label: 'Past' }] as option (option.id)}
-				<button
-					type="button"
-					onclick={() => (timeFilter = option.id as typeof timeFilter)}
-					class={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-						timeFilter === option.id
-							? 'bg-ink text-cream'
-							: 'border border-ink/10 text-ink-soft hover:border-ink/20 hover:text-ink'
-					}`}
-				>
-					{option.label}
-				</button>
-			{/each}
-		</div>
-	</div>
-</section>
-
-<section class="mx-auto max-w-5xl px-5 pb-24 sm:px-8">
-	{#if filtered.length === 0}
-		<p class="py-16 text-center text-ink-soft">
-			{data.menus.length === 0
-				? 'No menus posted yet — check back soon.'
-				: 'Nothing matches that search.'}
+<ShopWindow openingHours={data.openingHours}>
+	<header class="mx-auto max-w-2xl text-center">
+		<SignBoard eyebrow="Every weekend's bakes" title="Weekly menus">
+			{#snippet help()}
+				{#if data.staff}
+					<HelpLink
+						section="weekly-menus"
+						title="Staff only: how to manage weekly menus"
+						task="edit-menu"
+						label="Staff help"
+						staff
+					/>
+				{/if}
+			{/snippet}
+		</SignBoard>
+		<p class="mt-6 leading-relaxed text-ink-soft">
+			See what&rsquo;s coming out of the oven for pickup this weekend &mdash; tap any bake to see it
+			up close, or browse everything we&rsquo;ve made before.
 		</p>
-	{:else}
-		<div class="overflow-hidden rounded-2xl border border-ink/10 bg-white/60">
-			<table class="w-full text-left text-sm">
-				<thead>
-					<tr
-						class="border-b border-ink/10 text-xs font-semibold tracking-wide text-ink-soft uppercase"
-					>
-						<th class="px-4 py-3 sm:px-6">Weekend</th>
-						<th class="hidden px-4 py-3 sm:table-cell">What was on</th>
-						<th class="px-4 py-3 text-right sm:px-6"><span class="sr-only">View menu</span></th>
-					</tr>
-				</thead>
-				<tbody class="divide-y divide-ink/10">
-					{#each filtered as menu (menu.id)}
-						{@const names = allItemNames(menu)}
-						<tr class="hover:bg-cream-dim/60">
-							<td class="px-4 py-4 align-top sm:px-6">
-								<a href={`/menus/${menu.menuDate}`} class="font-medium text-ink hover:underline">
-									{formatDate(menu.menuDate)}
-								</a>
-								{#if data.featuredMenu?.id === menu.id}
-									<span
-										class="ml-2 rounded-full bg-pink/15 px-2 py-0.5 text-xs font-semibold text-pink-deep uppercase"
-										>Current</span
-									>
-								{/if}
-								{#if menu.title}<p class="mt-0.5 text-xs text-ink-soft">{menu.title}</p>{/if}
-							</td>
-							<td class="hidden px-4 py-4 align-top text-ink-soft sm:table-cell">
-								{#if names.length > 0}
-									{names.slice(0, 6).join(', ')}{#if names.length > 6}<span
-											class="text-ink-soft"
-										>
-											+{names.length - 6} more</span
-										>{/if}
-								{:else}
-									<span class="text-ink-soft">&mdash;</span>
-								{/if}
-							</td>
-							<td class="px-4 py-4 text-right align-top sm:px-6">
-								<a
-									href={`/menus/${menu.menuDate}`}
-									class="text-sm font-semibold text-pink-deep hover:underline">View &rarr;</a
-								>
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+	</header>
+
+	{#if data.featuredMenu}
+		<div class="mt-10">
+			<MenuDisplay
+				menu={data.featuredMenu}
+				eyebrow={featuredEyebrow}
+				headingLevel="h2"
+				viewHref={`/menus/${data.featuredMenu.menuDate}`}
+			/>
 		</div>
 	{/if}
-</section>
+
+	<section class="mt-14" aria-labelledby="all-menus">
+		<h2 id="all-menus" class="font-display text-3xl text-ink">Every menu so far</h2>
+		<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+			<label for="menu-search" class="sr-only">Search past and upcoming menus</label>
+			<input
+				id="menu-search"
+				type="search"
+				bind:value={search}
+				placeholder="Search a bake, e.g. &ldquo;Oreo&rdquo;&hellip;"
+				class="w-full max-w-sm rounded-lg border border-ink/15 bg-white px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-pink/40"
+			/>
+			<div class="flex gap-2">
+				{#each [{ id: 'all', label: 'All' }, { id: 'upcoming', label: 'Upcoming' }, { id: 'past', label: 'Past' }] as option (option.id)}
+					<button
+						type="button"
+						onclick={() => (timeFilter = option.id as typeof timeFilter)}
+						class={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+							timeFilter === option.id
+								? 'bg-ink text-cream'
+								: 'border border-ink/10 text-ink-soft hover:border-ink/20 hover:text-ink'
+						}`}
+					>
+						{option.label}
+					</button>
+				{/each}
+			</div>
+		</div>
+
+		{#if filtered.length === 0}
+			<p class="py-16 text-center text-ink-soft">
+				{data.menus.length === 0
+					? 'No menus posted yet — check back soon.'
+					: 'Nothing matches that search.'}
+			</p>
+		{:else}
+			<ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{#each filtered as menu (menu.id)}
+					{@const names = previewNames(menu)}
+					<li>
+						<a
+							href={`/menus/${menu.menuDate}`}
+							class="card group block h-full rounded-[1.5rem] border border-ink/10 bg-white/70 p-5 transition-all hover:-translate-y-1 hover:border-pink hover:bg-white"
+						>
+							<div class="flex items-center justify-between gap-3">
+								<p class="text-sm font-semibold text-ink">{formatDate(menu.menuDate)}</p>
+								{#if data.featuredMenu && menu.id === data.featuredMenu.id}
+									<span
+										class="rounded-full bg-pink-deep px-2.5 py-0.5 text-xs font-bold text-cream"
+									>
+										{menu.menuDate >= data.todayIso ? 'Current' : 'Latest'}
+									</span>
+								{/if}
+							</div>
+
+							{#if menu.thumbs.length > 0}
+								<div class="mt-4 flex">
+									{#each menu.thumbs as t, i (t.slug)}
+										<div
+											class="thumb h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-white bg-cream-dim shadow-soft {i >
+											0
+												? '-ml-4'
+												: ''}"
+										>
+											<PhotoFrame
+												src={t.imageUrl!}
+												alt=""
+												sizes="64px"
+												widths={[160, 320]}
+												defaultWidth={160}
+												zoom={t.zoom}
+												focal={t.focal}
+												class="h-full w-full rounded-full"
+											/>
+										</div>
+									{/each}
+								</div>
+							{/if}
+
+							<p class="mt-4 text-sm leading-relaxed text-ink-soft">
+								{names.slice(0, 5).join(', ')}{names.length > 5
+									? ` + ${names.length - 5} more`
+									: ''}
+							</p>
+							<p class="mt-3 text-sm font-semibold text-pink-deep group-hover:underline">
+								See the menu &rarr;
+							</p>
+						</a>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</section>
+</ShopWindow>
