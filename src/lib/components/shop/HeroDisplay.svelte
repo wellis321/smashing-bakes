@@ -192,6 +192,13 @@
 			inset 0 -2px 0 oklch(35% 0.06 48 / 0.6);
 	}
 
+	/* Stacked under the text on tablets: keep the plates a comfortable size */
+	@media (min-width: 640px) and (max-width: 1023px) {
+		.display {
+			max-width: 34rem;
+		}
+	}
+
 	@media (max-width: 639px) {
 		.display {
 			width: calc(100% + 1.2rem);

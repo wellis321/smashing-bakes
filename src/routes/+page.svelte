@@ -42,7 +42,7 @@
 <!-- Hero: the shopfront -->
 <ShopWindow openingHours={data.openingHours}>
 	<div class="grid items-center gap-10 lg:grid-cols-[minmax(21.5rem,0.78fr)_1.22fr] lg:gap-6">
-		<div class="max-w-xl lg:max-w-none">
+		<div class="mx-auto max-w-xl sm:text-center lg:mx-0 lg:max-w-none lg:text-left">
 			<p
 				class="hero-in text-sm font-semibold tracking-widest text-pink-deep uppercase"
 				style:--hero-delay="0ms"
@@ -50,19 +50,22 @@
 				Independent bakery &middot; Barrhead
 			</p>
 			<h1
-				class="hero-in mt-4 font-display text-5xl text-ink sm:text-6xl lg:text-[3.2rem] lg:leading-[1.02] xl:text-[3.5rem]"
+				class="hero-in mt-4 font-display text-5xl text-balance text-ink sm:text-6xl lg:text-[3.2rem] lg:leading-[1.02] xl:text-[3.5rem]"
 				style:--hero-delay="90ms"
 			>
 				Cakes worth <span class="text-pink italic">queuing</span> for.
 			</h1>
 			<p
-				class="hero-in mt-6 max-w-md text-lg leading-relaxed text-ink-soft"
+				class="hero-in mx-auto mt-6 max-w-md text-lg leading-relaxed text-ink-soft lg:mx-0"
 				style:--hero-delay="180ms"
 			>
 				Small-batch cupcakes, brownies, cookies and cakes, baked fresh every week and ready for
 				pickup Friday &amp; Saturday. No two bakes are ever quite the same.
 			</p>
-			<div class="hero-in mt-8 flex flex-wrap items-center gap-4" style:--hero-delay="270ms">
+			<div
+				class="hero-in mt-8 flex flex-wrap items-center gap-4 sm:justify-center lg:justify-start"
+				style:--hero-delay="270ms"
+			>
 				<a
 					href="/shop"
 					class="inline-flex rounded-full bg-pink-deep px-7 py-3.5 font-semibold text-cream shadow-soft transition-colors hover:bg-pink-darker"
