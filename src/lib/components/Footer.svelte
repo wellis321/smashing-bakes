@@ -65,6 +65,7 @@
 			<div>
 				<p class="text-xs font-semibold tracking-widest text-cream/60 uppercase">Shop</p>
 				<ul class="mt-3 space-y-2.5 text-[15px] font-medium text-cream/90 sm:mt-4 sm:space-y-3">
+					<li><a href="/shop/all" class="hover:text-cream">All the bakes</a></li>
 					{#each categories as category (category.id)}
 						<li><a href={`/shop/${category.slug}`} class="hover:text-cream">{category.name}</a></li>
 					{/each}

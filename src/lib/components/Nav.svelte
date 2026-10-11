@@ -123,6 +123,14 @@
 						>
 							Shop all
 						</a>
+						<a
+							href="/shop/all"
+							role="menuitem"
+							class="block rounded-lg px-3 py-2 text-sm font-semibold text-pink-deep transition-colors hover:bg-blush"
+							onclick={() => (shopOpen = false)}
+						>
+							Quick order: all the bakes
+						</a>
 						<div class="my-1.5 h-px bg-ink/10"></div>
 						{#each categories as category (category.id)}
 							<a
@@ -286,6 +294,13 @@
 					onclick={() => (menuOpen = false)}
 				>
 					Shop all
+				</a>
+				<a
+					href="/shop/all"
+					class="rounded-lg px-2 py-2.5 text-sm font-semibold text-pink-deep transition-colors hover:bg-blush"
+					onclick={() => (menuOpen = false)}
+				>
+					Quick order: all the bakes
 				</a>
 				<button
 					type="button"
