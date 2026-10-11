@@ -2,12 +2,13 @@
 @import '@fontsource-variable/figtree';
 @import '@fontsource-variable/figtree/wght-italic.css';
 @import '@fontsource/bungee';
+@import '@fontsource-variable/fredoka';
 
 @theme {
-	/* Bold sans headings (was a serif, Fraunces) — same family as body copy,
-	   just much heavier, closer to the blocky uppercase headline treatment
-	   competitor bakery sites use for promo/hero copy. */
-	--font-display: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
+	/* Headings use Fredoka: rounded, bubbly and joyful, like the cakes. The reading
+	   text stays in Figtree so it is easy on the eye, and Bungee is kept for the
+	   signs, logo and price tags. */
+	--font-display: 'Fredoka Variable', 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-brand: 'Bungee', ui-sans-serif, system-ui, sans-serif;
 
@@ -51,14 +52,23 @@
 		min-height: 100dvh;
 	}
 
+	/* Names and captions set in the display font get a little weight so they stay lively. */
+	.font-display {
+		font-weight: 600;
+	}
+
 	h1,
 	h2,
 	h3,
-	h4 {
+	h4,
+	h1.font-display,
+	h2.font-display,
+	h3.font-display,
+	h4.font-display {
 		font-family: var(--font-display);
-		font-weight: 800;
-		letter-spacing: -0.01em;
-		line-height: 1.05;
+		font-weight: 700;
+		letter-spacing: 0;
+		line-height: 1.1;
 	}
 
 	a {

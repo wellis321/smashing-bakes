@@ -69,9 +69,6 @@
 					class="mt-3 block text-center font-display text-lg leading-tight text-ink group-hover:text-pink-deep"
 					>{star.name}</span
 				>
-				<span class="mt-1 block text-center text-sm font-semibold text-ink-soft"
-					>{formatPence(star.pricePence)}{star.onSale ? ' · on sale' : ''}</span
-				>
 			</a>
 		{/if}
 
