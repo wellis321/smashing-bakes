@@ -78,6 +78,8 @@ export const actions: Actions = {
 			const problems = Object.values<any>(lh.audits)
 				.filter(
 					(a) =>
+						// "Network dependency tree" only describes the order things load in: it can't be fixed.
+						!/network-dependency-tree/i.test(String(a.id)) &&
 						a.score != null &&
 						a.score < 0.9 &&
 						['binary', 'numeric', 'metricSavings'].includes(a.scoreDisplayMode)
