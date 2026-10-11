@@ -123,14 +123,6 @@
 						>
 							Shop all
 						</a>
-						<a
-							href="/shop/all"
-							role="menuitem"
-							class="block rounded-lg px-3 py-2 text-sm font-semibold text-pink-deep transition-colors hover:bg-blush"
-							onclick={() => (shopOpen = false)}
-						>
-							Quick order: all the bakes
-						</a>
 						<div class="my-1.5 h-px bg-ink/10"></div>
 						{#each categories as category (category.id)}
 							<a
@@ -222,7 +214,6 @@
 			<a
 				href="/cart"
 				class="relative -mr-1 grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink transition-colors hover:bg-blush focus-visible:ring-2 focus-visible:ring-pink/50 focus-visible:outline-none"
-				aria-label={`Cart${cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}`}
 			>
 				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
 					<path
@@ -238,10 +229,14 @@
 				{#if cart.count > 0}
 					<span
 						class="absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full bg-pink-deep text-[10px] font-bold text-cream"
+						aria-hidden="true"
 					>
 						{cart.count}
 					</span>
 				{/if}
+				<span class="sr-only">
+					Cart{cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}
+				</span>
 			</a>
 			<a
 				href="/shop"
@@ -294,13 +289,6 @@
 					onclick={() => (menuOpen = false)}
 				>
 					Shop all
-				</a>
-				<a
-					href="/shop/all"
-					class="rounded-lg px-2 py-2.5 text-sm font-semibold text-pink-deep transition-colors hover:bg-blush"
-					onclick={() => (menuOpen = false)}
-				>
-					Quick order: all the bakes
 				</a>
 				<button
 					type="button"

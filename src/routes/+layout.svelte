@@ -4,6 +4,7 @@
 	import Nav from '$lib/components/Nav.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import NewsletterPopup from '$lib/components/NewsletterPopup.svelte';
+	import QuickOrder from '$lib/components/QuickOrder.svelte';
 	import { page } from '$app/state';
 	import { safeJsonLd } from '$lib/utils/json-ld';
 	import { SITE_URL } from '$lib/site';
@@ -110,6 +111,8 @@
 			openingHours={data.openingHours}
 		/>
 	</div>
+	<QuickOrder />
+
 	{#if !hidePopup}
 		<NewsletterPopup welcomeOffer={data.welcomeOffer} />
 	{/if}

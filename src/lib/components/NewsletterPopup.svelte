@@ -50,22 +50,32 @@
 </script>
 
 {#if visible}
-	<div class="fixed inset-x-4 bottom-4 z-40 sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-96" transition:fly={{ y: 24, duration: 300 }}>
-		<div class="border-pink/20 shadow-soft relative rounded-2xl border bg-cream p-5">
+	<div
+		class="fixed inset-x-4 bottom-20 z-40 sm:inset-x-auto sm:right-6 sm:bottom-24 sm:w-96"
+		transition:fly={{ y: 24, duration: 300 }}
+	>
+		<div class="relative rounded-2xl border border-pink/20 bg-cream p-5 shadow-soft">
 			<button
 				type="button"
 				onclick={dismiss}
 				aria-label="Close"
-				class="text-ink-soft hover:text-ink absolute top-3 right-3 text-lg leading-none"
+				class="absolute top-3 right-3 text-lg leading-none text-ink-soft hover:text-ink"
 			>
 				&times;
 			</button>
-			<p class="font-display text-ink pr-6 text-lg">Get the inside scoop</p>
-			<p class="text-ink-soft mt-1 text-sm leading-relaxed">
-				Specials, new bakes and offers — sign up now for <strong class="text-ink">{welcomeOffer.description}</strong>.
+			<p class="pr-6 font-display text-lg text-ink">Get the inside scoop</p>
+			<p class="mt-1 text-sm leading-relaxed text-ink-soft">
+				Specials, new bakes and offers — sign up now for <strong class="text-ink"
+					>{welcomeOffer.description}</strong
+				>.
 			</p>
 			<div class="mt-3">
-				<NewsletterSignup source="popup" variant="minimal" offer={welcomeOffer} onSuccess={markDismissed} />
+				<NewsletterSignup
+					source="popup"
+					variant="minimal"
+					offer={welcomeOffer}
+					onSuccess={markDismissed}
+				/>
 			</div>
 		</div>
 	</div>
