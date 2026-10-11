@@ -296,6 +296,7 @@
 			transform-origin: left center;
 		}
 		.thumb:hover,
+		a.line:hover .thumb:hover,
 		a.line:focus-visible .thumb {
 			z-index: 40;
 			transform: scale(3.4) rotate(0deg);
